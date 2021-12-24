@@ -22,12 +22,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.OnBoardScreenData
+import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRow
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -102,7 +103,6 @@ fun OnBoardingUI(
         modifier = modifier.fillMaxWidth()
     ) {
         Box(
-//            contentAlignment = Alignment.,
             modifier = modifier
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
@@ -120,7 +120,7 @@ fun OnBoardingUI(
             HorizontalPagerIndicator(
                 pagerState = pagerState,
                 modifier = modifier
-                    .padding(70.dp)
+                    .padding(85.dp)
                     .align(Alignment.BottomCenter),
                 activeColor = colorResource(R.color.black)
             )
@@ -143,23 +143,18 @@ fun PageUI(page: OnBoardScreenData, modifier: Modifier = Modifier) {
             painter = painterResource(page.image),
             contentDescription = null,
             modifier = modifier
-                .size(width =  365.dp, height = 276.dp)
+                .size(width = 365.dp, height = 276.dp)
         )
         Spacer(modifier = Modifier.height(15.dp))
         Text(
             text = page.title,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 0.7.sp,
-            fontSize = 22.sp,
-            lineHeight = 20.sp
+            style = MaterialTheme.typography.caption
         )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = page.description,
             textAlign = TextAlign.Center,
-            letterSpacing = 0.7.sp,
-            fontSize = 17.sp,
-            lineHeight = 20.sp
+            style = MaterialTheme.typography.subtitle1
         )
     }
 }
@@ -175,66 +170,23 @@ fun ButtonForBottomForInfoPage(
         enter = fadeIn(animationSpec = tween(durationMillis = 2000)),
         exit = fadeOut(animationSpec = tween(durationMillis = 250))
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(vertical = 10.dp)
-        ) {
-            Button(
-                onClick = {},
-                shape = RoundedCornerShape(5.dp),
-                border = BorderStroke(1.dp, Color.Red),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.Red),
-                modifier = Modifier.size(width = 139.dp, height = 50.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.skip),
-                    fontSize = 17.sp
-                )
-            }
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Button(
-                onClick = {},
-                shape = RoundedCornerShape(5.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-                modifier = Modifier.size(width = 190.dp, height = 50.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.next),
-                    color = Color.White,
-                    fontSize = 17.sp
-                )
-            }
-        }
+        MainButtonsInRow(
+            textForOutlineBtn = stringResource(id = R.string.skip),
+            textForMainBtn = stringResource(id = R.string.next),
+            onClickForOutlineBtn = { /*TODO*/ },
+            onClickForMainBtn = { /*TODO*/ },
+            enableStateForOutlineBtn = true,
+            enableStateForMainBtn = true
+        )
     }
     AnimatedVisibility(
         visible = statePage == 2,
         enter = fadeIn(animationSpec = tween(durationMillis = 2000)),
         exit = fadeOut(animationSpec = tween(durationMillis = 250))
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        ) {
-            Button(
-                onClick = {},
-                shape = MaterialTheme.shapes.medium,
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-                modifier = Modifier.size(width = 340.dp, height = 50.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.understand_thanks),
-                    color = Color.White,
-                    fontSize = 17.sp
-                )
-            }
-        }
+        MainButton(text = stringResource(id = R.string.understand_thanks),
+            onClick = { /*TODO*/ }, enableState = true,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
     }
 }

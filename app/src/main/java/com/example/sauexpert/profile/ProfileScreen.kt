@@ -2,7 +2,6 @@ package com.example.sauexpert.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,15 +16,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
+import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
 fun ProfileScreen() {
+
+
     var selectedTabIndex by remember {
         mutableStateOf(0)
     }
@@ -65,25 +66,29 @@ fun ProfileScreen() {
                     .padding(15.dp)
             ) {
 
-                StatSection()
+                ProfileStatSectionGroup()
                 Spacer(modifier = Modifier.height(spaceHeight))
-                ProfileStat(
+                ProfileStatSection(
                     descriptionText = stringResource(id = R.string.city),
                     text = "name of City"
                 )
                 Spacer(modifier = Modifier.height(spaceHeight))
-                ProfileStat(
+                ProfileStatSection(
                     descriptionText = stringResource(id = R.string.phone),
                     text = "+7_777_777_7777",
                 )
                 Spacer(modifier = Modifier.height(spaceHeight))
-                ProfileStat(
+                ProfileStatSection(
                     descriptionText = stringResource(id = R.string.organization),
                     text = "name of Organization"
                 )
                 Spacer(modifier = Modifier.height(spaceHeight))
 
-                ButtonForBottomForProfileScreen()
+                MainButton(
+                    text = stringResource(id = R.string.begin_diagnostic),
+                    onClick = { /*TODO*/ },
+                    enableState = true
+                )
 
             }
 
@@ -148,12 +153,6 @@ fun RoundImage(
         contentDescription = null,
         modifier = modifier
             .aspectRatio(1f, matchHeightConstraintsFirst = true)
-            .border(
-                width = 1.dp,
-                color = Color.LightGray,
-                shape = CircleShape
-            )
-            .padding(3.dp)
             .clip(CircleShape)
     )
 
@@ -172,18 +171,16 @@ fun ProfileDescription(
     ) {
         Text(
             text = displayName,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 0.7.sp,
-            fontSize = 17.sp
+            style = MaterialTheme.typography.subtitle2
         )
 
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
             text = description,
-            letterSpacing = 0.7.sp,
-            fontSize = 13.sp
+            style = MaterialTheme.typography.body2
         )
+
     }
 }
 
@@ -196,7 +193,7 @@ fun TabView(
     var selectedTabIndex by remember {
         mutableStateOf(0)
     }
-    var inactiveColor = Color(0xFF7777777)
+    val inactiveColor = Gray30
     ScrollableTabRow(
         selectedTabIndex = selectedTabIndex,
         backgroundColor = Color.Transparent,
@@ -215,10 +212,7 @@ fun TabView(
             ) {
                 Text(
                     text = item.text,
-                    letterSpacing = 0.7.sp,
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold,
-                    lineHeight = 20.sp,
+                    style = MaterialTheme.typography.subtitle2,
                     modifier = Modifier
                         .padding(10.dp)
                 )
@@ -230,7 +224,7 @@ fun TabView(
 }
 
 @Composable
-fun StatSection(modifier: Modifier = Modifier) {
+fun ProfileStatSectionGroup(modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -245,7 +239,7 @@ fun StatSection(modifier: Modifier = Modifier) {
 
             Text(
                 text = stringResource(id = R.string.gender),
-                fontSize = 12.sp
+                style = MaterialTheme.typography.h5
 
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -257,8 +251,7 @@ fun StatSection(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = stringResource(id = R.string.male),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
+                    style = MaterialTheme.typography.body1,
                     modifier = modifier
                         .padding(vertical = 8.dp),
                     textAlign = TextAlign.Start
@@ -276,7 +269,7 @@ fun StatSection(modifier: Modifier = Modifier) {
 
             Text(
                 text = stringResource(id = R.string.age),
-                fontSize = 12.sp
+                style = MaterialTheme.typography.h5
 
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -288,8 +281,7 @@ fun StatSection(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = "22",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
+                    style = MaterialTheme.typography.body1,
                     modifier = modifier
                         .padding(vertical = 8.dp),
                     textAlign = TextAlign.Start
@@ -304,7 +296,7 @@ fun StatSection(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ProfileStat(
+fun ProfileStatSection(
     descriptionText: String,
     text: String,
     modifier: Modifier = Modifier
@@ -316,7 +308,7 @@ fun ProfileStat(
 
         Text(
             text = descriptionText,
-            fontSize = 12.sp
+            style = MaterialTheme.typography.h5
 
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -329,8 +321,7 @@ fun ProfileStat(
         ) {
             Text(
                 text = text,
-                fontWeight = FontWeight.Bold,
-                fontSize = 17.sp,
+                style = MaterialTheme.typography.body1,
                 modifier = modifier
                     .padding(vertical = 8.dp),
                 textAlign = TextAlign.Start
@@ -339,39 +330,39 @@ fun ProfileStat(
         }
     }
 }
-
-@Composable
-fun ButtonForBottomForProfileScreen(modifier: Modifier = Modifier) {
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = modifier.fillMaxWidth()
-    ) {
-//        Icon(
-//            painter = painterResource(id = R.drawable.profile),
-//            contentDescription = "chat",
-//            modifier = Modifier
-//                .background(Color.LightGray)
-//                .padding(10.dp)
-//                .size(50.dp)
-//        )
 //
-//        Spacer(modifier = Modifier.width(50.dp))
-
-        Button(
-            onClick = {},
-            shape = MaterialTheme.shapes.medium,
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-            modifier = Modifier.size(width = 343.dp, height = 50.dp)
-        ) {
-            Text(
-                text = stringResource(id = R.string.begin_diagnostic),
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 17.sp
-            )
-        }
-
-    }
-}
+//@Composable
+//fun ButtonForBottomForProfileScreen(modifier: Modifier = Modifier) {
+//
+//    Row(
+//        verticalAlignment = Alignment.CenterVertically,
+//        horizontalArrangement = Arrangement.Center,
+//        modifier = modifier.fillMaxWidth()
+//    ) {
+////        Icon(
+////            painter = painterResource(id = R.drawable.profile),
+////            contentDescription = "chat",
+////            modifier = Modifier
+////                .background(Color.LightGray)
+////                .padding(10.dp)
+////                .size(50.dp)
+////        )
+////
+////        Spacer(modifier = Modifier.width(50.dp))
+//
+//        Button(
+//            onClick = {},
+//            shape = MaterialTheme.shapes.medium,
+//            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
+//            modifier = Modifier.size(width = 343.dp, height = 50.dp)
+//        ) {
+//            Text(
+//                text = stringResource(id = R.string.begin_diagnostic),
+//                color = Color.White,
+//                fontWeight = FontWeight.Bold,
+//                fontSize = 17.sp
+//            )
+//        }
+//
+//    }
+//}
