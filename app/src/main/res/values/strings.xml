@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">SauExpert</string>
+    <string name="registration">Регистрация</string>
+    <string name="new_photo">Новое фото</string>
+    <string name="personal_info">Личные данные</string>
+    <string name="your_name">ВАШЕ ИМЯ</string>
+    <string name="write_name">Введите имя</string>
+    <string name="surname">ФАМИЛИЯ</string>
+    <string name="write_surname">Введите фамилию</string>
+    <string name="middle_name_optional">ОТЧЕСТВО (не обязательно)</string>
+    <string name="write_middle_name">Введите отчество</string>
+    <string name="birth_date">ДАТА РОЖДЕНИЯ</string>
+    <string name="choose_date">Выберите дату</string>
+    <string name="gender">ПОЛ</string>
+    <string name="male">Мужской</string>
+    <string name="write_code_doctor">Введите код врача</string>
+    <string name="doctor_code_optional">КОД ВРАЧА (не обязательно)</string>
+    <string name="female">Женский</string>
+    <string name="doctor_code">Код врача</string>
+    <string name="doctor_with_code_your_doctor">Врач с этим кодом будет автоматически назначен Вашим лечащим врачем</string>
+    <string name="proceed">Продолжить</string>
+    <string name="your_phone_number">ВАШ НОМЕР ТЕЛЕФОНА</string>
+    <string name="enter_phone_number">Введите номер телефона</string>
+    <string name="email">Email</string>
+    <string name="enter_email">Введите Email</string>
+    <string name="article_comes_to_this_email">На эту почту придёт письмо с подтверждением пароля</string>
+    <string name="password">Пароль</string>
+    <string name="pick_password">Придумайте пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="signup">Зарегистрироваться</string>
+    <string name="number_exists">Этот номер уже существует в системе.
+Укажите другой номер телефона.</string>
+    <string name="email_exists">Этот e-mail уже существует в системе.
+Укажите другой e-mail.</string>
+    <string name="confirmation">Подтверждение</string>
+    <string name="code_confirmation">КОД ПОДТВЕРЖДЕНИЯ</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="login">Войти</string>
+    <string name="code_sended_to_this_address">На Ваш Email alexsandro@gmail.com
+был отправлен код. Введите его.</string>
+    <!--    <string name="app_name">SauExpert</string>-->
+    <!--    <string name="app_name">Регистрация</string>-->
+    <!--    <string name="app_name">Новое фото</string>-->
+    <!--    <string name="app_name">SauExpert</string>-->
+    <!--    <string name="app_name">Регистрация</string>-->
+    <!--    <string name="app_name">Новое фото</string>-->
+    <!--    <string name="app_name">SauExpert</string>-->
+    <!--    <string name="app_name">Регистрация</string>-->
+    <!--    <string name="app_name">Новое фото</string>-->
+
+    <string name="close">Закрыть</string>
+    <string name="send">Отправить</string>
+    <string name="submit_application">Подать заявку</string>
+    <string name="leave_your_contact_numbers...">Оставьте свои контактные данные,
+    наши менеджеры свяжутся с Вами</string>
+    <string name="what_will_be_available_to_me">Что мне будет доступно?</string>
+    <string name="carry_out_check_ups">Проводите чек-апы</string>
+    <string name="see_your_patients_in_office...">Осматривайте пациентов у себя в офисе или на территории у партнёров</string>
+    <string name="on_the_pulse">На пульсе</string>
+    <string name="the_application_has_been_accepted_wait..."> Заявка принята. Ожидайте звонка
+    от нашего менеджера.</string>
+    <string name="always_be_aware_of_the_status...">Будьте всегда в курсе состояния пациента с помощью Браслета</string>
+    <string name="the_field_is_not_filled">Поле не заполнено</string>
+    <string name="incorrect_format">Неверный формат</string>
+    <string name="use_your_credentials_to_log_in...">Для входа используйте учетные данные,
+    ранее они были высланы на Ваш Email.</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="i_dont_have_an_account">У меня нет аккаунта.</string>
+    <string name="sign_in">Войдите</string>
+    <string name="medcard_online">Медкарта онлайн</string>
+    <string name="on_pulse">На пульсе</string>
+    <string name="to_log_in_use_your_credentials...">Для входа используйте учетные данные,
+     ранее они были высланы на Ваш Email.</string>
+
+<!--    <string name="medcard_online">Медкарта онлайн</string>-->
+<!--    <string name="medcard_online">Медкарта онлайн</string>-->
+<!--    <string name="medcard_online">Медкарта онлайн</string>-->
+<!--    <string name="medcard_online">Медкарта онлайн</string>-->
+
+
+</resources>
