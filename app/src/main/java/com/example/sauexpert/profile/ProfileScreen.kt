@@ -60,37 +60,44 @@ fun ProfileScreen() {
             selectedTabIndex = it
         }
         when (selectedTabIndex) {
-            0 -> Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(15.dp)
-            ) {
+            0 -> Box(modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp)) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(15.dp)
+                ) {
 
-                ProfileStatSectionGroup()
-                Spacer(modifier = Modifier.height(spaceHeight))
-                ProfileStatSection(
-                    descriptionText = stringResource(id = R.string.city),
-                    text = "name of City"
-                )
-                Spacer(modifier = Modifier.height(spaceHeight))
-                ProfileStatSection(
-                    descriptionText = stringResource(id = R.string.phone),
-                    text = "+7_777_777_7777",
-                )
-                Spacer(modifier = Modifier.height(spaceHeight))
-                ProfileStatSection(
-                    descriptionText = stringResource(id = R.string.organization),
-                    text = "name of Organization"
-                )
-                Spacer(modifier = Modifier.height(spaceHeight))
+                    ProfileStatSectionGroup()
+                    Spacer(modifier = Modifier.height(spaceHeight))
+                    ProfileStatSection(
+                        descriptionText = stringResource(id = R.string.city),
+                        text = "name of City"
+                    )
+                    Spacer(modifier = Modifier.height(spaceHeight))
+                    ProfileStatSection(
+                        descriptionText = stringResource(id = R.string.phone),
+                        text = "+7_777_777_7777",
+                    )
+                    Spacer(modifier = Modifier.height(spaceHeight))
+                    ProfileStatSection(
+                        descriptionText = stringResource(id = R.string.organization),
+                        text = "name of Organization"
+                    )
+                    Spacer(modifier = Modifier.height(spaceHeight))
+
+
+                }
 
                 MainButton(
                     text = stringResource(id = R.string.begin_diagnostic),
                     onClick = { /*TODO*/ },
-                    enableState = true
+                    enableState = true,
+                    modifier = Modifier.align(Alignment.BottomCenter)
                 )
-
             }
+
 
         }
 
@@ -330,39 +337,3 @@ fun ProfileStatSection(
         }
     }
 }
-//
-//@Composable
-//fun ButtonForBottomForProfileScreen(modifier: Modifier = Modifier) {
-//
-//    Row(
-//        verticalAlignment = Alignment.CenterVertically,
-//        horizontalArrangement = Arrangement.Center,
-//        modifier = modifier.fillMaxWidth()
-//    ) {
-////        Icon(
-////            painter = painterResource(id = R.drawable.profile),
-////            contentDescription = "chat",
-////            modifier = Modifier
-////                .background(Color.LightGray)
-////                .padding(10.dp)
-////                .size(50.dp)
-////        )
-////
-////        Spacer(modifier = Modifier.width(50.dp))
-//
-//        Button(
-//            onClick = {},
-//            shape = MaterialTheme.shapes.medium,
-//            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
-//            modifier = Modifier.size(width = 343.dp, height = 50.dp)
-//        ) {
-//            Text(
-//                text = stringResource(id = R.string.begin_diagnostic),
-//                color = Color.White,
-//                fontWeight = FontWeight.Bold,
-//                fontSize = 17.sp
-//            )
-//        }
-//
-//    }
-//}

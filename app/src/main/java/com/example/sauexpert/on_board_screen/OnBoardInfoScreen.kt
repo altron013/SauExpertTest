@@ -107,8 +107,6 @@ fun OnBoardingUI(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
         ) {
-
-
             HorizontalPager(
                 state = pagerState,
                 modifier = modifier
@@ -120,10 +118,15 @@ fun OnBoardingUI(
             HorizontalPagerIndicator(
                 pagerState = pagerState,
                 modifier = modifier
-                    .padding(85.dp)
+                    .padding(bottom = 90.dp)
                     .align(Alignment.BottomCenter),
                 activeColor = colorResource(R.color.black)
             )
+
+//            ButtonForBottomForInfoPage(
+//                statePage = pagerState.currentPage,
+//                modifier = modifier.align(Alignment.BottomCenter)
+//            )
         }
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -135,6 +138,7 @@ fun OnBoardingUI(
 fun PageUI(page: OnBoardScreenData, modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxWidth()
     ) {
@@ -186,7 +190,7 @@ fun ButtonForBottomForInfoPage(
     ) {
         MainButton(text = stringResource(id = R.string.understand_thanks),
             onClick = { /*TODO*/ }, enableState = true,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = modifier.padding(horizontal = 16.dp)
         )
     }
 }

@@ -17,22 +17,21 @@ fun MainButtonsInRow(
     onClickForMainBtn: () -> Unit,
     enableStateForOutlineBtn: Boolean,
     enableStateForMainBtn: Boolean,
-    buttonHeight: Dp = 50.dp
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp)
     ) {
         OutlinedMainButton(
             text = textForOutlineBtn,
             onClick = onClickForOutlineBtn,
             enableState = enableStateForOutlineBtn,
             modifier = Modifier
-                .size(width = 139.dp, height = buttonHeight)
+                .weight(0.4f)
                 .padding(start = 10.dp)
+
         )
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -42,8 +41,9 @@ fun MainButtonsInRow(
             onClick = onClickForMainBtn,
             enableState = enableStateForMainBtn,
             modifier = Modifier
-                .size(width = 192.dp, height = buttonHeight)
-                
+                .weight(0.6f)
+                .padding(end = 10.dp)
+
         )
     }
 }
