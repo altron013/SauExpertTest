@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
@@ -59,7 +60,13 @@ fun OTPTextFields(
     length: Int,
     onFilled: (code: String) -> Unit
 ) {
-    var code: List<Char> by remember { mutableStateOf(listOf()) }
+    var code: MutableList<Char> by remember { mutableStateOf(mutableListOf()) }
+    var data = listOf(
+        "1", "2", "3", "4", "5", "6", "7", "8", "9"
+    )
+    var qw = data.forEach() {
+        it
+    }
     val focusRequesters: List<FocusRequester> = remember {
         val temp = mutableListOf<FocusRequester>()
         repeat(length) {
@@ -123,13 +130,19 @@ fun OTPTextFields(
                 Spacer(modifier = Modifier.width(15.dp))
             }
         }
-
         Spacer(modifier = Modifier.height(10.dp))
         PhoneButtons(
-            data = listOf(
-                "1", "2", "3", "4", "5", "6", "7", "8", "9"
-            )
-//            pinList = pinList,
+            data = data,
+            onClick = {
+                if (code.size == 0 || code.size == 1 || code.size == 2 || code.size == 3) {
+                    it.getOrNull(0)
+                    it.firstOrNull()?.let {
+                        code.add(it)
+                    }
+                } else {
+                    code = code.subList(0, code.size - 1)
+                }
+            }
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -138,12 +151,17 @@ fun OTPTextFields(
                 .fillMaxWidth()
                 .padding(horizontal = 100.dp)
         ) {
-            PhoneButton(
+//            PhoneButton(
 //                pinList = pinList
-            )
+//            )
             Spacer(modifier = Modifier.width(20.dp))
             DeleteLeftIcon(
-//                pinList = pinList
+                onClick = {
+                    if (code.isNotEmpty()) {
+                        code.removeLast()
+                        //  code.removeAt(code.size - 1)
+                    }
+                }
             )
         }
     }
@@ -155,8 +173,8 @@ fun OTPTextFields(
 @Composable
 fun PhoneButtons(
     data: List<String>,
-//    pinList: MutableList<Int>,
-//    OnClick: () -> Unit,
+//    pinList: MutableList<Int>
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
 //    val context = LocalContext.current
@@ -164,7 +182,7 @@ fun PhoneButtons(
         cells = GridCells.Fixed(3),
         contentPadding = PaddingValues(horizontal = 70.dp)
     ) {
-        items(data.size) {
+        itemsIndexed(data) { index, item ->
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = modifier
@@ -172,6 +190,8 @@ fun PhoneButtons(
                     .background(Color.LightGray, shape = CircleShape)
                     .size(70.dp)
                     .clickable {
+                        onClick(item)
+                        //item
 //                        if (pinList.size < 4) {
 //                            pinList.add(Integer.parseInt(data[it]))
 //                            Toast
@@ -181,7 +201,7 @@ fun PhoneButtons(
                     }
             ) {
                 Text(
-                    text = data[it],
+                    text = item,
                     fontSize = 20.sp,
                     textAlign = TextAlign.Center,
                     modifier = modifier
@@ -217,7 +237,6 @@ fun PhoneButton(
             fontSize = 20.sp,
             textAlign = TextAlign.Center,
             modifier = modifier
-
         )
     }
 }
@@ -225,7 +244,9 @@ fun PhoneButton(
 @Composable
 fun DeleteLeftIcon(
 //    pinList: MutableList<Int>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+
 ) {
 //    val context = LocalContext.current
     Image(
@@ -234,16 +255,7 @@ fun DeleteLeftIcon(
         modifier = modifier
             .size(38.dp)
             .clickable {
-//                if (pinList.size != 0) {
-//                    pinList.remove(pinList.last())
-//                    Toast
-//                        .makeText(context, "Last item is deleted", Toast.LENGTH_SHORT)
-//                        .show()
-//                } else {
-//                    Toast
-//                        .makeText(context, "There are not item", Toast.LENGTH_SHORT)
-//                        .show()
-//                }
+                onClick()
             }
     )
 }
