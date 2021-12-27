@@ -9,16 +9,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.otp_example.CustomKeyboardOTPScreen
 import com.example.sauexpert.on_board_screen.OnBoardInfoScreen
 import com.example.sauexpert.profile.ProfileScreen
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 class MainActivity : ComponentActivity() {
-    @ExperimentalPagerApi
-    @ExperimentalAnimationApi
-    @ExperimentalFoundationApi
-    @ExperimentalComposeUiApi
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -26,14 +25,14 @@ class MainActivity : ComponentActivity() {
                 // GetAccessScreen()
                 // LandingScreen()
                 // RegisterOtp()
-//                OTPScreen()
+                CustomKeyboardOTPScreen()
                 //RegisterPatientScreen()
                 //RegisterPatientScreen2()
                 // RegisterDoctorScreen()
                 // LoginScreen()
                 // RegisterDoctorScreen()
 //                ProfileScreen()
-                OnBoardInfoScreen()
+//                OnBoardInfoScreen()
             }
         }
     }
