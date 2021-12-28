@@ -94,11 +94,12 @@ fun CustomKeyboard(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End,
+            horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 95.dp)
         ) {
+            Spacer(modifier = Modifier.weight(1f))
             PhoneButtonZero(
                 onClick = onClick
             )
@@ -123,7 +124,7 @@ fun PhoneButtons(
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(3),
-        contentPadding = PaddingValues(horizontal = 70.dp)
+        contentPadding = PaddingValues(horizontal = 60.dp)
     ) {
         items(data.size) {
             var number = data[it].toInt()
@@ -131,17 +132,17 @@ fun PhoneButtons(
                 contentAlignment = Alignment.Center,
                 modifier = modifier
                     .padding(10.dp)
-                    .background(color = GrayF0F, shape = CircleShape)
-                    .size(70.dp)
+                    .background(color = Gray30.copy(alpha = 0.19f), shape = CircleShape)
+                    .size(72.dp)
                     .clickable {
                         onClick(number.digitToChar())
                     }
             ) {
                 Text(
                     text = data[it],
-                    fontSize = 20.sp,
+                    fontSize = 36.sp,
                     textAlign = TextAlign.Center,
-                    modifier = modifier
+                    style = MaterialTheme.typography.overline
                 )
             }
         }
@@ -158,17 +159,17 @@ fun PhoneButtonZero(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .padding(10.dp)
-            .background(color = GrayF0F, shape = CircleShape)
-            .size(70.dp)
+            .background(color = Gray30.copy(alpha = 0.19f), shape = CircleShape)
+            .size(72.dp)
             .clickable {
                 onClick(number.digitToChar())
             }
     ) {
         Text(
             text = number.toString(),
-            fontSize = 20.sp,
+            fontSize = 36.sp,
             textAlign = TextAlign.Center,
-            modifier = modifier
+            style = MaterialTheme.typography.overline
 
         )
     }
@@ -196,6 +197,25 @@ fun DeleteLeftIcon(
                 }
             }
     )
+}
+
+@Composable
+fun TopBarForOTP(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = stringResource(id = R.string.skip),
+            style = MaterialTheme.typography.body1,
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 20.dp)
+                .clickable {
+                }
+        )
+    }
 }
 
 
@@ -229,24 +249,7 @@ fun PasscodeScreenDescription(
     }
 }
 
-@Composable
-fun TopBarForOTP(
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(id = R.string.skip),
-            style = MaterialTheme.typography.body1,
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 20.dp)
-                .clickable {
-                }
-        )
-    }
-}
+
 
 
 @Composable

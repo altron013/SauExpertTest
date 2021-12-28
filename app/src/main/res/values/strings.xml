@@ -98,6 +98,8 @@
     <string name="inspections_description">Осматривайте пациентов у себя или в офисе клиента</string>
     <string name="install_password_code">Установите код быстрого доступа</string>
     <string name="install_password_code_description">С помощью него Вы можете заходить в Sau Expert 24</string>
+    <string name="last_day_of_check_up">ДАТА ОСМОТРА</string>
+    <string name="last_doctor_who_inspect">ОСМАТРИВАЛ В ПОСЛЕДНИЙ РАЗ:</string>
 
 <!--    <string name="medcard_online">Медкарта онлайн</string>-->
 <!--    <string name="medcard_online">Медкарта онлайн</string>-->
