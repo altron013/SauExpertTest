@@ -100,8 +100,12 @@
     <string name="install_password_code_description">С помощью него Вы можете заходить в Sau Expert 24</string>
     <string name="last_day_of_check_up">ДАТА ОСМОТРА</string>
     <string name="last_doctor_who_inspect">ОСМАТРИВАЛ В ПОСЛЕДНИЙ РАЗ:</string>
+    <string name="profile">Профиль</string>
+    <string name="monthly_report">Отчёт за месяц</string>
+    <string name="treatment_history">История лечения</string>
 
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
+
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
 <!--    <string name="medcard_online">Медкарта онлайн</string>-->
 <!--    <string name="medcard_online">Медкарта онлайн</string>-->
 <!--    <string name="medcard_online">Медкарта онлайн</string>-->
