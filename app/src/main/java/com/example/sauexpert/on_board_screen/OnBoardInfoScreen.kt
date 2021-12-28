@@ -5,12 +5,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
@@ -35,8 +32,8 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 
 
+
 @ExperimentalPagerApi
-@ExperimentalAnimationApi
 @Composable
 fun OnBoardInfoScreen() {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -89,7 +86,6 @@ fun LogoSection(modifier: Modifier = Modifier) {
     }
 }
 
-@ExperimentalAnimationApi
 @ExperimentalPagerApi
 @Composable
 fun OnBoardingUI(
@@ -163,7 +159,7 @@ fun PageUI(page: OnBoardScreenData, modifier: Modifier = Modifier) {
     }
 }
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ButtonForBottomForInfoPage(
     modifier: Modifier = Modifier,

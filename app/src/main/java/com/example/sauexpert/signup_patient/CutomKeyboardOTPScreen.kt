@@ -1,7 +1,6 @@
-package com.example.otp_example
+package com.example.sauexpert.signup_patient
 
 import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,6 +25,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.GrayF0F
 
 @Composable
 fun CustomKeyboardOTPScreen() {
@@ -41,10 +43,21 @@ fun CustomKeyboardOTPScreen() {
             } else if (pinList.size == 4 && pinList2.size < 4) {
                 pinList2.add(digit.toString())
             } else {
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                val isEqual = isEqual(pinList, pinList2)
+                Toast.makeText(context, "$isEqual", Toast.LENGTH_SHORT).show()
             }
         }
     )
+}
+
+fun<T> isEqual(first: List<T>, second: List<T>): Boolean {
+
+    if (first.size != second.size) {
+        return false
+    }
+
+    first.forEachIndexed { index, value -> if (second[index] != value) { return false} }
+    return true
 }
 
 @Composable
@@ -118,7 +131,7 @@ fun PhoneButtons(
                 contentAlignment = Alignment.Center,
                 modifier = modifier
                     .padding(10.dp)
-                    .background(Color.LightGray, shape = CircleShape)
+                    .background(color = GrayF0F, shape = CircleShape)
                     .size(70.dp)
                     .clickable {
                         onClick(number.digitToChar())
@@ -145,7 +158,7 @@ fun PhoneButtonZero(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .padding(10.dp)
-            .background(Color.LightGray, shape = CircleShape)
+            .background(color = GrayF0F, shape = CircleShape)
             .size(70.dp)
             .clickable {
                 onClick(number.digitToChar())
@@ -201,16 +214,17 @@ fun PasscodeScreenDescription(
             modifier = modifier
                 .size(38.dp)
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(id = R.string.install_password_code),
             style = MaterialTheme.typography.caption
         )
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(id = R.string.install_password_code_description),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.subtitle1,
+            modifier = modifier.padding(horizontal = 30.dp)
         )
     }
 }
@@ -222,12 +236,12 @@ fun TopBarForOTP(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
-        modifier = modifier.fillMaxWidth().padding(20.dp)
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             text = stringResource(id = R.string.skip),
             style = MaterialTheme.typography.body1,
-            modifier = modifier
+            modifier = modifier.padding(horizontal = 16.dp, vertical = 20.dp)
                 .clickable {
                 }
         )
@@ -239,35 +253,64 @@ fun TopBarForOTP(
 fun visibleDotsForPin(
     pinList: MutableList<String>
 ) {
-    val rowWidth = 15.dp
+    val rowWidth = 26.dp
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth()
     ) {
-        AnimatedVisibility(visible = pinList.size > 0) {
-            doteImage(modifier = Modifier)
 
-        }
-        Spacer(modifier = Modifier.width(rowWidth))
-
-        AnimatedVisibility(visible = pinList.size > 1) {
-            doteImage(modifier = Modifier)
-
-        }
-
-        Spacer(modifier = Modifier.width(rowWidth))
-
-        AnimatedVisibility(visible = pinList.size > 2) {
-            doteImage(modifier = Modifier)
-
+        if (pinList.size > 0) {
+            doteImage(
+                modifier = Modifier,
+                painter = painterResource(id = R.drawable.ic_oval)
+            )
+        } else {
+            doteImage(
+                modifier = Modifier,
+                painter = painterResource(id = R.drawable.ic_oval_with_empty)
+            )
         }
 
         Spacer(modifier = Modifier.width(rowWidth))
 
-        AnimatedVisibility(visible = pinList.size > 3) {
-            doteImage(modifier = Modifier)
+        if (pinList.size > 1) {
+            doteImage(
+                modifier = Modifier,
+                painter = painterResource(id = R.drawable.ic_oval)
+            )
+        } else {
+            doteImage(
+                modifier = Modifier,
+                painter = painterResource(id = R.drawable.ic_oval_with_empty)
+            )
+        }
 
+        Spacer(modifier = Modifier.width(rowWidth))
+
+        if (pinList.size > 2) {
+            doteImage(
+                modifier = Modifier,
+                painter = painterResource(id = R.drawable.ic_oval)
+            )
+        } else {
+            doteImage(
+                modifier = Modifier,
+                painter = painterResource(id = R.drawable.ic_oval_with_empty)
+            )
+        }
+        Spacer(modifier = Modifier.width(rowWidth))
+
+        if (pinList.size > 3) {
+            doteImage(
+                modifier = Modifier,
+                painter = painterResource(id = R.drawable.ic_oval)
+            )
+        } else {
+            doteImage(
+                modifier = Modifier,
+                painter = painterResource(id = R.drawable.ic_oval_with_empty)
+            )
         }
     }
 
@@ -275,10 +318,11 @@ fun visibleDotsForPin(
 
 @Composable
 fun doteImage(
-    modifier: Modifier
+    modifier: Modifier,
+    painter: Painter
 ) {
     Image(
-        painter = painterResource(id = R.drawable.ic_oval),
+        painter = painter,
         contentDescription = null,
         modifier = modifier
             .size(13.dp)
