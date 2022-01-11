@@ -103,6 +103,16 @@
     <string name="profile">Профиль</string>
     <string name="monthly_report">Отчёт за месяц</string>
     <string name="treatment_history">История лечения</string>
+    <string name="bracelet">Браслет</string>
+    <string name="sleep">Сон</string>
+    <string name="sp02">Sp02</string>
+    <string name="hrv">HRV</string>
+    <string name="pressure">Давление</string>
+    <string name="pulse">Пульс</string>
+    <string name="range_customize">Настроить диапазон</string>
+    <string name="deep_sleep">Глубокий сон</string>
+    <string name="light_sleep">Легкий сон</string>
+    <string name="woke_up_in_middle">Просыпался среди ночи</string>
 
 
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
