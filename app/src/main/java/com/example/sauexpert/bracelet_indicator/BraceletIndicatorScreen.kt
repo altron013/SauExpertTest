@@ -5,9 +5,12 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,11 +19,14 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.MainButton
 
 
 @Composable
@@ -66,10 +72,38 @@ fun BraceletIndicatorScreen() {
             0 -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(15.dp)
+                    .padding(vertical = 10.dp)
             ) {
-                BarChart()
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize().background(
+                            color = Color.White,
+                            shape = RoundedCornerShape(7.dp)
+                        )
+                        .padding(16.dp)
+                ) {
+                    SleepStat()
+                    Spacer(modifier = Modifier.height(10.dp))
+                    BarChart()
+                    Spacer(modifier = Modifier.height(250.dp))
+                    SleepStat2()
+                    Spacer(modifier = Modifier.height(12.dp))
+                    ProgressBar(
+                        deepSleepValue = 120,
+                        deepSleepPercent = 40,
+                        lightSleepValue = 115,
+                        lightSleepPercent = 30
+                    )
 
+                }
+
+//                MainButton(
+//                    text = stringResource(id = R.string.range_customize),
+//                    onClick = { /*TODO*/ },
+//                    enableState = true,
+//                    modifier = Modifier
+//                        .align(Alignment.BottomCenter)
+//                )
             }
 
         }
@@ -153,23 +187,118 @@ fun TabView(
     }
 }
 
-data class Point(val X: Float = 0f, val Y: Float = 0f)
+
+@Composable
+fun SleepStat(
+    modifier: Modifier = Modifier
+) {
+//    val myId = "inlineContent"
+//    val text = buildAnnotatedString {
+//        append(stringResource(id = R.string.sleep_duration))
+//        appendInlineContent(myId, "[icon]")
+//    }
+//
+//    val inlineContent = mapOf(
+//        Pair(
+//            myId,
+//            InlineTextContent(
+//                Placeholder(
+//                    width = 9.sp,
+//                    height = 9.sp,
+//                    placeholderVerticalAlign = PlaceholderVerticalAlign.AboveBaseline
+//                )
+//            ) {
+//                Icon(Icons.Filled.Circle, "", tint = Color.Red.copy(alpha = 0.25f))
+//            }
+//        )
+//    )
+
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = stringResource(id = R.string.sleep),
+            style = MaterialTheme.typography.caption
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Circle,
+                contentDescription = "",
+                tint = Color.Red.copy(alpha = 0.25f),
+                modifier = modifier.size(9.dp)
+            )
+
+            Spacer(modifier = Modifier.width(2.dp))
+
+            Text(
+                text = stringResource(id = R.string.sleep_duration),
+                style = MaterialTheme.typography.subtitle1,
+                fontWeight = FontWeight.Bold,
+                color = Gray30,
+//                inlineContent = inlineContent
+            )
+
+        }
+
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Black,
+                        fontSize = 34.sp
+                    )
+                ) {
+                    append("6")
+                }
+                append("ч ")
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Black,
+                        fontSize = 34.sp
+                    )
+                ) {
+                    append("36")
+                }
+                append("мин")
+            },
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.Bold,
+            color = Gray30
+        )
+
+        Text(
+            text = "18-20 ноября 2021",
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.Bold,
+            color = Gray30
+        )
+
+    }
+
+}
+
+data class Point(val X: Float = 0f, val Y: Float = 0f, val startTime: Float = 0f)
 
 
 @Composable
 fun BarChart() {
     val point = listOf(
-        Point(10f, 10f),
-        Point(90f, 100f),
-        Point(170f, 30f),
-        Point(250f, 200f),
-        Point(330f, 120f),
-        Point(410f, 10f),
-        Point(490f, 280f),
-        Point(570f, 100f),
-        Point(650f, 10f),
-        Point(730f, 100f),
-        Point(810f, 200f)
+        Point(10f, 140f),
+        Point(100f, 200f),
+        Point(190f, 190f, 40f),
+        Point(280f, 180f, 60f),
+        Point(370f, 220f),
+        Point(460f, 240f, 80f),
+        Point(550f, 370f)
     )
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
@@ -179,26 +308,190 @@ fun BarChart() {
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
+
+
     ) {
         drawLine(
-            start = Offset(10f, 600f),
+            start = Offset(10f, 238.dp.toPx()),
             end = Offset(10f, 0f),
-            color = Color.Black,
+            color = Gray30,
             strokeWidth = 2f
         )
+
         drawLine(
-            start = Offset(10f, 600f),
-            end = Offset(850f, 600f),
+            start = Offset(10f, 0f),
+            end = Offset(850f, 0f),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
+        drawLine(
+            start = Offset(10f, 34.dp.toPx()),
+            end = Offset(850f, 34.dp.toPx()),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
+        drawLine(
+            start = Offset(10f, 68.dp.toPx()),
+            end = Offset(850f, 68.dp.toPx()),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
+        drawLine(
+            start = Offset(10f, 102.dp.toPx()),
+            end = Offset(850f, 102.dp.toPx()),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
+        drawLine(
+            start = Offset(10f, 136.dp.toPx()),
+            end = Offset(850f, 136.dp.toPx()),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
+        drawLine(
+            start = Offset(10f, 170.dp.toPx()),
+            end = Offset(850f, 170.dp.toPx()),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
+        drawLine(
+            start = Offset(10f, 204.dp.toPx()),
+            end = Offset(850f, 204.dp.toPx()),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
+        drawLine(
+            start = Offset(10f, 238.dp.toPx()),
+            end = Offset(850f, 238.dp.toPx()),
             color = Color.Black,
             strokeWidth = 2f
         )
+
         start = true
         for (p in point) {
             drawRect(
-                color = Color.Blue,
-                topLeft = Offset(p.X + 20, 600 - (600 - p.Y) * heightPre),
-                size = Size(40f, (600 - p.Y) * heightPre)
+                color = Color.Red,
+                topLeft = Offset(p.X + 20, p.startTime * heightPre),
+                size = Size(60f, p.Y * heightPre)
+
             )
         }
     }
 }
+
+@Composable
+fun SleepStat2(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .size(width = 300.dp, height = 50.dp)
+            .background(
+                color = Gray30.copy(alpha = 0.19f),
+                shape = RoundedCornerShape(7.dp)
+            )
+    ) {
+        Text(
+            text = stringResource(R.string.woke_up_in_middle),
+            style = MaterialTheme.typography.button,
+            modifier = modifier
+                .align(Alignment.CenterStart)
+                .padding(horizontal = 16.dp)
+        )
+
+        Text(
+            text = "3 раза",
+            style = MaterialTheme.typography.subtitle2,
+            fontSize = 15.sp,
+            modifier = modifier
+                .align(Alignment.CenterEnd)
+                .padding(horizontal = 16.dp)
+        )
+    }
+}
+
+@Composable
+fun ProgressBar(
+    modifier: Modifier = Modifier,
+    deepSleepValue: Int = 0,
+    deepSleepPercent: Int = 0,
+    lightSleepValue: Int = 0,
+    lightSleepPercent: Int = 0,
+
+) {
+
+    Row(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Column() {
+            LinearProgressIndicator(
+                progress = 1f,
+                color = Color.Blue,
+                modifier = modifier.size(height = 6.dp, width = deepSleepValue.dp)
+                )
+
+            Text(
+                text = stringResource(R.string.deep_sleep),
+                style = MaterialTheme.typography.button,
+                color = Color.Blue
+            )
+
+            Text(
+                text = "$deepSleepPercent%",
+                style = MaterialTheme.typography.button,
+            )
+
+        }
+
+        Column() {
+            LinearProgressIndicator(
+                progress = 1f,
+                color = Color.Cyan,
+                modifier = modifier.size(height = 6.dp, width = lightSleepValue.dp)
+            )
+
+            Text(
+                text = stringResource(R.string.light_sleep),
+                style = MaterialTheme.typography.button,
+                color = Color.Cyan
+            )
+
+            Text(
+                text = "$lightSleepPercent%",
+                style = MaterialTheme.typography.button,
+            )
+
+        }
+
+        Column() {
+            LinearProgressIndicator(
+                progress = 1f,
+                color = Color.Gray,
+                modifier = modifier.size(height = 6.dp, width = 115.dp)
+            )
+
+            Text(
+                text = stringResource(R.string.light_sleep),
+                style = MaterialTheme.typography.button,
+                color = Color.Gray
+            )
+
+            Text(
+                text = "30%",
+                style = MaterialTheme.typography.button,
+            )
+
+        }
+
+    }
+}
+
+

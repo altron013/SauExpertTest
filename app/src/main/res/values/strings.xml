@@ -113,6 +113,7 @@
     <string name="deep_sleep">Глубокий сон</string>
     <string name="light_sleep">Легкий сон</string>
     <string name="woke_up_in_middle">Просыпался среди ночи</string>
+    <string name="sleep_duration">ПРОДОЛЖИТЕЛЬНОСТЬ СНА</string>
 
 
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->

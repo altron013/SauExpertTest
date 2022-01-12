@@ -3,9 +3,11 @@ package com.example.sauexpert
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.sauexpert.bracelet_indicator.BraceletIndicatorScreen
 import com.example.sauexpert.on_board_screen.OnBoardInfoScreen
 import com.example.sauexpert.profile.ProfileScreen
 import com.example.sauexpert.signup_patient.CustomKeyboardOTPScreen
@@ -16,6 +18,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 class MainActivity : ComponentActivity() {
 
 
+    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -23,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 // GetAccessScreen()
                 // LandingScreen()
                 // RegisterOtp()
-                CustomKeyboardOTPScreen()
+//                CustomKeyboardOTPScreen()
                 //RegisterPatientScreen()
                 //RegisterPatientScreen2()
                 // RegisterDoctorScreen()
@@ -31,6 +34,7 @@ class MainActivity : ComponentActivity() {
                 // RegisterDoctorScreen()
 //                ProfileScreen()
 //                OnBoardInfoScreen()
+                BraceletIndicatorScreen()
             }
         }
     }
