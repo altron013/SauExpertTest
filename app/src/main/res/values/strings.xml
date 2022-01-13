@@ -114,6 +114,18 @@
     <string name="light_sleep">Легкий сон</string>
     <string name="woke_up_in_middle">Просыпался среди ночи</string>
     <string name="sleep_duration">ПРОДОЛЖИТЕЛЬНОСТЬ СНА</string>
+    <string name="oxygen_level">УРОВЕНЬ КИСЛОРОДА В КРОВИ</string>
+    <string name="sleep_apnea">Апноэ</string>
+    <string name="soas_analysis">Анализ СОАС</string>
+    <string name="sleep_apnea_case">Случаи апноэ</string>
+    <string name="hypopnea_case">Случаи гипопноэ</string>
+    <string name="sp02_average">SpO2 (в среднем)</string>
+    <string name="breathing_rate">Частота дыхания (вдохов/мин)</string>
+    <string name="hypoxia_case">Гипоксия (случаев)</string>
+    <string name="cardiac_pressure">Сердечная нагрузка</string>
+    <string name="more_detail">Подробнее</string>
+    <string name="severe_degree">Тяжелая степень (15-29)</string>
+
 
 
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
