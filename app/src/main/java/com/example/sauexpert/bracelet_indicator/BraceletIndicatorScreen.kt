@@ -5,8 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.InlineTextContent
-import androidx.compose.foundation.text.appendInlineContent
+import android.graphics.Paint
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -17,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
@@ -76,18 +76,20 @@ fun BraceletIndicatorScreen() {
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize().background(
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                        .background(
                             color = Color.White,
                             shape = RoundedCornerShape(7.dp)
                         )
-                        .padding(16.dp)
+                        .padding(16.dp).padding(bottom = 60.dp)
                 ) {
                     SleepStat()
-                    Spacer(modifier = Modifier.height(10.dp))
-                    BarChart()
-                    Spacer(modifier = Modifier.height(250.dp))
-                    SleepStat2()
                     Spacer(modifier = Modifier.height(12.dp))
+                    BarChart()
+                    Spacer(modifier = Modifier.height(275.dp))
+                    SleepStat2()
+                    Spacer(modifier = Modifier.height(16.dp))
                     ProgressBar(
                         deepSleepValue = 120,
                         deepSleepPercent = 40,
@@ -97,13 +99,13 @@ fun BraceletIndicatorScreen() {
 
                 }
 
-//                MainButton(
-//                    text = stringResource(id = R.string.range_customize),
-//                    onClick = { /*TODO*/ },
-//                    enableState = true,
-//                    modifier = Modifier
-//                        .align(Alignment.BottomCenter)
-//                )
+                MainButton(
+                    text = stringResource(id = R.string.range_customize),
+                    onClick = { /*TODO*/ },
+                    enableState = true,
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                )
             }
 
         }
@@ -286,20 +288,26 @@ fun SleepStat(
 
 }
 
-data class Point(val X: Float = 0f, val Y: Float = 0f, val startTime: Float = 0f)
+data class Point(
+    val positionOnX: Float = 0f,
+    val sleepData: Float = 0f,
+    val startTime: Float = 0f,
+    val dateName: String = "Пн"
+)
 
 
 @Composable
 fun BarChart() {
     val point = listOf(
-        Point(10f, 140f),
-        Point(100f, 200f),
-        Point(190f, 190f, 40f),
-        Point(280f, 180f, 60f),
-        Point(370f, 220f),
-        Point(460f, 240f, 80f),
-        Point(550f, 370f)
+        Point(positionOnX = 10f, sleepData = 140f, dateName = "Пн"),
+        Point(positionOnX = 100f, sleepData = 200f, dateName = "Вт"),
+        Point(positionOnX = 190f, sleepData = 190f, startTime = 40f, dateName = "Ср"),
+        Point(positionOnX = 280f, sleepData = 180f, startTime = 60f, dateName = "Чт"),
+        Point(positionOnX = 370f, sleepData = 220f, dateName = "Пт"),
+        Point(positionOnX = 460f, sleepData = 240f, startTime = 80f, dateName = "Сб"),
+        Point(positionOnX = 550f, sleepData = 370f, dateName = "Вс")
     )
+
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
         targetValue = if (start) 1f else 0f,
@@ -308,9 +316,15 @@ fun BarChart() {
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-
-
     ) {
+
+        val paint = Paint().apply {
+            textAlign = Paint.Align.CENTER
+            textSize = 34f
+//            color = Color(0xFF0018A8).toArgb()
+        }
+
+
         drawLine(
             start = Offset(10f, 238.dp.toPx()),
             end = Offset(10f, 0f),
@@ -318,69 +332,133 @@ fun BarChart() {
             strokeWidth = 2f
         )
 
+
         drawLine(
             start = Offset(10f, 0f),
-            end = Offset(850f, 0f),
+            end = Offset(780f, 0f),
             color = Gray30,
             strokeWidth = 2f
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "22:00",
+            850f,
+            10.dp.toPx(),
+            paint
         )
 
         drawLine(
             start = Offset(10f, 34.dp.toPx()),
-            end = Offset(850f, 34.dp.toPx()),
+            end = Offset(780f, 34.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "00:00",
+            850f,
+            44.dp.toPx(),
+            paint
         )
 
         drawLine(
             start = Offset(10f, 68.dp.toPx()),
-            end = Offset(850f, 68.dp.toPx()),
+            end = Offset(780f, 68.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "02:00",
+            850f,
+            78.dp.toPx(),
+            paint
         )
 
         drawLine(
             start = Offset(10f, 102.dp.toPx()),
-            end = Offset(850f, 102.dp.toPx()),
+            end = Offset(780f, 102.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "04:00",
+            850f,
+            112.dp.toPx(),
+            paint
         )
 
         drawLine(
             start = Offset(10f, 136.dp.toPx()),
-            end = Offset(850f, 136.dp.toPx()),
+            end = Offset(780f, 136.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "06:00",
+            850f,
+            146.dp.toPx(),
+            paint
         )
 
         drawLine(
             start = Offset(10f, 170.dp.toPx()),
-            end = Offset(850f, 170.dp.toPx()),
+            end = Offset(780f, 170.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "08:00",
+            850f,
+            180.dp.toPx(),
+            paint
         )
 
         drawLine(
             start = Offset(10f, 204.dp.toPx()),
-            end = Offset(850f, 204.dp.toPx()),
+            end = Offset(780f, 204.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
         )
 
+        drawContext.canvas.nativeCanvas.drawText(
+            "10:00",
+            850f,
+            214.dp.toPx(),
+            paint
+        )
+
         drawLine(
             start = Offset(10f, 238.dp.toPx()),
-            end = Offset(850f, 238.dp.toPx()),
+            end = Offset(780f, 238.dp.toPx()),
             color = Color.Black,
             strokeWidth = 2f
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "12:00",
+            850f,
+            248.dp.toPx(),
+            paint
         )
 
         start = true
         for (p in point) {
             drawRect(
                 color = Color.Red,
-                topLeft = Offset(p.X + 20, p.startTime * heightPre),
-                size = Size(60f, p.Y * heightPre)
+                topLeft = Offset(p.positionOnX + 20, p.startTime * heightPre),
+                size = Size(60f, p.sleepData * heightPre)
 
+            )
+
+            drawContext.canvas.nativeCanvas.drawText(
+                "${p.dateName}",
+                p.positionOnX + 45,
+                254.dp.toPx(),
+                paint
             )
         }
     }
@@ -426,7 +504,7 @@ fun ProgressBar(
     lightSleepValue: Int = 0,
     lightSleepPercent: Int = 0,
 
-) {
+    ) {
 
     Row(
         modifier = modifier.fillMaxWidth()
@@ -436,7 +514,7 @@ fun ProgressBar(
                 progress = 1f,
                 color = Color.Blue,
                 modifier = modifier.size(height = 6.dp, width = deepSleepValue.dp)
-                )
+            )
 
             Text(
                 text = stringResource(R.string.deep_sleep),
