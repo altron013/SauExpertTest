@@ -3,6 +3,8 @@ package com.example.sauexpert.bracelet_indicator
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -12,11 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
@@ -99,6 +103,14 @@ fun BraceletIndicatorScreen() {
                     .padding(vertical = 10.dp)
             ) {
                 HRVScreen()
+            }
+
+            3 -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 10.dp)
+            ) {
+                PressureScreen()
             }
         }
     }
@@ -221,6 +233,58 @@ fun AnalysisStatField(
             )
         }
 
+
+        Text(
+            text = value,
+            style = MaterialTheme.typography.body1,
+        )
+
+    }
+}
+
+@Composable
+fun AnalysisStatFieldWithIconAtEnd(
+    title: String,
+    value: String,
+    imageVector: ImageVector,
+    modifier: Modifier = Modifier
+) {
+    val myId = "inlineContent"
+    val text = buildAnnotatedString {
+        append(title)
+        appendInlineContent(myId, "[icon]")
+    }
+
+    val inlineContent = mapOf(
+        Pair(
+            myId,
+            InlineTextContent(
+                Placeholder(
+                    width = 20.sp,
+                    height = 20.sp,
+                    placeholderVerticalAlign = PlaceholderVerticalAlign.Center
+                )
+            ) {
+
+                Icon(imageVector, "", tint = Color.Yellow)
+            }
+        )
+    )
+
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(11.dp)
+    ) {
+
+        Text(
+            text = text,
+            style = MaterialTheme.typography.body1,
+            inlineContent = inlineContent
+        )
 
         Text(
             text = value,

@@ -74,7 +74,7 @@ fun SleepScreen() {
                 SleepData(positionOnX = 550f, hourOfSleep = 370f, dateName = "Вс")
             )
         )
-        Spacer(modifier = Modifier.height(275.dp))
+        Spacer(modifier = Modifier.height(25.dp))
         SleepStat2()
         Spacer(modifier = Modifier.height(16.dp))
         ProgressBar(
@@ -175,7 +175,7 @@ fun BarChartForSleep(
     )
     Canvas(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth().height(250.dp)
     ) {
 
         val paint = Paint().apply {

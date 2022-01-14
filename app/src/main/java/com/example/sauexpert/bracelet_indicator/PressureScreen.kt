@@ -29,27 +29,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.HRVData
+import com.example.sauexpert.model.PressureData
 import com.example.sauexpert.ui.theme.Gray30
 
-
 @Composable
-fun HRVScreen() {
+fun PressureScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth().verticalScroll(rememberScrollState())
     ) {
-        HRVwithBarChart()
+        PressureStatwithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisHRVStat()
+        AnalysisPressureStat()
     }
 }
 
 
 @Composable
-fun HRVwithBarChart(
+fun PressureStatwithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
+
         modifier = modifier
             .fillMaxWidth()
             .background(
@@ -57,24 +58,24 @@ fun HRVwithBarChart(
                 shape = RoundedCornerShape(7.dp)
             ).padding(16.dp)
     ) {
-        HRVStat()
+        PressureStat()
         Spacer(modifier = Modifier.height(12.dp))
-        BarChartForHRV(
-            HRVData = listOf(
-                HRVData(positionOnX = 10f, hourOfHRV = 200f, dateName = "16.12"),
-                HRVData(positionOnX = 110f, hourOfHRV = 370f, dateName = "17.12"),
-                HRVData(positionOnX = 210f, hourOfHRV = 190f, dateName = "18.12"),
-                HRVData(positionOnX = 310f, hourOfHRV = 180f, dateName = "19.12"),
-                HRVData(positionOnX = 410f, hourOfHRV = 220f, dateName = "20.12"),
-                HRVData(positionOnX = 510f, hourOfHRV = 240f, dateName = "21.12"),
-                HRVData(positionOnX = 610f, hourOfHRV = 30f, dateName = "22.12")
+        BarChartForPressure(
+            PressureData = listOf(
+                PressureData(positionOnX = 10f, pressureInAverage = 200f, dateName = "16.12"),
+                PressureData(positionOnX = 110f, pressureInAverage = 370f, dateName = "17.12"),
+                PressureData(positionOnX = 210f, pressureInAverage = 190f, dateName = "18.12"),
+                PressureData(positionOnX = 310f, pressureInAverage = 180f, dateName = "19.12"),
+                PressureData(positionOnX = 410f, pressureInAverage = 220f, dateName = "20.12"),
+                PressureData(positionOnX = 510f, pressureInAverage = 240f, dateName = "21.12"),
+                PressureData(positionOnX = 610f, pressureInAverage = 30f, dateName = "22.12")
             )
         )
     }
 }
 
 @Composable
-fun HRVStat(
+fun PressureStat(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -82,7 +83,7 @@ fun HRVStat(
             .fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.pressure),
+            text = stringResource(id = R.string.hrv),
             style = MaterialTheme.typography.caption
         )
 
@@ -97,7 +98,7 @@ fun HRVStat(
                     append("150 ")
                 }
 
-                append(stringResource(R.string.mmhg_average))
+                append(stringResource(R.string.milliseconds_average))
             },
             style = MaterialTheme.typography.subtitle1,
             fontWeight = FontWeight.Bold,
@@ -115,8 +116,8 @@ fun HRVStat(
 
 
 @Composable
-fun BarChartForHRV(
-    HRVData: List<HRVData>,
+fun BarChartForPressure(
+    PressureData: List<PressureData>,
 ) {
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
@@ -221,15 +222,15 @@ fun BarChartForHRV(
         )
 
         start = true
-        for (p in HRVData) {
+        for (p in PressureData) {
             drawRect(
                 color = Color.Red,
                 topLeft = Offset(
                     p.positionOnX + 20,
-                    140.dp.toPx() - (140.dp.toPx() - p.hourOfHRV) * heightPre),
+                    140.dp.toPx() - (140.dp.toPx() - p.pressureInAverage) * heightPre),
                 size = Size(
                     60f,
-                    (140.dp.toPx() - p.hourOfHRV) * heightPre)
+                    (140.dp.toPx() - p.pressureInAverage) * heightPre)
 
             )
 
@@ -245,7 +246,7 @@ fun BarChartForHRV(
 
 
 @Composable
-fun AnalysisHRVStat(modifier: Modifier = Modifier) {
+fun AnalysisPressureStat(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()

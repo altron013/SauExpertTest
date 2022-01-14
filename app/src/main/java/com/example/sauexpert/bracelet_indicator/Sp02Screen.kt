@@ -60,7 +60,7 @@ fun SP02withLineGraph(
         SP02Stat()
         Spacer(modifier = Modifier.height(12.dp))
         LineChartForSp02()
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         SP02Stat2()
 
     }
@@ -148,11 +148,8 @@ fun LineChartForSp02() {
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .height(150.dp)
             .background(Color.White)
-            // Monitor gesture scaling
-            .graphicsLayer(
-            )
     ) {
 
         drawLine(
@@ -228,42 +225,42 @@ fun LineChartForSp02() {
         drawContext.canvas.nativeCanvas.drawText(
             "00:00",
             20.dp.toPx(),
-            150.dp.toPx(),
+            152.dp.toPx(),
             paint
         )
 
         drawContext.canvas.nativeCanvas.drawText(
             "02:00",
             60.dp.toPx(),
-            150.dp.toPx(),
+            152.dp.toPx(),
             paint
         )
 
         drawContext.canvas.nativeCanvas.drawText(
             "04:00",
             100.dp.toPx(),
-            150.dp.toPx(),
+            152.dp.toPx(),
             paint
         )
 
         drawContext.canvas.nativeCanvas.drawText(
             "06:00",
             140.dp.toPx(),
-            150.dp.toPx(),
+            152.dp.toPx(),
             paint
         )
 
         drawContext.canvas.nativeCanvas.drawText(
             "08:00",
             180.dp.toPx(),
-            150.dp.toPx(),
+            152.dp.toPx(),
             paint
         )
 
         drawContext.canvas.nativeCanvas.drawText(
             "10:00",
             220.dp.toPx(),
-            150.dp.toPx(),
+            152.dp.toPx(),
             paint
         )
 

@@ -132,6 +132,7 @@
     <string name="average_value">Среднее значение</string>
     <string name="last_value">Последнее значение</string>
     <string name="milliseconds_average">мс в среднем</string>
+    <string name="mmhg_average">мм.рт.ст в среднем</string>
 
 
 
