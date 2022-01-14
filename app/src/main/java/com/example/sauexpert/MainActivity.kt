@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.sauexpert.bracelet_indicator.BraceletIndicatorScreen
 import com.example.sauexpert.on_board_screen.OnBoardInfoScreen
@@ -18,6 +19,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 class MainActivity : ComponentActivity() {
 
 
+    @ExperimentalComposeUiApi
     @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

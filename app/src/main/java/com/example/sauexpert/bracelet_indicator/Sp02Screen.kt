@@ -1,23 +1,16 @@
 package com.example.sauexpert.bracelet_indicator
 
 import android.graphics.Paint
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.CropSquare
-import androidx.compose.material.icons.filled.Radio
-import androidx.compose.material.icons.filled.SquareFoot
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -25,15 +18,19 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import com.example.sauexpert.R
+import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.MainButton
 
+@ExperimentalComposeUiApi
 @Composable
 fun Sp02Screen() {
-
     Column(
         modifier = Modifier
             .fillMaxWidth().verticalScroll(rememberScrollState())
@@ -41,12 +38,10 @@ fun Sp02Screen() {
     ) {
         SP02withLineGraph()
         Spacer(modifier = Modifier.height(24.dp))
-        analysisSOASStat()
+        AnalysisSOASStat()
         Spacer(modifier = Modifier.height(24.dp))
-        analysisSOASStat2()
-
+        AnalysisSOASStat2()
     }
-
 }
 
 
@@ -64,8 +59,8 @@ fun SP02withLineGraph(
     ) {
         SP02Stat()
         Spacer(modifier = Modifier.height(12.dp))
-        lineChartForSp02()
-        Spacer(modifier = Modifier.height(30.dp))
+        LineChartForSp02()
+        Spacer(modifier = Modifier.height(40.dp))
         SP02Stat2()
 
     }
@@ -117,16 +112,22 @@ fun SP02Stat(
     }
 }
 
-data class Point(val X: Float = 0f, val Y: Float = 0f)
 
 @Composable
-fun lineChartForSp02() {
+fun LineChartForSp02() {
     var scale by remember { mutableStateOf(1f) }
     val point = listOf(
-        Point(10f, 10f), Point(50f, 100f), Point(100f, 30f),
-        Point(150f, 200f), Point(200f, 120f), Point(250f, 10f),
-        Point(300f, 280f), Point(350f, 100f), Point(400f, 10f),
-        Point(450f, 100f), Point(500f, 200f)
+        Sp02Data(10f, 10f),
+        Sp02Data(50f, 100f),
+        Sp02Data(100f, 30f),
+        Sp02Data(150f, 200f),
+        Sp02Data(200f, 120f),
+        Sp02Data(250f, 10f),
+        Sp02Data(300f, 280f),
+        Sp02Data(350f, 100f),
+        Sp02Data(400f, 10f),
+        Sp02Data(450f, 100f),
+        Sp02Data(500f, 200f)
     )
 
     val path = Path()
@@ -224,10 +225,52 @@ fun lineChartForSp02() {
             paint
         )
 
+        drawContext.canvas.nativeCanvas.drawText(
+            "00:00",
+            20.dp.toPx(),
+            150.dp.toPx(),
+            paint
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "02:00",
+            60.dp.toPx(),
+            150.dp.toPx(),
+            paint
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "04:00",
+            100.dp.toPx(),
+            150.dp.toPx(),
+            paint
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "06:00",
+            140.dp.toPx(),
+            150.dp.toPx(),
+            paint
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "08:00",
+            180.dp.toPx(),
+            150.dp.toPx(),
+            paint
+        )
+
+        drawContext.canvas.nativeCanvas.drawText(
+            "10:00",
+            220.dp.toPx(),
+            150.dp.toPx(),
+            paint
+        )
+
         drawPath(
             path = path,
             color = Color.Green,
-            style = Stroke(width = 2f)
+            style = Stroke(width = 5f)
         )
     }
 }
@@ -272,8 +315,13 @@ fun SP02Stat2(modifier: Modifier = Modifier) {
     }
 }
 
+@ExperimentalComposeUiApi
 @Composable
-fun analysisSOASStat(modifier: Modifier = Modifier) {
+fun AnalysisSOASStat(modifier: Modifier = Modifier) {
+    val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
+
+    InfoDialogForSOAS(visible = visible)
+
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -288,7 +336,10 @@ fun analysisSOASStat(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.more_detail),
                 style = MaterialTheme.typography.body2,
-                color = Color.Red
+                color = Color.Red,
+                modifier = modifier.clickable {
+                    visible.value = true
+                }
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
@@ -300,7 +351,7 @@ fun analysisSOASStat(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(7.dp)
                 )
         ) {
-            analysisStatField(
+            AnalysisStatField(
                 title = stringResource(R.string.severe_degree),
                 value = "18",
                 isIconVisible = true
@@ -311,25 +362,80 @@ fun analysisSOASStat(modifier: Modifier = Modifier) {
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            analysisStatField(title = stringResource(R.string.sleep_apnea_case), value = "18")
+            AnalysisStatField(title = stringResource(R.string.sleep_apnea_case), value = "18")
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            analysisStatField(title = stringResource(R.string.hypopnea_case), value = "18")
+            AnalysisStatField(title = stringResource(R.string.hypopnea_case), value = "18")
 
         }
 
     }
 }
 
+
+fun Modifier.customDialogModifier(pos: String) = layout { measurable, constraints ->
+
+    val placeable = measurable.measure(constraints)
+    layout(constraints.maxWidth, constraints.maxHeight) {
+        when (pos) {
+            "BOTTOM" -> {
+                placeable.place(0, constraints.maxHeight - placeable.height, 10f)
+            }
+            "TOP" -> {
+                placeable.place(0, 0, 10f)
+            }
+        }
+    }
+}
+
+
+@ExperimentalComposeUiApi
 @Composable
-fun analysisSOASStat2(modifier: Modifier = Modifier) {
+fun InfoDialogForSOAS(
+    visible: MutableState<Boolean>,
+    modifier: Modifier = Modifier
+) {
+    if (visible.value) {
+        AlertDialog(
+            onDismissRequest = { visible.value = false },
+            title = {
+                Text(
+                    text = stringResource(R.string.soas_analysis),
+                    style = MaterialTheme.typography.caption
+                )
+            },
+            text = {
+                Text(
+                    text = stringResource(R.string.soas_description),
+                    style = MaterialTheme.typography.body1
+                )
+            },
+            confirmButton = {
+                MainButton(
+                    text = stringResource(id = R.string.understand),
+                    onClick = { visible.value = false },
+                    enableState = true,
+                    modifier = modifier.padding(16.dp)
+                )
+            },
+            shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),
+            modifier = modifier.fillMaxWidth().customDialogModifier("BOTTOM"),
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+        )
+    }
+
+}
+
+
+@Composable
+fun AnalysisSOASStat2(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = stringResource(R.string.soas_analysis),
+            text = stringResource(R.string.sp02),
             style = MaterialTheme.typography.subtitle2,
         )
 
@@ -342,78 +448,30 @@ fun analysisSOASStat2(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(7.dp)
                 )
         ) {
-            analysisStatField(title = stringResource(R.string.sp02_average), value = "18")
+            AnalysisStatField(title = stringResource(R.string.sp02_average), value = "18")
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            analysisStatField(title = stringResource(R.string.breathing_rate), value = "18")
+            AnalysisStatField(title = stringResource(R.string.breathing_rate), value = "18")
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            analysisStatField(title = stringResource(R.string.hypoxia_case), value = "18")
+            AnalysisStatField(title = stringResource(R.string.hypoxia_case), value = "18")
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            analysisStatField(title = stringResource(R.string.cardiac_pressure), value = "18")
+            AnalysisStatField(title = stringResource(R.string.cardiac_pressure), value = "18")
 
         }
-
-    }
-}
-
-
-@Composable
-fun analysisStatField(
-    title: String,
-    value: String,
-    isIconVisible: Boolean = false,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(11.dp)
-    ) {
-
-        if (isIconVisible) {
-            Icon(
-                imageVector = Icons.Filled.Circle,
-                contentDescription = "",
-                tint = Color.Red,
-                modifier = modifier.size(9.dp)
-            )
-
-            Spacer(modifier = Modifier.width(2.dp))
-
-            Text(
-                text = title,
-                style = MaterialTheme.typography.body1,
-            )
-
-            Spacer(modifier = Modifier.width(75.dp))
-        } else {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.body1,
-            )
-        }
-
-
-        Text(
-            text = value,
-            style = MaterialTheme.typography.body1,
-        )
 
     }
 }

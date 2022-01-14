@@ -6,8 +6,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -21,6 +23,7 @@ import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
 
 
+@ExperimentalComposeUiApi
 @Composable
 fun BraceletIndicatorScreen() {
     var selectedTabIndex by remember {
@@ -90,7 +93,13 @@ fun BraceletIndicatorScreen() {
                 )
 
             }
-
+            2 -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 10.dp)
+            ) {
+                HRVScreen()
+            }
         }
     }
 }
@@ -141,6 +150,7 @@ fun TabView(
         selectedTabIndex = selectedTabIndex,
         backgroundColor = Color.Transparent,
         contentColor = Color.Transparent,
+
         modifier = modifier.fillMaxWidth()
 
             .border(
@@ -168,6 +178,54 @@ fun TabView(
             }
 
         }
+
+    }
+}
+
+
+@Composable
+fun AnalysisStatField(
+    title: String,
+    value: String,
+    isIconVisible: Boolean = false,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(11.dp)
+    ) {
+
+        if (isIconVisible) {
+            Icon(
+                imageVector = Icons.Filled.Circle,
+                contentDescription = "",
+                tint = Color.Red,
+                modifier = modifier.size(9.dp)
+            )
+
+            Spacer(modifier = Modifier.width(2.dp))
+
+            Text(
+                text = title,
+                style = MaterialTheme.typography.body1,
+            )
+
+            Spacer(modifier = Modifier.width(75.dp))
+        } else {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.body1,
+            )
+        }
+
+
+        Text(
+            text = value,
+            style = MaterialTheme.typography.body1,
+        )
 
     }
 }

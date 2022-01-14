@@ -125,6 +125,13 @@
     <string name="cardiac_pressure">Сердечная нагрузка</string>
     <string name="more_detail">Подробнее</string>
     <string name="severe_degree">Тяжелая степень (15-29)</string>
+    <string name="soas_description">Синдром обструктивного апноэ сна (СОАС) – распространенная патология, связанная с резким уменьшением или полной остановкой дыхания во время ночного отдыха.</string>
+    <string name="understand">Понятно</string>
+    <string name="highest_value">Наивысшее значение</string>
+    <string name="lowest_value">Наименьшее значение</string>
+    <string name="average_value">Среднее значение</string>
+    <string name="last_value">Последнее значение</string>
+    <string name="milliseconds_average">мс в среднем</string>
 
 
 

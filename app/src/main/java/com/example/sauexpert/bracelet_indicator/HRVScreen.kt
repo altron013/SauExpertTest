@@ -9,14 +9,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.LinearProgressIndicator
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -35,20 +31,33 @@ import com.example.sauexpert.ui.theme.Gray30
 
 
 @Composable
-fun SleepScreen() {
+fun HRVScreen() {
     Column(
         modifier = Modifier
+            .fillMaxWidth().verticalScroll(rememberScrollState())
+    ) {
+        HRVwithBarChart()
+        Spacer(modifier = Modifier.height(24.dp))
+        AnalysisHRVStat()
+    }
+}
+
+
+@Composable
+fun HRVwithBarChart(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
             .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(7.dp)
-            )
-            .padding(16.dp).padding(bottom = 60.dp)
+            ).padding(16.dp)
     ) {
-        SleepStat()
+        HRVStat()
         Spacer(modifier = Modifier.height(12.dp))
-        BarChartForSleep(
+        BarChartForHRV(
             SleepData = listOf(
                 SleepData(positionOnX = 10f, hourOfSleep = 140f, dateName = "Пн"),
                 SleepData(positionOnX = 100f, hourOfSleep = 200f, dateName = "Вт"),
@@ -74,21 +83,12 @@ fun SleepScreen() {
                 SleepData(positionOnX = 550f, hourOfSleep = 370f, dateName = "Вс")
             )
         )
-        Spacer(modifier = Modifier.height(275.dp))
-        SleepStat2()
-        Spacer(modifier = Modifier.height(16.dp))
-        ProgressBar(
-            deepSleepValue = 120,
-            deepSleepPercent = 40,
-            lightSleepValue = 115,
-            lightSleepPercent = 30
-        )
-
+        Spacer(modifier = Modifier.height(280.dp))
     }
 }
 
 @Composable
-fun SleepStat(
+fun HRVStat(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -96,35 +96,9 @@ fun SleepStat(
             .fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.sleep),
+            text = stringResource(id = R.string.hrv),
             style = MaterialTheme.typography.caption
         )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Circle,
-                contentDescription = "",
-                tint = Color.Red.copy(alpha = 0.25f),
-                modifier = modifier.size(9.dp)
-            )
-
-            Spacer(modifier = Modifier.width(2.dp))
-
-            Text(
-                text = stringResource(id = R.string.sleep_duration),
-                style = MaterialTheme.typography.subtitle1,
-                fontWeight = FontWeight.Bold,
-                color = Gray30,
-//                inlineContent = inlineContent
-            )
-
-        }
 
         Text(
             text = buildAnnotatedString {
@@ -134,18 +108,10 @@ fun SleepStat(
                         fontSize = 34.sp
                     )
                 ) {
-                    append("6")
+                    append("150 ")
                 }
-                append("ч ")
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Black,
-                        fontSize = 34.sp
-                    )
-                ) {
-                    append("36")
-                }
-                append("мин")
+
+                append(stringResource(R.string.milliseconds_average))
             },
             style = MaterialTheme.typography.subtitle1,
             fontWeight = FontWeight.Bold,
@@ -158,14 +124,12 @@ fun SleepStat(
             fontWeight = FontWeight.Bold,
             color = Gray30
         )
-
     }
-
 }
 
 
 @Composable
-fun BarChartForSleep(
+fun BarChartForHRV(
     SleepData: List<SleepData>,
 ) {
     var start by remember { mutableStateOf(false) }
@@ -324,108 +288,38 @@ fun BarChartForSleep(
     }
 }
 
+
 @Composable
-fun SleepStat2(
-    modifier: Modifier = Modifier
-) {
-    Box(
+fun AnalysisHRVStat(modifier: Modifier = Modifier) {
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .size(width = 300.dp, height = 50.dp)
             .background(
-                color = Gray30.copy(alpha = 0.19f),
+                color = Color.White,
                 shape = RoundedCornerShape(7.dp)
             )
     ) {
-        Text(
-            text = stringResource(R.string.woke_up_in_middle),
-            style = MaterialTheme.typography.button,
+        AnalysisStatField(title = stringResource(R.string.highest_value), value = "18")
+        Divider(
+            color = Gray30.copy(alpha = 0.19f),
+            thickness = 1.dp,
             modifier = modifier
-                .align(Alignment.CenterStart)
                 .padding(horizontal = 16.dp)
         )
-
-        Text(
-            text = "3 раза",
-            style = MaterialTheme.typography.subtitle2,
-            fontSize = 15.sp,
+        AnalysisStatField(title = stringResource(R.string.lowest_value), value = "18")
+        Divider(
+            color = Gray30.copy(alpha = 0.19f),
+            thickness = 1.dp,
             modifier = modifier
-                .align(Alignment.CenterEnd)
                 .padding(horizontal = 16.dp)
         )
-    }
-}
-
-@Composable
-fun ProgressBar(
-    modifier: Modifier = Modifier,
-    deepSleepValue: Int = 0,
-    deepSleepPercent: Int = 0,
-    lightSleepValue: Int = 0,
-    lightSleepPercent: Int = 0,
-
-    ) {
-
-    Row(
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Column() {
-            LinearProgressIndicator(
-                progress = 1f,
-                color = Color.Blue,
-                modifier = modifier.size(height = 6.dp, width = deepSleepValue.dp)
-            )
-
-            Text(
-                text = stringResource(R.string.deep_sleep),
-                style = MaterialTheme.typography.button,
-                color = Color.Blue
-            )
-
-            Text(
-                text = "$deepSleepPercent%",
-                style = MaterialTheme.typography.button,
-            )
-
-        }
-
-        Column() {
-            LinearProgressIndicator(
-                progress = 1f,
-                color = Color.Cyan,
-                modifier = modifier.size(height = 6.dp, width = lightSleepValue.dp)
-            )
-
-            Text(
-                text = stringResource(R.string.light_sleep),
-                style = MaterialTheme.typography.button,
-                color = Color.Cyan
-            )
-
-            Text(
-                text = "$lightSleepPercent%",
-                style = MaterialTheme.typography.button,
-            )
-
-        }
-
-        Column() {
-            LinearProgressIndicator(
-                progress = 1f,
-                color = Color.Gray,
-                modifier = modifier.size(height = 6.dp, width = 115.dp)
-            )
-
-            Text(
-                text = stringResource(R.string.light_sleep),
-                style = MaterialTheme.typography.button,
-                color = Color.Gray
-            )
-
-            Text(
-                text = "30%",
-                style = MaterialTheme.typography.button,
-            )
-        }
+        AnalysisStatField(title = stringResource(R.string.average_value), value = "18")
+        Divider(
+            color = Gray30.copy(alpha = 0.19f),
+            thickness = 1.dp,
+            modifier = modifier
+                .padding(horizontal = 16.dp)
+        )
+        AnalysisStatField(title = stringResource(R.string.last_value), value = "18")
     }
 }
