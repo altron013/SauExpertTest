@@ -1,3 +1,8 @@
 package com.example.sauexpert.model
 
-data class Sp02Data(val X: Float = 0f, val Y: Float = 0f)
+data class Sp02Data(
+    val positionOnX: Float = 0f,
+    val positionOnY: Float = 0f,
+    val time: String = "",
+    val sleepApnea: Boolean = false
+)

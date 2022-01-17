@@ -13,11 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -59,7 +57,19 @@ fun SP02withLineGraph(
     ) {
         SP02Stat()
         Spacer(modifier = Modifier.height(12.dp))
-        LineChartForSp02()
+        LineChartForSp02(
+            Sp02Data = listOf(
+                Sp02Data(positionOnX = 0f, positionOnY = 0f),
+                Sp02Data(positionOnX = 80f, positionOnY = 100f, time = "00:00"),
+                Sp02Data(positionOnX = 160f, positionOnY = 30f),
+                Sp02Data(positionOnX = 240f, positionOnY = 200f, time = "02:00", sleepApnea = true),
+                Sp02Data(positionOnX = 320f, positionOnY = 120f),
+                Sp02Data(positionOnX = 400f, positionOnY = 30f),
+                Sp02Data(positionOnX = 480f, positionOnY = 280f, sleepApnea = true),
+                Sp02Data(positionOnX = 560f, positionOnY = 100f),
+                Sp02Data(positionOnX = 640f, positionOnY = 40f),
+            )
+        )
         Spacer(modifier = Modifier.height(10.dp))
         SP02Stat2()
 
@@ -114,28 +124,26 @@ fun SP02Stat(
 
 
 @Composable
-fun LineChartForSp02() {
-    var scale by remember { mutableStateOf(1f) }
-    val point = listOf(
-        Sp02Data(10f, 10f),
-        Sp02Data(50f, 100f),
-        Sp02Data(100f, 30f),
-        Sp02Data(150f, 200f),
-        Sp02Data(200f, 120f),
-        Sp02Data(250f, 10f),
-        Sp02Data(300f, 280f),
-        Sp02Data(350f, 100f),
-        Sp02Data(400f, 10f),
-        Sp02Data(450f, 100f),
-        Sp02Data(500f, 200f)
-    )
-
+fun LineChartForSp02(
+    Sp02Data: List<Sp02Data>
+) {
+    val scale by remember { mutableStateOf(1f) }
+    val listSize = Sp02Data.size - 1
     val path = Path()
-    for ((index, item) in point.withIndex()) {
-        if (index == 0) {
-            path.moveTo(item.X * scale, item.Y)
-        } else {
-            path.lineTo(item.X * scale, item.Y)
+    for ((index, item) in Sp02Data.withIndex()) {
+        when (index) {
+            0 -> {
+                path.moveTo(item.positionOnX * scale, item.positionOnY)
+            }
+            listSize -> {
+                path.lineTo(item.positionOnX * scale, item.positionOnY)
+                path.lineTo(680f * scale, 0f)
+            }
+            else -> {
+                path.lineTo(item.positionOnX * scale, item.positionOnY)
+                //            path.relativeLineTo(30f, -30F)
+
+            }
         }
     }
 
@@ -153,7 +161,7 @@ fun LineChartForSp02() {
     ) {
 
         drawLine(
-            start = Offset(10f, 0.dp.toPx()),
+            start = Offset(0.dp.toPx(), 0.dp.toPx()),
             end = Offset(264.dp.toPx(), 0.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
@@ -167,7 +175,7 @@ fun LineChartForSp02() {
         )
 
         drawLine(
-            start = Offset(10f, 34.dp.toPx()),
+            start = Offset(0.dp.toPx(), 34.dp.toPx()),
             end = Offset(264.dp.toPx(), 34.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
@@ -181,7 +189,7 @@ fun LineChartForSp02() {
         )
 
         drawLine(
-            start = Offset(10f, 68.dp.toPx()),
+            start = Offset(0.dp.toPx(), 68.dp.toPx()),
             end = Offset(264.dp.toPx(), 68.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
@@ -195,7 +203,7 @@ fun LineChartForSp02() {
         )
 
         drawLine(
-            start = Offset(10f, 102.dp.toPx()),
+            start = Offset(0.dp.toPx(), 102.dp.toPx()),
             end = Offset(264.dp.toPx(), 102.dp.toPx()),
             color = Gray30,
             strokeWidth = 2f
@@ -209,7 +217,7 @@ fun LineChartForSp02() {
         )
 
         drawLine(
-            start = Offset(10f, 136.dp.toPx()),
+            start = Offset(0.dp.toPx(), 136.dp.toPx()),
             end = Offset(264.dp.toPx(), 136.dp.toPx()),
             color = Color.Black,
             strokeWidth = 2f
@@ -222,53 +230,51 @@ fun LineChartForSp02() {
             paint
         )
 
-        drawContext.canvas.nativeCanvas.drawText(
-            "00:00",
-            20.dp.toPx(),
-            152.dp.toPx(),
-            paint
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "02:00",
-            60.dp.toPx(),
-            152.dp.toPx(),
-            paint
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "04:00",
-            100.dp.toPx(),
-            152.dp.toPx(),
-            paint
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "06:00",
-            140.dp.toPx(),
-            152.dp.toPx(),
-            paint
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "08:00",
-            180.dp.toPx(),
-            152.dp.toPx(),
-            paint
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "10:00",
-            220.dp.toPx(),
-            152.dp.toPx(),
-            paint
-        )
-
-        drawPath(
+        clipPath(
             path = path,
-            color = Color.Green,
-            style = Stroke(width = 5f)
-        )
+            clipOp = ClipOp.Difference
+        ) {
+
+//            drawPath(
+//                path = path,
+//                color = Color.Green,
+//                style = Stroke(width = 6f)
+//            )
+
+            drawRect(
+                color = Color.Green.copy(alpha = 0.19f),
+                size = Size(
+                    width = Sp02Data[listSize].positionOnX,
+                    height = 136.dp.toPx()
+                )
+            )
+        }
+
+
+        for (i in 0 until listSize) {
+            drawLine(
+                start = Offset(Sp02Data[i].positionOnX, Sp02Data[i].positionOnY),
+                end = Offset(Sp02Data[i + 1].positionOnX, Sp02Data[i + 1].positionOnY),
+                color = Color.Green,
+                strokeWidth = 5f
+            )
+
+            if (Sp02Data[i].sleepApnea) {
+                drawCircle(
+                    color = Color.Red,
+                    radius = 10f,
+                    center = Offset(Sp02Data[i].positionOnX, Sp02Data[i].positionOnY - 1f)
+                )
+
+            }
+
+            drawContext.canvas.nativeCanvas.drawText(
+                "${Sp02Data[i].time}",
+                Sp02Data[i].positionOnX,
+                152.dp.toPx(),
+                paint
+            )
+        }
     }
 }
 

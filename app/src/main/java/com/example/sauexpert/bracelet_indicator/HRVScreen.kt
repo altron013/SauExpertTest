@@ -1,10 +1,12 @@
 package com.example.sauexpert.bracelet_indicator
 
 import android.graphics.Paint
+import android.widget.Toast
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +22,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -62,12 +66,12 @@ fun HRVwithBarChart(
         BarChartForHRV(
             HRVData = listOf(
                 HRVData(positionOnX = 10f, hourOfHRV = 200f, dateName = "16.12"),
-                HRVData(positionOnX = 110f, hourOfHRV = 370f, dateName = "17.12"),
-                HRVData(positionOnX = 210f, hourOfHRV = 190f, dateName = "18.12"),
-                HRVData(positionOnX = 310f, hourOfHRV = 180f, dateName = "19.12"),
-                HRVData(positionOnX = 410f, hourOfHRV = 220f, dateName = "20.12"),
-                HRVData(positionOnX = 510f, hourOfHRV = 240f, dateName = "21.12"),
-                HRVData(positionOnX = 610f, hourOfHRV = 30f, dateName = "22.12")
+                HRVData(positionOnX = 120f, hourOfHRV = 370f, dateName = "17.12"),
+                HRVData(positionOnX = 230f, hourOfHRV = 190f, dateName = "18.12"),
+                HRVData(positionOnX = 340f, hourOfHRV = 180f, dateName = "19.12"),
+                HRVData(positionOnX = 450f, hourOfHRV = 220f, dateName = "20.12"),
+                HRVData(positionOnX = 560f, hourOfHRV = 240f, dateName = "21.12"),
+                HRVData(positionOnX = 670f, hourOfHRV = 30f, dateName = "22.12")
             )
         )
     }
@@ -113,11 +117,66 @@ fun HRVStat(
     }
 }
 
+//@Composable
+//fun Modifier.startGesture(
+//    onStart: (offsetX: Float) -> Unit
+//): Modifier {
+//    val interactionSource = remember { MutableInteractionSource() }
+//    return this.pointerInput(interactionSource) {
+//        forEachGesture {
+//            coroutineScope {
+//                awaitPointerEventScope {
+//                    val touch = awaitFirstDown().also { it.consumeDownChange() }
+//                    onStart(touch.position.x)
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//
+//@Composable
+//fun Modifier.tapOrPress(
+//    onStart: (offsetX: Float) -> Unit,
+//    onCancel: (offsetX: Float) -> Unit,
+//    onCompleted: (offsetX: Float) -> Unit
+//): Modifier {
+//    val interactionSource = remember { MutableInteractionSource() }
+//    return this.pointerInput(interactionSource) {
+//        forEachGesture {
+//            coroutineScope {
+//                awaitPointerEventScope {
+//                    val tap = awaitFirstDown().also { it.consumeDownChange() }
+//                    onStart(tap.position.x)
+//                    val up = waitForUpOrCancellation()
+//                    if (up == null) {
+//                        onCancel(tap.position.x)
+//                    } else {
+//                        up.consumeDownChange()
+//                        onCompleted(tap.position.x)
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+
+private fun identifyClickItem(hrvData: List<HRVData>, x: Float): Int {
+    for ((index, hrvData) in hrvData.withIndex()) {
+        if (x > hrvData.positionOnX + 20 && x < hrvData.positionOnX + 20 + 40) {
+            return index
+        }
+    }
+    return -1
+}
+
+
 
 @Composable
 fun BarChartForHRV(
     HRVData: List<HRVData>,
 ) {
+    val context = LocalContext.current
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
         targetValue = if (start) 1f else 0f,
@@ -125,7 +184,16 @@ fun BarChartForHRV(
     )
     Canvas(
         modifier = Modifier
-            .fillMaxWidth().height(155.dp)
+            .fillMaxWidth()
+            .height(155.dp)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        val i = identifyClickItem(HRVData, it.x)
+                        Toast.makeText(context, "onTap: $i", Toast.LENGTH_SHORT).show()
+                    }
+                )
+            }
     ) {
 
         val paint = Paint().apply {
@@ -156,8 +224,6 @@ fun BarChartForHRV(
             10.dp.toPx(),
             paint
         )
-
-
 
         drawLine(
             start = Offset(10f, 35.dp.toPx()),
@@ -228,14 +294,14 @@ fun BarChartForHRV(
                     p.positionOnX + 20,
                     140.dp.toPx() - (140.dp.toPx() - p.hourOfHRV) * heightPre),
                 size = Size(
-                    60f,
-                    (140.dp.toPx() - p.hourOfHRV) * heightPre)
+                    75f,
+                    (140.dp.toPx() - p.hourOfHRV) * heightPre),
 
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 45,
+                p.positionOnX + 55,
                 160.dp.toPx(),
                 paint
             )
