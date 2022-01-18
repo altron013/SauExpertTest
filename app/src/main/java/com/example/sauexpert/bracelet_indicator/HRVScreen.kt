@@ -169,9 +169,7 @@ fun HRVStat(
 
 private fun identifyClickItem(hrvData: List<HRVData>, x: Float, y: Float): Int {
     for ((index, hrvData) in hrvData.withIndex()) {
-        if (x > hrvData.positionOnX + 20 && x < hrvData.positionOnX + 80
-            && y > hrvData.hourOfHRV + 20 && y < hrvData.hourOfHRV + 80
-        ) {
+        if (x > hrvData.positionOnX + 20 && x < hrvData.positionOnX + 80 && y > hrvData.hourOfHRV) {
             return index
         }
     }
@@ -226,16 +224,16 @@ fun BarChartForHRV(
 
 
         drawLine(
-            start = Offset(10f, 140.dp.toPx()),
-            end = Offset(10f, 0f),
+            start = Offset(x = 10f, y = 140.dp.toPx()),
+            end = Offset(x = 10f, y = 0f),
             color = Gray30,
             strokeWidth = 2f
         )
 
         for (i in ListNumberData) {
             drawLine(
-                start = Offset(10f, height.dp.toPx()),
-                end = Offset(780f, height.dp.toPx()),
+                start = Offset(x = 10f, y = height.dp.toPx()),
+                end = Offset(x = 780f, y = height.dp.toPx()),
                 color = Gray30,
                 strokeWidth = 2f
             )
@@ -255,15 +253,14 @@ fun BarChartForHRV(
             drawRect(
                 color = Color(250, 218, 221),
                 topLeft = Offset(
-                    p.positionOnX + 20,
-                    140.dp.toPx() - (140.dp.toPx() - p.hourOfHRV) * heightPre
+                    x = p.positionOnX + 20,
+                    y = 140.dp.toPx() - (140.dp.toPx() - p.hourOfHRV) * heightPre
                 ),
                 size = Size(
-                    75f,
-                    (140.dp.toPx() - p.hourOfHRV) * heightPre
-                ),
-
+                    width = 75f,
+                    height = (140.dp.toPx() - p.hourOfHRV) * heightPre
                 )
+            )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
