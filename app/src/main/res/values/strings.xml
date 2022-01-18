@@ -72,10 +72,28 @@
     <string name="to_log_in_use_your_credentials...">Для входа используйте учетные данные,
      ранее они были высланы на Ваш Email.</string>
 
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <string name="home">Главная</string>
+    <string name="my_patients">Мои пациенты</string>
+    <string name="messages">Сообщения</string>
+    <string name="notifications">Уведомления</string>
+    <string name="profile">Профиль</string>
+
+    <string name="cancel">Отменить</string>
+    <string name="a_z">А-Я</string>
+    <string name="by_last_update">По дате последнего изменения</string>
+    <string name="by_inspection_date">По дате осмотра</string>
+    <string name="by_severity_issue">По тяжести болезни</string>
+    <string name="by_diagnosis">По диагнозу</string>
+    <string name="back">Назад</string>
+
+    <string name="arterial_pressure">Артериальное давление</string>
+    <string name="glucose_level">Уровень глюкозы</string>
+
+    <string name="glucose_level_in_blood">Показатель уровня глюкозы в крови </string>
+    <string name="when_measurement_was_taken">Когда был произведен этот замер </string>
+    <string name="required_field">* обязательное поле</string>
+    <string name="before_food">До еды</string>
+    <string name="after_food">После еды</string>
 
 
 </resources>

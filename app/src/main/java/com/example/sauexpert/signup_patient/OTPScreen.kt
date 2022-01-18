@@ -67,13 +67,13 @@ fun OTPTextFields(
     var qw = data.forEach() {
         it
     }
-    val focusRequesters: List<FocusRequester> = remember {
-        val temp = mutableListOf<FocusRequester>()
-        repeat(length) {
-            temp.add(FocusRequester())
-        }
-        temp
-    }
+//    val focusRequesters: List<FocusRequester> = remember {
+//        val temp = mutableListOf<FocusRequester>()
+//        repeat(length) {
+//            temp.add(FocusRequester())
+//        }
+//        temp
+//    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -92,9 +92,9 @@ fun OTPTextFields(
                     ),
                     modifier = Modifier
                         .size(50.dp)
-                        .focusOrder(focusRequester = focusRequesters[index]) {
-                            focusRequesters[index + 1].requestFocus()
-                        }
+//                        .focusOrder(focusRequester = focusRequesters[index]) {
+//                            focusRequesters[index + 1].requestFocus()
+//                        }
                         .background(Color.Transparent),
                     textStyle = MaterialTheme.typography.body2.copy(
                         textAlign = TextAlign.Center, color = Color.Black
@@ -104,22 +104,22 @@ fun OTPTextFields(
                         it.isDigit()
                     }?.toString() ?: "",
                     onValueChange = { value: String ->
-                        if (focusRequesters[index].freeFocus()) {
-                            val temp = code.toMutableList()
-                            if (value == "") {
-                                if (temp.size > index) {
-                                    temp.removeAt(index = index)
-                                    code = temp
-                                    focusRequesters.getOrNull(index - 1)?.requestFocus()
-                                }
-                            } else {
-                                temp.add(value.getOrNull(0) ?: ' ')
-                                code = temp
-                                focusRequesters.getOrNull(index + 1)?.requestFocus() ?: onFilled(
-                                    code.joinToString(separator = "")
-                                )
-                            }
-                        }
+//                        if (focusRequesters[index].freeFocus()) {
+//                            val temp = code.toMutableList()
+//                            if (value == "") {
+//                                if (temp.size > index) {
+//                                    temp.removeAt(index = index)
+//                                    code = temp
+//                                    focusRequesters.getOrNull(index - 1)?.requestFocus()
+//                                }
+//                            } else {
+//                                temp.add(value.getOrNull(0) ?: ' ')
+//                                code = temp
+//                                focusRequesters.getOrNull(index + 1)?.requestFocus() ?: onFilled(
+//                                    code.joinToString(separator = "")
+//                                )
+//                            }
+//                        }
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         keyboardType = KeyboardType.Number,
@@ -134,13 +134,13 @@ fun OTPTextFields(
         PhoneButtons(
             data = data,
             onClick = {
-                if (code.size == 0 || code.size == 1 || code.size == 2 || code.size == 3) {
-                    it.getOrNull(0)
+                if (code.size < 4) {
                     it.firstOrNull()?.let {
-                        code.add(it)
+                        code = (code + listOf(it)).toMutableList()
                     }
                 } else {
-                    code = code.subList(0, code.size - 1)
+//                  code = code.subList(0, code.size - 1)
+                    // code=code
                 }
             }
         )
@@ -157,10 +157,11 @@ fun OTPTextFields(
             Spacer(modifier = Modifier.width(20.dp))
             DeleteLeftIcon(
                 onClick = {
-                    if (code.isNotEmpty()) {
-                        code.removeLast()
-                        //  code.removeAt(code.size - 1)
-                    }
+//                    if (code.isNotEmpty()) {
+//                        code.removeLast()
+                    if (code.size == 0) return@DeleteLeftIcon
+                    code = code.subList(0, code.size - 1)
+                    // }
                 }
             )
         }

@@ -41,7 +41,7 @@ fun LoginScreen() {
     val password = remember { mutableStateOf(TextFieldValue()) }
     val errorState = remember { mutableStateOf(false) }
     val passwordErrorState = remember { mutableStateOf(false) }
-    //SauExpertTheme() {
+    SauExpertTheme() {
         Column(
             Modifier
                 .fillMaxSize()
@@ -170,8 +170,8 @@ fun LoginScreen() {
                         color = Red435B
                     )
                 }
-                Spacer(modifier = Modifier.size(40.dp))
+                Spacer(modifier = Modifier.size(80.dp))
             }
         }
     }
-//}
+}

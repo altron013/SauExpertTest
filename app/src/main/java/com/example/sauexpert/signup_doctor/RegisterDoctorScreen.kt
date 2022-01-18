@@ -298,7 +298,7 @@ fun MessageCard(text: String) {
         Text(
             text = text,
             modifier = Modifier.weight(4f),
-            style = MaterialTheme.typography.h5
+            //style = MaterialTheme.typography.h5
         )
     }
 }
