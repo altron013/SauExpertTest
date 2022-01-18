@@ -208,9 +208,13 @@ fun BarChartForHRV(
                 detectTapGestures(
                     onTap = {
                         itemID.value = identifyClickItem(HRVData, it.x, it.y)
-                        visible.value = true
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
+                        if (itemID.value != -1){
+                            ResetColorInsideDataClass(HRVData = HRVData)
+                            visible.value = true
+                            HRVData[itemID.value].colorFocus = Color.Red
+                        }
                     }
                 )
             }
@@ -251,7 +255,7 @@ fun BarChartForHRV(
         start = true
         for (p in HRVData) {
             drawRect(
-                color = Color(250, 218, 221),
+                color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX + 20,
                     y = 140.dp.toPx() - (140.dp.toPx() - p.hourOfHRV) * heightPre
@@ -269,6 +273,12 @@ fun BarChartForHRV(
                 paint
             )
         }
+    }
+}
+
+private fun ResetColorInsideDataClass(HRVData: List<HRVData>) {
+    for (p in HRVData) {
+        p.colorFocus = Color(250, 218, 221)
     }
 }
 
@@ -294,6 +304,7 @@ fun InfoDialogForBarChartOfHRV(
                 ) {
                     if (itemID.value == -1) {
                         visible.value = false
+                        ResetColorInsideDataClass(HRVData = HRVData)
                     } else {
                         Text(
                             text = "${itemID.value} | ${HRVData[itemID.value].hourOfHRV} | " +
@@ -303,6 +314,7 @@ fun InfoDialogForBarChartOfHRV(
                                 .align(alignment = Alignment.Center)
                                 .clickable {
                                     visible.value = false
+                                    ResetColorInsideDataClass(HRVData = HRVData)
                                 }
                         )
                     }
