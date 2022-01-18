@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -23,6 +24,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -31,9 +33,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import com.example.sauexpert.R
 import com.example.sauexpert.model.HRVData
+import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.MainButton
 
 
 @Composable
@@ -72,6 +77,13 @@ fun HRVwithBarChart(
                 HRVData(positionOnX = 450f, hourOfHRV = 220f, dateName = "20.12"),
                 HRVData(positionOnX = 560f, hourOfHRV = 240f, dateName = "21.12"),
                 HRVData(positionOnX = 670f, hourOfHRV = 30f, dateName = "22.12")
+            ),
+            ListNumberData = listOf(
+                ListNumberOfYForTableData("240"),
+                ListNumberOfYForTableData("200"),
+                ListNumberOfYForTableData("160"),
+                ListNumberOfYForTableData("120"),
+                ListNumberOfYForTableData("80"),
             )
         )
     }
@@ -163,18 +175,25 @@ fun HRVStat(
 
 private fun identifyClickItem(hrvData: List<HRVData>, x: Float): Int {
     for ((index, hrvData) in hrvData.withIndex()) {
-        if (x > hrvData.positionOnX + 20 && x < hrvData.positionOnX + 20 + 40) {
+        if (x > hrvData.positionOnX + 20 && x < hrvData.positionOnX + 80) {
             return index
         }
     }
     return -1
 }
 
+//fun Modifier.customDialogPosition(x: Int, y: Int) = layout { measurable, constraints ->
+//    val placeable = measurable.measure(constraints)
+//    layout(constraints.maxWidth, constraints.maxHeight) {
+//        placeable.place(x - 400, y + 400, 10f)
+//    }
+//}
 
 
 @Composable
 fun BarChartForHRV(
     HRVData: List<HRVData>,
+    ListNumberData: List<ListNumberOfYForTableData>
 ) {
     val context = LocalContext.current
     var start by remember { mutableStateOf(false) }
@@ -182,6 +201,39 @@ fun BarChartForHRV(
         targetValue = if (start) 1f else 0f,
         animationSpec = FloatTweenSpec(duration = 1000)
     )
+
+
+    val openDialog = remember { mutableStateOf(false) }
+    val itemID = remember { mutableStateOf(1) }
+//    val xPosition = remember { mutableStateOf(1) }
+//    val yPosition = remember { mutableStateOf(1) }
+
+
+    if (openDialog.value && itemID.value != -1) {
+        AlertDialog(
+            onDismissRequest = {
+                openDialog.value = false
+            },
+            title = {
+                Text(
+                    text = "${itemID.value} | ${HRVData[itemID.value].hourOfHRV} | ${HRVData[itemID.value].dateName}",
+                    style = MaterialTheme.typography.caption,
+                    modifier = Modifier.padding(16.dp)
+                )
+            },
+            buttons = {
+                MainButton(
+                    text = stringResource(id = R.string.understand),
+                    onClick = { openDialog.value = false },
+                    enableState = true,
+                    modifier = Modifier.padding(16.dp).size(70.dp)
+                )
+            },
+//            modifier = Modifier.customDialogPosition(xPosition.value, yPosition.value),
+            properties = DialogProperties()
+        )
+    }
+
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
@@ -189,13 +241,16 @@ fun BarChartForHRV(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        val i = identifyClickItem(HRVData, it.x)
-                        Toast.makeText(context, "onTap: $i", Toast.LENGTH_SHORT).show()
+                        itemID.value = identifyClickItem(HRVData, it.x)
+                        Toast.makeText(context, "onTap: ${itemID.value}", Toast.LENGTH_SHORT).show()
+                        openDialog.value = true
+//                        xPosition.value = it.x.toInt()
+//                        yPosition.value = it.y.toInt()
                     }
                 )
             }
     ) {
-
+        var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 34f
@@ -210,81 +265,23 @@ fun BarChartForHRV(
             strokeWidth = 2f
         )
 
+        for (i in ListNumberData) {
+            drawLine(
+                start = Offset(10f, height.dp.toPx()),
+                end = Offset(780f, height.dp.toPx()),
+                color = Gray30,
+                strokeWidth = 2f
+            )
 
-        drawLine(
-            start = Offset(10f, 0.dp.toPx()),
-            end = Offset(780f, 0.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
+            drawContext.canvas.nativeCanvas.drawText(
+                i.number,
+                320.dp.toPx(),
+                10.dp.toPx() + height.dp.toPx(),
+                paint
+            )
 
-        drawContext.canvas.nativeCanvas.drawText(
-            "240",
-            320.dp.toPx(),
-            10.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(10f, 35.dp.toPx()),
-            end = Offset(780f, 35.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "200",
-            320.dp.toPx(),
-            45.dp.toPx(),
-            paint
-        )
-
-
-        drawLine(
-            start = Offset(10f, 70.dp.toPx()),
-            end = Offset(780f, 70.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "160",
-            320.dp.toPx(),
-            80.dp.toPx(),
-            paint
-        )
-
-
-
-        drawLine(
-            start = Offset(10f, 105.dp.toPx()),
-            end = Offset(780f, 105.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "120",
-            320.dp.toPx(),
-            115.dp.toPx(),
-            paint
-        )
-
-
-
-        drawLine(
-            start = Offset(10f, 140.dp.toPx()),
-            end = Offset(780f, 140.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "80",
-            320.dp.toPx(),
-            150.dp.toPx(),
-            paint
-        )
+            height += 35
+        }
 
         start = true
         for (p in HRVData) {
@@ -292,12 +289,14 @@ fun BarChartForHRV(
                 color = Color.Red,
                 topLeft = Offset(
                     p.positionOnX + 20,
-                    140.dp.toPx() - (140.dp.toPx() - p.hourOfHRV) * heightPre),
+                    140.dp.toPx() - (140.dp.toPx() - p.hourOfHRV) * heightPre
+                ),
                 size = Size(
                     75f,
-                    (140.dp.toPx() - p.hourOfHRV) * heightPre),
+                    (140.dp.toPx() - p.hourOfHRV) * heightPre
+                ),
 
-            )
+                )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
@@ -323,7 +322,8 @@ fun AnalysisHRVStat(modifier: Modifier = Modifier) {
         AnalysisStatFieldWithIconAtEnd(
             title = stringResource(R.string.highest_value),
             value = "18",
-            imageVector = Icons.Filled.FlashOn)
+            imageVector = Icons.Filled.FlashOn
+        )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
             thickness = 1.dp,
@@ -332,7 +332,8 @@ fun AnalysisHRVStat(modifier: Modifier = Modifier) {
         )
         AnalysisStatField(
             title = stringResource(R.string.lowest_value),
-            value = "18")
+            value = "18"
+        )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
             thickness = 1.dp,
@@ -341,7 +342,8 @@ fun AnalysisHRVStat(modifier: Modifier = Modifier) {
         )
         AnalysisStatField(
             title = stringResource(R.string.average_value),
-            value = "18")
+            value = "18"
+        )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
             thickness = 1.dp,
@@ -350,6 +352,7 @@ fun AnalysisHRVStat(modifier: Modifier = Modifier) {
         )
         AnalysisStatField(
             title = stringResource(R.string.last_value),
-            value = "18")
+            value = "18"
+        )
     }
 }

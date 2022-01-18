@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import com.example.sauexpert.R
+import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
@@ -68,7 +69,15 @@ fun SP02withLineGraph(
                 Sp02Data(positionOnX = 480f, positionOnY = 280f, sleepApnea = true),
                 Sp02Data(positionOnX = 560f, positionOnY = 100f),
                 Sp02Data(positionOnX = 640f, positionOnY = 40f),
+            ),
+            ListNumberData = listOf(
+                ListNumberOfYForTableData("100"),
+                ListNumberOfYForTableData("90"),
+                ListNumberOfYForTableData("80"),
+                ListNumberOfYForTableData("70"),
+                ListNumberOfYForTableData("60"),
             )
+
         )
         Spacer(modifier = Modifier.height(10.dp))
         SP02Stat2()
@@ -125,7 +134,8 @@ fun SP02Stat(
 
 @Composable
 fun LineChartForSp02(
-    Sp02Data: List<Sp02Data>
+    Sp02Data: List<Sp02Data>,
+    ListNumberData: List<ListNumberOfYForTableData>
 ) {
     val scale by remember { mutableStateOf(1f) }
     val listSize = Sp02Data.size - 1
@@ -137,7 +147,7 @@ fun LineChartForSp02(
             }
             listSize -> {
                 path.lineTo(item.positionOnX * scale, item.positionOnY)
-                path.lineTo(680f * scale, 0f)
+                path.lineTo((item.positionOnX + 25f) * scale, 0f)
             }
             else -> {
                 path.lineTo(item.positionOnX * scale, item.positionOnY)
@@ -147,88 +157,52 @@ fun LineChartForSp02(
         }
     }
 
-    val paint = Paint().apply {
-        textAlign = Paint.Align.CENTER
-        textSize = 34f
-//            color = Color(0xFF0018A8).toArgb()
-    }
-
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
             .background(Color.White)
     ) {
+        var height = 0
+        val paint = Paint().apply {
+            textAlign = Paint.Align.CENTER
+            textSize = 34f
+//            color = Color(0xFF0018A8).toArgb()
+        }
 
-        drawLine(
-            start = Offset(0.dp.toPx(), 0.dp.toPx()),
-            end = Offset(264.dp.toPx(), 0.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
+        for (i in ListNumberData) {
+            drawLine(
+                start = Offset(0f, height.dp.toPx()),
+                end = Offset(780f, height.dp.toPx()),
+                color = Gray30,
+                strokeWidth = 2f
+            )
 
-        drawContext.canvas.nativeCanvas.drawText(
-            "100",
-            280.dp.toPx(),
-            10.dp.toPx(),
-            paint
-        )
+            drawContext.canvas.nativeCanvas.drawText(
+                "${i.number}",
+                320.dp.toPx(),
+                10.dp.toPx() + height.dp.toPx(),
+                paint
+            )
 
-        drawLine(
-            start = Offset(0.dp.toPx(), 34.dp.toPx()),
-            end = Offset(264.dp.toPx(), 34.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
+            height += 34
+        }
 
-        drawContext.canvas.nativeCanvas.drawText(
-            "90",
-            280.dp.toPx(),
-            44.dp.toPx(),
-            paint
-        )
+//        drawLine(
+//            start = Offset(0.dp.toPx(), 0.dp.toPx()),
+//            end = Offset(264.dp.toPx(), 0.dp.toPx()),
+//            color = Gray30,
+//            strokeWidth = 2f
+//        )
+//
+//        drawContext.canvas.nativeCanvas.drawText(
+//            "100",
+//            280.dp.toPx(),
+//            10.dp.toPx(),
+//            paint
+//        )
+//
 
-        drawLine(
-            start = Offset(0.dp.toPx(), 68.dp.toPx()),
-            end = Offset(264.dp.toPx(), 68.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "80",
-            280.dp.toPx(),
-            78.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(0.dp.toPx(), 102.dp.toPx()),
-            end = Offset(264.dp.toPx(), 102.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "70",
-            280.dp.toPx(),
-            112.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(0.dp.toPx(), 136.dp.toPx()),
-            end = Offset(264.dp.toPx(), 136.dp.toPx()),
-            color = Color.Black,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "60",
-            280.dp.toPx(),
-            146.dp.toPx(),
-            paint
-        )
 
         clipPath(
             path = path,

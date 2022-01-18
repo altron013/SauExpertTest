@@ -30,6 +30,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.SleepData
 import com.example.sauexpert.ui.theme.Gray30
 
@@ -72,7 +73,18 @@ fun SleepScreen() {
                     dateName = "Сб"
                 ),
                 SleepData(positionOnX = 550f, hourOfSleep = 370f, dateName = "Вс")
+            ),
+            ListNumberData = listOf(
+                ListNumberOfYForTableData("22:00"),
+                ListNumberOfYForTableData("00:00"),
+                ListNumberOfYForTableData("02:00"),
+                ListNumberOfYForTableData("04:00"),
+                ListNumberOfYForTableData("06:00"),
+                ListNumberOfYForTableData("08:00"),
+                ListNumberOfYForTableData("10:00"),
+                ListNumberOfYForTableData("12:00"),
             )
+
         )
         Spacer(modifier = Modifier.height(25.dp))
         SleepStat2()
@@ -167,23 +179,24 @@ fun SleepStat(
 @Composable
 fun BarChartForSleep(
     SleepData: List<SleepData>,
+    ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
         targetValue = if (start) 1f else 0f,
         animationSpec = FloatTweenSpec(duration = 1000)
     )
+
     Canvas(
         modifier = Modifier
             .fillMaxWidth().height(250.dp)
     ) {
-
+        var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 34f
 //            color = Color(0xFF0018A8).toArgb()
         }
-
 
         drawLine(
             start = Offset(10f, 238.dp.toPx()),
@@ -192,118 +205,23 @@ fun BarChartForSleep(
             strokeWidth = 2f
         )
 
+        for (i in ListNumberData) {
+            drawLine(
+                start = Offset(10f, height.dp.toPx()),
+                end = Offset(780f, height.dp.toPx()),
+                color = Gray30,
+                strokeWidth = 2f
+            )
 
-        drawLine(
-            start = Offset(10f, 0f),
-            end = Offset(780f, 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
+            drawContext.canvas.nativeCanvas.drawText(
+                "${i.number}",
+                320.dp.toPx(),
+                10.dp.toPx() + height.dp.toPx(),
+                paint
+            )
 
-        drawContext.canvas.nativeCanvas.drawText(
-            "22:00",
-            850f,
-            10.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(10f, 34.dp.toPx()),
-            end = Offset(780f, 34.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "00:00",
-            850f,
-            44.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(10f, 68.dp.toPx()),
-            end = Offset(780f, 68.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "02:00",
-            850f,
-            78.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(10f, 102.dp.toPx()),
-            end = Offset(780f, 102.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "04:00",
-            850f,
-            112.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(10f, 136.dp.toPx()),
-            end = Offset(780f, 136.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "06:00",
-            850f,
-            146.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(10f, 170.dp.toPx()),
-            end = Offset(780f, 170.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "08:00",
-            850f,
-            180.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(10f, 204.dp.toPx()),
-            end = Offset(780f, 204.dp.toPx()),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "10:00",
-            850f,
-            214.dp.toPx(),
-            paint
-        )
-
-        drawLine(
-            start = Offset(10f, 238.dp.toPx()),
-            end = Offset(780f, 238.dp.toPx()),
-            color = Color.Black,
-            strokeWidth = 2f
-        )
-
-        drawContext.canvas.nativeCanvas.drawText(
-            "12:00",
-            850f,
-            248.dp.toPx(),
-            paint
-        )
+            height += 34
+        }
 
         start = true
         for (p in SleepData) {
