@@ -159,7 +159,7 @@ fun BarChartForHRV(
                         ResetColorInsideDataClass(HRVData = HRVData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
-                        if (itemID.value != -1){
+                        if (itemID.value != -1) {
                             visible.value = true
                             HRVData[itemID.value].colorFocus = Color.Red
                         }
@@ -174,14 +174,6 @@ fun BarChartForHRV(
 //            color = Color(0xFF0018A8).toArgb()
         }
 
-
-        drawLine(
-            start = Offset(x = 10f, y = 140.dp.toPx()),
-            end = Offset(x = 10f, y = 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
         for (i in ListNumberData) {
             drawLine(
                 start = Offset(x = 10f, y = height.dp.toPx()),
@@ -193,12 +185,19 @@ fun BarChartForHRV(
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
                 320.dp.toPx(),
-                10.dp.toPx() + height.dp.toPx(),
+                (10 + height).dp.toPx(),
                 paint
             )
 
             height += 35
         }
+
+        drawLine(
+            start = Offset(x = 10f, y = (height - 35).dp.toPx()),
+            end = Offset(x = 10f, y = 0f),
+            color = Gray30,
+            strokeWidth = 2f
+        )
 
         start = true
         for (p in HRVData) {
@@ -206,18 +205,18 @@ fun BarChartForHRV(
                 color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX + 20,
-                    y = 140.dp.toPx() - (140.dp.toPx() - p.hourOfHRV) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.hourOfHRV) * heightPre
                 ),
                 size = Size(
                     width = 75f,
-                    height = (140.dp.toPx() - p.hourOfHRV) * heightPre
+                    height = ((height - 35).dp.toPx() - p.hourOfHRV) * heightPre
                 )
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
                 p.positionOnX + 55,
-                160.dp.toPx(),
+                (height - 15).dp.toPx(),
                 paint
             )
         }

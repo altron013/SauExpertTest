@@ -75,8 +75,8 @@ fun SP02withLineGraph(
                 ListNumberOfYForTableData("90"),
                 ListNumberOfYForTableData("80"),
                 ListNumberOfYForTableData("70"),
-                ListNumberOfYForTableData("60"),
-            )
+                ListNumberOfYForTableData("60")
+                )
 
         )
         Spacer(modifier = Modifier.height(10.dp))
@@ -188,21 +188,6 @@ fun LineChartForSp02(
             height += 34
         }
 
-//        drawLine(
-//            start = Offset(0.dp.toPx(), 0.dp.toPx()),
-//            end = Offset(264.dp.toPx(), 0.dp.toPx()),
-//            color = Gray30,
-//            strokeWidth = 2f
-//        )
-//
-//        drawContext.canvas.nativeCanvas.drawText(
-//            "100",
-//            280.dp.toPx(),
-//            10.dp.toPx(),
-//            paint
-//        )
-//
-
 
         clipPath(
             path = path,
@@ -219,7 +204,7 @@ fun LineChartForSp02(
                 color = Color.Green.copy(alpha = 0.19f),
                 size = Size(
                     width = Sp02Data[listSize].positionOnX,
-                    height = 136.dp.toPx()
+                    height = (height - 34).dp.toPx()
                 )
             )
         }
@@ -245,7 +230,7 @@ fun LineChartForSp02(
             drawContext.canvas.nativeCanvas.drawText(
                 "${Sp02Data[i].time}",
                 Sp02Data[i].positionOnX,
-                152.dp.toPx(),
+                (height - 14).dp.toPx(),
                 paint
             )
         }

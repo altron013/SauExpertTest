@@ -198,12 +198,7 @@ fun BarChartForSleep(
 //            color = Color(0xFF0018A8).toArgb()
         }
 
-        drawLine(
-            start = Offset(10f, 238.dp.toPx()),
-            end = Offset(10f, 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
+
 
         for (i in ListNumberData) {
             drawLine(
@@ -216,12 +211,19 @@ fun BarChartForSleep(
             drawContext.canvas.nativeCanvas.drawText(
                 "${i.number}",
                 320.dp.toPx(),
-                10.dp.toPx() + height.dp.toPx(),
+                (10 + height).dp.toPx(),
                 paint
             )
 
             height += 34
         }
+
+        drawLine(
+            start = Offset(10f, (height - 34).dp.toPx()),
+            end = Offset(10f, 0f),
+            color = Gray30,
+            strokeWidth = 2f
+        )
 
         start = true
         for (p in SleepData) {
@@ -235,7 +237,7 @@ fun BarChartForSleep(
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
                 p.positionOnX + 45,
-                254.dp.toPx(),
+                (height - 14).dp.toPx(),
                 paint
             )
         }

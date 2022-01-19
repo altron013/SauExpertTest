@@ -73,11 +73,13 @@ fun PulseStatwithBarChart(
                 PulseData(positionOnX = 670f, pulseInMinuteAverage = 30f, dateName = "22.12")
             ),
             ListNumberData = listOf(
+                ListNumberOfYForTableData("280"),
                 ListNumberOfYForTableData("240"),
                 ListNumberOfYForTableData("200"),
                 ListNumberOfYForTableData("160"),
                 ListNumberOfYForTableData("120"),
                 ListNumberOfYForTableData("80"),
+                ListNumberOfYForTableData("60"),
             )
         )
     }
@@ -153,7 +155,7 @@ fun BarChartForPulse(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(155.dp)
+            .height(250.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
@@ -177,14 +179,6 @@ fun BarChartForPulse(
         }
 
 
-        drawLine(
-            start = Offset(10f, 140.dp.toPx()),
-            end = Offset(10f, 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-
         for (i in ListNumberData) {
             drawLine(
                 start = Offset(x = 10f, y = height.dp.toPx()),
@@ -196,12 +190,19 @@ fun BarChartForPulse(
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
                 320.dp.toPx(),
-                10.dp.toPx() + height.dp.toPx(),
+                (10 + height).dp.toPx(),
                 paint
             )
 
-            height += 35
+            height += 34
         }
+
+        drawLine(
+            start = Offset(10f, (height - 34).dp.toPx()),
+            end = Offset(10f, 0f),
+            color = Gray30,
+            strokeWidth = 2f
+        )
 
         start = true
         for (p in PulseData) {
@@ -209,18 +210,19 @@ fun BarChartForPulse(
                 color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX + 20,
-                    y = 140.dp.toPx() - (140.dp.toPx() - p.pulseInMinuteAverage) * heightPre
+                    y = (height - 34).dp.toPx() - ((height -34).dp.toPx()
+                            - p.pulseInMinuteAverage) * heightPre
                 ),
                 size = Size(
                     width = 75f,
-                    height = (140.dp.toPx() - p.pulseInMinuteAverage) * heightPre
+                    height = (height.dp.toPx() - 34.dp.toPx() - p.pulseInMinuteAverage) * heightPre
                 )
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
                 p.positionOnX + 55,
-                160.dp.toPx(),
+                (height - 14).dp.toPx(),
                 paint
             )
         }

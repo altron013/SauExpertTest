@@ -161,7 +161,7 @@ fun BarChartForPressure(
                         ResetColorInsideDataClassForPressure(dataList = PressureData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
-                        if (itemID.value != -1){
+                        if (itemID.value != -1) {
                             visible.value = true
                             PressureData[itemID.value].colorFocus = Color.Red
                         }
@@ -177,12 +177,7 @@ fun BarChartForPressure(
         }
 
 
-        drawLine(
-            start = Offset(10f, 140.dp.toPx()),
-            end = Offset(10f, 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
+
 
 
         for (i in ListNumberData) {
@@ -196,12 +191,19 @@ fun BarChartForPressure(
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
                 320.dp.toPx(),
-                10.dp.toPx() + height.dp.toPx(),
+                (10 + height).dp.toPx(),
                 paint
             )
 
             height += 35
         }
+
+        drawLine(
+            start = Offset(10f, (height - 35).dp.toPx()),
+            end = Offset(10f, 0f),
+            color = Gray30,
+            strokeWidth = 2f
+        )
 
         start = true
         for (p in PressureData) {
@@ -209,18 +211,18 @@ fun BarChartForPressure(
                 color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX + 20,
-                    y = 140.dp.toPx() - (140.dp.toPx() - p.pressureInAverage) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.pressureInAverage) * heightPre
                 ),
                 size = Size(
                     width = 75f,
-                    height = (140.dp.toPx() - p.pressureInAverage) * heightPre
+                    height = ((height - 35).dp.toPx() - p.pressureInAverage) * heightPre
                 )
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
                 p.positionOnX + 55,
-                160.dp.toPx(),
+                (height - 15).dp.toPx(),
                 paint
             )
         }
@@ -282,7 +284,6 @@ fun InfoDialogForBarChartOfPressure(
         }
     }
 }
-
 
 
 @Composable
