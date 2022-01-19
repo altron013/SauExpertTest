@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
 fun InspectionPatientScreen() {
@@ -27,7 +28,7 @@ fun InspectionPatientScreen() {
             .background(color = Gray30.copy(alpha = 0.19f))
             .padding(16.dp)
     ) {
-        TopBarForInspectionPatientScreen(nameDisplay = "User")
+        TopBarForInspectionPatientScreen(userName = "User")
         Spacer(modifier = Modifier.height(42.dp))
         PreviousInspectionsStat()
         Spacer(modifier = Modifier.height(12.dp))
@@ -40,7 +41,7 @@ fun InspectionPatientScreen() {
 
 @Composable
 fun TopBarForInspectionPatientScreen(
-    nameDisplay: String,
+    userName: String,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -57,7 +58,7 @@ fun TopBarForInspectionPatientScreen(
         )
 
         Text(
-            text = nameDisplay,
+            text = userName,
             style = MaterialTheme.typography.subtitle2,
             modifier = modifier.align(Alignment.Center)
         )
@@ -117,6 +118,13 @@ fun PreviousInspectionsStat2(modifier: Modifier = Modifier) {
         )
 
         AnalysisInspectionsDateField()
+
+        MainButton(
+            text = stringResource(id = R.string.supply_detail),
+            onClick = { /*TODO*/ },
+            enableState = true,
+            modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
+        )
 
     }
 }

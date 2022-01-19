@@ -139,6 +139,11 @@
     <string name="date_of_inspections">Дата общего осмотра</string>
     <string name="supply_detail">Дополнить данные</string>
     <string name="new_inspections">Новый общий осмотр</string>
+    <string name="general_inspection">Общий осмотр</string>
+    <string name="fill_patient_detail">Заполните данные пациента</string>
+    <string name="complaints_patient">Жалобы пациента</string>
+    <string name="anamnesis_illness">Анамнез заболевания</string>
+    <string name="anamnesis_of_life">Анамнез жизни</string>
 
 
 
