@@ -112,6 +112,14 @@ fun BraceletIndicatorScreen() {
             ) {
                 PressureScreen()
             }
+
+            4 -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 10.dp)
+            ) {
+                PulseScreen()
+            }
         }
     }
 }

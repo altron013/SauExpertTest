@@ -30,29 +30,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
-import com.example.sauexpert.model.HRVData
 import com.example.sauexpert.model.ListNumberOfYForTableData
+import com.example.sauexpert.model.PulseData
 import com.example.sauexpert.ui.theme.Gray30
 
-
 @Composable
-fun HRVScreen() {
+fun PulseScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth().verticalScroll(rememberScrollState())
     ) {
-        HRVwithBarChart()
+        PulseStatwithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisHRVStat()
+        AnalysisPulseStat()
     }
 }
 
 
 @Composable
-fun HRVwithBarChart(
+fun PulseStatwithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
+
         modifier = modifier
             .fillMaxWidth()
             .background(
@@ -60,17 +60,17 @@ fun HRVwithBarChart(
                 shape = RoundedCornerShape(7.dp)
             ).padding(16.dp)
     ) {
-        HRVStat()
+        PulseStat()
         Spacer(modifier = Modifier.height(12.dp))
-        BarChartForHRV(
-            HRVData = listOf(
-                HRVData(positionOnX = 10f, hourOfHRV = 200f, dateName = "16.12"),
-                HRVData(positionOnX = 120f, hourOfHRV = 370f, dateName = "17.12"),
-                HRVData(positionOnX = 230f, hourOfHRV = 190f, dateName = "18.12"),
-                HRVData(positionOnX = 340f, hourOfHRV = 180f, dateName = "19.12"),
-                HRVData(positionOnX = 450f, hourOfHRV = 220f, dateName = "20.12"),
-                HRVData(positionOnX = 560f, hourOfHRV = 240f, dateName = "21.12"),
-                HRVData(positionOnX = 670f, hourOfHRV = 30f, dateName = "22.12")
+        BarChartForPulse(
+            PulseData = listOf(
+                PulseData(positionOnX = 10f, pulseInMinuteAverage = 200f, dateName = "16.12"),
+                PulseData(positionOnX = 120f, pulseInMinuteAverage = 370f, dateName = "17.12"),
+                PulseData(positionOnX = 230f, pulseInMinuteAverage = 190f, dateName = "18.12"),
+                PulseData(positionOnX = 340f, pulseInMinuteAverage = 180f, dateName = "19.12"),
+                PulseData(positionOnX = 450f, pulseInMinuteAverage = 220f, dateName = "20.12"),
+                PulseData(positionOnX = 560f, pulseInMinuteAverage = 240f, dateName = "21.12"),
+                PulseData(positionOnX = 670f, pulseInMinuteAverage = 30f, dateName = "22.12")
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("240"),
@@ -84,7 +84,7 @@ fun HRVwithBarChart(
 }
 
 @Composable
-fun HRVStat(
+fun PulseStat(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -92,7 +92,7 @@ fun HRVStat(
             .fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.hrv),
+            text = stringResource(id = R.string.pulse),
             style = MaterialTheme.typography.caption
         )
 
@@ -107,7 +107,7 @@ fun HRVStat(
                     append("150 ")
                 }
 
-                append(stringResource(R.string.milliseconds_average))
+                append(stringResource(R.string.pulse_in_minute_average))
             },
             style = MaterialTheme.typography.subtitle1,
             fontWeight = FontWeight.Bold,
@@ -125,28 +125,30 @@ fun HRVStat(
 
 
 @Composable
-fun BarChartForHRV(
-    HRVData: List<HRVData>,
+fun BarChartForPulse(
+    PulseData: List<PulseData>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
-    val heightPre by animateFloatAsState(
-        targetValue = if (start) 1f else 0f,
-        animationSpec = FloatTweenSpec(duration = 1000)
-    )
-
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
 
-    InfoDialogForBarChartOfHRV(
+
+    val heightPre by animateFloatAsState(
+        targetValue = if (start) 1f else 0f,
+        animationSpec = FloatTweenSpec(duration = 1000)
+    )
+
+    InfoDialogForBarChartOfPulse(
         visible = visible,
         itemID = itemID,
         xPosition = positionOfX,
         yPosition = positionOfY,
-        HRVData = HRVData
+        dataList = PulseData
     )
+
 
     Canvas(
         modifier = Modifier
@@ -155,13 +157,13 @@ fun BarChartForHRV(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItem(HRVData, it.x, it.y)
-                        ResetColorInsideDataClass(HRVData = HRVData)
+                        itemID.value = identifyClickItemForPulse(PulseData, it.x, it.y)
+                        ResetColorInsideDataClassForPulse(dataList = PulseData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1){
                             visible.value = true
-                            HRVData[itemID.value].colorFocus = Color.Red
+                            PulseData[itemID.value].colorFocus = Color.Red
                         }
                     }
                 )
@@ -176,11 +178,12 @@ fun BarChartForHRV(
 
 
         drawLine(
-            start = Offset(x = 10f, y = 140.dp.toPx()),
-            end = Offset(x = 10f, y = 0f),
+            start = Offset(10f, 140.dp.toPx()),
+            end = Offset(10f, 0f),
             color = Gray30,
             strokeWidth = 2f
         )
+
 
         for (i in ListNumberData) {
             drawLine(
@@ -201,16 +204,16 @@ fun BarChartForHRV(
         }
 
         start = true
-        for (p in HRVData) {
+        for (p in PulseData) {
             drawRect(
                 color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX + 20,
-                    y = 140.dp.toPx() - (140.dp.toPx() - p.hourOfHRV) * heightPre
+                    y = 140.dp.toPx() - (140.dp.toPx() - p.pulseInMinuteAverage) * heightPre
                 ),
                 size = Size(
                     width = 75f,
-                    height = (140.dp.toPx() - p.hourOfHRV) * heightPre
+                    height = (140.dp.toPx() - p.pulseInMinuteAverage) * heightPre
                 )
             )
 
@@ -224,28 +227,28 @@ fun BarChartForHRV(
     }
 }
 
-private fun identifyClickItem(dataList: List<HRVData>, x: Float, y: Float): Int {
+private fun identifyClickItemForPulse(dataList: List<PulseData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX + 20 && x < dataList.positionOnX + 80 && y > dataList.hourOfHRV) {
+        if (x > dataList.positionOnX + 20 && x < dataList.positionOnX + 80 && y > dataList.pulseInMinuteAverage) {
             return index
         }
     }
     return -1
 }
 
-private fun ResetColorInsideDataClass(HRVData: List<HRVData>) {
-    for (p in HRVData) {
+private fun ResetColorInsideDataClassForPulse(dataList: List<PulseData>) {
+    for (p in dataList) {
         p.colorFocus = Color(250, 218, 221)
     }
 }
 
 @Composable
-fun InfoDialogForBarChartOfHRV(
+fun InfoDialogForBarChartOfPulse(
     visible: MutableState<Boolean>,
     itemID: MutableState<Int>,
     xPosition: MutableState<Int>,
     yPosition: MutableState<Int>,
-    HRVData: List<HRVData>,
+    dataList: List<PulseData>,
     modifier: Modifier = Modifier
 ) {
     if (visible.value) {
@@ -263,14 +266,14 @@ fun InfoDialogForBarChartOfHRV(
                         visible.value = false
                     } else {
                         Text(
-                            text = "${itemID.value} | ${HRVData[itemID.value].hourOfHRV} | " +
-                                    "${HRVData[itemID.value].dateName}",
+                            text = "${itemID.value} | ${dataList[itemID.value].pulseInMinuteAverage} | " +
+                                    "${dataList[itemID.value].dateName}",
                             style = MaterialTheme.typography.h5,
                             modifier = modifier
                                 .align(alignment = Alignment.Center)
                                 .clickable {
                                     visible.value = false
-                                    ResetColorInsideDataClass(HRVData = HRVData)
+                                    ResetColorInsideDataClassForPulse(dataList = dataList)
                                 }
                         )
                     }
@@ -281,8 +284,9 @@ fun InfoDialogForBarChartOfHRV(
 }
 
 
+
 @Composable
-fun AnalysisHRVStat(modifier: Modifier = Modifier) {
+fun AnalysisPulseStat(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
