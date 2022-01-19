@@ -1,8 +1,6 @@
 package com.example.sauexpert.profile
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -33,15 +31,15 @@ fun ProfileScreen() {
 
     Column(
         modifier = Modifier.fillMaxSize()
-            .background(
-                color = Gray30.copy(alpha = 0.19f),
-                shape = RoundedCornerShape(7.dp)
-            )
+            .background(color = Gray30.copy(alpha = 0.19f))
             .padding(16.dp)
     ) {
         TopBarForProfile()
+
         Spacer(modifier = Modifier.height(40.dp))
+
         ProfileSection()
+
         Spacer(modifier = Modifier.height(24.dp))
 
         CardItem(
@@ -63,36 +61,48 @@ fun ProfileScreen() {
 
         Spacer(modifier = Modifier.height(spaceHeight))
 
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
+            ProfileStatSectionGroup()
 
+            Spacer(modifier = Modifier.height(spaceHeight))
 
-        ProfileStatSectionGroup()
-        Spacer(modifier = Modifier.height(spaceHeight))
-
-
-        ProfileStatSection(
-            profileStatList = listOf(
-                ProfileStatData(
-                    title = stringResource(id = R.string.city),
-                    text = "name of City"
-                ),
-                ProfileStatData(
-                    title = stringResource(id = R.string.phone),
-                    text = "+7_777_777_7777"
-                ),
-                ProfileStatData(
-                    title = stringResource(id = R.string.organization),
-                    text = "name of Organization"
-                ),
-                ProfileStatData(
-                    title = stringResource(id = R.string.last_doctor_who_inspect),
-                    text = "name of Doctor"
-                ),
-                ProfileStatData(
-                    title = stringResource(id = R.string.last_day_of_check_up),
-                    text = "29 Ноября 2021"
-                ),
+            ProfileStatSection(
+                title = stringResource(id = R.string.city),
+                text = "name of City"
             )
-        )
+
+            Spacer(modifier = Modifier.height(spaceHeight))
+
+            ProfileStatSection(
+                title = stringResource(id = R.string.phone),
+                text = "+7_777_777_7777"
+            )
+
+            Spacer(modifier = Modifier.height(spaceHeight))
+
+            ProfileStatSection(
+                title = stringResource(id = R.string.organization),
+                text = "name of Organization"
+            )
+
+            Spacer(modifier = Modifier.height(spaceHeight))
+
+            ProfileStatSection(
+                title = stringResource(id = R.string.last_doctor_who_inspect),
+                text = "name of Doctor"
+            )
+
+            Spacer(modifier = Modifier.height(spaceHeight))
+
+            ProfileStatSection(
+                title = stringResource(id = R.string.last_day_of_check_up),
+                text = "29 Ноября 2021"
+            )
+        }
     }
 }
 
@@ -127,51 +137,6 @@ fun CardItem(
         }
     }
 
-}
-
-
-@Composable
-fun ProfileStatSection(
-    profileStatList: List<ProfileStatData>,
-    modifier: Modifier = Modifier
-) {
-    LazyColumn(modifier = modifier.fillMaxSize()) {
-        items(profileStatList.size) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            ) {
-
-                Text(
-                    text = profileStatList[it].title,
-                    style = MaterialTheme.typography.h5
-
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Box(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .size(width = 343.dp, height = 44.dp)
-                        .background(
-                            color = Color.White,
-                            shape = RoundedCornerShape(7.dp)
-                        )
-                        .padding(horizontal = 15.dp)
-                ) {
-                    Text(
-                        text = profileStatList[it].text,
-                        style = MaterialTheme.typography.overline,
-                        fontSize = 20.sp,
-                        modifier = modifier
-                            .align(Alignment.CenterStart)
-                    )
-
-                }
-            }
-        }
-    }
 }
 
 
@@ -272,17 +237,15 @@ fun ProfileStatSectionGroup(modifier: Modifier = Modifier) {
             .fillMaxWidth()
 
     ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = modifier.weight(0.7f)
-        ) {
-
+        Column(verticalArrangement = Arrangement.Center) {
             Text(
                 text = stringResource(id = R.string.gender),
                 style = MaterialTheme.typography.h5
 
             )
+
             Spacer(modifier = Modifier.height(8.dp))
+
             Box(
                 modifier = modifier
                     .size(width = 165.dp, height = 44.dp)
@@ -294,7 +257,7 @@ fun ProfileStatSectionGroup(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = stringResource(id = R.string.male),
-                    style = MaterialTheme.typography.overline,
+                    style = MaterialTheme.typography.body1,
                     modifier = modifier
                         .align(Alignment.CenterStart)
                 )
@@ -302,17 +265,15 @@ fun ProfileStatSectionGroup(modifier: Modifier = Modifier) {
             }
         }
 
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = modifier.weight(0.7f)
-        ) {
-
+        Column(verticalArrangement = Arrangement.Center) {
             Text(
                 text = stringResource(id = R.string.age),
                 style = MaterialTheme.typography.h5
 
             )
+
             Spacer(modifier = Modifier.height(8.dp))
+
             Box(
                 modifier = modifier
                     .size(width = 165.dp, height = 44.dp)
@@ -324,7 +285,7 @@ fun ProfileStatSectionGroup(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = "22",
-                    style = MaterialTheme.typography.overline,
+                    style = MaterialTheme.typography.body1,
                     modifier = modifier
                         .align(Alignment.CenterStart)
                 )
@@ -335,6 +296,47 @@ fun ProfileStatSectionGroup(modifier: Modifier = Modifier) {
 
     }
 
+}
+
+
+@Composable
+fun ProfileStatSection(
+    title: String,
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp)
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.h5
+
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .size(width = 343.dp, height = 44.dp)
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(7.dp)
+                )
+                .padding(horizontal = 15.dp)
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.body1,
+                modifier = modifier
+                    .align(Alignment.CenterStart)
+            )
+        }
+    }
 }
 
 //@Composable

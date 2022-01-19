@@ -134,6 +134,11 @@
     <string name="milliseconds_average">мс в среднем</string>
     <string name="mmhg_average">мм.рт.ст в среднем</string>
     <string name="pulse_in_minute_average">ударов в минуту в среднем</string>
+    <string name="previous_inspections">ПРЕДЫДУЩИЕ ОСМОТРЫ</string>
+    <string name="conducted_inspection">Провёл осмотр</string>
+    <string name="date_of_inspections">Дата общего осмотра</string>
+    <string name="supply_detail">Дополнить данные</string>
+    <string name="new_inspections">Новый общий осмотр</string>
 
 
 
