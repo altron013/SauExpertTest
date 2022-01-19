@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.CropSquare
+import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -20,6 +21,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.example.sauexpert.R
 import com.example.sauexpert.model.ListNumberOfYForTableData
@@ -33,7 +35,7 @@ fun Sp02Screen() {
     Column(
         modifier = Modifier
             .fillMaxWidth().verticalScroll(rememberScrollState())
-            .padding(bottom = 60.dp)
+            .padding(bottom = 70.dp, top = 24.dp)
     ) {
         SP02withLineGraph()
         Spacer(modifier = Modifier.height(24.dp))
@@ -57,7 +59,7 @@ fun SP02withLineGraph(
             ).padding(16.dp)
     ) {
         SP02Stat()
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         LineChartForSp02(
             Sp02Data = listOf(
                 Sp02Data(positionOnX = 0f, positionOnY = 0f),
@@ -76,10 +78,10 @@ fun SP02withLineGraph(
                 ListNumberOfYForTableData("80"),
                 ListNumberOfYForTableData("70"),
                 ListNumberOfYForTableData("60")
-                )
+            )
 
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         SP02Stat2()
 
     }
@@ -121,6 +123,8 @@ fun SP02Stat(
                 color = Gray30
             )
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = "18-20 ноября 2021",
@@ -166,8 +170,8 @@ fun LineChartForSp02(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 34f
-//            color = Color(0xFF0018A8).toArgb()
+            textSize = 13.sp.toPx()
+            color = Gray30.toArgb()
         }
 
         for (i in ListNumberData) {
@@ -201,7 +205,7 @@ fun LineChartForSp02(
 //            )
 
             drawRect(
-                color = Color.Green.copy(alpha = 0.19f),
+                color = Color.Green.copy(alpha = 0.1f),
                 size = Size(
                     width = Sp02Data[listSize].positionOnX,
                     height = (height - 34).dp.toPx()
@@ -313,10 +317,11 @@ fun AnalysisSOASStat(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(7.dp)
                 )
         ) {
-            AnalysisStatField(
+
+            AnalysisStatFieldWithIconAtBeg(
                 title = stringResource(R.string.severe_degree),
                 value = "18",
-                isIconVisible = true
+                imageVector = Icons.Filled.Circle
             )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),

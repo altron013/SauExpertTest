@@ -73,7 +73,7 @@ fun BraceletIndicatorScreen() {
             0 -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(vertical = 10.dp)
+                    .padding(bottom = 10.dp)
             ) {
                 SleepScreen()
                 MainButton(
@@ -87,7 +87,7 @@ fun BraceletIndicatorScreen() {
             1 -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(vertical = 10.dp)
+                    .padding(bottom = 10.dp)
             ) {
                 Sp02Screen()
                 MainButton(
@@ -100,25 +100,18 @@ fun BraceletIndicatorScreen() {
 
             }
             2 -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(vertical = 10.dp)
+                modifier = Modifier.fillMaxSize()
             ) {
                 HRVScreen()
             }
-
             3 -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(vertical = 10.dp)
+                modifier = Modifier.fillMaxSize()
+
             ) {
                 PressureScreen()
             }
-
             4 -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(vertical = 10.dp)
+                modifier = Modifier.fillMaxSize()
             ) {
                 PulseScreen()
             }
@@ -169,7 +162,7 @@ fun TabView(
     }
 
     val shape = RoundedCornerShape(8.dp)
-    val backgroundColor = Gray30
+    val backgroundColor = Color(220, 220, 223)
 
     TabRow(
         selectedTabIndex = selectedTabIndex,
@@ -194,6 +187,7 @@ fun TabView(
                 modifier = modifier
                     .background(
                         if (selectedTabIndex == index) Color.White else backgroundColor,
+//                        if (selectedTabIndex == index) RoundedCornerShape(10.dp) else RoundedCornerShape(0.dp),
                         shape = RoundedCornerShape(10.dp)
                     )
             ) {
@@ -216,7 +210,6 @@ fun TabView(
 fun AnalysisStatField(
     title: String,
     value: String,
-    isIconVisible: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -226,30 +219,48 @@ fun AnalysisStatField(
             .fillMaxWidth()
             .padding(11.dp)
     ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.body1,
+        )
 
-        if (isIconVisible) {
-            Icon(
-                imageVector = Icons.Filled.Circle,
-                contentDescription = "",
-                tint = Color.Red,
-                modifier = modifier.size(9.dp)
-            )
+        Text(
+            text = value,
+            style = MaterialTheme.typography.body1,
+        )
 
-            Spacer(modifier = Modifier.width(2.dp))
+    }
+}
 
-            Text(
-                text = title,
-                style = MaterialTheme.typography.body1,
-            )
+@Composable
+fun AnalysisStatFieldWithIconAtBeg(
+    title: String,
+    value: String,
+    imageVector: ImageVector,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(11.dp)
+    ) {
+        Icon(
+            imageVector = imageVector,
+            contentDescription = "",
+            tint = Color.Red,
+            modifier = modifier.size(10.dp)
+        )
 
-            Spacer(modifier = Modifier.width(75.dp))
-        } else {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.body1,
-            )
-        }
+        Spacer(modifier = Modifier.width(3.dp))
 
+        Text(
+            text = title,
+            style = MaterialTheme.typography.body1,
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
 
         Text(
             text = value,

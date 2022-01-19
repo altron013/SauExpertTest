@@ -22,6 +22,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -39,62 +40,68 @@ import com.example.sauexpert.ui.theme.Gray30
 fun SleepScreen() {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(7.dp)
-            )
-            .padding(16.dp).padding(bottom = 60.dp)
+            .fillMaxWidth().verticalScroll(rememberScrollState())
+            .padding(bottom = 70.dp, top = 24.dp)
     ) {
-        SleepStat()
-        Spacer(modifier = Modifier.height(12.dp))
-        BarChartForSleep(
-            SleepData = listOf(
-                SleepData(positionOnX = 10f, hourOfSleep = 140f, dateName = "Пн"),
-                SleepData(positionOnX = 100f, hourOfSleep = 200f, dateName = "Вт"),
-                SleepData(
-                    positionOnX = 190f,
-                    hourOfSleep = 190f,
-                    startTime = 40f,
-                    dateName = "Ср"
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(7.dp)
+                )
+                .padding(16.dp)
+        ) {
+            SleepStat()
+            Spacer(modifier = Modifier.height(12.dp))
+            BarChartForSleep(
+                SleepData = listOf(
+                    SleepData(positionOnX = 10f, hourOfSleep = 140f, dateName = "Пн"),
+                    SleepData(positionOnX = 100f, hourOfSleep = 200f, dateName = "Вт"),
+                    SleepData(
+                        positionOnX = 190f,
+                        hourOfSleep = 190f,
+                        startTime = 40f,
+                        dateName = "Ср"
+                    ),
+                    SleepData(
+                        positionOnX = 280f,
+                        hourOfSleep = 180f,
+                        startTime = 60f,
+                        dateName = "Чт"
+                    ),
+                    SleepData(positionOnX = 370f, hourOfSleep = 220f, dateName = "Пт"),
+                    SleepData(
+                        positionOnX = 460f,
+                        hourOfSleep = 240f,
+                        startTime = 80f,
+                        dateName = "Сб"
+                    ),
+                    SleepData(positionOnX = 550f, hourOfSleep = 370f, dateName = "Вс")
                 ),
-                SleepData(
-                    positionOnX = 280f,
-                    hourOfSleep = 180f,
-                    startTime = 60f,
-                    dateName = "Чт"
-                ),
-                SleepData(positionOnX = 370f, hourOfSleep = 220f, dateName = "Пт"),
-                SleepData(
-                    positionOnX = 460f,
-                    hourOfSleep = 240f,
-                    startTime = 80f,
-                    dateName = "Сб"
-                ),
-                SleepData(positionOnX = 550f, hourOfSleep = 370f, dateName = "Вс")
-            ),
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("22:00"),
-                ListNumberOfYForTableData("00:00"),
-                ListNumberOfYForTableData("02:00"),
-                ListNumberOfYForTableData("04:00"),
-                ListNumberOfYForTableData("06:00"),
-                ListNumberOfYForTableData("08:00"),
-                ListNumberOfYForTableData("10:00"),
-                ListNumberOfYForTableData("12:00"),
+                ListNumberData = listOf(
+                    ListNumberOfYForTableData("22:00"),
+                    ListNumberOfYForTableData("00:00"),
+                    ListNumberOfYForTableData("02:00"),
+                    ListNumberOfYForTableData("04:00"),
+                    ListNumberOfYForTableData("06:00"),
+                    ListNumberOfYForTableData("08:00"),
+                    ListNumberOfYForTableData("10:00"),
+                    ListNumberOfYForTableData("12:00"),
+                )
+
+            )
+            Spacer(modifier = Modifier.height(25.dp))
+            SleepStat2()
+            Spacer(modifier = Modifier.height(16.dp))
+            ProgressBar(
+                deepSleepValue = 120,
+                deepSleepPercent = 40,
+                lightSleepValue = 115,
+                lightSleepPercent = 30
             )
 
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-        SleepStat2()
-        Spacer(modifier = Modifier.height(16.dp))
-        ProgressBar(
-            deepSleepValue = 120,
-            deepSleepPercent = 40,
-            lightSleepValue = 115,
-            lightSleepPercent = 30
-        )
+        }
 
     }
 }
@@ -189,13 +196,13 @@ fun BarChartForSleep(
 
     Canvas(
         modifier = Modifier
-            .fillMaxWidth().height(250.dp)
+            .fillMaxWidth().height(255.dp)
     ) {
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 34f
-//            color = Color(0xFF0018A8).toArgb()
+            textSize = 13.sp.toPx()
+            color = Gray30.toArgb()
         }
 
 
@@ -296,6 +303,8 @@ fun ProgressBar(
                 modifier = modifier.size(height = 6.dp, width = deepSleepValue.dp)
             )
 
+            Spacer(modifier = Modifier.height(7.dp))
+
             Text(
                 text = stringResource(R.string.deep_sleep),
                 style = MaterialTheme.typography.button,
@@ -316,6 +325,8 @@ fun ProgressBar(
                 modifier = modifier.size(height = 6.dp, width = lightSleepValue.dp)
             )
 
+            Spacer(modifier = Modifier.height(7.dp))
+
             Text(
                 text = stringResource(R.string.light_sleep),
                 style = MaterialTheme.typography.button,
@@ -335,6 +346,8 @@ fun ProgressBar(
                 color = Color.Gray,
                 modifier = modifier.size(height = 6.dp, width = 115.dp)
             )
+
+            Spacer(modifier = Modifier.height(7.dp))
 
             Text(
                 text = stringResource(R.string.light_sleep),

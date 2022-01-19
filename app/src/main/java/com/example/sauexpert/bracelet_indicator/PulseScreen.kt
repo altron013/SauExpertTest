@@ -19,6 +19,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -38,7 +39,9 @@ import com.example.sauexpert.ui.theme.Gray30
 fun PulseScreen() {
     Column(
         modifier = Modifier
-            .fillMaxWidth().verticalScroll(rememberScrollState())
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+            .padding(top = 24.dp)
     ) {
         PulseStatwithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
@@ -163,7 +166,7 @@ fun BarChartForPulse(
                         ResetColorInsideDataClassForPulse(dataList = PulseData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
-                        if (itemID.value != -1){
+                        if (itemID.value != -1) {
                             visible.value = true
                             PulseData[itemID.value].colorFocus = Color.Red
                         }
@@ -174,8 +177,8 @@ fun BarChartForPulse(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 34f
-//            color = Color(0xFF0018A8).toArgb()
+            textSize = 13.sp.toPx()
+            color = Gray30.toArgb()
         }
 
 
@@ -210,7 +213,7 @@ fun BarChartForPulse(
                 color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX + 20,
-                    y = (height - 34).dp.toPx() - ((height -34).dp.toPx()
+                    y = (height - 34).dp.toPx() - ((height - 34).dp.toPx()
                             - p.pulseInMinuteAverage) * heightPre
                 ),
                 size = Size(
@@ -284,7 +287,6 @@ fun InfoDialogForBarChartOfPulse(
         }
     }
 }
-
 
 
 @Composable
