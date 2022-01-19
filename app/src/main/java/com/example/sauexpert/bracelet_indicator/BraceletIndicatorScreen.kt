@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
+import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
 
@@ -165,28 +167,35 @@ fun TabView(
     var selectedTabIndex by remember {
         mutableStateOf(0)
     }
-    val inactiveColor = Gray30
+
+    val shape = RoundedCornerShape(8.dp)
+    val backgroundColor = Gray30
+
     TabRow(
         selectedTabIndex = selectedTabIndex,
-        backgroundColor = Color.Transparent,
+        backgroundColor = backgroundColor,
         contentColor = Color.Transparent,
-
-        modifier = modifier.fillMaxWidth()
-
-            .border(
-                BorderStroke(1.5.dp, inactiveColor),
-                RoundedCornerShape(8.dp)
-            )
+        divider = {},
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(shape = shape)
+            .border(width = 2.dp, color = backgroundColor, shape = shape)
     ) {
         TextOfTab.forEachIndexed { index, item ->
-            Tab(selected = selectedTabIndex == index,
+            Tab(
+                selected = selectedTabIndex == index,
                 selectedContentColor = Color.Black,
-                unselectedContentColor = inactiveColor,
+                unselectedContentColor = Color.Black,
                 onClick = {
                     selectedTabIndex = index
                     onTabSelected(index)
 
-                }
+                },
+                modifier = modifier
+                    .background(
+                        if (selectedTabIndex == index) Color.White else backgroundColor,
+                        shape = RoundedCornerShape(10.dp)
+                    )
             ) {
                 Text(
                     text = item.text,
