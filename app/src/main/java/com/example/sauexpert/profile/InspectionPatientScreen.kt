@@ -319,7 +319,9 @@ fun CircularProgressBar(
 
 @Composable
 fun FillTextFiled(
-    textForHint: String
+    textForHint: String,
+    enableStatus: Boolean = true
+
 ) {
     var textStateField by remember { mutableStateOf("") }
 
@@ -336,6 +338,7 @@ fun FillTextFiled(
     TextField(
         modifier = Modifier
             .fillMaxWidth(),
+        enabled = enableStatus,
         value = textStateField,
         onValueChange = {
             textStateField = it
@@ -351,7 +354,8 @@ fun FillTextFiled(
 
 @Composable
 fun dropDownMenuWithFieldBackGround(
-    dataList: List<String>
+    dataList: List<String>,
+    enableStatus: Boolean = true
 ) {
     Box {
         Box(
@@ -364,13 +368,14 @@ fun dropDownMenuWithFieldBackGround(
                 )
         )
 
-        OutlineTextFildWithDropdownMenu(suggestions = dataList)
+        OutlineTextFildWithDropdownMenu(suggestions = dataList, enableStatus = enableStatus)
     }
 }
 
 @Composable
 fun OutlineTextFildWithDropdownMenu(
-    suggestions: List<String>
+    suggestions: List<String>,
+    enableStatus: Boolean = true
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("") }
@@ -396,7 +401,11 @@ fun OutlineTextFildWithDropdownMenu(
                     imageVector = icon,
                     contentDescription = null,
                     modifier = Modifier
-                        .clickable { expanded = !expanded })
+                        .clickable {
+                            if (enableStatus) {
+                                expanded = !expanded
+                            }
+                        })
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.Transparent,

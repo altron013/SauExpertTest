@@ -31,7 +31,8 @@ fun ViewInspectionInfoScreen() {
             titleIllness = "Мочевыделительная система",
             subtitleIllness = "МОЧЕИСПУСКАНИЕ",
             subtitleIllness2 = "НЕДЕРЖАНИЕ МОЧИ",
-            subtitleIllness3 = "СИМПТОМ ПОКОЛАЧИВАНИЯ"
+            subtitleIllness3 = "СИМПТОМ ПОКОЛАЧИВАНИЯ",
+            parameterChange = false
         )
     }
 
@@ -44,6 +45,7 @@ fun InfoStatInspection(
     subtitleIllness: String,
     subtitleIllness2: String,
     subtitleIllness3: String,
+    parameterChange: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -76,12 +78,13 @@ fun InfoStatInspection(
             dropDownMenuWithFieldBackGround(
                 dataList = listOf(
                     "Option 1", "Option 2", "Option 3", "Option 4",
-                )
+                ),
+                enableStatus = parameterChange
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            FillTextFiled(stringResource(R.string.description))
+            FillTextFiled(stringResource(R.string.description), enableStatus = parameterChange)
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -95,7 +98,8 @@ fun InfoStatInspection(
             dropDownMenuWithFieldBackGround(
                 dataList = listOf(
                     "Option 1", "Option 2", "Option 3", "Option 4",
-                )
+                ),
+                enableStatus = parameterChange
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -111,7 +115,8 @@ fun InfoStatInspection(
             dropDownMenuWithFieldBackGround(
                 dataList = listOf(
                     "Option 1", "Option 2", "Option 3", "Option 4",
-                )
+                ),
+                enableStatus = parameterChange
             )
 
             Spacer(modifier = Modifier.height(48.dp))
@@ -125,7 +130,7 @@ fun InfoStatInspection(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = stringResource(R.string.completed_inspection_des),
+                text = stringResource(R.string.next_section),
                 style = MaterialTheme.typography.body2,
                 color = Gray30
             )
