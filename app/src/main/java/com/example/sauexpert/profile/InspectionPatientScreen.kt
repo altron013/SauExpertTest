@@ -5,13 +5,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -158,7 +157,7 @@ fun AnalysisInspectionsStatField(
 
 
             Icon(
-                imageVector = Icons.Filled.ArrowForward,
+                imageVector = Icons.Filled.KeyboardArrowRight,
                 contentDescription = "",
                 tint = Color.Black,
                 modifier = modifier.size(20.dp)
@@ -312,4 +311,35 @@ fun CircularProgressBar(
         )
 
     }
+}
+
+@Composable
+fun FillTextFiled(
+    textForHint: String
+) {
+    var textStateField by remember { mutableStateOf("") }
+
+    val colorOfTextField = TextFieldDefaults.textFieldColors(
+//                    textColor = Color.Gray,
+        disabledTextColor = Color.Transparent,
+        backgroundColor = Gray30.copy(alpha = 0.19f),
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+        disabledIndicatorColor = Color.Transparent
+    )
+
+
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth(),
+        value = textStateField,
+        onValueChange = {
+            textStateField = it
+        },
+        placeholder = {
+            Text(text = textForHint)
+        },
+        colors = colorOfTextField,
+        shape = RoundedCornerShape(8.dp)
+    )
 }

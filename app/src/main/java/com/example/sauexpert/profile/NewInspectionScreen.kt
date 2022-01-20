@@ -33,18 +33,6 @@ fun NewInspectionScreen() {
 fun FillInfoStatFiled(
     modifier: Modifier = Modifier
 ) {
-    var textStateOfComplaints by remember { mutableStateOf("") }
-    var textStateOfAnamneIllness by remember { mutableStateOf("") }
-    var textStateOfAnamneLife by remember { mutableStateOf("") }
-    val colorOfTextField = TextFieldDefaults.textFieldColors(
-//                    textColor = Color.Gray,
-        disabledTextColor = Color.Transparent,
-        backgroundColor = Gray30.copy(alpha = 0.19f),
-        focusedIndicatorColor = Color.Transparent,
-        unfocusedIndicatorColor = Color.Transparent,
-        disabledIndicatorColor = Color.Transparent
-    )
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -64,51 +52,15 @@ fun FillInfoStatFiled(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = textStateOfComplaints,
-                onValueChange = {
-                    textStateOfComplaints = it
-                },
-                placeholder = {
-                    Text(text = stringResource(R.string.complaints_patient))
-                },
-                colors = colorOfTextField,
-                shape = RoundedCornerShape(8.dp)
-            )
+            FillTextFiled(textForHint = stringResource(R.string.complaints_patient))
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = textStateOfAnamneIllness,
-                onValueChange = {
-                    textStateOfAnamneIllness = it
-                },
-                placeholder = {
-                    Text(text = stringResource(R.string.anamnesis_illness))
-                },
-                colors = colorOfTextField,
-                shape = RoundedCornerShape(8.dp)
-            )
+            FillTextFiled(textForHint = stringResource(R.string.anamnesis_illness))
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                value = textStateOfAnamneLife,
-                onValueChange = {
-                    textStateOfAnamneLife = it
-                },
-                placeholder = {
-                    Text(text = stringResource(R.string.anamnesis_of_life))
-                },
-                colors = colorOfTextField,
-                shape = RoundedCornerShape(8.dp)
-            )
+            FillTextFiled(textForHint = stringResource(R.string.anamnesis_of_life))
 
             Spacer(modifier = Modifier.height(16.dp))
 
