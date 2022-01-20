@@ -15,6 +15,7 @@ val GrayF0F=Color(0xF0F9F9F9)
 val Gray15 = Color(0xFFE5E5E6)
 val SuraceBlue = Color(0xFFF2F2F7)
 val SuraceF9= Color(0xFFF9F9F9)
+val Surace1F7= Color(0x1F767680)
 
 val Red435B=Color(0xFFFF435B)
 val Red4141=Color(0xFFFF4141)

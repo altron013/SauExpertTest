@@ -1,10 +1,13 @@
 package com.example.sauexpert.widgets.compose.buttons
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +26,7 @@ fun OutlinedMainButton(
     sizeText: Int = 16,
     height: Dp = 50.dp
 ) {
+    val selected = remember { mutableStateOf(false) }
     OutlinedButton(
         modifier = modifier
             .fillMaxWidth()
@@ -33,14 +37,20 @@ fun OutlinedMainButton(
 //            ),
                 ,
         enabled = enableState,
-        onClick = onClick,
+        onClick = {
+            selected.value = !selected.value
+                  },
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.onPrimary,
-            contentColor = Color.Red
+            contentColor =
+            if (selected.value) Color.Red else
+                Color.Gray
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = Color.Red
+            color =
+            if (selected.value) Color.Red else
+                Color.Gray
         ),
         shape = RoundedCornerShape(8.dp)
     ) {

@@ -3,46 +3,77 @@ package com.example.sauexpert
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.sauexpert.bracelet_indicator.BraceletIndicatorScreen
-import com.example.sauexpert.on_board_screen.OnBoardInfoScreen
-import com.example.sauexpert.profile.InspectionPatientScreen
-import com.example.sauexpert.profile.ModifyInspectionInfoScreen
-import com.example.sauexpert.profile.NewInspectionScreen
-import com.example.sauexpert.profile.ProfileScreen
-import com.example.sauexpert.signup_patient.CustomKeyboardOTPScreen
+import com.example.otp_example.OTPScreen
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 
-@ExperimentalPagerApi
 class MainActivity : ComponentActivity() {
-
-
+    @ExperimentalFoundationApi
+    @ExperimentalPagerApi
     @ExperimentalComposeUiApi
-    @ExperimentalAnimationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SauExpertTheme {
-//                GetAccessScreen()
-//                LandingScreen()
-//                RegisterOtp()
-//                CustomKeyboardOTPScreen()
-//                RegisterPatientScreen()
-//                RegisterPatientScreen2()
-//                RegisterDoctorScreen()
-//                LoginScreen()
-//                RegisterDoctorScreen()
-//                ProfileScreen()
-//                OnBoardInfoScreen()
-//                BraceletIndicatorScreen()
-//                InspectionPatientScreen()
-//                NewInspectionScreen()
-                ModifyInspectionInfoScreen()
+                // GetAccessScreen()
+                // LandingScreen()
+                //  RegisterOtp()
+                //OTPScreen()
+                //RegisterPatientScreen()
+                //RegisterPatientScreen2()
+                // RegisterDoctorScreen()
+                // LoginScreen()
+                // RegisterDoctorScreen()
+                //MyPatients()
+
+                val navController = rememberNavController()
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigationBar(
+                            items = listOf(
+                                BottomNavItem(
+                                    name = stringResource(id = R.string.home),
+                                    route = "home",
+                                    icon = painterResource(id = R.drawable.ic_home)
+                                ),
+                                BottomNavItem(
+                                    name = stringResource(id = R.string.my_patients),
+                                    route = "myPatients",
+                                    icon = painterResource(id = R.drawable.ic_patients),
+                                    badgeCount = 23
+                                ),
+                                BottomNavItem(
+                                    name = stringResource(id = R.string.messages),
+                                    route = "settings",
+                                    icon = painterResource(id = R.drawable.ic_mail)
+                                ),
+                                BottomNavItem(
+                                    name = stringResource(id = R.string.notifications),
+                                    route = "notification",
+                                    icon = painterResource(id = R.drawable.ic_notification)
+                                ),
+                                BottomNavItem(
+                                    name = stringResource(id = R.string.profile),
+                                    route = "profile",
+                                    icon = painterResource(id = R.drawable.ic_profile_squared)
+                                )
+                            ),
+                            navController = navController,
+                            onItemClick = {
+                                navController.navigate(it.route)
+                            }
+                        )
+                    }
+                ) {
+                    Navigation(navController = navController)
+                }
+                // MyPatients2()
+                //EmptyTabItem()
             }
         }
     }
