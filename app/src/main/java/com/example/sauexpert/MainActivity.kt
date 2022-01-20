@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.sauexpert.bracelet_indicator.BraceletIndicatorScreen
 import com.example.sauexpert.on_board_screen.OnBoardInfoScreen
 import com.example.sauexpert.profile.InspectionPatientScreen
+import com.example.sauexpert.profile.ModifyInspectionInfoScreen
 import com.example.sauexpert.profile.NewInspectionScreen
 import com.example.sauexpert.profile.ProfileScreen
 import com.example.sauexpert.signup_patient.CustomKeyboardOTPScreen
@@ -40,7 +41,8 @@ class MainActivity : ComponentActivity() {
 //                OnBoardInfoScreen()
 //                BraceletIndicatorScreen()
 //                InspectionPatientScreen()
-                NewInspectionScreen()
+//                NewInspectionScreen()
+                ModifyInspectionInfoScreen()
             }
         }
     }

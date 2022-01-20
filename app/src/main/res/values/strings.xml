@@ -73,10 +73,6 @@
      ранее они были высланы на Ваш Email.</string>
 
 
-
-
-
-
     <string name="info">Инфо</string>
     <string name="diagnosis">Диагноз</string>
     <string name="no_diagnosis">Нет диагноза</string>
@@ -144,13 +140,15 @@
     <string name="complaints_patient">Жалобы пациента</string>
     <string name="anamnesis_illness">Анамнез заболевания</string>
     <string name="anamnesis_of_life">Анамнез жизни</string>
-
+    <string name="description">Описание</string>
+    <string name="next_section">Следующий этап — анализы.</string>
+    <string name="completed_inspection_des">Вы завершите осмотр и перейдёте к добавлению анализов.</string>
 
 
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
 
 
 </resources>

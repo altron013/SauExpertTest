@@ -1,5 +1,7 @@
 package com.example.sauexpert.profile
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,11 +12,15 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
@@ -192,6 +198,117 @@ fun AnalysisInspectionsDateField(
         Text(
             text = "15 Февраля 2021",
             style = MaterialTheme.typography.subtitle1,
+        )
+
+    }
+}
+
+
+@Composable
+fun TopBarForInspectionScreen(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.ArrowBack,
+            contentDescription = "Back",
+            tint = Color.Black,
+            modifier = modifier
+                .clickable {
+                }
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = stringResource(R.string.general_inspection),
+            style = MaterialTheme.typography.h4,
+        )
+    }
+}
+
+@Composable
+fun profileForInspection(
+    userName: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(7.dp)
+            )
+    ) {
+        RoundImage(
+            image = painterResource(id = R.drawable.avatar),
+            modifier = Modifier
+                .size(55.dp).padding(12.dp)
+        )
+
+        Text(
+            text = userName,
+            style = MaterialTheme.typography.subtitle2,
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        CircularProgressBar(percentage = 0.4f, number = 100)
+        Spacer(modifier = Modifier.width(16.dp))
+    }
+
+}
+
+@Composable
+fun CircularProgressBar(
+    percentage: Float,
+    number: Int,
+    radius: Dp = 12.dp,
+    color: Color = Color.Green,
+    strokeWidth: Dp = 3.dp,
+    animDuration: Int = 1000,
+    animDelay: Int = 0
+) {
+    var animationPlayed by remember {
+        mutableStateOf(false)
+    }
+
+    val curPercentage = animateFloatAsState(
+        targetValue = if (animationPlayed) percentage else 0f,
+        animationSpec = tween(
+            durationMillis = animDuration,
+            delayMillis = animDelay
+        )
+    )
+
+    LaunchedEffect(key1 = true) {
+        animationPlayed = true
+    }
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.size(radius * 2f)
+    ) {
+        Canvas(modifier = Modifier.size(radius * 2f)) {
+            drawArc(
+                color = color,
+                -90f,
+                360 * curPercentage.value,
+                useCenter = false,
+                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+            )
+        }
+
+        Text(
+            text = (curPercentage.value * number).toInt().toString(),
+            style = MaterialTheme.typography.h5,
         )
 
     }
