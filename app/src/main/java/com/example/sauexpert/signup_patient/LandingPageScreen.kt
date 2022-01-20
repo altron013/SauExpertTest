@@ -19,8 +19,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.widgets.compose.MainButton
@@ -105,9 +107,15 @@ fun AuthToolbar(text: String) {
         )
         Text(
             text = text,
-            style = MaterialTheme.typography.h4,
+            fontSize = 34.sp,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 26.dp)
         )
+//        Text(
+//            text = text,
+//            style = MaterialTheme.typography.h4,
+//            modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 26.dp)
+//        )
         Box(
             Modifier
                 .fillMaxSize()
