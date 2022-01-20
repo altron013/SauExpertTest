@@ -5,6 +5,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -19,6 +21,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
@@ -381,22 +384,27 @@ fun OutlineTextFildWithDropdownMenu(
     Column() {
         OutlinedTextField(
             value = selectedText,
-//            enabled = false,
+            enabled = false,
             onValueChange = { selectedText = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .onGloballyPositioned { coordinates ->
                     textfieldSize = coordinates.size.toSize()
                 },
-            label = {},
-            shape = RoundedCornerShape(8.dp),
             trailingIcon = {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
                     modifier = Modifier
                         .clickable { expanded = !expanded })
-            }
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Transparent,
+                unfocusedBorderColor = Color.Transparent
+            ),
+            label = {},
+            shape = RoundedCornerShape(8.dp),
+            textStyle = TextStyle(color = Color.Black)
         )
         DropdownMenu(
             expanded = expanded,
@@ -416,7 +424,7 @@ fun OutlineTextFildWithDropdownMenu(
                     Text(
                         text = label,
                         style = MaterialTheme.typography.body1,
-//                        color = Color.Black
+//                        color = Color.Red
                     )
                 }
             }
