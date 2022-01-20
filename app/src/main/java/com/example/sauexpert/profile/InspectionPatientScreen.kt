@@ -7,20 +7,21 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
@@ -342,4 +343,83 @@ fun FillTextFiled(
         colors = colorOfTextField,
         shape = RoundedCornerShape(8.dp)
     )
+}
+
+
+@Composable
+fun dropDownMenuWithFieldBackGround(
+    dataList: List<String>
+) {
+    Box {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .padding(top = 8.dp)
+                .background(
+                    color = Gray30.copy(alpha = 0.19f),
+                    shape = RoundedCornerShape(4.dp)
+                )
+        )
+
+        OutlineTextFildWithDropdownMenu(suggestions = dataList)
+    }
+}
+
+@Composable
+fun OutlineTextFildWithDropdownMenu(
+    suggestions: List<String>
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedText by remember { mutableStateOf("") }
+    var textfieldSize by remember { mutableStateOf(Size.Zero) }
+
+    val icon = if (expanded)
+        Icons.Filled.ArrowDropUp
+    else
+        Icons.Filled.ArrowDropDown
+
+    Column() {
+        OutlinedTextField(
+            value = selectedText,
+//            enabled = false,
+            onValueChange = { selectedText = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    textfieldSize = coordinates.size.toSize()
+                },
+            label = {},
+            shape = RoundedCornerShape(8.dp),
+            trailingIcon = {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clickable { expanded = !expanded })
+            }
+        )
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .width(with(LocalDensity.current) {
+                    textfieldSize.width.toDp()
+                })
+        ) {
+            suggestions.forEach { label ->
+                DropdownMenuItem(
+                    onClick = {
+                        selectedText = label
+                        expanded = false
+                    }
+                ) {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.body1,
+//                        color = Color.Black
+                    )
+                }
+            }
+        }
+    }
 }

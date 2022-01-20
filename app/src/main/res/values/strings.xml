@@ -145,15 +145,10 @@
     <string name="completed_inspection_des">Вы завершите осмотр и перейдёте к добавлению анализов.</string>
 
 
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
     <string name="messages">Сообщения</string>
     <string name="notifications">Уведомления</string>
-    <string name="profile">Профиль</string>
 
     <string name="cancel">Отменить</string>
     <string name="a_z">А-Я</string>
