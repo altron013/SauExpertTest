@@ -18,8 +18,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.signup_patient.AuthItem
 import com.example.sauexpert.ui.theme.Gray15
@@ -54,22 +56,23 @@ fun RegisterDoctorScreen() {
     val infoCardList = listOf(
         InfoCardFields(
             painterResource(id = R.drawable.ic_heart_text_square_fill),
-            stringResource(id = R.string.medcard_online),
-            "Назначайте анализы, замеряйте показатели здоровья и заносите данные в медкарту пациента"
-        ),
+            stringResource(id = R.string.online_access_to_medical_data),
+            stringResource(id = R.string.save_record_look_medical)),
         InfoCardFields(
             painterResource(id = R.drawable.ic_staroflife_circle_fill),
             stringResource(
-                id = R.string.on_pulse
+                id = R.string.manage_the_treatment_process
             ),
-            ("Осматривайте пациентов у себя в офисе или на территории у партнёров")
+            stringResource(
+                id = R.string.prescribe_medications_tests_monitor_implementation
+            )
         ),
         InfoCardFields(
-            painterResource(id = R.drawable.ic_bandage_fill),
+            painterResource(id = R.drawable.ic_message_circle_fill),
             stringResource(
-                id = R.string.on_pulse
+                id = R.string.be_always_in_touch_with_your_patients
             ),
-            stringResource(id = R.string.always_be_aware_of_the_status___)
+            stringResource(id = R.string.keep_in_constant_contact_with_chat)
         )
     )
 
@@ -117,7 +120,8 @@ fun RegisterDoctorScreen() {
                             Text(
                                 text = stringResource(id = R.string.what_will_be_available_to_me),
                                 modifier = Modifier.padding(24.dp),
-                                style = MaterialTheme.typography.subtitle2
+                                style = MaterialTheme.typography.subtitle2,
+                                fontWeight = FontWeight.SemiBold
                             )
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
@@ -132,12 +136,14 @@ fun RegisterDoctorScreen() {
                                     Text(
                                         text = infoCardList[page].title,
                                         style = MaterialTheme.typography.subtitle2,
-                                        modifier = Modifier.padding(top = 20.dp)
+                                        modifier = Modifier.padding(top = 20.dp),
+                                        fontWeight = FontWeight.SemiBold
                                     )
-                                    Spacer(modifier = Modifier.padding(bottom = 8.dp))
+                                    Spacer(modifier = Modifier.padding(4.dp))
                                     Text(
                                         text = infoCardList[page].desc,
-                                        style = MaterialTheme.typography.body2
+                                        style = MaterialTheme.typography.body2,
+                                        fontSize = 13.sp
                                     )
                                 }
                             }
@@ -290,7 +296,7 @@ fun MessageCard(text: String) {
             .clickable { },
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_mail),
+            painter = painterResource(id = R.drawable.ic_message_box),
             tint = Color.Black,
             contentDescription = null,
             modifier = Modifier.weight(1f)
@@ -298,6 +304,7 @@ fun MessageCard(text: String) {
         Text(
             text = text,
             modifier = Modifier.weight(4f),
+            fontSize = 13.sp
             //style = MaterialTheme.typography.h5
         )
     }

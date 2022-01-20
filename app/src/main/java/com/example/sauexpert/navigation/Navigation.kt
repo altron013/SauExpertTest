@@ -12,8 +12,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,16 +19,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.otp_example.OTPScreen
 import com.example.sauexpert.auth.LoginScreen
 import com.example.sauexpert.home.HomeScreen
 import com.example.sauexpert.my_patients.MyPatients2
+import com.example.sauexpert.signup_doctor.RegisterDoctorScreen
 import com.example.sauexpert.signup_patient.GetAccessScreen
-import com.example.sauexpert.ui.theme.Gray15
+import com.example.sauexpert.signup_patient.RegisterPatientScreen2
 import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.well_bieng.GlucoseLevelScreen
 import com.example.sauexpert.well_bieng.WellBeingDescription
 import com.example.sauexpert.well_bieng.WellBeingScreen
+import com.google.accompanist.pager.ExperimentalPagerApi
 
 
 data class BottomNavItem(
@@ -40,6 +39,7 @@ data class BottomNavItem(
     val badgeCount: Int = 0
 )
 
+@ExperimentalPagerApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
@@ -48,20 +48,22 @@ data class BottomNavItem(
 fun Navigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            HomeScreen()
+           // HomeScreen()
+            LoginScreen()
         }
         composable("myPatients") {
-            MyPatients2()
+            //MyPatients2()
+            RegisterDoctorScreen()
         }
         composable("settings") {
             GetAccessScreen()
         }
         composable("notification") {
-            //WellBeingDescription()
-            GlucoseLevelScreen()
+            WellBeingDescription()
+           // GlucoseLevelScreen()
         }
         composable("profile") {
-           //LoginScreen()
+            //LoginScreen()
             WellBeingScreen()
         }
     }
@@ -78,7 +80,14 @@ fun BottomNavigationBar(
     onItemClick: (BottomNavItem) -> Unit
 ) {
     val backStackEntry = navController.currentBackStackEntryAsState()
-    BottomNavigation(modifier = Modifier.border(border = BorderStroke(width = 1.dp,Color.LightGray)), backgroundColor = GrayF0F) {
+    BottomNavigation(
+        modifier = Modifier.border(
+            border = BorderStroke(
+                width = 1.dp,
+                Color.LightGray
+            )
+        ), backgroundColor = GrayF0F
+    ) {
         items.forEach { item ->
             val selected = item.route == backStackEntry.value?.destination?.route
             BottomNavigationItem(
@@ -88,30 +97,31 @@ fun BottomNavigationBar(
                 unselectedContentColor = Color.Gray,
                 icon = {
                     Column(horizontalAlignment = CenterHorizontally) {
-                    if (item.badgeCount > 0) {
-                        BadgeBox(
-                            badgeContent = {
-                                Text(text = item.badgeCount.toString())
-                            },
-                            backgroundColor=Color.Red,
-                            contentColor=Color.White
-                        ){
+                        if (item.badgeCount > 0) {
+                            BadgeBox(
+                                badgeContent = {
+                                    Text(text = item.badgeCount.toString())
+                                },
+                                backgroundColor = Color.Red,
+                                contentColor = Color.White
+                            ) {
 
-                                Icon( item.icon,contentDescription = null)
+                                Icon(item.icon, contentDescription = null)
 //                                Text(text=item.name,
 //                                    textAlign = TextAlign.Center,
 //                                    fontSize = 10.sp)
 
+                            }
+                        } else {
+                            Icon(item.icon, contentDescription = null)
                         }
-                    }
-                    else {
-                        Icon( item.icon,contentDescription = null)
-                    }
 
-                        Text(text=item.name,
-                        textAlign = TextAlign.Center,
-                        fontSize = 10.sp)
-                }
+                        Text(
+                            text = item.name,
+                            textAlign = TextAlign.Center,
+                            fontSize = 10.sp
+                        )
+                    }
                 }
             )
 

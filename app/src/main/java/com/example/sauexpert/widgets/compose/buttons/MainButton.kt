@@ -54,7 +54,6 @@ fun MainButton(
 
 
 @Composable
-
 fun MainButtonM(
     text: String,
     onClick: () -> Unit,
@@ -72,7 +71,7 @@ fun MainButtonM(
 fun MainButtonS(
     text: String,
     onClick: () -> Unit,
-    enableState: Boolean,
+    enableState: Boolean
 ) {
     MainButton(
         modifier=Modifier.wrapContentSize(),

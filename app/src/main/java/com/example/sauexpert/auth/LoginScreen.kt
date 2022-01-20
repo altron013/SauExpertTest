@@ -170,7 +170,7 @@ fun LoginScreen() {
                         color = Red435B
                     )
                 }
-                Spacer(modifier = Modifier.size(80.dp))
+                Spacer(modifier = Modifier.size(180.dp))
             }
         }
     }

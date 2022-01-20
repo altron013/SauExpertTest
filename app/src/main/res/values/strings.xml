@@ -95,5 +95,22 @@
     <string name="before_food">До еды</string>
     <string name="after_food">После еды</string>
 
+    <string name="very_bad">Очень плохо</string>
+    <string name="bad">Плохо</string>
+    <string name="normal">Нормально</string>
+    <string name="good">Хорошо</string>
+    <string name="very_good">Отлично</string>
+
+    <string name="well_being">Самочувствие</string>
+
+    <string name="online_access_to_medical_data">Онлайн доступ к медицинским данным</string>
+    <string name="save_record_look_medical">Храните, записывайте и просматривайте медицинские записи пациентов с Вашего смартфона</string>
+
+    <string name="be_always_in_touch_with_your_patients">Будьте всегда на связи с Вашими пациентами</string>
+    <string name="keep_in_constant_contact_with_chat">Поддерживайте постоянный контакт с помощью чата.</string>
+
+    <string name="manage_the_treatment_process">Управляйте процессом лечения</string>
+    <string name="prescribe_medications_tests_monitor_implementation">Назначайте медикаменты и анализы, контролируйте выполнение рекомендаций, отслеживайте показатели пациентов.</string>
+
 
 </resources>
