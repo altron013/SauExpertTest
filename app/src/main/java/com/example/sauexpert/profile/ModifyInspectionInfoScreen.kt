@@ -3,7 +3,9 @@ package com.example.sauexpert.profile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -12,6 +14,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -24,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
 fun ModifyInspectionInfoScreen() {
@@ -39,7 +43,9 @@ fun ModifyInspectionInfoScreen() {
 //        FillInfoStatFiled()
         InfoStatInspectionChange(
             titleIllness = "Мочевыделительная система",
-            subtitleIllness = "МОЧЕИСПУСКАНИЕ"
+            subtitleIllness = "МОЧЕИСПУСКАНИЕ",
+            subtitleIllness2 = "НЕДЕРЖАНИЕ МОЧИ",
+            subtitleIllness3 = "СИМПТОМ ПОКОЛАЧИВАНИЯ"
         )
     }
 
@@ -50,11 +56,14 @@ fun ModifyInspectionInfoScreen() {
 fun InfoStatInspectionChange(
     titleIllness: String,
     subtitleIllness: String,
+    subtitleIllness2: String,
+    subtitleIllness3: String,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(
                 color = Color.White
             )
@@ -76,19 +85,66 @@ fun InfoStatInspectionChange(
                 style = MaterialTheme.typography.body2
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             dropDownMenu(
                 suggestions = listOf(
                     "Option 1", "Option 2", "Option 3", "Option 4",
                 )
             )
-            Spacer(modifier = Modifier.height(20.dp))
-//            DropDownMenuForText()
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             FillTextFiled(stringResource(R.string.description))
+
             Spacer(modifier = Modifier.height(20.dp))
-            FillTextFiled(stringResource(R.string.deep_sleep))
+
+            Text(
+                text = subtitleIllness2,
+                style = MaterialTheme.typography.body2
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            dropDownMenu(
+                suggestions = listOf(
+                    "Option 1", "Option 2", "Option 3", "Option 4",
+                )
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+
+            Text(
+                text = subtitleIllness3,
+                style = MaterialTheme.typography.body2
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            dropDownMenu(
+                suggestions = listOf(
+                    "Option 1", "Option 2", "Option 3", "Option 4",
+                )
+            )
+
+            Spacer(modifier = Modifier.height(48.dp))
+
+            MainButton(
+                text = stringResource(id = R.string.next),
+                onClick = { /*TODO*/ },
+                enableState = true,
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = stringResource(R.string.completed_inspection_des),
+                style = MaterialTheme.typography.body2,
+                color = Gray30
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
 
         }
     }
@@ -96,7 +152,7 @@ fun InfoStatInspectionChange(
 }
 
 @Composable
-fun dropDownMenu(
+fun dropDownMenuWithFieldBackGround(
     suggestions: List<String>
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -107,6 +163,20 @@ fun dropDownMenu(
         Icons.Filled.ArrowDropUp
     else
         Icons.Filled.ArrowDropDown
+
+    Box {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .padding(top = 8.dp)
+                .background(
+                    color = Gray30.copy(alpha = 0.19f),
+                    shape = RoundedCornerShape(4.dp)
+                )
+        )
+
+
+    }
 
     Column() {
         OutlinedTextField(
@@ -120,6 +190,7 @@ fun dropDownMenu(
                     textfieldSize = coordinates.size.toSize()
                 },
             label = {},
+            shape = RoundedCornerShape(8.dp),
             trailingIcon = {
                 Icon(
                     imageVector = icon,
@@ -152,8 +223,12 @@ fun dropDownMenu(
             }
         }
     }
+
+
 }
 
+@Composable
+fun O
 
 
 
