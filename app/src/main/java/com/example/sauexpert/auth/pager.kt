@@ -54,9 +54,7 @@ internal fun PagerSampleItem(
             shape = RoundedCornerShape(12.dp),
             backgroundColor = SuraceBlue
         )
-        {
-
-        }
+        {}
     }
 }
 
@@ -72,10 +70,8 @@ fun HorizontalPagerIndicator1(
     spacing: Dp = indicatorWidth,
     indicatorShape: Shape = CircleShape,
 ) {
-
     val indicatorWidthPx = LocalDensity.current.run { indicatorWidth.roundToPx() }
     val spacingPx = LocalDensity.current.run { spacing.roundToPx() }
-
     Box(
         modifier = modifier,
         contentAlignment = Alignment.CenterStart
@@ -92,7 +88,6 @@ fun HorizontalPagerIndicator1(
                 Box(indicatorModifier)
             }
         }
-
         Box(
             Modifier
                 .offset {

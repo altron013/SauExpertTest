@@ -1,7 +1,6 @@
 package com.example.sauexpert.widgets.compose.buttons
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -20,11 +19,17 @@ import androidx.compose.ui.unit.sp
 fun OutlinedMainButton(
     modifier: Modifier = Modifier,
     text: String,
-    icon: Int? =null,
+    icon: Int? = null,
     onClick: () -> Unit,
     enableState: Boolean,
     sizeText: Int = 16,
-    height: Dp = 50.dp
+    height: Dp = 50.dp,
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        backgroundColor = MaterialTheme.colors.onPrimary,
+        contentColor =
+        //if (selected.value) Color.Red else
+        Color.Gray
+    ),
 ) {
     val selected = remember { mutableStateOf(false) }
     OutlinedButton(
@@ -35,22 +40,18 @@ fun OutlinedMainButton(
 //                left = 12.dp,
 //                right = 12.dp
 //            ),
-                ,
+        ,
+        onClick = onClick,
         enabled = enableState,
-        onClick = {
-            selected.value = !selected.value
-                  },
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = MaterialTheme.colors.onPrimary,
-            contentColor =
-            if (selected.value) Color.Red else
-                Color.Gray
-        ),
+//        onClick = {
+//            selected.value = !selected.value
+//                  },
+        colors = colors,
         border = BorderStroke(
             width = 1.dp,
             color =
-            if (selected.value) Color.Red else
-                Color.Gray
+            // if (selected.value) Color.Red else
+            Color.Gray
         ),
         shape = RoundedCornerShape(8.dp)
     ) {

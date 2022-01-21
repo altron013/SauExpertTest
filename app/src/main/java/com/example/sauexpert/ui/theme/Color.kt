@@ -21,3 +21,4 @@ val Red435B=Color(0xFFFF435B)
 val Red4141=Color(0xFFFF4141)
 
 val Green34C759=Color(0xFF34C759)
+val Green57C3A7=Color(0xFF57C3A7)

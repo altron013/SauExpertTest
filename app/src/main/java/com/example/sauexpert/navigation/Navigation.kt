@@ -20,15 +20,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sauexpert.auth.LoginScreen
-import com.example.sauexpert.home.HomeScreen
 import com.example.sauexpert.my_patients.MyPatients2
 import com.example.sauexpert.signup_doctor.RegisterDoctorScreen
 import com.example.sauexpert.signup_patient.GetAccessScreen
-import com.example.sauexpert.signup_patient.RegisterPatientScreen2
 import com.example.sauexpert.ui.theme.GrayF0F
-import com.example.sauexpert.well_bieng.GlucoseLevelScreen
-import com.example.sauexpert.well_bieng.WellBeingDescription
-import com.example.sauexpert.well_bieng.WellBeingScreen
+import com.example.sauexpert.well_being.GlucoseLevelScreen
+import com.example.sauexpert.well_being.WellBeingDescription
+import com.example.sauexpert.well_being.WellBeingScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 
@@ -52,11 +50,11 @@ fun Navigation(navController: NavHostController) {
             LoginScreen()
         }
         composable("myPatients") {
-            //MyPatients2()
-            RegisterDoctorScreen()
+            MyPatients2()
+           // RegisterDoctorScreen()
         }
         composable("settings") {
-            GetAccessScreen()
+            GlucoseLevelScreen()
         }
         composable("notification") {
             WellBeingDescription()
