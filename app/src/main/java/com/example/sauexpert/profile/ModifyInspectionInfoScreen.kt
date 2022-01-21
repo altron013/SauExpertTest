@@ -26,24 +26,28 @@ fun ModifyInspectionInfoScreen() {
         Spacer(modifier = Modifier.height(20.dp))
         profileForInspection(userName = "user")
         Spacer(modifier = Modifier.height(32.dp))
-//        FillInfoStatFiled()
-        InfoStatInspectionChange(
+        InfoStatInspectionSection(
             titleIllness = "Мочевыделительная система",
             subtitleIllness = "МОЧЕИСПУСКАНИЕ",
             subtitleIllness2 = "НЕДЕРЖАНИЕ МОЧИ",
-            subtitleIllness3 = "СИМПТОМ ПОКОЛАЧИВАНИЯ"
+            subtitleIllness3 = "СИМПТОМ ПОКОЛАЧИВАНИЯ",
+            bottomText = stringResource(R.string.completed_inspection_des),
         )
     }
 
 }
 
 
+
+
 @Composable
-fun InfoStatInspectionChange(
+fun InfoStatInspectionSection(
     titleIllness: String,
     subtitleIllness: String,
     subtitleIllness2: String,
     subtitleIllness3: String,
+    bottomText: String,
+    parameterChange: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -76,12 +80,13 @@ fun InfoStatInspectionChange(
             dropDownMenuWithFieldBackGround(
                 dataList = listOf(
                     "Option 1", "Option 2", "Option 3", "Option 4",
-                )
+                ),
+                enableStatus = parameterChange
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            FillTextFiled(stringResource(R.string.description))
+            FillTextFiled(stringResource(R.string.description), enableStatus = parameterChange)
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -95,7 +100,8 @@ fun InfoStatInspectionChange(
             dropDownMenuWithFieldBackGround(
                 dataList = listOf(
                     "Option 1", "Option 2", "Option 3", "Option 4",
-                )
+                ),
+                enableStatus = parameterChange
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -111,13 +117,14 @@ fun InfoStatInspectionChange(
             dropDownMenuWithFieldBackGround(
                 dataList = listOf(
                     "Option 1", "Option 2", "Option 3", "Option 4",
-                )
+                ),
+                enableStatus = parameterChange
             )
 
             Spacer(modifier = Modifier.height(48.dp))
 
             MainButton(
-                text = stringResource(id = R.string.next),
+                text = stringResource(id = R.string.proceed),
                 onClick = { /*TODO*/ },
                 enableState = true,
             )
@@ -125,7 +132,7 @@ fun InfoStatInspectionChange(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = stringResource(R.string.completed_inspection_des),
+                text = bottomText,
                 style = MaterialTheme.typography.body2,
                 color = Gray30
             )
@@ -135,3 +142,4 @@ fun InfoStatInspectionChange(
         }
     }
 }
+

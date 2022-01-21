@@ -26,25 +26,25 @@ fun ViewInspectionInfoScreen() {
         Spacer(modifier = Modifier.height(20.dp))
         profileForInspection(userName = "user")
         Spacer(modifier = Modifier.height(32.dp))
-//        FillInfoStatFiled()
-        InfoStatInspection(
+        InfoStatInspectionSectionForView(
             titleIllness = "Мочевыделительная система",
             subtitleIllness = "МОЧЕИСПУСКАНИЕ",
             subtitleIllness2 = "НЕДЕРЖАНИЕ МОЧИ",
             subtitleIllness3 = "СИМПТОМ ПОКОЛАЧИВАНИЯ",
+            bottomText = stringResource(R.string.next_section),
             parameterChange = false
         )
     }
 
 }
 
-
 @Composable
-fun InfoStatInspection(
+fun InfoStatInspectionSectionForView(
     titleIllness: String,
     subtitleIllness: String,
     subtitleIllness2: String,
     subtitleIllness3: String,
+    bottomText: String,
     parameterChange: Boolean = true,
     modifier: Modifier = Modifier
 ) {
@@ -122,7 +122,7 @@ fun InfoStatInspection(
             Spacer(modifier = Modifier.height(48.dp))
 
             MainButton(
-                text = stringResource(id = R.string.next),
+                text = stringResource(id = R.string.proceed),
                 onClick = { /*TODO*/ },
                 enableState = true,
             )
@@ -130,7 +130,7 @@ fun InfoStatInspection(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = stringResource(R.string.next_section),
+                text = bottomText,
                 style = MaterialTheme.typography.body2,
                 color = Gray30
             )
