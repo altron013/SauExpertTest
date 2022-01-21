@@ -60,7 +60,7 @@ fun PressureStatwithBarChart(
             .fillMaxWidth()
             .background(
                 color = Color.White,
-                shape = RoundedCornerShape(7.dp)
+                shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
         PressureStat()
@@ -304,7 +304,7 @@ fun AnalysisPressureStat(modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .background(
                 color = Color.White,
-                shape = RoundedCornerShape(7.dp)
+                shape = RoundedCornerShape(10.dp)
             )
     ) {
         AnalysisStatFieldWithIconAtEnd(

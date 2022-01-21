@@ -48,7 +48,7 @@ fun SleepScreen() {
                 .fillMaxWidth()
                 .background(
                     color = Color.White,
-                    shape = RoundedCornerShape(7.dp)
+                    shape = RoundedCornerShape(10.dp)
                 )
                 .padding(16.dp)
         ) {
@@ -244,7 +244,7 @@ fun BarChartForSleep(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                (wight + 6).dp.toPx(),
+                (wight + 15).dp.toPx(),
                 (height - 14).dp.toPx(),
                 paint
             )
