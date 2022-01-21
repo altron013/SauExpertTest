@@ -359,10 +359,12 @@ fun CircularProgressBar(
 @Composable
 fun FillTextFiled(
     textForHint: String,
-    enableStatus: Boolean = true
+    enableStatus: Boolean = true,
+    textState: String,
+    onTextChange: (String) -> Unit
 
 ) {
-    var textStateField by remember { mutableStateOf("") }
+//    var textStateField by remember { mutableStateOf(textStateField) }
 
     val colorOfTextField = TextFieldDefaults.textFieldColors(
 //                    textColor = Color.Gray,
@@ -379,10 +381,8 @@ fun FillTextFiled(
             .fillMaxWidth()
             .height(height = 55.dp),
         enabled = enableStatus,
-        value = textStateField,
-        onValueChange = {
-            textStateField = it
-        },
+        value = textState,
+        onValueChange = onTextChange,
         placeholder = {
             Text(
                 text = textForHint,

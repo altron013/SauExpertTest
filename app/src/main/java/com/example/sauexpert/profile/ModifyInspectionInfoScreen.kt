@@ -6,7 +6,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -50,6 +51,8 @@ fun InfoStatInspectionSection(
     parameterChange: Boolean = true,
     modifier: Modifier = Modifier
 ) {
+    var textDescriptionField by rememberSaveable { mutableStateOf("") }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -86,7 +89,12 @@ fun InfoStatInspectionSection(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            FillTextFiled(stringResource(R.string.description), enableStatus = parameterChange)
+            FillTextFiled(stringResource(R.string.description),
+                enableStatus = parameterChange,
+                textState = textDescriptionField,
+                onTextChange = { textDescriptionField = it }
+
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
