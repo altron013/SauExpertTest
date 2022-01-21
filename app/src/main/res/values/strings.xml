@@ -73,10 +73,6 @@
      ранее они были высланы на Ваш Email.</string>
 
 
-
-
-
-
     <string name="info">Инфо</string>
     <string name="diagnosis">Диагноз</string>
     <string name="no_diagnosis">Нет диагноза</string>
@@ -98,16 +94,61 @@
     <string name="inspections_description">Осматривайте пациентов у себя или в офисе клиента</string>
     <string name="install_password_code">Установите код быстрого доступа</string>
     <string name="install_password_code_description">С помощью него Вы можете заходить в Sau Expert 24</string>
+    <string name="last_day_of_check_up">ДАТА ОСМОТРА</string>
+    <string name="last_doctor_who_inspect">ОСМАТРИВАЛ В ПОСЛЕДНИЙ РАЗ:</string>
+    <string name="profile">Профиль</string>
+    <string name="monthly_report">Отчёт за месяц</string>
+    <string name="treatment_history">История лечения</string>
+    <string name="bracelet">Браслет</string>
+    <string name="sleep">Сон</string>
+    <string name="sp02">Sp02</string>
+    <string name="hrv">HRV</string>
+    <string name="pressure">Давление</string>
+    <string name="pulse">Пульс</string>
+    <string name="range_customize">Настроить диапазон</string>
+    <string name="deep_sleep">Глубокий сон</string>
+    <string name="light_sleep">Легкий сон</string>
+    <string name="woke_up_in_middle">Просыпался среди ночи</string>
+    <string name="sleep_duration">ПРОДОЛЖИТЕЛЬНОСТЬ СНА</string>
+    <string name="oxygen_level">УРОВЕНЬ КИСЛОРОДА В КРОВИ</string>
+    <string name="sleep_apnea">Апноэ</string>
+    <string name="soas_analysis">Анализ СОАС</string>
+    <string name="sleep_apnea_case">Случаи апноэ</string>
+    <string name="hypopnea_case">Случаи гипопноэ</string>
+    <string name="sp02_average">SpO2 (в среднем)</string>
+    <string name="breathing_rate">Частота дыхания (вдохов/мин)</string>
+    <string name="hypoxia_case">Гипоксия (случаев)</string>
+    <string name="cardiac_pressure">Сердечная нагрузка</string>
+    <string name="more_detail">Подробнее</string>
+    <string name="severe_degree">Тяжелая степень (15-29)</string>
+    <string name="soas_description">Синдром обструктивного апноэ сна (СОАС) – распространенная патология, связанная с резким уменьшением или полной остановкой дыхания во время ночного отдыха.</string>
+    <string name="understand">Понятно</string>
+    <string name="highest_value">Наивысшее значение</string>
+    <string name="lowest_value">Наименьшее значение</string>
+    <string name="average_value">Среднее значение</string>
+    <string name="last_value">Последнее значение</string>
+    <string name="milliseconds_average">мс в среднем</string>
+    <string name="mmhg_average">мм.рт.ст в среднем</string>
+    <string name="pulse_in_minute_average">ударов в минуту в среднем</string>
+    <string name="previous_inspections">ПРЕДЫДУЩИЕ ОСМОТРЫ</string>
+    <string name="conducted_inspection">Провёл осмотр</string>
+    <string name="date_of_inspections">Дата общего осмотра</string>
+    <string name="supply_detail">Дополнить данные</string>
+    <string name="new_inspections">Новый общий осмотр</string>
+    <string name="general_inspection">Общий осмотр</string>
+    <string name="fill_patient_detail">Заполните данные пациента</string>
+    <string name="complaints_patient">Жалобы пациента</string>
+    <string name="anamnesis_illness">Анамнез заболевания</string>
+    <string name="anamnesis_of_life">Анамнез жизни</string>
+    <string name="description">Описание</string>
+    <string name="next_section">Следующий этап — анализы.</string>
+    <string name="completed_inspection_des">Вы завершите осмотр и перейдёте к добавлению анализов.</string>
 
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
-<!--    <string name="medcard_online">Медкарта онлайн</string>-->
+
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
     <string name="messages">Сообщения</string>
     <string name="notifications">Уведомления</string>
-    <string name="profile">Профиль</string>
 
     <string name="cancel">Отменить</string>
     <string name="a_z">А-Я</string>
@@ -142,6 +183,10 @@
 
     <string name="manage_the_treatment_process">Управляйте процессом лечения</string>
     <string name="prescribe_medications_tests_monitor_implementation">Назначайте медикаменты и анализы, контролируйте выполнение рекомендаций, отслеживайте показатели пациентов.</string>
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
 
 
 </resources>

@@ -35,7 +35,7 @@ fun SauExpertTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
     }
     MaterialTheme(
         colors = colors,
-        typography =appTypography,
+        typography = SauExpertTypography,
         shapes = Shapes,
         content = content
     )
