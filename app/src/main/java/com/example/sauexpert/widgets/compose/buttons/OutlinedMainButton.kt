@@ -30,6 +30,7 @@ fun OutlinedMainButton(
         //if (selected.value) Color.Red else
         Color.Gray
     ),
+    textColor: Color = Color.Gray
 ) {
     val selected = remember { mutableStateOf(false) }
     OutlinedButton(
@@ -51,7 +52,7 @@ fun OutlinedMainButton(
             width = 1.dp,
             color =
             // if (selected.value) Color.Red else
-            Color.Gray
+            textColor
         ),
         shape = RoundedCornerShape(8.dp)
     ) {

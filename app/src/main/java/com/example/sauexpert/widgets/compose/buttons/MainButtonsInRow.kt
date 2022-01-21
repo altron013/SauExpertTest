@@ -1,11 +1,15 @@
 package com.example.sauexpert.widgets.compose.buttons
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.sauexpert.ui.theme.Green57C3A7
 import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
@@ -29,9 +33,12 @@ fun MainButtonsInRow(
             onClick = onClickForOutlineBtn,
             enableState = enableStateForOutlineBtn,
             modifier = Modifier
-                .weight(0.4f)
-                .padding(start = 10.dp)
-
+                .weight(0.4f),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.onPrimary,
+                contentColor = Color.Red,
+            ),
+            textColor = Color.Red
         )
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -42,8 +49,6 @@ fun MainButtonsInRow(
             enableState = enableStateForMainBtn,
             modifier = Modifier
                 .weight(0.6f)
-                .padding(end = 10.dp)
-
         )
     }
 }
