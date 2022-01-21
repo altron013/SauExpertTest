@@ -30,16 +30,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SauExpertTheme {
-                // GetAccessScreen()
-                // LandingScreen()
-                //  RegisterOtp()
-                //OTPScreen()
-                //RegisterPatientScreen()
-                //RegisterPatientScreen2()
-                // RegisterDoctorScreen()
-                // LoginScreen()
-                // RegisterDoctorScreen()
-                //MyPatients()
 
                 val navController = rememberNavController()
                 Scaffold(
@@ -82,8 +72,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Navigation(navController = navController)
                 }
-                // MyPatients2()
-                //EmptyTabItem()
+
             }
         }
     }
