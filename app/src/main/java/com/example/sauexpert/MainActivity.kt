@@ -3,16 +3,29 @@ package com.example.sauexpert
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.otp_example.OTPScreen
+import androidx.navigation.compose.rememberNavController
+import com.example.sauexpert.navigation.BottomNavItem
+import com.example.sauexpert.navigation.BottomNavigationBar
+import com.example.sauexpert.navigation.Navigation
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 class MainActivity : ComponentActivity() {
+    @ExperimentalAnimationApi
+    @ExperimentalMaterialApi
     @ExperimentalFoundationApi
     @ExperimentalPagerApi
     @ExperimentalComposeUiApi
@@ -70,7 +83,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 ) {
-                    Navigation(navController = navController)
+                    Box( modifier = Modifier.padding(it)) {
+                        Navigation(navController = navController)
+                    }
                 }
                 // MyPatients2()
                 //EmptyTabItem()
