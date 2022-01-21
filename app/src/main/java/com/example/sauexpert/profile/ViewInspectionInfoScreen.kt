@@ -24,7 +24,7 @@ fun ViewInspectionInfoScreen() {
     ) {
         TopBarForInspectionScreen()
         Spacer(modifier = Modifier.height(20.dp))
-        profileForInspection(userName = "user")
+        profileForInspection(userName = "user", percentage = 0.4f)
         Spacer(modifier = Modifier.height(32.dp))
         InfoStatInspectionSectionForView(
             titleIllness = "Мочевыделительная система",

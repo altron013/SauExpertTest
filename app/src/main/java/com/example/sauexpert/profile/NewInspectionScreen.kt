@@ -22,7 +22,7 @@ fun NewInspectionScreen() {
     ) {
         TopBarForInspectionScreen()
         Spacer(modifier = Modifier.height(20.dp))
-        profileForInspection("user")
+        profileForInspection(userName = "user", percentage = 0.4f, showPercentage = true)
         Spacer(modifier = Modifier.height(32.dp))
         FillInfoStatFiled()
     }

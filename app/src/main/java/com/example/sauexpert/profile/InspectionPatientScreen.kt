@@ -252,36 +252,51 @@ fun TopBarForInspectionScreen(
 @Composable
 fun profileForInspection(
     userName: String,
+    percentage: Float,
+    showPercentage: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .background(
                 color = Color.White,
-                shape = RoundedCornerShape(7.dp)
+                shape = RoundedCornerShape(10.dp)
             )
     ) {
-        RoundImage(
-            image = painterResource(id = R.drawable.avatar),
-            modifier = Modifier
-                .size(55.dp).padding(12.dp)
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 11.dp
+                )
+        ) {
+            RoundImage(
+                image = painterResource(id = R.drawable.avatar),
+                modifier = Modifier
+                    .size(32.dp)
+            )
 
-        Text(
-            text = userName,
-            style = MaterialTheme.typography.subtitle2,
-        )
+            Spacer(modifier = Modifier.width(8.dp))
 
-        Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = userName,
+                style = MaterialTheme.typography.subtitle2,
+            )
 
-        CircularProgressBar(percentage = 0.4f, number = 100)
-        Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.weight(1f))
+
+            CircularProgressBar(
+                percentage = percentage,
+                number = 100,
+                showPercentage = showPercentage
+            )
+        }
     }
-
 }
 
 @Composable
