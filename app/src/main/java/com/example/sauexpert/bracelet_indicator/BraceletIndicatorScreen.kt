@@ -80,7 +80,7 @@ fun BraceletIndicatorScreen() {
                     text = stringResource(id = R.string.range_customize),
                     onClick = { /*TODO*/ },
                     enableState = true,
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxWidth()
                         .align(Alignment.BottomCenter)
                 )
             }
@@ -94,7 +94,7 @@ fun BraceletIndicatorScreen() {
                     text = stringResource(id = R.string.range_customize),
                     onClick = { /*TODO*/ },
                     enableState = true,
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxWidth()
                         .align(Alignment.BottomCenter)
                 )
 

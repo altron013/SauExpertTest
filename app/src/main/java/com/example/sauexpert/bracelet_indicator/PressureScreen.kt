@@ -68,12 +68,12 @@ fun PressureStatwithBarChart(
         BarChartForPressure(
             PressureData = listOf(
                 PressureData(positionOnX = 10f, pressureInAverage = 200f, dateName = "16.12"),
-                PressureData(positionOnX = 120f, pressureInAverage = 370f, dateName = "17.12"),
-                PressureData(positionOnX = 230f, pressureInAverage = 190f, dateName = "18.12"),
-                PressureData(positionOnX = 340f, pressureInAverage = 180f, dateName = "19.12"),
-                PressureData(positionOnX = 450f, pressureInAverage = 220f, dateName = "20.12"),
-                PressureData(positionOnX = 560f, pressureInAverage = 240f, dateName = "21.12"),
-                PressureData(positionOnX = 670f, pressureInAverage = 30f, dateName = "22.12")
+                PressureData(positionOnX = 105f, pressureInAverage = 370f, dateName = "17.12"),
+                PressureData(positionOnX = 200f, pressureInAverage = 190f, dateName = "18.12"),
+                PressureData(positionOnX = 295f, pressureInAverage = 180f, dateName = "19.12"),
+                PressureData(positionOnX = 390f, pressureInAverage = 220f, dateName = "20.12"),
+                PressureData(positionOnX = 485f, pressureInAverage = 240f, dateName = "21.12"),
+                PressureData(positionOnX = 580f, pressureInAverage = 30f, dateName = "22.12")
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("240"),
@@ -119,8 +119,8 @@ fun PressureStat(
 
         Text(
             text = "18-20 ноября 2021",
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
             color = Gray30
         )
     }
@@ -173,19 +173,16 @@ fun BarChartForPressure(
             }
     ) {
         var height = 0
+        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
             color = Gray30.toArgb()
         }
 
-
-
-
-
         for (i in ListNumberData) {
             drawLine(
-                start = Offset(x = 10f, y = height.dp.toPx()),
+                start = Offset(x = 0f, y = height.dp.toPx()),
                 end = Offset(x = 780f, y = height.dp.toPx()),
                 color = Gray30,
                 strokeWidth = 2f
@@ -201,19 +198,20 @@ fun BarChartForPressure(
             height += 35
         }
 
-        drawLine(
-            start = Offset(10f, (height - 35).dp.toPx()),
-            end = Offset(10f, 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
         start = true
         for (p in PressureData) {
+            drawLine(
+                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
+                end = Offset(wight.dp.toPx(), 0f),
+                color = Gray30,
+                strokeWidth = 2f
+            )
+
+
             drawRect(
                 color = p.colorFocus,
                 topLeft = Offset(
-                    x = p.positionOnX + 20,
+                    x = p.positionOnX,
                     y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.pressureInAverage) * heightPre
                 ),
                 size = Size(
@@ -224,17 +222,27 @@ fun BarChartForPressure(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 55,
+                p.positionOnX + 38,
                 (height - 15).dp.toPx(),
                 paint
             )
+            wight += 36
+
         }
+
+        drawLine(
+            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
+            end = Offset(wight.dp.toPx(), 0f),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
     }
 }
 
 private fun identifyClickItemForPressure(dataList: List<PressureData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX + 20 && x < dataList.positionOnX + 80 && y > dataList.pressureInAverage) {
+        if (x > dataList.positionOnX && x < dataList.positionOnX + 70 && y > dataList.pressureInAverage) {
             return index
         }
     }

@@ -68,12 +68,12 @@ fun PulseStatwithBarChart(
         BarChartForPulse(
             PulseData = listOf(
                 PulseData(positionOnX = 10f, pulseInMinuteAverage = 200f, dateName = "16.12"),
-                PulseData(positionOnX = 120f, pulseInMinuteAverage = 370f, dateName = "17.12"),
-                PulseData(positionOnX = 230f, pulseInMinuteAverage = 190f, dateName = "18.12"),
-                PulseData(positionOnX = 340f, pulseInMinuteAverage = 180f, dateName = "19.12"),
-                PulseData(positionOnX = 450f, pulseInMinuteAverage = 220f, dateName = "20.12"),
-                PulseData(positionOnX = 560f, pulseInMinuteAverage = 240f, dateName = "21.12"),
-                PulseData(positionOnX = 670f, pulseInMinuteAverage = 30f, dateName = "22.12")
+                PulseData(positionOnX = 105f, pulseInMinuteAverage = 370f, dateName = "17.12"),
+                PulseData(positionOnX = 200f, pulseInMinuteAverage = 190f, dateName = "18.12"),
+                PulseData(positionOnX = 295f, pulseInMinuteAverage = 180f, dateName = "19.12"),
+                PulseData(positionOnX = 390f, pulseInMinuteAverage = 220f, dateName = "20.12"),
+                PulseData(positionOnX = 485f, pulseInMinuteAverage = 240f, dateName = "21.12"),
+                PulseData(positionOnX = 580f, pulseInMinuteAverage = 30f, dateName = "22.12")
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("280"),
@@ -121,8 +121,8 @@ fun PulseStat(
 
         Text(
             text = "18-20 ноября 2021",
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
             color = Gray30
         )
     }
@@ -175,6 +175,7 @@ fun BarChartForPulse(
             }
     ) {
         var height = 0
+        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -200,19 +201,19 @@ fun BarChartForPulse(
             height += 34
         }
 
-        drawLine(
-            start = Offset(10f, (height - 34).dp.toPx()),
-            end = Offset(10f, 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
         start = true
         for (p in PulseData) {
+            drawLine(
+                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
+                end = Offset(wight.dp.toPx(), 0f),
+                color = Gray30,
+                strokeWidth = 2f
+            )
+
             drawRect(
                 color = p.colorFocus,
                 topLeft = Offset(
-                    x = p.positionOnX + 20,
+                    x = p.positionOnX,
                     y = (height - 34).dp.toPx() - ((height - 34).dp.toPx()
                             - p.pulseInMinuteAverage) * heightPre
                 ),
@@ -224,17 +225,28 @@ fun BarChartForPulse(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 55,
+                p.positionOnX + 38,
                 (height - 14).dp.toPx(),
                 paint
             )
+
+            wight += 36
         }
+
+        drawLine(
+            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
+            end = Offset(wight.dp.toPx(), 0f),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
+
     }
 }
 
 private fun identifyClickItemForPulse(dataList: List<PulseData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX + 20 && x < dataList.positionOnX + 80 && y > dataList.pulseInMinuteAverage) {
+        if (x > dataList.positionOnX && x < dataList.positionOnX + 70 && y > dataList.pulseInMinuteAverage) {
             return index
         }
     }

@@ -68,12 +68,12 @@ fun HRVwithBarChart(
         BarChartForHRV(
             HRVData = listOf(
                 HRVData(positionOnX = 10f, hourOfHRV = 200f, dateName = "16.12"),
-                HRVData(positionOnX = 120f, hourOfHRV = 370f, dateName = "17.12"),
-                HRVData(positionOnX = 230f, hourOfHRV = 190f, dateName = "18.12"),
-                HRVData(positionOnX = 340f, hourOfHRV = 180f, dateName = "19.12"),
-                HRVData(positionOnX = 450f, hourOfHRV = 220f, dateName = "20.12"),
-                HRVData(positionOnX = 560f, hourOfHRV = 240f, dateName = "21.12"),
-                HRVData(positionOnX = 670f, hourOfHRV = 30f, dateName = "22.12")
+                HRVData(positionOnX = 105f, hourOfHRV = 30f, dateName = "17.12"),
+                HRVData(positionOnX = 200f, hourOfHRV = 190f, dateName = "18.12"),
+                HRVData(positionOnX = 295f, hourOfHRV = 180f, dateName = "19.12"),
+                HRVData(positionOnX = 390f, hourOfHRV = 220f, dateName = "20.12"),
+                HRVData(positionOnX = 485f, hourOfHRV = 240f, dateName = "21.12"),
+                HRVData(positionOnX = 580f, hourOfHRV = 30f, dateName = "22.12")
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("240"),
@@ -119,8 +119,8 @@ fun HRVStat(
 
         Text(
             text = "18-20 ноября 2021",
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
             color = Gray30
         )
     }
@@ -171,6 +171,7 @@ fun BarChartForHRV(
             }
     ) {
         var height = 0
+        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -179,7 +180,7 @@ fun BarChartForHRV(
 
         for (i in ListNumberData) {
             drawLine(
-                start = Offset(x = 10f, y = height.dp.toPx()),
+                start = Offset(x = 0f, y = height.dp.toPx()),
                 end = Offset(x = 780f, y = height.dp.toPx()),
                 color = Gray30,
                 strokeWidth = 2f
@@ -195,19 +196,19 @@ fun BarChartForHRV(
             height += 35
         }
 
-        drawLine(
-            start = Offset(x = 10f, y = (height - 35).dp.toPx()),
-            end = Offset(x = 10f, y = 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
         start = true
         for (p in HRVData) {
+            drawLine(
+                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
+                end = Offset(wight.dp.toPx(), 0f),
+                color = Gray30,
+                strokeWidth = 2f
+            )
+
             drawRect(
                 color = p.colorFocus,
                 topLeft = Offset(
-                    x = p.positionOnX + 20,
+                    x = p.positionOnX,
                     y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.hourOfHRV) * heightPre
                 ),
                 size = Size(
@@ -218,17 +219,26 @@ fun BarChartForHRV(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 55,
+                p.positionOnX + 38,
                 (height - 15).dp.toPx(),
                 paint
             )
+
+            wight += 36
         }
+
+        drawLine(
+            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
+            end = Offset(wight.dp.toPx(), 0f),
+            color = Gray30,
+            strokeWidth = 2f
+        )
     }
 }
 
 private fun identifyClickItem(dataList: List<HRVData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX + 20 && x < dataList.positionOnX + 80 && y > dataList.hourOfHRV) {
+        if (x > dataList.positionOnX && x < dataList.positionOnX + 70 && y > dataList.hourOfHRV) {
             return index
         }
     }
