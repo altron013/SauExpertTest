@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DoubleArrow
@@ -39,50 +40,51 @@ fun MyPatients() {
 
     val coroutineScope = rememberCoroutineScope()
     SauExpertTheme() {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(16.dp)
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+        ) {
+            Spacer(modifier = Modifier.padding(30.dp))
+            Text(
+                text = "Мои пациенты",
+                style = MaterialTheme.typography.h4,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.padding(8.dp))
+            val textState = remember { mutableStateOf(TextFieldValue("")) }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Spacer(modifier = Modifier.padding(30.dp))
-                Text(
-                    text = "Мои пациенты",
-                    style = MaterialTheme.typography.h4,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.padding(8.dp))
-                val textState = remember { mutableStateOf(TextFieldValue("")) }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                SearchView(textState)
+                Spacer(modifier = Modifier.padding(4.dp))
+                Card(
+                    modifier = Modifier
+                        .height(44.dp)
+                        .width(44.dp),
+                    backgroundColor = Gray15,
+                    shape = RoundedCornerShape(10.dp)
                 ) {
-                    SearchView(textState)
-                    Spacer(modifier = Modifier.padding(4.dp))
-                    Card(
-                        modifier = Modifier
-                            .height(44.dp)
-                            .width(44.dp),
-                        backgroundColor = Gray15,
-                        shape = RoundedCornerShape(10.dp)
-                    ) {
-                        Icon(Icons.Default.DoubleArrow, contentDescription = "",
-                           )
-                    }
+                    Icon(
+                        Icons.Default.DoubleArrow, contentDescription = "",
+                    )
                 }
-                Button(onClick = {
+            }
+            Button(onClick = {
 
-                    }
-                ) {
-                }
-                Spacer(modifier = Modifier.padding(8.dp))
-                Column(modifier = Modifier.fillMaxSize()) {
-                    //Tabs(tabTitles)
-                }
+            }
+            ) {
+            }
+            Spacer(modifier = Modifier.padding(8.dp))
+            Column(modifier = Modifier.fillMaxSize()) {
+                //Tabs(tabTitles)
             }
         }
     }
+}
 
 @ExperimentalMaterialApi
 @Composable
@@ -92,24 +94,41 @@ fun Tabs(tabTitles: List<String>) {
         ScrollableTabRow(
             selectedTabIndex = tabIndex, backgroundColor = Color.Transparent,
             contentColor = Color.Black,
-//             indicator = {
-//                     TabDefaults.Indicator(
-//                         color = Color.Red,
-//                         height = 4.dp,
-//                         modifier = Modifier
-//                             .tabIndicatorOffset(it[selectedSeason])
-//                     )
-//
-//            }
-
             modifier = Modifier.fillMaxWidth(),
             edgePadding = 0.dp,
+            indicator = {
+                TabRowDefaults.Indicator(
+                    color = Red435B,
+                    height = 2.dp,
+                    modifier = Modifier.tabIndicatorOffset(it[tabIndex])
+                )
+            }
         ) {
             tabTitles.forEachIndexed { index, title ->
-                Tab(selected = tabIndex == index,
-                    onClick = { tabIndex = index },
-                    text = { Text(text = title) }
-                )
+                if (title == "Новая группа") {
+                    LeadingIconTab(
+                        selected = tabIndex == index,
+                        onClick = { tabIndex = index },
+                        text = { Text(text = title, color = Red435B) },
+                        icon = {
+                            Image(
+                                painter = painterResource(R.drawable.ic_plus_circle),
+                                contentDescription = "tabIcon",
+                                contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                                modifier = Modifier
+                                    .size(13.dp)
+                                    .clip(CircleShape)
+                            )
+                        },
+
+                    )
+                } else {
+                    Tab(
+                        selected = tabIndex == index,
+                        onClick = { tabIndex = index },
+                        text = { Text(text = title) },
+                    )
+                }
             }
         }
         when (tabIndex) {
@@ -195,16 +214,11 @@ fun SearchView(state: MutableState<TextFieldValue>) {
         },
         modifier = Modifier
             .height(46.dp)
-            .padding(0.dp),
+            .padding(4.dp),
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SearchViewPreview() {
-    val textState = remember { mutableStateOf(TextFieldValue("")) }
-    SearchView(textState)
-}
+
 
 @Composable
 fun NewPatientContent() {
@@ -258,59 +272,71 @@ fun AllPatientsContent() {
     val coroutineScope = rememberCoroutineScope()
     Column() {
         Text(text = "Азия Финанс")
-        AllPatientsCard(onClick = {coroutineScope.launch {
-            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                bottomSheetScaffoldState.bottomSheetState.expand()
-            } else {
-                bottomSheetScaffoldState.bottomSheetState.collapse()
+        AllPatientsCard(onClick = {
+            coroutineScope.launch {
+                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                    bottomSheetScaffoldState.bottomSheetState.expand()
+                } else {
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                }
             }
-        }})
+        })
         Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {coroutineScope.launch {
-            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                bottomSheetScaffoldState.bottomSheetState.expand()
-            } else {
-                bottomSheetScaffoldState.bottomSheetState.collapse()
+        AllPatientsCard(onClick = {
+            coroutineScope.launch {
+                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                    bottomSheetScaffoldState.bottomSheetState.expand()
+                } else {
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                }
             }
-        }})
+        })
         Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {coroutineScope.launch {
-            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                bottomSheetScaffoldState.bottomSheetState.expand()
-            } else {
-                bottomSheetScaffoldState.bottomSheetState.collapse()
+        AllPatientsCard(onClick = {
+            coroutineScope.launch {
+                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                    bottomSheetScaffoldState.bottomSheetState.expand()
+                } else {
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                }
             }
-        }})
+        })
         Text(text = "Банк ЦентрКредит")
         Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {coroutineScope.launch {
-            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                bottomSheetScaffoldState.bottomSheetState.expand()
-            } else {
-                bottomSheetScaffoldState.bottomSheetState.collapse()
+        AllPatientsCard(onClick = {
+            coroutineScope.launch {
+                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                    bottomSheetScaffoldState.bottomSheetState.expand()
+                } else {
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                }
             }
-        }})
+        })
         Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {coroutineScope.launch {
-            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                bottomSheetScaffoldState.bottomSheetState.expand()
-            } else {
-                bottomSheetScaffoldState.bottomSheetState.collapse()
+        AllPatientsCard(onClick = {
+            coroutineScope.launch {
+                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                    bottomSheetScaffoldState.bottomSheetState.expand()
+                } else {
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                }
             }
-        }})
+        })
         Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {coroutineScope.launch {
-            if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                bottomSheetScaffoldState.bottomSheetState.expand()
-            } else {
-                bottomSheetScaffoldState.bottomSheetState.collapse()
+        AllPatientsCard(onClick = {
+            coroutineScope.launch {
+                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                    bottomSheetScaffoldState.bottomSheetState.expand()
+                } else {
+                    bottomSheetScaffoldState.bottomSheetState.collapse()
+                }
             }
-        }})
+        })
     }
 }
 
 @Composable
-fun AllPatientsCard(onClick: () -> Unit,) {
+fun AllPatientsCard(onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -341,7 +367,10 @@ fun AllPatientsCard(onClick: () -> Unit,) {
                 Text(text = "Ерасыл Нурахметов")
             }
             // Spacer(modifier = Modifier.padding(10.dp))
-            Icon(painter = painterResource(id = R.drawable.ic_more), contentDescription = "",modifier = Modifier.clickable { onClick })
+            Icon(
+                painter = painterResource(id = R.drawable.ic_more),
+                contentDescription = "",
+                modifier = Modifier.clickable { onClick })
         }
     }
 }
