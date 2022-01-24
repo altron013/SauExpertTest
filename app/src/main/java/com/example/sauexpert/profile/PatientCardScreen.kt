@@ -8,13 +8,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
@@ -28,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRow
 
 @Composable
 fun PatientCardScreen() {
@@ -43,7 +42,7 @@ fun PatientCardScreen() {
     ) {
         TopBarForPatientCardScreen()
         Spacer(modifier = Modifier.height(24.dp))
-        profileForPatientCard(
+        ProfileForPatientCard(
             userName = "Жанна Ахметова",
             diagnosisString = "E11.9 Сахарный диабет"
         )
@@ -81,6 +80,19 @@ fun PatientCardScreen() {
             ) {
                 IndicatorsScreen()
 
+                MainButtonsInRow(
+                    textForOutlineBtn = stringResource(id = R.string.skip),
+                    textForMainBtn = stringResource(id = R.string.next),
+                    onClickForOutlineBtn = { /*TODO*/ },
+                    onClickForMainBtn = { /*TODO*/ },
+                    enableStateForOutlineBtn = true,
+                    enableStateForMainBtn = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .align(Alignment.BottomCenter)
+                )
+
 
             }
         }
@@ -108,7 +120,7 @@ fun TopBarForPatientCardScreen(
 }
 
 @Composable
-fun profileForPatientCard(
+fun ProfileForPatientCard(
     userName: String,
     diagnosisString: String,
     modifier: Modifier = Modifier
@@ -638,7 +650,36 @@ fun CriticalCaseCell(
                 style = MaterialTheme.typography.subtitle2,
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+
+            CriticalCaseStat(
+                text = stringResource(R.string.hypoglycemia),
+                textValue = 5
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            CriticalCaseStat(
+                text = stringResource(R.string.hyperglycemia),
+                textValue = 4
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            CriticalCaseStat(
+                text = stringResource(R.string.hypertension),
+                textValue = 8
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            CriticalCaseStat(
+                text = stringResource(R.string.hypotension),
+                textValue = 3
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -666,4 +707,46 @@ fun CriticalCaseCell(
 
         }
     }
+}
+
+
+@Composable
+fun CriticalCaseStat(
+    text: String,
+    textValue: Int,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.h6,
+            fontSize = 11.sp,
+            modifier = Modifier.drawPinkBar((24 * textValue)),
+        )
+
+        Text(
+            text = "$textValue",
+            style = MaterialTheme.typography.h6,
+            fontSize = 13.sp,
+            color = Gray30
+        )
+    }
+
+}
+
+
+fun Modifier.drawPinkBar(width: Int) = this.drawBehind {
+    val colorOfLine = Color(250, 218, 221)
+
+    drawRect(
+        color = colorOfLine,
+        size = Size(
+            width = width.dp.toPx(),
+            height = 24.dp.toPx()
+        )
+    )
 }
