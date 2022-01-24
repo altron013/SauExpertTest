@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Green34C759
+import com.example.sauexpert.ui.theme.SauExpertTypography
 
 
 @Composable
@@ -45,8 +46,9 @@ fun ApplicationSnackbar() {
     }
 }
 
+
 @Preview
 @Composable
-fun prevApp(){
+fun PrevApp(){
     ApplicationSnackbar()
 }
