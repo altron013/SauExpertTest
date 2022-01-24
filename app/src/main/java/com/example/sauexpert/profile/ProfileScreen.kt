@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -246,6 +247,9 @@ fun ProfileStatSectionGroup(
     textForAge: String,
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth = (configuration.screenWidthDp.dp / 2) - 20.dp
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -256,15 +260,13 @@ fun ProfileStatSectionGroup(
         ProfileStatSection(
             title = stringResource(id = R.string.gender),
             text = textForGender,
-            modifier = Modifier.width(165.dp)
+            modifier = Modifier.width(screenWidth)
         )
-
-        Spacer(modifier = Modifier.width(12.dp))
 
         ProfileStatSection(
             title = stringResource(id = R.string.age),
             text = textForAge,
-            modifier = Modifier.width(165.dp)
+            modifier = Modifier.width(screenWidth)
         )
     }
 }

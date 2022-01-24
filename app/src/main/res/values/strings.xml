@@ -143,7 +143,27 @@
     <string name="description">Описание</string>
     <string name="next_section">Следующий этап — анализы.</string>
     <string name="completed_inspection_des">Вы завершите осмотр и перейдёте к добавлению анализов.</string>
-
+    <string name="anamnesis">Анамнез</string>
+    <string name="appointments">Назначения</string>
+    <string name="bracelet_indicator">Показатели браслета</string>
+    <string name="glucose_before_meal">Глюкоза (до еды)</string>
+    <string name="glucose_after_meal">Глюкоза (после еды)</string>
+    <string name="millimoles_per_liter">ммоль/л.</string>
+    <string name="pulse_in_minute">ударов в минуту</string>
+    <string name="mmhg">мм.рт.ст</string>
+    <string name="steps">Шаги</string>
+    <string name="goal_for_today">Цель на день</string>
+    <string name="patient_indicator">Показатели пациента</string>
+    <string name="daily_reports">Отчёты за день</string>
+    <string name="fulfillment_prescription">Выполнение назначений</string>
+    <string name="weight">Вес</string>
+    <string name="kg">кг</string>
+    <string name="critical_case">Критические случаи</string>
+    <string name="data_for">Данные за:</string>
+    <string name="hypoglycemia">Гипогликемия</string>
+    <string name="hyperglycemia">Гипергликемия</string>
+    <string name="hypertension">Гипертония</string>
+    <string name="hypotension">Гипотония</string>
 
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>

@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
@@ -26,17 +27,21 @@ import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 fun Sp02Screen() {
     Column(
         modifier = Modifier
-            .fillMaxWidth().verticalScroll(rememberScrollState())
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(bottom = 70.dp, top = 24.dp)
     ) {
         SP02withLineGraph()
         Spacer(modifier = Modifier.height(24.dp))
+//        HomeScreenTest()
         AnalysisSOASStat()
         Spacer(modifier = Modifier.height(24.dp))
         AnalysisSOASStat2()
@@ -279,6 +284,7 @@ fun SP02Stat2(modifier: Modifier = Modifier) {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 fun AnalysisSOASStat(modifier: Modifier = Modifier) {
@@ -306,6 +312,8 @@ fun AnalysisSOASStat(modifier: Modifier = Modifier) {
                 }
             )
         }
+
+
         Spacer(modifier = Modifier.height(12.dp))
         Column(
             modifier = modifier
@@ -336,6 +344,83 @@ fun AnalysisSOASStat(modifier: Modifier = Modifier) {
             )
             AnalysisStatField(title = stringResource(R.string.hypopnea_case), value = "18")
 
+        }
+
+    }
+}
+
+
+@ExperimentalMaterialApi
+@Composable
+fun HomeScreenTest(
+    modifier: Modifier = Modifier
+) {
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(500.dp)
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),)
+            ) {
+                Column(
+                    Modifier.fillMaxSize()
+                    ) {
+                    Text(
+                        text = stringResource(R.string.soas_analysis),
+                        style = MaterialTheme.typography.caption
+                    )
+
+                    Text(
+                        text = stringResource(R.string.soas_description),
+                        style = MaterialTheme.typography.body1
+                    )
+
+                    MainButton(
+                        text = stringResource(id = R.string.understand),
+                        onClick = { },
+                        enableState = true,
+                        modifier = modifier.fillMaxWidth().padding(16.dp)
+                    )
+
+
+                }
+            }
+        }, sheetPeekHeight = 0.dp
+    ) {
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.soas_analysis),
+                style = MaterialTheme.typography.subtitle2,
+            )
+
+            Text(
+                text = stringResource(R.string.more_detail),
+                style = MaterialTheme.typography.body2,
+                color = Color.Red,
+                modifier = modifier.clickable {
+                    coroutineScope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+                }
+            )
         }
 
     }
