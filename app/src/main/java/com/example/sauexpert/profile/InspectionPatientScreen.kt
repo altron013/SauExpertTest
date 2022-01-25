@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.widgets.compose.buttons.MainButtonWithIcon
+import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
 fun InspectionPatientScreen() {
@@ -48,11 +48,11 @@ fun InspectionPatientScreen() {
             dateOfInspection = "15 Февраля 2021", yourInspection = true
         )
         Spacer(modifier = Modifier.height(24.dp))
-        MainButtonWithIcon(
+        MainButton(
             text = stringResource(id = R.string.new_inspections),
             onClick = { /*TODO*/ },
             enableState = true,
-            icon = painterResource(R.drawable.ic_plus_circle),
+            icon = R.drawable.ic_plus_circle,
             backgroundColor = Color(255, 205, 211),
             textColor = Color.Red
         )
@@ -138,11 +138,11 @@ fun PreviousInspectionsStat(
         if (yourInspection) {
             Spacer(modifier = Modifier.height(24.dp))
 
-            MainButtonWithIcon(
+            MainButton(
                 text = stringResource(id = R.string.supply_detail),
                 onClick = { /*TODO*/ },
                 enableState = true,
-                icon = painterResource(R.drawable.ic_square_and_pencil),
+                icon = R.drawable.ic_square_and_pencil,
                 buttonHeight = 35.dp,
                 backgroundColor = Color(255, 205, 211),
                 textColor = Color.Red

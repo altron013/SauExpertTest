@@ -28,7 +28,6 @@ import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRow
-import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRowWithIcon
 
 @Composable
 fun PatientCardScreen() {
@@ -82,11 +81,12 @@ fun PatientCardScreen() {
             ) {
                 IndicatorsScreen()
 
-                MainButtonsInRowWithIcon(
-                    textForOutlineBtn = stringResource(id = R.string.skip),
+                MainButtonsInRow(
                     iconForOutlineBtn = R.drawable.ic_sms,
                     textForMainBtn = stringResource(id = R.string.begin_diagnostic),
-                    iconForMainBtn = painterResource(R.drawable.ic_play_fill),
+                    iconForMainBtn = R.drawable.ic_play_fill,
+                    borderColor = Color.Transparent,
+                    weightOfFirstButton = 0.3f,
                     onClickForOutlineBtn = { /*TODO*/ },
                     onClickForMainBtn = { /*TODO*/ },
                     enableStateForOutlineBtn = true,
