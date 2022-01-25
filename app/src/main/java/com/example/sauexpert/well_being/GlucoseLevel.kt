@@ -1,9 +1,6 @@
 package com.example.sauexpert.well_being
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
@@ -17,6 +14,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.bracelet_indicator.customDialogModifier
 import com.example.sauexpert.ui.theme.Green57C3A7
 import com.example.sauexpert.widgets.compose.Toolbars.MainToolbar
 import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton
@@ -73,7 +71,6 @@ fun GlucoseLevelScreen() {
     }
 }
 
-
 @Composable
 fun GlucoseIndicatorForm() {
     var selectedOption by remember {
@@ -87,50 +84,52 @@ fun GlucoseIndicatorForm() {
     Spacer(Modifier.padding(10.dp))
     Text(text = stringResource(id = R.string.when_measurement_was_taken), fontSize = 15.sp)
     Spacer(Modifier.padding(10.dp))
-    Row {
-        OutlinedMainButton(
-            text = "До еды",
-            onClick = {
-                onSelectionChange("До еды")
-            },
-            enableState = true,
+    Row(Modifier.fillMaxWidth()){
+        ColoredOutlineButton(
+            "До еды",
+            onSelectionChange = onSelectionChange,
+            selectedOption = selectedOption,
             modifier = Modifier
-                .weight(0.5f),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = if ("До еды" == selectedOption) {
-                    Green57C3A7
-                } else {
-                    Color.Transparent
-                },
-                contentColor = if ("До еды" == selectedOption) {
-                    Color.White
-                } else {
-                    Color.Gray
-                },
-            )
+                .weight(0.5f)
         )
         Spacer(modifier = Modifier.padding(7.dp))
-        OutlinedMainButton(
-            text = "После еды",
-            onClick = {
-                onSelectionChange("После еды")
-            },
-            enableState = true,
-            modifier = Modifier
-                .weight(0.5f),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = if ("После еды" == selectedOption) {
-                    Green57C3A7
-                } else {
-                    Color.Transparent
-                },
-                contentColor = if ("После еды" == selectedOption) {
-                    Color.White
-                } else {
-                    Color.Gray
-                },
-            )
-
+        ColoredOutlineButton(
+            "После еды",
+            onSelectionChange = onSelectionChange,
+            selectedOption = selectedOption,
+            modifier = Modifier.weight(0.5f)
         )
     }
+}
+
+@Composable
+fun ColoredOutlineButton(
+    text: String,
+    onSelectionChange: (String) -> Unit,
+    selectedOption: String,
+    modifier: Modifier
+) {
+    OutlinedMainButton(
+        text = text,
+        onClick = {
+            if (onSelectionChange != null) {
+                onSelectionChange(text)
+            }
+        },
+        modifier = modifier,
+        enableState = true,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = if (text == selectedOption) {
+                Green57C3A7
+            } else {
+                Color.Transparent
+            },
+            contentColor = if (text == selectedOption) {
+                Color.White
+            } else {
+                Color.Gray
+            },
+
+        )
+    )
 }

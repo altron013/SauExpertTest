@@ -54,7 +54,6 @@ fun WellBeingScreen() {
                 onClick = { /*TODO*/ },
                 enableState = false
             )
-            Spacer(Modifier.padding(40.dp))
         }
     }
 }

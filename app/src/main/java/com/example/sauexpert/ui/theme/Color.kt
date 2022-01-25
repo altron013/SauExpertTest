@@ -2,8 +2,6 @@ package com.example.sauexpert.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-
-
 val BlackAccent = Color(0xFF031A33)
 val RedAccent = Color(0xFFFF4141)
 val DarkGray = Color(0xFF363637)
@@ -22,3 +20,6 @@ val Red4141=Color(0xFFFF4141)
 
 val Green34C759=Color(0xFF34C759)
 val Green57C3A7=Color(0xFF57C3A7)
+
+
+val Blue007AFF=Color(0xFF007AFF)
