@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -37,14 +38,13 @@ fun EmptyDiagnosis() {
         )
 
         Text(
-            text = "Начните первый осмотр",
+            text = stringResource(R.string.first_inspection),
             style = SauExpertTypography.h6,
             color = BlackAccent
         )
 
         Text(
-            text = "Осмотрите пациента,\n" +
-                    "чтобы поставить ему диагноз",
+            text = "Осмотрите пациента,\nчтобы поставить ему диагноз",
             fontSize = 15.sp,
             modifier = Modifier.padding(
                 start = 32.dp,
@@ -74,7 +74,7 @@ fun EmptyDiagnosis() {
             )
 
             Text(
-                text = "Начать осмотр",
+                text = stringResource(R.string.begin_examination),
                 fontWeight = FontWeight.W500,
                 letterSpacing = 0.sp,
                 color = Color.White,
@@ -88,7 +88,7 @@ fun EmptyDiagnosis() {
 fun DiagnosisContent() {
     Column() {
         Text(
-            text = "ОСНОВНОЙ",
+            text = stringResource(R.string.caps_main),
             style = SauExpertTypography.body2,
             modifier = Modifier
                 .padding(start = 16.dp, top = 24.dp)
@@ -97,7 +97,7 @@ fun DiagnosisContent() {
         )
         DiagnosisCard()
         Text(
-            text = "СОПУТСТВУЮЩИЙ",
+            text = stringResource(R.string.caps_related),
             style = SauExpertTypography.body2,
             modifier = Modifier
                 .padding(start = 16.dp)
@@ -119,7 +119,7 @@ fun DiagnosisContent() {
                 contentDescription = ""
             )
             Spacer(modifier = Modifier.padding(start = 8.dp))
-            Text(text = "Новый диагноз", color = Red435B, style = SauExpertTypography.body1)
+            Text(text = stringResource(R.string.new_diagnosis), color = Red435B, style = SauExpertTypography.body1)
         }
     }
 
@@ -162,9 +162,9 @@ fun DiagnosisFill() {
         horizontalAlignment = Alignment.Start
     ) {
 
-        HeaderText(text = "Основной диагноз")
+        HeaderText(text = stringResource(R.string.main_diagnosis))
 
-        SubHeaderText(text = "ДИАГНОЗ")
+        SubHeaderText(text = stringResource(R.string.caps_diagnosis))
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -185,25 +185,25 @@ fun DiagnosisFill() {
             )
         }
 
-        SubHeaderText(text = "ДАТА НАЧАЛА")
+        SubHeaderText(text = stringResource(R.string.caps_start_date))
 
         DiagnosisDateWithPadding()
 
-        SubHeaderText(text = "КОММЕНТАРИЙ")
-        DescriptionTextField(placeHolderText = "Описание")
+        SubHeaderText(text = stringResource(R.string.caps_comment))
+        DescriptionTextField(placeHolderText = stringResource(R.string.description))
     }
 }
 
 @Composable
 fun DiagnosisCriticalCase() {
     Column {
-        HeaderText(text = "Критический случай")
+        HeaderText(text = stringResource(R.string.critical_case))
 
-        SwitchWithText(text = "Критический случай")
+        SwitchWithText(text = stringResource(R.string.critical_case))
 
-        DescriptionTextField(placeHolderText = "Опишите случай")
+        DescriptionTextField(placeHolderText = stringResource(R.string.desc_case))
 
-        SubHeaderText(text = "КОГДА ПРОИЗОШЛО")
+        SubHeaderText(text = stringResource(R.string.when_occurred))
 
         DiagnosisDateWithPadding()
     }
@@ -214,15 +214,15 @@ fun DiagnosisMore() {
 
     Column(horizontalAlignment = Alignment.Start) {
 
-        HeaderText(text = "Ещё")
+        HeaderText(text = stringResource(R.string.more))
 
-        SwitchWithText(text = "Базовая терапия")
+        SwitchWithText(text = stringResource(R.string.base_therapy))
 
-        DescriptionTextField(placeHolderText = "Описание")
+        DescriptionTextField(placeHolderText = stringResource(R.string.description))
 
-        SwitchWithText(text = "Использование инсулина")
+        SwitchWithText(text = stringResource(R.string.insulin_usage))
 
-        DescriptionTextField(placeHolderText = "Описание")
+        DescriptionTextField(placeHolderText = stringResource(R.string.description))
     }
 
 }

@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -82,7 +83,7 @@ fun MyPatientsNewGroup() {
             ) {
                 Spacer(modifier = Modifier.padding(29.dp))
                 Text(
-                    text = "Мои пациенты",
+                    text = stringResource(R.string.my_patients),
                     fontSize = 34.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -170,7 +171,7 @@ fun AddGroup(onBackPressed: () -> Unit) {
                 )
 
                 Text(
-                    text = "Назад",
+                    text = stringResource(R.string.back),
                     style = SauExpertTypography.body1,
                     modifier = Modifier.padding(start = 5.dp),
                     color = Red435B
@@ -178,7 +179,7 @@ fun AddGroup(onBackPressed: () -> Unit) {
             }
 
             Text(
-                text = "Новая группа",
+                text = stringResource(R.string.new_group),
                 style = SauExpertTypography.subtitle2,
                 color = BlackAccent,
                 modifier = Modifier
@@ -201,7 +202,7 @@ fun AddGroup(onBackPressed: () -> Unit) {
                 },
                 placeholder = {
                     Text(
-                        "Назовите группу",
+                        stringResource(R.string.name_group),
                         fontSize = 17.sp,
                         modifier = Modifier
                             .background(color = Color.Transparent)
@@ -226,7 +227,7 @@ fun AddGroup(onBackPressed: () -> Unit) {
             )
 
             MainButton(
-                text = "Создать группу",
+                text = stringResource(R.string.create_group),
                 onClick = { /*TODO*/ },
                 enableState = buttonEnabled.value,
                 modifier = Modifier
@@ -263,7 +264,7 @@ fun NewGroup(
                     .weight(0.9f, false),
                 elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
             ) {
-                Text(text = "Отмена", style = SauExpertTypography.body1)
+                Text(text = stringResource(id = R.string.cancel), style = SauExpertTypography.body1)
             }
 
             Column(
@@ -273,13 +274,13 @@ fun NewGroup(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Новая группа",
+                    text = stringResource(id = R.string.new_group),
                     style = SauExpertTypography.subtitle2,
                     color = BlackAccent
                 )
 
                 Text(
-                    text = "Пациентов выбрано:",
+                    text = stringResource(R.string.patients_chosen),
                     style = SauExpertTypography.body2,
                     color = BlackAccent
                 )
@@ -296,7 +297,7 @@ fun NewGroup(
                     .weight(0.9f, false),
                 elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
             ) {
-                Text(text = "Далее", style = SauExpertTypography.subtitle2)
+                Text(text = stringResource(id = R.string.next), style = SauExpertTypography.subtitle2)
             }
         }
         Spacer(modifier = Modifier.padding(2.dp))
@@ -354,7 +355,7 @@ fun TabsNewGroup(tabTitles: List<String>, openSheet: () -> Job, onBottomSheetCha
             }
         ) {
             tabTitles.forEachIndexed { index, title ->
-                if (title == "Новая группа") {
+                if (title == stringResource(id = R.string.new_group)) {
                     LeadingIconTab(
                         selected = tabIndex == index,
                         onClick = {
@@ -442,7 +443,7 @@ fun SearchViewNewGroup(state: MutableState<TextFieldValue>, modifier: Modifier) 
         ),
         placeholder = {
             Text(
-                "Поиск по ФИО пациента",
+                text = stringResource(R.string.search_placeholder_patients),
                 fontSize = 17.sp,
                 modifier = Modifier
                     .background(color = Color.Transparent)
