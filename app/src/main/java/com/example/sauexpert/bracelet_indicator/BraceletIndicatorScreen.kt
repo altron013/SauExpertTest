@@ -1,6 +1,9 @@
 package com.example.sauexpert.bracelet_indicator
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
@@ -8,7 +11,6 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -18,17 +20,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.*
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.PlaceholderVerticalAlign
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
-import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
 
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 fun BraceletIndicatorScreen() {
@@ -39,8 +43,7 @@ fun BraceletIndicatorScreen() {
     Column(
         modifier = Modifier.fillMaxSize()
             .background(
-                color = Gray30.copy(alpha = 0.19f),
-                shape = RoundedCornerShape(7.dp)
+                color = Gray30.copy(alpha = 0.19f)
             )
             .padding(16.dp)
     ) {
@@ -80,7 +83,7 @@ fun BraceletIndicatorScreen() {
                     text = stringResource(id = R.string.range_customize),
                     onClick = { /*TODO*/ },
                     enableState = true,
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxWidth()
                         .align(Alignment.BottomCenter)
                 )
             }
@@ -94,7 +97,7 @@ fun BraceletIndicatorScreen() {
                     text = stringResource(id = R.string.range_customize),
                     onClick = { /*TODO*/ },
                     enableState = true,
-                    modifier = Modifier
+                    modifier = Modifier.fillMaxWidth()
                         .align(Alignment.BottomCenter)
                 )
 
@@ -161,7 +164,7 @@ fun TabView(
         mutableStateOf(0)
     }
 
-    val shape = RoundedCornerShape(8.dp)
+    val shape = RoundedCornerShape(10.dp)
     val backgroundColor = Color(220, 220, 223)
 
     TabRow(
@@ -250,7 +253,7 @@ fun AnalysisStatFieldWithIconAtBeg(
             imageVector = imageVector,
             contentDescription = "",
             tint = Color.Red,
-            modifier = modifier.size(10.dp)
+            modifier = modifier.size(12.dp)
         )
 
         Spacer(modifier = Modifier.width(3.dp))

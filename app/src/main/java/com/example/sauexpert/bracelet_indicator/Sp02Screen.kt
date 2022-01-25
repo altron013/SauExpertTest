@@ -7,8 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
-import androidx.compose.material.icons.filled.CropSquare
-import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -18,6 +16,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,17 +27,21 @@ import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 fun Sp02Screen() {
     Column(
         modifier = Modifier
-            .fillMaxWidth().verticalScroll(rememberScrollState())
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
             .padding(bottom = 70.dp, top = 24.dp)
     ) {
         SP02withLineGraph()
         Spacer(modifier = Modifier.height(24.dp))
+//        HomeScreenTest()
         AnalysisSOASStat()
         Spacer(modifier = Modifier.height(24.dp))
         AnalysisSOASStat2()
@@ -55,7 +58,7 @@ fun SP02withLineGraph(
             .fillMaxWidth()
             .background(
                 color = Color.White,
-                shape = RoundedCornerShape(7.dp)
+                shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
         SP02Stat()
@@ -118,9 +121,9 @@ fun SP02Stat(
 
             Text(
                 text = stringResource(id = R.string.oxygen_level),
-                style = MaterialTheme.typography.subtitle1,
-                fontWeight = FontWeight.Bold,
-                color = Gray30
+                style = MaterialTheme.typography.h6,
+                fontSize = 13.sp,
+                color = Gray30,
             )
         }
 
@@ -128,8 +131,8 @@ fun SP02Stat(
 
         Text(
             text = "18-20 ноября 2021",
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
             color = Gray30
         )
     }
@@ -249,10 +252,10 @@ fun SP02Stat2(modifier: Modifier = Modifier) {
     ) {
 
         Icon(
-            imageVector = Icons.Filled.CropSquare,
+            painter = painterResource(R.drawable.ic_liner_indicator),
             contentDescription = "",
             tint = Color.Green,
-            modifier = modifier.size(9.dp)
+            modifier = modifier.size(width = 16.dp, height = 4.dp)
         )
 
         Spacer(modifier = Modifier.width(2.dp))
@@ -265,10 +268,10 @@ fun SP02Stat2(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.width(21.dp))
 
         Icon(
-            imageVector = Icons.Filled.CropSquare,
+            painter = painterResource(R.drawable.ic_liner_indicator),
             contentDescription = "",
             tint = Color.Red,
-            modifier = modifier.size(9.dp)
+            modifier = modifier.size(width = 16.dp, height = 4.dp)
         )
 
         Spacer(modifier = Modifier.width(2.dp))
@@ -281,6 +284,7 @@ fun SP02Stat2(modifier: Modifier = Modifier) {
     }
 }
 
+@ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 fun AnalysisSOASStat(modifier: Modifier = Modifier) {
@@ -308,13 +312,15 @@ fun AnalysisSOASStat(modifier: Modifier = Modifier) {
                 }
             )
         }
+
+
         Spacer(modifier = Modifier.height(12.dp))
         Column(
             modifier = modifier
                 .fillMaxWidth()
                 .background(
                     color = Color.White,
-                    shape = RoundedCornerShape(7.dp)
+                    shape = RoundedCornerShape(10.dp)
                 )
         ) {
 
@@ -338,6 +344,83 @@ fun AnalysisSOASStat(modifier: Modifier = Modifier) {
             )
             AnalysisStatField(title = stringResource(R.string.hypopnea_case), value = "18")
 
+        }
+
+    }
+}
+
+
+@ExperimentalMaterialApi
+@Composable
+fun HomeScreenTest(
+    modifier: Modifier = Modifier
+) {
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    BottomSheetScaffold(
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(500.dp)
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),)
+            ) {
+                Column(
+                    Modifier.fillMaxSize()
+                    ) {
+                    Text(
+                        text = stringResource(R.string.soas_analysis),
+                        style = MaterialTheme.typography.caption
+                    )
+
+                    Text(
+                        text = stringResource(R.string.soas_description),
+                        style = MaterialTheme.typography.body1
+                    )
+
+                    MainButton(
+                        text = stringResource(id = R.string.understand),
+                        onClick = { },
+                        enableState = true,
+                        modifier = modifier.fillMaxWidth().padding(16.dp)
+                    )
+
+
+                }
+            }
+        }, sheetPeekHeight = 0.dp
+    ) {
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.soas_analysis),
+                style = MaterialTheme.typography.subtitle2,
+            )
+
+            Text(
+                text = stringResource(R.string.more_detail),
+                style = MaterialTheme.typography.body2,
+                color = Color.Red,
+                modifier = modifier.clickable {
+                    coroutineScope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+                }
+            )
         }
 
     }
@@ -386,7 +469,7 @@ fun InfoDialogForSOAS(
                     text = stringResource(id = R.string.understand),
                     onClick = { visible.value = false },
                     enableState = true,
-                    modifier = modifier.padding(16.dp)
+                    modifier = modifier.fillMaxWidth().padding(16.dp)
                 )
             },
             shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),
@@ -412,7 +495,7 @@ fun AnalysisSOASStat2(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .background(
                     color = Color.White,
-                    shape = RoundedCornerShape(7.dp)
+                    shape = RoundedCornerShape(10.dp)
                 )
         ) {
             AnalysisStatField(title = stringResource(R.string.sp02_average), value = "18")

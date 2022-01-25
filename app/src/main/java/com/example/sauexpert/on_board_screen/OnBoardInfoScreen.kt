@@ -92,7 +92,7 @@ fun OnBoardingUI(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp)
     ) {
         Box(
             modifier = modifier
@@ -110,15 +110,10 @@ fun OnBoardingUI(
             HorizontalPagerIndicator(
                 pagerState = pagerState,
                 modifier = modifier
-                    .padding(bottom = 90.dp)
-                    .align(Alignment.BottomCenter),
+                    .padding(top = 180.dp)
+                    .align(Alignment.Center),
                 activeColor = colorResource(R.color.black)
             )
-
-//            ButtonForBottomForInfoPage(
-//                statePage = pagerState.currentPage,
-//                modifier = modifier.align(Alignment.BottomCenter)
-//            )
         }
 
         Spacer(modifier = Modifier.height(50.dp))
@@ -150,7 +145,8 @@ fun PageUI(page: OnBoardScreenData, modifier: Modifier = Modifier) {
         Text(
             text = page.description,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.body1,
+            modifier = modifier.padding(horizontal = 20.dp)
         )
     }
 }
@@ -180,9 +176,9 @@ fun ButtonForBottomForInfoPage(
         enter = fadeIn(animationSpec = tween(durationMillis = 2000)),
         exit = fadeOut(animationSpec = tween(durationMillis = 250))
     ) {
-        MainButton(text = stringResource(id = R.string.understand_thanks),
+        MainButton(
+            text = stringResource(id = R.string.understand_thanks),
             onClick = { /*TODO*/ }, enableState = true,
-            modifier = modifier.padding(horizontal = 16.dp)
         )
     }
 }

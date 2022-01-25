@@ -22,7 +22,9 @@ fun MainButton(
     text: String,
     onClick: () -> Unit,
     enableState: Boolean,
-    buttonHeight: Dp = 50.dp
+    buttonHeight: Dp = 50.dp,
+    backgroundColor: Color = MaterialTheme.colors.secondary,
+    textColor: Color = Color.White
 ) {
     SauExpertTheme() {
         Button(
@@ -37,8 +39,8 @@ fun MainButton(
             enabled = enableState,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.secondary,
-                contentColor = Color.White
+                backgroundColor = backgroundColor,
+                contentColor = textColor
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
@@ -46,7 +48,7 @@ fun MainButton(
                 text = text,
                 fontWeight = FontWeight.W500,
                 letterSpacing = 0.sp,
-                color= Color.White
+                color= textColor
             )
         }
     }

@@ -17,7 +17,7 @@ import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
-fun ModifyInspectionInfoScreen() {
+fun ViewInspectionInfoScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -27,22 +27,20 @@ fun ModifyInspectionInfoScreen() {
         Spacer(modifier = Modifier.height(20.dp))
         profileForInspection(userName = "user", percentage = 0.4f)
         Spacer(modifier = Modifier.height(32.dp))
-        InfoStatInspectionSection(
+        InfoStatInspectionSectionForView(
             titleIllness = "Мочевыделительная система",
             subtitleIllness = "МОЧЕИСПУСКАНИЕ",
             subtitleIllness2 = "НЕДЕРЖАНИЕ МОЧИ",
             subtitleIllness3 = "СИМПТОМ ПОКОЛАЧИВАНИЯ",
-            bottomText = stringResource(R.string.completed_inspection_des),
+            bottomText = stringResource(R.string.next_section),
+            parameterChange = false
         )
     }
 
 }
 
-
-
-
 @Composable
-fun InfoStatInspectionSection(
+fun InfoStatInspectionSectionForView(
     titleIllness: String,
     subtitleIllness: String,
     subtitleIllness2: String,
@@ -89,11 +87,9 @@ fun InfoStatInspectionSection(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            FillTextFiled(stringResource(R.string.description),
-                enableStatus = parameterChange,
+            FillTextFiled(stringResource(R.string.description), enableStatus = parameterChange,
                 textState = textDescriptionField,
                 onTextChange = { textDescriptionField = it }
-
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -150,4 +146,3 @@ fun InfoStatInspectionSection(
         }
     }
 }
-

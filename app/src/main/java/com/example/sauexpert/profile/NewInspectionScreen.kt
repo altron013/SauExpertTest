@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -22,7 +23,7 @@ fun NewInspectionScreen() {
     ) {
         TopBarForInspectionScreen()
         Spacer(modifier = Modifier.height(20.dp))
-        profileForInspection("user")
+        profileForInspection(userName = "user", percentage = 0.4f, showPercentage = true)
         Spacer(modifier = Modifier.height(32.dp))
         FillInfoStatFiled()
     }
@@ -33,6 +34,12 @@ fun NewInspectionScreen() {
 fun FillInfoStatFiled(
     modifier: Modifier = Modifier
 ) {
+    var textLifeField by rememberSaveable  { mutableStateOf("") }
+    var textComplaintsField by rememberSaveable  { mutableStateOf("") }
+    var textIllnessField by rememberSaveable  { mutableStateOf("") }
+    val stateBoolean = textLifeField != "" && textComplaintsField != "" && textIllnessField != ""
+    val textColorOfButton: Color = if (stateBoolean) Color.Red else Color.White
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -52,28 +59,39 @@ fun FillInfoStatFiled(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            FillTextFiled(textForHint = stringResource(R.string.complaints_patient))
+            FillTextFiled(
+                textForHint = stringResource(R.string.complaints_patient),
+                textState = textComplaintsField,
+                onTextChange = { textComplaintsField = it }
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            FillTextFiled(textForHint = stringResource(R.string.anamnesis_illness))
+            FillTextFiled(textForHint = stringResource(R.string.anamnesis_illness),
+                textState = textIllnessField,
+                onTextChange = { textIllnessField = it })
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            FillTextFiled(textForHint = stringResource(R.string.anamnesis_of_life))
+            FillTextFiled(textForHint = stringResource(R.string.anamnesis_of_life),
+                textState = textLifeField,
+                onTextChange = { textLifeField = it })
 
             Spacer(modifier = Modifier.height(16.dp))
 
             MainButton(
                 text = stringResource(id = R.string.next),
                 onClick = { /*TODO*/ },
-                enableState = true,
+                enableState = stateBoolean,
+                backgroundColor = Color(255, 205, 211),
+                textColor = textColorOfButton
 //                modifier = modifier.background(color = Color.Red.copy(alpha = 0.19f))
             )
 
         }
     }
 }
+
 
 
 

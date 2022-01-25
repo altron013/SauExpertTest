@@ -2,7 +2,10 @@ package com.example.sauexpert.profile
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -19,12 +22,14 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.buttons.MainButtonWithIcon
 
 @Composable
 fun InspectionPatientScreen() {
@@ -35,14 +40,23 @@ fun InspectionPatientScreen() {
             .padding(16.dp)
     ) {
         TopBarForInspectionPatientScreen(userName = "User")
-        Spacer(modifier = Modifier.height(42.dp))
-        PreviousInspectionsStat()
+        Spacer(modifier = Modifier.height(44.dp))
+        PreviousInspectionsSection()
         Spacer(modifier = Modifier.height(12.dp))
-        PreviousInspectionsStat2()
-
-
+        PreviousInspectionsStat(
+            doctorName = "Ларионов Игорь Викторович",
+            dateOfInspection = "15 Февраля 2021", yourInspection = true
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        MainButtonWithIcon(
+            text = stringResource(id = R.string.new_inspections),
+            onClick = { /*TODO*/ },
+            enableState = true,
+            icon = painterResource(R.drawable.ic_plus_circle),
+            backgroundColor = Color(255, 205, 211),
+            textColor = Color.Red
+        )
     }
-
 }
 
 @Composable
@@ -72,65 +86,69 @@ fun TopBarForInspectionPatientScreen(
 }
 
 @Composable
-fun PreviousInspectionsStat(modifier: Modifier = Modifier) {
+fun PreviousInspectionsSection(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(R.string.previous_inspections),
-            style = MaterialTheme.typography.h5,
+            style = MaterialTheme.typography.body2,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(7.dp)
-                )
-        ) {
-            AnalysisInspectionsStatField("Ларионов Игорь Викторович")
-
-            Divider(
-                color = Gray30.copy(alpha = 0.19f),
-                thickness = 2.dp,
-                modifier = modifier
-                    .padding(horizontal = 24.dp)
-            )
-
-            AnalysisInspectionsDateField()
-        }
+        PreviousInspectionsStat(
+            doctorName = "Ларионов Игорь Викторович",
+            dateOfInspection = "15 Февраля 2021"
+        )
     }
 }
 
 
 @Composable
-fun PreviousInspectionsStat2(modifier: Modifier = Modifier) {
+fun PreviousInspectionsStat(
+    yourInspection: Boolean = false,
+    doctorName: String,
+    dateOfInspection: String,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(
                 color = Color.White,
-                shape = RoundedCornerShape(7.dp)
+                shape = RoundedCornerShape(10.dp)
             )
+            .border(
+                width = 1.dp,
+                color = Gray30.copy(alpha = 0.35f),
+                shape = RoundedCornerShape(10.dp)
+            )
+            .padding(24.dp)
     ) {
-        AnalysisInspectionsStatField("Келимбетов Аскар Ахметович")
+        AnalysisInspectionsStatField(doctorName)
 
         Divider(
-            color = Gray30.copy(alpha = 0.19f),
+            color = Gray30.copy(alpha = 0.35f),
             thickness = 2.dp,
             modifier = modifier
-                .padding(horizontal = 24.dp)
+                .padding(vertical = 16.dp)
         )
 
-        AnalysisInspectionsDateField()
+        AnalysisInspectionsDateField(dateOfInspection)
 
-        MainButton(
-            text = stringResource(id = R.string.supply_detail),
-            onClick = { /*TODO*/ },
-            enableState = true,
-            modifier = Modifier.padding(start = 24.dp, end = 24.dp, bottom = 24.dp)
-        )
+        if (yourInspection) {
+            Spacer(modifier = Modifier.height(24.dp))
+
+            MainButtonWithIcon(
+                text = stringResource(id = R.string.supply_detail),
+                onClick = { /*TODO*/ },
+                enableState = true,
+                icon = painterResource(R.drawable.ic_square_and_pencil),
+                buttonHeight = 35.dp,
+                backgroundColor = Color(255, 205, 211),
+                textColor = Color.Red
+            )
+        }
+
 
     }
 }
@@ -143,7 +161,6 @@ fun AnalysisInspectionsStatField(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(24.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -179,12 +196,12 @@ fun AnalysisInspectionsStatField(
 
 @Composable
 fun AnalysisInspectionsDateField(
+    dateOfInspection: String,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(24.dp)
     ) {
 
         Text(
@@ -196,7 +213,7 @@ fun AnalysisInspectionsDateField(
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "15 Февраля 2021",
+            text = dateOfInspection,
             style = MaterialTheme.typography.subtitle1,
         )
 
@@ -227,6 +244,7 @@ fun TopBarForInspectionScreen(
         Text(
             text = stringResource(R.string.general_inspection),
             style = MaterialTheme.typography.h4,
+            fontSize = 28.sp
         )
     }
 }
@@ -234,36 +252,51 @@ fun TopBarForInspectionScreen(
 @Composable
 fun profileForInspection(
     userName: String,
+    percentage: Float,
+    showPercentage: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .background(
                 color = Color.White,
-                shape = RoundedCornerShape(7.dp)
+                shape = RoundedCornerShape(10.dp)
             )
     ) {
-        RoundImage(
-            image = painterResource(id = R.drawable.avatar),
-            modifier = Modifier
-                .size(55.dp).padding(12.dp)
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 11.dp
+                )
+        ) {
+            RoundImage(
+                image = painterResource(id = R.drawable.avatar),
+                modifier = Modifier
+                    .size(32.dp)
+            )
 
-        Text(
-            text = userName,
-            style = MaterialTheme.typography.subtitle2,
-        )
+            Spacer(modifier = Modifier.width(8.dp))
 
-        Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = userName,
+                style = MaterialTheme.typography.subtitle2,
+            )
 
-        CircularProgressBar(percentage = 0.4f, number = 100)
-        Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.weight(1f))
+
+            CircularProgressBar(
+                percentage = percentage,
+                number = 100,
+                showPercentage = showPercentage
+            )
+        }
     }
-
 }
 
 @Composable
@@ -274,7 +307,8 @@ fun CircularProgressBar(
     color: Color = Color.Green,
     strokeWidth: Dp = 3.dp,
     animDuration: Int = 1000,
-    animDelay: Int = 0
+    animDelay: Int = 0,
+    showPercentage: Boolean = false
 ) {
     var animationPlayed by remember {
         mutableStateOf(false)
@@ -298,6 +332,14 @@ fun CircularProgressBar(
     ) {
         Canvas(modifier = Modifier.size(radius * 2f)) {
             drawArc(
+                color = Gray30.copy(alpha = 0.2f),
+                -90f,
+                360f,
+                useCenter = false,
+                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+            )
+
+            drawArc(
                 color = color,
                 -90f,
                 360 * curPercentage.value,
@@ -305,20 +347,24 @@ fun CircularProgressBar(
                 style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
             )
         }
-
-        Text(
-            text = (curPercentage.value * number).toInt().toString(),
-            style = MaterialTheme.typography.h5,
-        )
-
+        if (showPercentage) {
+            Text(
+                text = (curPercentage.value * number).toInt().toString(),
+                style = MaterialTheme.typography.h5,
+            )
+        }
     }
 }
 
 @Composable
 fun FillTextFiled(
-    textForHint: String
+    textForHint: String,
+    enableStatus: Boolean = true,
+    textState: String,
+    onTextChange: (String) -> Unit
+
 ) {
-    var textStateField by remember { mutableStateOf("") }
+//    var textStateField by remember { mutableStateOf(textStateField) }
 
     val colorOfTextField = TextFieldDefaults.textFieldColors(
 //                    textColor = Color.Gray,
@@ -332,23 +378,27 @@ fun FillTextFiled(
 
     TextField(
         modifier = Modifier
-            .fillMaxWidth(),
-        value = textStateField,
-        onValueChange = {
-            textStateField = it
-        },
+            .fillMaxWidth()
+            .height(height = 55.dp),
+        enabled = enableStatus,
+        value = textState,
+        onValueChange = onTextChange,
         placeholder = {
-            Text(text = textForHint)
+            Text(
+                text = textForHint,
+                style = MaterialTheme.typography.body1,
+            )
         },
         colors = colorOfTextField,
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(10.dp)
     )
 }
 
 
 @Composable
 fun dropDownMenuWithFieldBackGround(
-    dataList: List<String>
+    dataList: List<String>,
+    enableStatus: Boolean = true
 ) {
     Box {
         Box(
@@ -357,53 +407,71 @@ fun dropDownMenuWithFieldBackGround(
                 .padding(top = 8.dp)
                 .background(
                     color = Gray30.copy(alpha = 0.19f),
-                    shape = RoundedCornerShape(4.dp)
+                    shape = RoundedCornerShape(10.dp)
                 )
         )
 
-        OutlineTextFildWithDropdownMenu(suggestions = dataList)
+        OutlineTextFildWithDropdownMenu(suggestions = dataList, enableStatus = enableStatus)
     }
 }
 
 @Composable
 fun OutlineTextFildWithDropdownMenu(
-    suggestions: List<String>
+    suggestions: List<String>,
+    enableStatus: Boolean = true
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("") }
-    var textfieldSize by remember { mutableStateOf(Size.Zero) }
+    var textFieldSize by remember { mutableStateOf(Size.Zero) }
+    var color: Color = Color.Black
+
+    if (!enableStatus) {
+        selectedText = suggestions[0]
+        color = Gray30
+
+    }
 
     val icon = if (expanded)
-        Icons.Filled.ArrowDropUp
+        Icons.Filled.KeyboardArrowUp
     else
-        Icons.Filled.ArrowDropDown
+        Icons.Filled.KeyboardArrowDown
 
     Column() {
         OutlinedTextField(
             value = selectedText,
-//            enabled = false,
+            readOnly = true,
             onValueChange = { selectedText = it },
             modifier = Modifier
+                .height(height = 55.dp)
                 .fillMaxWidth()
                 .onGloballyPositioned { coordinates ->
-                    textfieldSize = coordinates.size.toSize()
+                    textFieldSize = coordinates.size.toSize()
                 },
-            label = {},
-            shape = RoundedCornerShape(8.dp),
             trailingIcon = {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
                     modifier = Modifier
-                        .clickable { expanded = !expanded })
-            }
+                        .clickable {
+                            if (enableStatus) {
+                                expanded = !expanded
+                            }
+                        })
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Transparent,
+                unfocusedBorderColor = Color.Transparent
+            ),
+            shape = RoundedCornerShape(10.dp),
+            textStyle = TextStyle(color = color, fontSize = 17.sp)
+
         )
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = Modifier
                 .width(with(LocalDensity.current) {
-                    textfieldSize.width.toDp()
+                    textFieldSize.width.toDp()
                 })
         ) {
             suggestions.forEach { label ->
@@ -416,7 +484,6 @@ fun OutlineTextFildWithDropdownMenu(
                     Text(
                         text = label,
                         style = MaterialTheme.typography.body1,
-//                        color = Color.Black
                     )
                 }
             }

@@ -232,18 +232,20 @@ fun PasscodeScreenDescription(
             painter = painterResource(id = R.drawable.ic_locked_icon),
             contentDescription = null,
             modifier = modifier
-                .size(38.dp)
+                .size(36.dp)
         )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(id = R.string.install_password_code),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = 20.sp
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(id = R.string.install_password_code_description),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.subtitle1,
+            fontSize = 15.sp,
             modifier = modifier.padding(horizontal = 30.dp)
         )
     }

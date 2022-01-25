@@ -48,7 +48,7 @@ fun SleepScreen() {
                 .fillMaxWidth()
                 .background(
                     color = Color.White,
-                    shape = RoundedCornerShape(7.dp)
+                    shape = RoundedCornerShape(10.dp)
                 )
                 .padding(16.dp)
         ) {
@@ -57,27 +57,27 @@ fun SleepScreen() {
             BarChartForSleep(
                 SleepData = listOf(
                     SleepData(positionOnX = 10f, hourOfSleep = 140f, dateName = "Пн"),
-                    SleepData(positionOnX = 100f, hourOfSleep = 200f, dateName = "Вт"),
+                    SleepData(positionOnX = 96f, hourOfSleep = 200f, dateName = "Вт"),
                     SleepData(
-                        positionOnX = 190f,
+                        positionOnX = 180f,
                         hourOfSleep = 190f,
                         startTime = 40f,
                         dateName = "Ср"
                     ),
                     SleepData(
-                        positionOnX = 280f,
+                        positionOnX = 265f,
                         hourOfSleep = 180f,
                         startTime = 60f,
                         dateName = "Чт"
                     ),
-                    SleepData(positionOnX = 370f, hourOfSleep = 220f, dateName = "Пт"),
+                    SleepData(positionOnX = 350f, hourOfSleep = 220f, dateName = "Пт"),
                     SleepData(
-                        positionOnX = 460f,
+                        positionOnX = 435f,
                         hourOfSleep = 240f,
                         startTime = 80f,
                         dateName = "Сб"
                     ),
-                    SleepData(positionOnX = 550f, hourOfSleep = 370f, dateName = "Вс")
+                    SleepData(positionOnX = 520f, hourOfSleep = 370f, dateName = "Вс")
                 ),
                 ListNumberData = listOf(
                     ListNumberOfYForTableData("22:00"),
@@ -137,10 +137,9 @@ fun SleepStat(
 
             Text(
                 text = stringResource(id = R.string.sleep_duration),
-                style = MaterialTheme.typography.subtitle1,
-                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.h6,
+                fontSize = 13.sp,
                 color = Gray30,
-//                inlineContent = inlineContent
             )
 
         }
@@ -173,8 +172,8 @@ fun SleepStat(
 
         Text(
             text = "18-20 ноября 2021",
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
             color = Gray30
         )
 
@@ -199,6 +198,7 @@ fun BarChartForSleep(
             .fillMaxWidth().height(255.dp)
     ) {
         var height = 0
+        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -209,7 +209,7 @@ fun BarChartForSleep(
 
         for (i in ListNumberData) {
             drawLine(
-                start = Offset(10f, height.dp.toPx()),
+                start = Offset(0f, height.dp.toPx()),
                 end = Offset(780f, height.dp.toPx()),
                 color = Gray30,
                 strokeWidth = 2f
@@ -225,29 +225,39 @@ fun BarChartForSleep(
             height += 34
         }
 
-        drawLine(
-            start = Offset(10f, (height - 34).dp.toPx()),
-            end = Offset(10f, 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
         start = true
         for (p in SleepData) {
+            drawLine(
+                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
+                end = Offset(wight.dp.toPx(), 0f),
+                color = Gray30,
+                strokeWidth = 2f
+            )
+
+
             drawRect(
                 color = Color.Red,
-                topLeft = Offset(p.positionOnX + 20, p.startTime * heightPre),
-                size = Size(60f, p.hourOfSleep * heightPre)
+                topLeft = Offset((wight + 6).dp.toPx(), p.startTime * heightPre),
+                size = Size(20.dp.toPx(), p.hourOfSleep * heightPre)
 
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 45,
+                (wight + 15).dp.toPx(),
                 (height - 14).dp.toPx(),
                 paint
             )
+            wight += 32
         }
+
+        drawLine(
+            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
+            end = Offset(wight.dp.toPx(), 0f),
+            color = Gray30,
+            strokeWidth = 2f
+        )
+
     }
 }
 
@@ -261,12 +271,13 @@ fun SleepStat2(
             .size(width = 300.dp, height = 50.dp)
             .background(
                 color = Gray30.copy(alpha = 0.19f),
-                shape = RoundedCornerShape(7.dp)
+                shape = RoundedCornerShape(10.dp)
             )
     ) {
         Text(
             text = stringResource(R.string.woke_up_in_middle),
             style = MaterialTheme.typography.button,
+            fontSize = 15.sp,
             modifier = modifier
                 .align(Alignment.CenterStart)
                 .padding(horizontal = 16.dp)
@@ -308,12 +319,14 @@ fun ProgressBar(
             Text(
                 text = stringResource(R.string.deep_sleep),
                 style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
                 color = Color.Blue
             )
 
             Text(
                 text = "$deepSleepPercent%",
                 style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
             )
 
         }
@@ -330,12 +343,14 @@ fun ProgressBar(
             Text(
                 text = stringResource(R.string.light_sleep),
                 style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
                 color = Color.Cyan
             )
 
             Text(
                 text = "$lightSleepPercent%",
                 style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
             )
 
         }
@@ -352,12 +367,14 @@ fun ProgressBar(
             Text(
                 text = stringResource(R.string.light_sleep),
                 style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
                 color = Color.Gray
             )
 
             Text(
                 text = "30%",
                 style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
             )
         }
     }
