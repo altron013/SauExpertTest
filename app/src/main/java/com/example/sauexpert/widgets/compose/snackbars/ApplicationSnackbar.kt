@@ -46,9 +46,34 @@ fun ApplicationSnackbar() {
     }
 }
 
+@Composable
+fun SnackbarText(text : String) {
+    Snackbar(
+        modifier = Modifier.padding(16.dp),
+        shape = RoundedCornerShape(16.dp),
+        backgroundColor = Green34C759,
+        contentColor = Color.White,
+        elevation = 10.dp,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(
+                text = text,
+                style = SauExpertTypography.body1,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(7f),
+            )
+        }
+    }
+}
+
 
 @Preview
 @Composable
 fun PrevApp(){
-    ApplicationSnackbar()
+    SnackbarText(text = "\uD83D\uDC4F Группа пациентов создана")
 }
