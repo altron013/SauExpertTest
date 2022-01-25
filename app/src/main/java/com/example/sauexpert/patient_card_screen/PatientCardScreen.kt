@@ -102,6 +102,14 @@ fun PatientCardScreen() {
 
 
             }
+
+            1 -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.White)
+            ) {
+                BeginInspectionScreen()
+            }
         }
     }
 }
