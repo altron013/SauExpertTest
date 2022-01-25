@@ -1,6 +1,5 @@
-package com.example.sauexpert.profile
+package com.example.sauexpert.patient_card_screen
 
-import android.graphics.Paint
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -28,8 +27,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
+import com.example.sauexpert.profile.RoundImage
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRow
 
@@ -497,7 +496,7 @@ fun DailyReportInfromation(
                     subtitle = stringResource(R.string.kg),
                     textValue = "75",
                     textValue2 = "+2.3",
-                    ListNumberData = listOf(5f, 6f, 2f, 3f),
+                    ListNumberData = listOf(10f, 15f, 13f, 25f, 30f),
                     dateText = "15 Октября 15:00",
                     modifier = modifier.width(screenWidth).height(112.dp)
 
@@ -640,16 +639,15 @@ fun CardItemWithGraphForPatientCard(
     modifier: Modifier = Modifier
 ) {
     val scale by remember { mutableStateOf(1f) }
-    var wight = 0
+    var wight = 0f
     val path = Path()
     for ((index, item) in ListNumberData.withIndex()) {
         if (index == 0) {
-            path.moveTo(0f * scale, item)
-            wight += 5
+            path.moveTo(0f * scale, 70f - item)
+            wight += 20f
         } else {
-            path.lineTo(wight * scale, item)
-            wight += 5
-
+            path.lineTo(wight * scale, 70f - item)
+            wight += 20f
         }
     }
 
@@ -695,24 +693,23 @@ fun CardItemWithGraphForPatientCard(
                     style = MaterialTheme.typography.caption,
                 )
 
+                Spacer(modifier = Modifier.width(12.dp))
+
                 Canvas(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(36.dp)
                         .height(36.dp)
                         .background(Color.White)
                 ) {
 
-                    clipPath(
+                    drawPath(
                         path = path,
-                        clipOp = ClipOp.Intersect
-                    ) {
-                        drawPath(
-                            path = path,
-                            color = Color.Green,
-                            style = Stroke(width = 6f)
-                        )
-                    }
+                        color = Color.Red,
+                        style = Stroke(width = 2f)
+                    )
                 }
+
+                Spacer(modifier = Modifier.width(4.dp))
 
 
                 Text(
