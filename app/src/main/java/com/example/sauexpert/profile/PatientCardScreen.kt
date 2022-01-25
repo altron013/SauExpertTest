@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -27,6 +28,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRow
+import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRowWithIcon
 
 @Composable
 fun PatientCardScreen() {
@@ -80,9 +82,11 @@ fun PatientCardScreen() {
             ) {
                 IndicatorsScreen()
 
-                MainButtonsInRow(
+                MainButtonsInRowWithIcon(
                     textForOutlineBtn = stringResource(id = R.string.skip),
-                    textForMainBtn = stringResource(id = R.string.next),
+                    iconForOutlineBtn = R.drawable.ic_sms,
+                    textForMainBtn = stringResource(id = R.string.begin_diagnostic),
+                    iconForMainBtn = painterResource(R.drawable.ic_play_fill),
                     onClickForOutlineBtn = { /*TODO*/ },
                     onClickForMainBtn = { /*TODO*/ },
                     enableStateForOutlineBtn = true,
@@ -657,28 +661,28 @@ fun CriticalCaseCell(
                 textValue = 5
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hyperglycemia),
                 textValue = 4
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hypertension),
                 textValue = 8
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hypotension),
                 textValue = 3
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(19.dp))
 
 
             Row(
@@ -725,7 +729,7 @@ fun CriticalCaseStat(
             text = text,
             style = MaterialTheme.typography.h6,
             fontSize = 11.sp,
-            modifier = Modifier.drawPinkBar((24 * textValue)),
+            modifier = Modifier.drawPinkBar((24 * textValue)).padding(start = 11.dp),
         )
 
         Text(
@@ -744,6 +748,10 @@ fun Modifier.drawPinkBar(width: Int) = this.drawBehind {
 
     drawRect(
         color = colorOfLine,
+        topLeft = Offset(
+            x = 0.dp.toPx(),
+            y = -4.dp.toPx(),
+        ),
         size = Size(
             width = width.dp.toPx(),
             height = 24.dp.toPx()

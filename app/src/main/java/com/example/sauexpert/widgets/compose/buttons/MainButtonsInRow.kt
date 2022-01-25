@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Paint
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.ui.theme.Green57C3A7
@@ -45,6 +47,51 @@ fun MainButtonsInRow(
 
         MainButton(
             text = textForMainBtn,
+            onClick = onClickForMainBtn,
+            enableState = enableStateForMainBtn,
+            modifier = Modifier
+                .weight(0.6f)
+        )
+    }
+}
+
+@Composable
+fun MainButtonsInRowWithIcon(
+    modifier: Modifier = Modifier,
+    textForOutlineBtn: String,
+    iconForOutlineBtn: Int? = null,
+    textForMainBtn: String,
+    iconForMainBtn: Painter,
+    onClickForOutlineBtn: () -> Unit,
+    onClickForMainBtn: () -> Unit,
+    enableStateForOutlineBtn: Boolean,
+    enableStateForMainBtn: Boolean,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        OutlinedMainButton(
+            text = textForOutlineBtn,
+            icon = iconForOutlineBtn,
+            onClick = onClickForOutlineBtn,
+            enableState = enableStateForOutlineBtn,
+            modifier = Modifier
+                .weight(0.4f),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = MaterialTheme.colors.onPrimary,
+                contentColor = Color.Red,
+            ),
+            textColor = Color.Red
+        )
+
+        Spacer(modifier = Modifier.width(12.dp))
+
+        MainButtonWithIcon(
+            text = textForMainBtn,
+            icon = iconForMainBtn,
             onClick = onClickForMainBtn,
             enableState = enableStateForMainBtn,
             modifier = Modifier
