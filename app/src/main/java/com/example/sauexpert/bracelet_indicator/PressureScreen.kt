@@ -266,7 +266,7 @@ fun BarChartForPressure(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 38,
+                p.positionOnX + 32f,
                 (height - 15).dp.toPx(),
                 paint
             )

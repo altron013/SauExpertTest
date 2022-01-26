@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
@@ -65,15 +67,15 @@ fun PulseStatwithBarChart(
     ) {
         PulseStat()
         Spacer(modifier = Modifier.height(12.dp))
-        BarChartForPulse(
+        LineChartForPulse(
             PulseData = listOf(
-                PulseData(positionOnX = 10f, pulseInMinuteAverage = 200f, dateName = "16.12"),
-                PulseData(positionOnX = 105f, pulseInMinuteAverage = 370f, dateName = "17.12"),
-                PulseData(positionOnX = 200f, pulseInMinuteAverage = 190f, dateName = "18.12"),
-                PulseData(positionOnX = 295f, pulseInMinuteAverage = 180f, dateName = "19.12"),
-                PulseData(positionOnX = 390f, pulseInMinuteAverage = 220f, dateName = "20.12"),
-                PulseData(positionOnX = 485f, pulseInMinuteAverage = 240f, dateName = "21.12"),
-                PulseData(positionOnX = 580f, pulseInMinuteAverage = 30f, dateName = "22.12")
+                PulseData(positionOnX = 50f, pulseInMinuteAverage = 200f, time = "00:00"),
+                PulseData(positionOnX = 160f, pulseInMinuteAverage = 370f, time = "02:00"),
+                PulseData(positionOnX = 270f, pulseInMinuteAverage = 190f, time = "04:00"),
+                PulseData(positionOnX = 380f, pulseInMinuteAverage = 180f, time = "06:00"),
+                PulseData(positionOnX = 490f, pulseInMinuteAverage = 220f, time = "08:00"),
+                PulseData(positionOnX = 600f, pulseInMinuteAverage = 240f, time = "10:00"),
+//                PulseData(positionOnX = 590f, pulseInMinuteAverage = 240f, time = ""),
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("280"),
@@ -130,10 +132,14 @@ fun PulseStat(
 
 
 @Composable
-fun BarChartForPulse(
+fun LineChartForPulse(
     PulseData: List<PulseData>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
+    val scale by remember { mutableStateOf(1f) }
+    val path = Path()
+
+
     var start by remember { mutableStateOf(false) }
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
@@ -153,6 +159,15 @@ fun BarChartForPulse(
         yPosition = positionOfY,
         dataList = PulseData
     )
+
+    for ((index, item) in PulseData.withIndex()) {
+        if (index == 0) {
+            path.moveTo(0f * scale, item.pulseInMinuteAverage)
+            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+        } else {
+            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+        }
+    }
 
 
     Canvas(
@@ -185,7 +200,7 @@ fun BarChartForPulse(
 
         for (i in ListNumberData) {
             drawLine(
-                start = Offset(x = 10f, y = height.dp.toPx()),
+                start = Offset(x = 0f, y = height.dp.toPx()),
                 end = Offset(x = 780f, y = height.dp.toPx()),
                 color = Gray30,
                 strokeWidth = 2f
@@ -202,7 +217,15 @@ fun BarChartForPulse(
         }
 
         start = true
-        for (p in PulseData) {
+
+        drawPath(
+            path = path,
+            color = Color.Blue.copy(alpha = 0.2f),
+            style = Stroke(width = 6f)
+        )
+
+
+        for (i in PulseData) {
             drawLine(
                 start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
                 end = Offset(wight.dp.toPx(), 0f),
@@ -210,43 +233,31 @@ fun BarChartForPulse(
                 strokeWidth = 2f
             )
 
-            drawRect(
-                color = p.colorFocus,
-                topLeft = Offset(
-                    x = p.positionOnX,
-                    y = (height - 34).dp.toPx() - ((height - 34).dp.toPx()
-                            - p.pulseInMinuteAverage) * heightPre
-                ),
-                size = Size(
-                    width = 75f,
-                    height = (height.dp.toPx() - 34.dp.toPx() - p.pulseInMinuteAverage) * heightPre
-                )
+            drawCircle(
+                color = i.colorFocus,
+                radius = 10f,
+                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
             )
 
             drawContext.canvas.nativeCanvas.drawText(
-                "${p.dateName}",
-                p.positionOnX + 38,
+                "${i.time}",
+                (wight + 20).dp.toPx(),
                 (height - 14).dp.toPx(),
                 paint
             )
 
-            wight += 36
+            wight += 40
         }
-
-        drawLine(
-            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-            end = Offset(wight.dp.toPx(), 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
-
     }
 }
 
 private fun identifyClickItemForPulse(dataList: List<PulseData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX && x < dataList.positionOnX + 70 && y > dataList.pulseInMinuteAverage) {
+        if (x > dataList.positionOnX - 10
+            && x < dataList.positionOnX + 10
+            && y > dataList.pulseInMinuteAverage - 10
+            && y < dataList.pulseInMinuteAverage + 10
+        ) {
             return index
         }
     }
@@ -255,7 +266,7 @@ private fun identifyClickItemForPulse(dataList: List<PulseData>, x: Float, y: Fl
 
 private fun ResetColorInsideDataClassForPulse(dataList: List<PulseData>) {
     for (p in dataList) {
-        p.colorFocus = Color(250, 218, 221)
+        p.colorFocus = Color.Blue
     }
 }
 
@@ -284,7 +295,7 @@ fun InfoDialogForBarChartOfPulse(
                     } else {
                         Text(
                             text = "${itemID.value} | ${dataList[itemID.value].pulseInMinuteAverage} | " +
-                                    "${dataList[itemID.value].dateName}",
+                                    "${dataList[itemID.value].time}",
                             style = MaterialTheme.typography.h5,
                             modifier = modifier
                                 .align(alignment = Alignment.Center)
