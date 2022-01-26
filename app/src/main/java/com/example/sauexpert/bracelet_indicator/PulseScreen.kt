@@ -205,6 +205,12 @@ fun LineChartForPulse(
             )
 
             drawCircle(
+                color = Color.White,
+                radius = 13f,
+                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+            )
+
+            drawCircle(
                 color = i.colorFocus,
                 radius = 10f,
                 center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)

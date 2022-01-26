@@ -3,16 +3,14 @@ package com.example.sauexpert.indicator_with_chart
 import android.graphics.Paint
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,20 +18,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
-import com.example.sauexpert.bracelet_indicator.*
+import com.example.sauexpert.bracelet_indicator.AnalysisStatField
+import com.example.sauexpert.bracelet_indicator.AnalysisStatFieldWithIconAtEnd
+import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
+import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
+import com.example.sauexpert.model.PulseData
 import com.example.sauexpert.ui.theme.Gray30
 
 @Composable
@@ -67,48 +69,59 @@ fun PressureAndPulsewithBarChart(
         BarChartForPressureAndPulse(
             PressureData = listOf(
                 PressureData(
-                    positionOnX = 15f,
+                    positionOnX = 20f,
                     pressureInAverage = 200f,
                     dateName = "16.12",
                     startPoint = 250f
                 ),
                 PressureData(
-                    positionOnX = 110f,
+                    positionOnX = 120f,
                     pressureInAverage = 300f,
                     dateName = "17.12",
                     startPoint = 200f
                 ),
                 PressureData(
-                    positionOnX = 205f,
+                    positionOnX = 220f,
                     pressureInAverage = 190f,
                     dateName = "18.12",
                     startPoint = 250f
                 ),
                 PressureData(
-                    positionOnX = 300f,
+                    positionOnX = 320f,
                     pressureInAverage = 180f,
                     dateName = "19.12",
                     startPoint = 250f
                 ),
                 PressureData(
-                    positionOnX = 395f,
+                    positionOnX = 420f,
                     pressureInAverage = 220f,
                     dateName = "20.12",
                     startPoint = 230f
                 ),
                 PressureData(
-                    positionOnX = 490f,
+                    positionOnX = 520f,
                     pressureInAverage = 240f,
                     dateName = "21.12",
                     startPoint = 250f
                 ),
                 PressureData(
-                    positionOnX = 585f,
+                    positionOnX = 620f,
                     pressureInAverage = 50f,
                     dateName = "22.12",
                     startPoint = 280f
                 )
             ),
+
+            PulseData = listOf(
+                PulseData(positionOnX = 50f, pulseInMinuteAverage = 350f),
+                PulseData(positionOnX = 150f, pulseInMinuteAverage = 370f),
+                PulseData(positionOnX = 250f, pulseInMinuteAverage = 350f),
+                PulseData(positionOnX = 350f, pulseInMinuteAverage = 370f),
+                PulseData(positionOnX = 450f, pulseInMinuteAverage = 250f),
+                PulseData(positionOnX = 550f, pulseInMinuteAverage = 290f),
+                PulseData(positionOnX = 650f, pulseInMinuteAverage = 300f),
+            ),
+
             ListNumberData = listOf(
                 ListNumberOfYForTableData("240"),
                 ListNumberOfYForTableData("200"),
@@ -118,6 +131,8 @@ fun PressureAndPulsewithBarChart(
                 ListNumberOfYForTableData("40"),
                 ListNumberOfYForTableData("0"),
             )
+
+
         )
         Spacer(modifier = Modifier.height(12.dp))
         TextWithIconForGraph(color = Color.Red, text = stringResource(id = R.string.pressure))
@@ -157,8 +172,11 @@ fun PressureAndPulseTitle(
 @Composable
 fun BarChartForPressureAndPulse(
     PressureData: List<PressureData>,
+    PulseData: List<PulseData>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
+    val scale by remember { mutableStateOf(1f) }
+    val path = Path()
     var start by remember { mutableStateOf(false) }
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
@@ -171,13 +189,24 @@ fun BarChartForPressureAndPulse(
         animationSpec = FloatTweenSpec(duration = 1000)
     )
 
-    InfoDialogForBarChartOfPressure(
+    InfoDialogForBarChartOfPressureAndPulse(
         visible = visible,
         itemID = itemID,
         xPosition = positionOfX,
         yPosition = positionOfY,
-        dataList = PressureData
+        PressureData = PressureData,
+        PulseData = PulseData
     )
+
+    for ((index, item) in PulseData.withIndex()) {
+        if (index == 0) {
+            path.moveTo(0f * scale, item.pulseInMinuteAverage)
+            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+        } else {
+            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+        }
+    }
+
 
 
     Canvas(
@@ -189,12 +218,16 @@ fun BarChartForPressureAndPulse(
                     onTap = {
                         itemID.value =
                             identifyClickItemForPressureAndPulse(PressureData, it.x, it.y)
-                        ResetColorInsideDataClassForPressureAndPusle(dataList = PressureData)
+                        ResetColorInsideDataClassForPressureAndPusle(
+                            pressureData = PressureData,
+                            pulseData = PulseData
+                        )
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
                             visible.value = true
                             PressureData[itemID.value].colorFocus = Color.Red
+                            PulseData[itemID.value].colorFocus = Color.Red
                         }
                     }
                 )
@@ -227,6 +260,7 @@ fun BarChartForPressureAndPulse(
         }
 
         start = true
+
         for (p in PressureData) {
             drawLine(
                 start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
@@ -248,8 +282,28 @@ fun BarChartForPressureAndPulse(
                 (height - 15).dp.toPx(),
                 paint
             )
-            wight += 36
+            wight += 38
 
+        }
+
+        drawPath(
+            path = path,
+            color = Color.Blue.copy(alpha = 0.3f),
+            style = Stroke(width = 5f)
+        )
+
+        for (i in PulseData) {
+            drawCircle(
+                color = Color.White,
+                radius = 13f,
+                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+            )
+
+            drawCircle(
+                color = i.colorFocus,
+                radius = 10f,
+                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+            )
         }
 
         drawLine(
@@ -279,9 +333,64 @@ private fun identifyClickItemForPressureAndPulse(
     return -1
 }
 
-private fun ResetColorInsideDataClassForPressureAndPusle(dataList: List<PressureData>) {
-    for (p in dataList) {
+private fun ResetColorInsideDataClassForPressureAndPusle(
+    pressureData: List<PressureData>,
+    pulseData: List<PulseData>
+) {
+    for (p in pressureData) {
         p.colorFocus = Color(250, 218, 221)
+    }
+
+    for (i in pulseData) {
+        i.colorFocus = Color.Blue
+    }
+}
+
+
+@Composable
+fun InfoDialogForBarChartOfPressureAndPulse(
+    visible: MutableState<Boolean>,
+    itemID: MutableState<Int>,
+    xPosition: MutableState<Int>,
+    yPosition: MutableState<Int>,
+    PressureData: List<PressureData>,
+    PulseData: List<PulseData>,
+    modifier: Modifier = Modifier
+) {
+    if (visible.value) {
+        Box {
+            Popup(
+                alignment = Alignment.Center,
+                IntOffset(xPosition.value, yPosition.value - 70)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(width = 140.dp, height = 40.dp)
+                        .background(Color.White, RoundedCornerShape(10.dp))
+                ) {
+                    if (itemID.value == -1) {
+                        visible.value = false
+                    } else {
+                        Text(
+                            text = "${itemID.value} | " +
+                                    "${PressureData[itemID.value].pressureInAverage} | " +
+                                    "${PulseData[itemID.value].pulseInMinuteAverage} | " +
+                                    "${PressureData[itemID.value].dateName}",
+                            style = MaterialTheme.typography.h5,
+                            modifier = modifier
+                                .align(alignment = Alignment.Center)
+                                .clickable {
+                                    visible.value = false
+                                    ResetColorInsideDataClassForPressureAndPusle(
+                                        pressureData = PressureData,
+                                        pulseData = PulseData
+                                    )
+                                }
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -333,3 +442,5 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
         )
     }
 }
+
+
