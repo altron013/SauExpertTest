@@ -1,10 +1,15 @@
 package com.example.sauexpert.bracelet_indicator
 
 import android.graphics.Paint
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.*
@@ -15,13 +20,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.DialogProperties
 import com.example.sauexpert.R
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.Sp02Data
@@ -33,18 +37,70 @@ import kotlinx.coroutines.launch
 @ExperimentalComposeUiApi
 @Composable
 fun Sp02Screen() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(bottom = 70.dp, top = 24.dp)
+
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    BottomSheetScaffold(
+        sheetShape = RoundedCornerShape(10.dp, 10.dp, 0.dp, 0.dp),
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+
+            BottomSheetContentForSoas(
+                onClick = {
+                    coroutineScope.launch {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    }
+                }
+            )
+        },
+        sheetPeekHeight = 0.dp
     ) {
-        SP02withLineGraph()
-        Spacer(modifier = Modifier.height(24.dp))
-//        HomeScreenTest()
-        AnalysisSOASStat()
-        Spacer(modifier = Modifier.height(24.dp))
-        AnalysisSOASStat2()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = Gray30.copy(alpha = 0.19f)
+                )
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = 70.dp, top = 24.dp)
+            ) {
+                SP02withLineGraph()
+                Spacer(modifier = Modifier.height(24.dp))
+
+                AnalysisSOASTitle(
+                    onClick = {
+                        coroutineScope.launch {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+                AnalysisSOASStat()
+                Spacer(modifier = Modifier.height(24.dp))
+                AnalysisSOASStat2()
+            }
+
+            MainButton(
+                text = stringResource(id = R.string.range_customize),
+                onClick = { /*TODO*/ },
+                enableState = true,
+                modifier = Modifier.fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+            )
+
+        }
+
+
     }
 }
 
@@ -288,33 +344,33 @@ fun SP02Stat2(modifier: Modifier = Modifier) {
 @ExperimentalComposeUiApi
 @Composable
 fun AnalysisSOASStat(modifier: Modifier = Modifier) {
-    val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
-
-    InfoDialogForSOAS(visible = visible)
+//    val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
+//
+//    InfoDialogForSOAS(visible = visible)
 
     Column(modifier = modifier.fillMaxWidth()) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(R.string.soas_analysis),
-                style = MaterialTheme.typography.subtitle2,
-            )
+//        Row(
+//            verticalAlignment = Alignment.CenterVertically,
+//            horizontalArrangement = Arrangement.SpaceBetween,
+//            modifier = modifier.fillMaxWidth()
+//        ) {
+//            Text(
+//                text = stringResource(R.string.soas_analysis),
+//                style = MaterialTheme.typography.subtitle2,
+//            )
+//
+//            Text(
+//                text = stringResource(R.string.more_detail),
+//                style = MaterialTheme.typography.body2,
+//                color = Color.Red,
+//                modifier = modifier.clickable {
+//                    visible.value = true
+//                }
+//            )
+//        }
 
-            Text(
-                text = stringResource(R.string.more_detail),
-                style = MaterialTheme.typography.body2,
-                color = Color.Red,
-                modifier = modifier.clickable {
-                    visible.value = true
-                }
-            )
-        }
 
 
-        Spacer(modifier = Modifier.height(12.dp))
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -352,132 +408,70 @@ fun AnalysisSOASStat(modifier: Modifier = Modifier) {
 
 @ExperimentalMaterialApi
 @Composable
-fun HomeScreenTest(
-    modifier: Modifier = Modifier
+fun BottomSheetContentForSoas(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
-    )
-    val coroutineScope = rememberCoroutineScope()
-
-    BottomSheetScaffold(
-        scaffoldState = bottomSheetScaffoldState,
-        sheetContent = {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(500.dp)
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),)
-            ) {
-                Column(
-                    Modifier.fillMaxSize()
-                    ) {
-                    Text(
-                        text = stringResource(R.string.soas_analysis),
-                        style = MaterialTheme.typography.caption
-                    )
-
-                    Text(
-                        text = stringResource(R.string.soas_description),
-                        style = MaterialTheme.typography.body1
-                    )
-
-                    MainButton(
-                        text = stringResource(id = R.string.understand),
-                        onClick = { },
-                        enableState = true,
-                        modifier = modifier.fillMaxWidth().padding(16.dp)
-                    )
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
 
 
-                }
-            }
-        }, sheetPeekHeight = 0.dp
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(screenHeight / 2)
+            .background(
+                color = Color.White
+            )
     ) {
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier.fillMaxWidth()
+        Column(
+            modifier = modifier.fillMaxSize().padding(16.dp)
         ) {
             Text(
                 text = stringResource(R.string.soas_analysis),
-                style = MaterialTheme.typography.subtitle2,
+                style = MaterialTheme.typography.caption
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = stringResource(R.string.more_detail),
-                style = MaterialTheme.typography.body2,
-                color = Color.Red,
-                modifier = modifier.clickable {
-                    coroutineScope.launch {
-                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                            bottomSheetScaffoldState.bottomSheetState.expand()
-                        } else {
-                            bottomSheetScaffoldState.bottomSheetState.collapse()
-                        }
-                    }
-                }
+                text = stringResource(R.string.soas_description),
+                style = MaterialTheme.typography.body1
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            MainButton(
+                text = stringResource(id = R.string.understand),
+                onClick = onClick,
+                enableState = true
             )
         }
-
     }
 }
 
-
-fun Modifier.customDialogModifier(pos: String) = layout { measurable, constraints ->
-
-    val placeable = measurable.measure(constraints)
-    layout(constraints.maxWidth, constraints.maxHeight) {
-        when (pos) {
-            "BOTTOM" -> {
-                placeable.place(0, constraints.maxHeight - placeable.height, 10f)
-            }
-            "TOP" -> {
-                placeable.place(0, 0, 10f)
-            }
-        }
-    }
-}
-
-
-@ExperimentalComposeUiApi
 @Composable
-fun InfoDialogForSOAS(
-    visible: MutableState<Boolean>,
-    modifier: Modifier = Modifier
+fun AnalysisSOASTitle(
+    modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit,
 ) {
-    if (visible.value) {
-        AlertDialog(
-            onDismissRequest = { visible.value = false },
-            title = {
-                Text(
-                    text = stringResource(R.string.soas_analysis),
-                    style = MaterialTheme.typography.caption
-                )
-            },
-            text = {
-                Text(
-                    text = stringResource(R.string.soas_description),
-                    style = MaterialTheme.typography.body1
-                )
-            },
-            confirmButton = {
-                MainButton(
-                    text = stringResource(id = R.string.understand),
-                    onClick = { visible.value = false },
-                    enableState = true,
-                    modifier = modifier.fillMaxWidth().padding(16.dp)
-                )
-            },
-            shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),
-            modifier = modifier.fillMaxWidth().customDialogModifier("BOTTOM"),
-            properties = DialogProperties(usePlatformDefaultWidth = false),
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = stringResource(R.string.soas_analysis),
+            style = MaterialTheme.typography.subtitle2,
+        )
+
+        ClickableText(
+            text = AnnotatedString(stringResource(R.string.more_detail)),
+            style = MaterialTheme.typography.body2.copy(Color.Red),
+            onClick = onClick,
         )
     }
-
 }
 
 
@@ -525,3 +519,58 @@ fun AnalysisSOASStat2(modifier: Modifier = Modifier) {
 
     }
 }
+
+
+
+//fun Modifier.customDialogModifier(pos: String) = layout { measurable, constraints ->
+//
+//    val placeable = measurable.measure(constraints)
+//    layout(constraints.maxWidth, constraints.maxHeight) {
+//        when (pos) {
+//            "BOTTOM" -> {
+//                placeable.place(0, constraints.maxHeight - placeable.height, 10f)
+//            }
+//            "TOP" -> {
+//                placeable.place(0, 0, 10f)
+//            }
+//        }
+//    }
+//}
+//
+//
+//@ExperimentalComposeUiApi
+//@Composable
+//fun InfoDialogForSOAS(
+//    visible: MutableState<Boolean>,
+//    modifier: Modifier = Modifier
+//) {
+//    if (visible.value) {
+//        AlertDialog(
+//            onDismissRequest = { visible.value = false },
+//            title = {
+//                Text(
+//                    text = stringResource(R.string.soas_analysis),
+//                    style = MaterialTheme.typography.caption
+//                )
+//            },
+//            text = {
+//                Text(
+//                    text = stringResource(R.string.soas_description),
+//                    style = MaterialTheme.typography.body1
+//                )
+//            },
+//            confirmButton = {
+//                MainButton(
+//                    text = stringResource(id = R.string.understand),
+//                    onClick = { visible.value = false },
+//                    enableState = true,
+//                    modifier = modifier.fillMaxWidth().padding(16.dp)
+//                )
+//            },
+//            shape = RoundedCornerShape(24.dp, 24.dp, 0.dp, 0.dp),
+//            modifier = modifier.fillMaxWidth().customDialogModifier("BOTTOM"),
+//            properties = DialogProperties(usePlatformDefaultWidth = false),
+//        )
+//    }
+//
+//}

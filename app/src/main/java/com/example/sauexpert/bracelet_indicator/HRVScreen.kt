@@ -42,7 +42,7 @@ fun HRVScreen() {
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
-            .padding(top = 24.dp)
+            .padding(top = 24.dp, bottom = 10.dp)
     ) {
         HRVwithBarChart()
         Spacer(modifier = Modifier.height(24.dp))

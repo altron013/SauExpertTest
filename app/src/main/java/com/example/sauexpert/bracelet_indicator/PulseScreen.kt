@@ -41,7 +41,7 @@ fun PulseScreen() {
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
-            .padding(top = 24.dp)
+            .padding(top = 24.dp, bottom = 10.dp)
     ) {
         PulseStatwithBarChart()
         Spacer(modifier = Modifier.height(24.dp))

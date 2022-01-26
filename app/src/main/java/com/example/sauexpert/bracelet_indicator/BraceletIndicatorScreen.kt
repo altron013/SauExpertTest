@@ -45,7 +45,7 @@ fun BraceletIndicatorScreen() {
             .background(
                 color = Gray30.copy(alpha = 0.19f)
             )
-            .padding(16.dp)
+//            .padding(16.dp)
     ) {
         TopBarForBracelet()
         Spacer(modifier = Modifier.height(28.dp))
@@ -76,7 +76,7 @@ fun BraceletIndicatorScreen() {
             0 -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 10.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 SleepScreen()
                 MainButton(
@@ -87,34 +87,20 @@ fun BraceletIndicatorScreen() {
                         .align(Alignment.BottomCenter)
                 )
             }
-            1 -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 10.dp)
-            ) {
-                Sp02Screen()
-                MainButton(
-                    text = stringResource(id = R.string.range_customize),
-                    onClick = { /*TODO*/ },
-                    enableState = true,
-                    modifier = Modifier.fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                )
-
-            }
+            1 -> Sp02Screen()
             2 -> Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 HRVScreen()
             }
             3 -> Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
 
             ) {
                 PressureScreen()
             }
             4 -> Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
             ) {
                 PulseScreen()
             }
@@ -127,7 +113,7 @@ fun BraceletIndicatorScreen() {
 fun TopBarForBracelet(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxWidth()) {
+    Box(modifier = modifier.fillMaxWidth().padding(start = 16.dp, end =16.dp, top = 16.dp)) {
 
         Icon(
             imageVector = Icons.Default.ArrowBack,
@@ -174,8 +160,10 @@ fun TabView(
         divider = {},
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 16.dp)
             .clip(shape = shape)
             .border(width = 2.dp, color = backgroundColor, shape = shape)
+
     ) {
         TextOfTab.forEachIndexed { index, item ->
             Tab(
