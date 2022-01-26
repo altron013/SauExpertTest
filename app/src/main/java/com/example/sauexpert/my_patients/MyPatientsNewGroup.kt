@@ -364,7 +364,7 @@ fun TabsNewGroup(tabTitles: List<String>, openSheet: () -> Job, onBottomSheetCha
                         text = { Text(text = title, color = Red435B) },
                         icon = {
                             Image(
-                                painter = painterResource(R.drawable.ic_plus_circle),
+                                painter = painterResource(R.drawable.ic_plus_circle_conflict),
                                 contentDescription = "tabIcon",
                                 contentScale = ContentScale.Crop,            // crop the image if it's not a square
                                 modifier = Modifier

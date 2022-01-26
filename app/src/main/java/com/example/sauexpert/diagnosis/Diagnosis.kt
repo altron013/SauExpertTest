@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.*
-import com.example.sauexpert.widgets.compose.SpacingVertical
 
 @Composable
 fun EmptyDiagnosis() {
@@ -115,7 +114,7 @@ fun DiagnosisContent() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_plus_circle),
+                painter = painterResource(id = R.drawable.ic_plus_circle_conflict),
                 contentDescription = ""
             )
             Spacer(modifier = Modifier.padding(start = 8.dp))

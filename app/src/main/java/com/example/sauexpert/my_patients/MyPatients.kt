@@ -24,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
@@ -112,7 +111,7 @@ fun Tabs(tabTitles: List<String>) {
                         text = { Text(text = title, color = Red435B) },
                         icon = {
                             Image(
-                                painter = painterResource(R.drawable.ic_plus_circle),
+                                painter = painterResource(R.drawable.ic_plus_circle_conflict),
                                 contentDescription = "tabIcon",
                                 contentScale = ContentScale.Crop,            // crop the image if it's not a square
                                 modifier = Modifier
