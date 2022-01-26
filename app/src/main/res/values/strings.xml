@@ -208,6 +208,26 @@
 
     <string name="manage_the_treatment_process">Управляйте процессом лечения</string>
     <string name="prescribe_medications_tests_monitor_implementation">Назначайте медикаменты и анализы, контролируйте выполнение рекомендаций, отслеживайте показатели пациентов.</string>
+    <string name="first_inspection">Начните первый осмотр</string>
+    <string name="begin_examination">Начать осмотр</string>
+    <string name="caps_main">ОСНОВНОЙ</string>
+    <string name="caps_related">СОПУТСТВУЮЩИЙ</string>
+    <string name="new_diagnosis">Новый диагноз</string>
+    <string name="main_diagnosis">Основной диагноз</string>
+    <string name="caps_diagnosis">ДИАГНОЗ</string>
+    <string name="caps_start_date">ДАТА НАЧАЛА</string>
+    <string name="caps_comment">КОММЕНТАРИЙ</string>
+    <string name="critical_case">Критический случай</string>
+    <string name="desc_case">Опишите случай</string>
+    <string name="when_occurred">КОГДА ПРОИЗОШЛО</string>
+    <string name="more">Ещё</string>
+    <string name="base_therapy">Базовая терапия</string>
+    <string name="insulin_usage">Использование инсулина</string>
+    <string name="new_group">Новая группа</string>
+    <string name="name_group">Назовите группу</string>
+    <string name="create_group">Создать группу</string>
+    <string name="patients_chosen">Пациентов выбрано:</string>
+    <string name="search_placeholder_patients">Поиск по ФИО пациента</string>
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
