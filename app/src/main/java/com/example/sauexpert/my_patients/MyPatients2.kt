@@ -14,13 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
@@ -37,7 +34,7 @@ fun MyPatients2() {
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val coroutineScope = rememberCoroutineScope()
-    val tabTitles = listOf("Новые", "Все", "Гипертония", "Сахарный диабет")
+    val tabTitles = listOf("Новые", "Все", "Гипертония", "Сахарный диабет", "Новая группа")
     SauExpertTheme() {
         BottomSheetScaffold(
             scaffoldState = bottomSheetScaffoldState,
@@ -78,7 +75,6 @@ fun MyPatients2() {
                             painter = painterResource(id = R.drawable.ic_arrow_left_arrow_right),
                             contentDescription = "",
                             modifier = Modifier
-                                .padding(12.dp)
                                 .clickable {
                                     coroutineScope.launch {
                                         if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
@@ -88,6 +84,7 @@ fun MyPatients2() {
                                         }
                                     }
                                 }
+                                .padding(12.dp)
                         )
                     }
                 }
