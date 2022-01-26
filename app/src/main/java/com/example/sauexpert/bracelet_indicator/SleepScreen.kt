@@ -56,42 +56,26 @@ fun SleepScreen() {
             Spacer(modifier = Modifier.height(12.dp))
             BarChartForSleep(
                 SleepData = listOf(
-                    SleepData(positionOnX = 10f, hourOfSleep = 140f, dateName = "Пн"),
-                    SleepData(positionOnX = 96f, hourOfSleep = 200f, dateName = "Вт"),
-                    SleepData(
-                        positionOnX = 180f,
-                        hourOfSleep = 190f,
-                        startTime = 40f,
-                        dateName = "Ср"
-                    ),
-                    SleepData(
-                        positionOnX = 265f,
-                        hourOfSleep = 180f,
-                        startTime = 60f,
-                        dateName = "Чт"
-                    ),
-                    SleepData(positionOnX = 350f, hourOfSleep = 220f, dateName = "Пт"),
-                    SleepData(
-                        positionOnX = 435f,
-                        hourOfSleep = 240f,
-                        startTime = 80f,
-                        dateName = "Сб"
-                    ),
-                    SleepData(positionOnX = 520f, hourOfSleep = 370f, dateName = "Вс")
+                    SleepData(positionOnX = 27f, hourOfSleep = 140f, dateName = "16.12"),
+                    SleepData(positionOnX = 127f, hourOfSleep = 200f, dateName = "17.12"),
+                    SleepData(positionOnX = 227f, hourOfSleep = 190f, dateName = "18.12"),
+                    SleepData(positionOnX = 327f, hourOfSleep = 180f, dateName = "19.12"),
+                    SleepData(positionOnX = 427f, hourOfSleep = 220f, dateName = "20.12"),
+                    SleepData(positionOnX = 527f, hourOfSleep = 510f, dateName = "21.12"),
+                    SleepData(positionOnX = 627f, hourOfSleep = 370f, dateName = "22.12")
                 ),
                 ListNumberData = listOf(
-                    ListNumberOfYForTableData("22:00"),
-                    ListNumberOfYForTableData("00:00"),
-                    ListNumberOfYForTableData("02:00"),
-                    ListNumberOfYForTableData("04:00"),
-                    ListNumberOfYForTableData("06:00"),
-                    ListNumberOfYForTableData("08:00"),
-                    ListNumberOfYForTableData("10:00"),
-                    ListNumberOfYForTableData("12:00"),
+                    ListNumberOfYForTableData("12"),
+                    ListNumberOfYForTableData("10"),
+                    ListNumberOfYForTableData("8"),
+                    ListNumberOfYForTableData("6"),
+                    ListNumberOfYForTableData("4"),
+                    ListNumberOfYForTableData("2"),
+                    ListNumberOfYForTableData("0"),
                 )
 
             )
-            Spacer(modifier = Modifier.height(25.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             SleepStat2()
             Spacer(modifier = Modifier.height(16.dp))
             ProgressBar(
@@ -195,7 +179,8 @@ fun BarChartForSleep(
 
     Canvas(
         modifier = Modifier
-            .fillMaxWidth().height(255.dp)
+            .fillMaxWidth()
+            .height(250.dp)
     ) {
         var height = 0
         var wight = 0
@@ -236,10 +221,27 @@ fun BarChartForSleep(
 
 
             drawRect(
-                color = Color.Red,
-                topLeft = Offset((wight + 6).dp.toPx(), p.startTime * heightPre),
-                size = Size(20.dp.toPx(), p.hourOfSleep * heightPre)
+                color = Color(250, 218, 221),
+                topLeft = Offset(
+                    x = (wight + 10).dp.toPx(),
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 180f) * heightPre
+                ),
+                size = Size(
+                    width = 17.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - 180f) * heightPre
+                )
+            )
 
+            drawRect(
+                color = Color.Red,
+                topLeft = Offset(
+                    x = (wight + 10).dp.toPx(),
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.hourOfSleep) * heightPre
+                ),
+                size = Size(
+                    width = 17.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - p.hourOfSleep) * heightPre
+                )
             )
 
             drawContext.canvas.nativeCanvas.drawText(
@@ -248,7 +250,7 @@ fun BarChartForSleep(
                 (height - 14).dp.toPx(),
                 paint
             )
-            wight += 32
+            wight += 38
         }
 
         drawLine(

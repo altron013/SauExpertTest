@@ -220,8 +220,8 @@ fun LineChartForPulse(
 
         drawPath(
             path = path,
-            color = Color.Blue.copy(alpha = 0.2f),
-            style = Stroke(width = 6f)
+            color = Color.Blue.copy(alpha = 0.3f),
+            style = Stroke(width = 5f)
         )
 
 

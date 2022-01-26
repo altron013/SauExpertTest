@@ -45,8 +45,8 @@ fun HRVScreen() {
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
         HRVwithBarChart()
-        Spacer(modifier = Modifier.height(24.dp))
-        AnalysisHRVStat()
+//        Spacer(modifier = Modifier.height(24.dp))
+//        AnalysisHRVStat()
     }
 }
 
