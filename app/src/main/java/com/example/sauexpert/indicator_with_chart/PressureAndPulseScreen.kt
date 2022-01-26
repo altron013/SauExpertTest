@@ -1,16 +1,18 @@
-package com.example.sauexpert.bracelet_indicator
+package com.example.sauexpert.indicator_with_chart
 
 import android.graphics.Paint
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,33 +28,30 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
-import com.example.sauexpert.model.HRVData
+import com.example.sauexpert.bracelet_indicator.*
 import com.example.sauexpert.model.ListNumberOfYForTableData
+import com.example.sauexpert.model.PressureData
 import com.example.sauexpert.ui.theme.Gray30
 
-
 @Composable
-fun HRVScreen() {
+fun PressureAndPulseScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        HRVwithBarChart()
-//        Spacer(modifier = Modifier.height(24.dp))
-//        AnalysisHRVSection()
+        PressureAndPulsewithBarChart()
+        Spacer(modifier = Modifier.height(24.dp))
+        AnalysisPressureAndPulseSection()
     }
 }
 
-
 @Composable
-fun HRVwithBarChart(
+fun PressureAndPulsewithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -63,17 +62,52 @@ fun HRVwithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        HRVTitle()
+        PressureAndPulseTitle()
         Spacer(modifier = Modifier.height(12.dp))
-        BarChartForHRV(
-            HRVData = listOf(
-                HRVData(positionOnX = 10f, hourOfHRV = 200f, dateName = "16.12"),
-                HRVData(positionOnX = 105f, hourOfHRV = 30f, dateName = "17.12"),
-                HRVData(positionOnX = 200f, hourOfHRV = 190f, dateName = "18.12"),
-                HRVData(positionOnX = 295f, hourOfHRV = 180f, dateName = "19.12"),
-                HRVData(positionOnX = 390f, hourOfHRV = 220f, dateName = "20.12"),
-                HRVData(positionOnX = 485f, hourOfHRV = 240f, dateName = "21.12"),
-                HRVData(positionOnX = 580f, hourOfHRV = 30f, dateName = "22.12")
+        BarChartForPressureAndPulse(
+            PressureData = listOf(
+                PressureData(
+                    positionOnX = 15f,
+                    pressureInAverage = 200f,
+                    dateName = "16.12",
+                    startPoint = 250f
+                ),
+                PressureData(
+                    positionOnX = 110f,
+                    pressureInAverage = 300f,
+                    dateName = "17.12",
+                    startPoint = 200f
+                ),
+                PressureData(
+                    positionOnX = 205f,
+                    pressureInAverage = 190f,
+                    dateName = "18.12",
+                    startPoint = 250f
+                ),
+                PressureData(
+                    positionOnX = 300f,
+                    pressureInAverage = 180f,
+                    dateName = "19.12",
+                    startPoint = 250f
+                ),
+                PressureData(
+                    positionOnX = 395f,
+                    pressureInAverage = 220f,
+                    dateName = "20.12",
+                    startPoint = 230f
+                ),
+                PressureData(
+                    positionOnX = 490f,
+                    pressureInAverage = 240f,
+                    dateName = "21.12",
+                    startPoint = 250f
+                ),
+                PressureData(
+                    positionOnX = 585f,
+                    pressureInAverage = 50f,
+                    dateName = "22.12",
+                    startPoint = 280f
+                )
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("240"),
@@ -81,13 +115,18 @@ fun HRVwithBarChart(
                 ListNumberOfYForTableData("160"),
                 ListNumberOfYForTableData("120"),
                 ListNumberOfYForTableData("80"),
+                ListNumberOfYForTableData("40"),
+                ListNumberOfYForTableData("0"),
             )
         )
+        Spacer(modifier = Modifier.height(12.dp))
+        TextWithIconForGraph(color = Color.Red, text = stringResource(id = R.string.pressure))
+        TextWithIconForGraph(color = Color.Blue, text = stringResource(id = R.string.pulse))
     }
 }
 
 @Composable
-fun HRVTitle(
+fun PressureAndPulseTitle(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -95,57 +134,67 @@ fun HRVTitle(
             .fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.hrv),
+            text = stringResource(id = R.string.pressure_pulse),
             style = MaterialTheme.typography.caption
         )
 
         TextWithBigValueAndDateForGraph(
             textValue = 150,
-            text = stringResource(R.string.milliseconds_average),
+            text = stringResource(R.string.mmhg_average),
+            textDate = "18-20 ноября 2021"
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        TextWithBigValueAndDateForGraph(
+            textValue = 150,
+            text = stringResource(R.string.pulse_in_minute_average),
             textDate = "18-20 ноября 2021"
         )
     }
 }
 
-
 @Composable
-fun BarChartForHRV(
-    HRVData: List<HRVData>,
+fun BarChartForPressureAndPulse(
+    PressureData: List<PressureData>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
-    val heightPre by animateFloatAsState(
-        targetValue = if (start) 1f else 0f,
-        animationSpec = FloatTweenSpec(duration = 1000)
-    )
-
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
 
-    InfoDialogForBarChartOfHRV(
+
+    val heightPre by animateFloatAsState(
+        targetValue = if (start) 1f else 0f,
+        animationSpec = FloatTweenSpec(duration = 1000)
+    )
+
+    InfoDialogForBarChartOfPressure(
         visible = visible,
         itemID = itemID,
         xPosition = positionOfX,
         yPosition = positionOfY,
-        HRVData = HRVData
+        dataList = PressureData
     )
+
 
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(155.dp)
+            .height(240.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItem(HRVData, it.x, it.y)
-                        ResetColorInsideDataClass(HRVData = HRVData)
+                        itemID.value =
+                            identifyClickItemForPressureAndPulse(PressureData, it.x, it.y)
+                        ResetColorInsideDataClassForPressureAndPusle(dataList = PressureData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
                             visible.value = true
-                            HRVData[itemID.value].colorFocus = Color.Red
+                            PressureData[itemID.value].colorFocus = Color.Red
                         }
                     }
                 )
@@ -178,7 +227,7 @@ fun BarChartForHRV(
         }
 
         start = true
-        for (p in HRVData) {
+        for (p in PressureData) {
             drawLine(
                 start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
                 end = Offset(wight.dp.toPx(), 0f),
@@ -188,24 +237,19 @@ fun BarChartForHRV(
 
             drawRect(
                 color = p.colorFocus,
-                topLeft = Offset(
-                    x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.hourOfHRV) * heightPre
-                ),
-                size = Size(
-                    width = 75f,
-                    height = ((height - 35).dp.toPx() - p.hourOfHRV) * heightPre
-                )
+                topLeft = Offset(p.positionOnX, p.startPoint * heightPre),
+                size = Size(24.dp.toPx(), p.pressureInAverage * heightPre)
+
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 38,
+                p.positionOnX + 32f,
                 (height - 15).dp.toPx(),
                 paint
             )
-
             wight += 36
+
         }
 
         drawLine(
@@ -214,68 +258,36 @@ fun BarChartForHRV(
             color = Gray30,
             strokeWidth = 2f
         )
+
     }
 }
 
-private fun identifyClickItem(dataList: List<HRVData>, x: Float, y: Float): Int {
+private fun identifyClickItemForPressureAndPulse(
+    dataList: List<PressureData>,
+    x: Float,
+    y: Float
+): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX && x < dataList.positionOnX + 70 && y > dataList.hourOfHRV) {
+        if (x > dataList.positionOnX
+            && x < dataList.positionOnX + 70
+            && y > dataList.startPoint
+            && y < dataList.pressureInAverage + dataList.startPoint
+        ) {
             return index
         }
     }
     return -1
 }
 
-private fun ResetColorInsideDataClass(HRVData: List<HRVData>) {
-    for (p in HRVData) {
+private fun ResetColorInsideDataClassForPressureAndPusle(dataList: List<PressureData>) {
+    for (p in dataList) {
         p.colorFocus = Color(250, 218, 221)
     }
 }
 
-@Composable
-fun InfoDialogForBarChartOfHRV(
-    visible: MutableState<Boolean>,
-    itemID: MutableState<Int>,
-    xPosition: MutableState<Int>,
-    yPosition: MutableState<Int>,
-    HRVData: List<HRVData>,
-    modifier: Modifier = Modifier
-) {
-    if (visible.value) {
-        Box {
-            Popup(
-                alignment = Alignment.Center,
-                IntOffset(xPosition.value, yPosition.value - 70)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(width = 140.dp, height = 40.dp)
-                        .background(Color.White, RoundedCornerShape(10.dp))
-                ) {
-                    if (itemID.value == -1) {
-                        visible.value = false
-                    } else {
-                        Text(
-                            text = "${itemID.value} | ${HRVData[itemID.value].hourOfHRV} | " +
-                                    "${HRVData[itemID.value].dateName}",
-                            style = MaterialTheme.typography.h5,
-                            modifier = modifier
-                                .align(alignment = Alignment.Center)
-                                .clickable {
-                                    visible.value = false
-                                    ResetColorInsideDataClass(HRVData = HRVData)
-                                }
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
 
 @Composable
-fun AnalysisHRVSection(modifier: Modifier = Modifier) {
+fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()

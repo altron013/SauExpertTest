@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -20,9 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.Placeholder
-import androidx.compose.ui.text.PlaceholderVerticalAlign
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -89,7 +88,8 @@ fun BraceletIndicatorScreen() {
             }
             1 -> Sp02Screen()
             2 -> Box(
-                modifier = Modifier.fillMaxSize().padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                modifier = Modifier.fillMaxSize()
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 HRVScreen()
             }
@@ -113,7 +113,7 @@ fun BraceletIndicatorScreen() {
 fun TopBarForBraceletAndIndicator(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxWidth().padding(start = 16.dp, end =16.dp, top = 16.dp)) {
+    Box(modifier = modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
 
         Icon(
             imageVector = Icons.Default.ArrowBack,
@@ -194,6 +194,77 @@ fun TabViewWithRoundBorder(
         }
 
     }
+}
+
+
+@Composable
+fun TextWithIconForGraph(
+    color: Color,
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Circle,
+            contentDescription = "",
+            tint = color.copy(alpha = 0.25f),
+            modifier = modifier.size(9.dp)
+        )
+
+        Spacer(modifier = Modifier.width(2.dp))
+
+        Text(
+            text = text,
+            style = MaterialTheme.typography.h6,
+            fontSize = 13.sp,
+            color = Gray30,
+        )
+
+    }
+}
+
+
+@Composable
+fun TextWithBigValueAndDateForGraph(
+    textValue: Int,
+    text: String,
+    textDate: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Black,
+                        fontSize = 34.sp
+                    )
+                ) {
+                    append("$textValue ")
+                }
+
+                append(text)
+            },
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.Bold,
+            color = Gray30
+        )
+
+        Text(
+            text = textDate,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
+            color = Gray30
+        )
+    }
+
 }
 
 

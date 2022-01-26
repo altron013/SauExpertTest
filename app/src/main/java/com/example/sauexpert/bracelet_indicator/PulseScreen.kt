@@ -42,7 +42,7 @@ fun PulseScreen() {
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        PulseStatwithBarChart()
+        PulsewithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
         AnalysisPulseSection()
     }
@@ -50,7 +50,7 @@ fun PulseScreen() {
 
 
 @Composable
-fun PulseStatwithBarChart(
+fun PulsewithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -99,29 +99,10 @@ fun PulseTitle(
             style = MaterialTheme.typography.caption
         )
 
-        Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Black,
-                        fontSize = 34.sp
-                    )
-                ) {
-                    append("150 ")
-                }
-
-                append(stringResource(R.string.pulse_in_minute_average))
-            },
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
-            color = Gray30
-        )
-
-        Text(
-            text = "18-20 ноября 2021",
-            style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
-            color = Gray30
+        TextWithBigValueAndDateForGraph(
+            textValue = 150,
+            text = stringResource(R.string.pulse_in_minute_average),
+            textDate = "18-20 ноября 2021"
         )
     }
 }

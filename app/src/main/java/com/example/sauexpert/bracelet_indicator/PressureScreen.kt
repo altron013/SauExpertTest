@@ -43,7 +43,7 @@ fun PressureScreen() {
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        PressureStatwithBarChart()
+        PressurewithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
         AnalysisPressureSection()
     }
@@ -51,7 +51,7 @@ fun PressureScreen() {
 
 
 @Composable
-fun PressureStatwithBarChart(
+fun PressurewithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -136,29 +136,10 @@ fun PressureTitle(
             style = MaterialTheme.typography.caption
         )
 
-        Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Black,
-                        fontSize = 34.sp
-                    )
-                ) {
-                    append("150 ")
-                }
-
-                append(stringResource(R.string.mmhg_average))
-            },
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
-            color = Gray30
-        )
-
-        Text(
-            text = "18-20 ноября 2021",
-            style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
-            color = Gray30
+        TextWithBigValueAndDateForGraph(
+            textValue = 150,
+            text = stringResource(R.string.mmhg_average),
+            textDate = "18-20 ноября 2021"
         )
     }
 }

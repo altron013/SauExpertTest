@@ -105,28 +105,7 @@ fun SleepTitle(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Circle,
-                contentDescription = "",
-                tint = Color.Red.copy(alpha = 0.25f),
-                modifier = modifier.size(9.dp)
-            )
-
-            Spacer(modifier = Modifier.width(2.dp))
-
-            Text(
-                text = stringResource(id = R.string.sleep_duration),
-                style = MaterialTheme.typography.h6,
-                fontSize = 13.sp,
-                color = Gray30,
-            )
-
-        }
+        TextWithIconForGraph(color = Color.Red, text = stringResource(id = R.string.sleep_duration))
 
         Text(
             text = buildAnnotatedString {

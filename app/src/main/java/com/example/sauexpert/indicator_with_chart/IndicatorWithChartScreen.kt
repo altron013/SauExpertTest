@@ -1,4 +1,4 @@
-package com.example.sauexpert.patient_card_screen
+package com.example.sauexpert.indicator_with_chart
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -57,7 +57,7 @@ fun IndicatorWithChartScreen() {
                     .fillMaxSize()
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
-
+                PressureAndPulseScreen()
             }
             2 -> Box(
                 modifier = Modifier
