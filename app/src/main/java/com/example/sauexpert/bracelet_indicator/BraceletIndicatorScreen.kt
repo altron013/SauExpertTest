@@ -47,9 +47,9 @@ fun BraceletIndicatorScreen() {
             )
 //            .padding(16.dp)
     ) {
-        TopBarForBracelet()
+        TopBarForBraceletAndIndicator()
         Spacer(modifier = Modifier.height(28.dp))
-        TabView(
+        TabViewWithRoundBorder(
             TextOfTab = listOf(
                 TextOfTabData(
                     text = stringResource(id = R.string.sleep)
@@ -110,7 +110,7 @@ fun BraceletIndicatorScreen() {
 
 
 @Composable
-fun TopBarForBracelet(
+fun TopBarForBraceletAndIndicator(
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxWidth().padding(start = 16.dp, end =16.dp, top = 16.dp)) {
@@ -141,7 +141,7 @@ fun TopBarForBracelet(
 }
 
 @Composable
-fun TabView(
+fun TabViewWithRoundBorder(
     modifier: Modifier = Modifier,
     TextOfTab: List<TextOfTabData>,
     onTabSelected: (selectedIndex: Int) -> Unit

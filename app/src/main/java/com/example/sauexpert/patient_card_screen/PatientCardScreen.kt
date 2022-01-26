@@ -82,7 +82,7 @@ fun PatientCardScreen() {
                     .padding(bottom = 10.dp)
 
             ) {
-                IndicatorsScreen()
+                IndicatorPatientCardScreen()
 
                 MainButtonsInRow(
                     iconForOutlineBtn = R.drawable.ic_sms,

@@ -45,7 +45,7 @@ fun PressureScreen() {
     ) {
         PressureStatwithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPressureStat()
+        AnalysisPressureSection()
     }
 }
 
@@ -63,7 +63,7 @@ fun PressureStatwithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        PressureStat()
+        PressureTitle()
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForPressure(
             PressureData = listOf(
@@ -124,7 +124,7 @@ fun PressureStatwithBarChart(
 }
 
 @Composable
-fun PressureStat(
+fun PressureTitle(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -346,7 +346,7 @@ fun InfoDialogForBarChartOfPressure(
 
 
 @Composable
-fun AnalysisPressureStat(modifier: Modifier = Modifier) {
+fun AnalysisPressureSection(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()

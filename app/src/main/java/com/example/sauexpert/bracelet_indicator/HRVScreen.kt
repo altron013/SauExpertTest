@@ -46,7 +46,7 @@ fun HRVScreen() {
     ) {
         HRVwithBarChart()
 //        Spacer(modifier = Modifier.height(24.dp))
-//        AnalysisHRVStat()
+//        AnalysisHRVSection()
     }
 }
 
@@ -63,7 +63,7 @@ fun HRVwithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        HRVStat()
+        HRVTitle()
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForHRV(
             HRVData = listOf(
@@ -87,7 +87,7 @@ fun HRVwithBarChart(
 }
 
 @Composable
-fun HRVStat(
+fun HRVTitle(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -294,7 +294,7 @@ fun InfoDialogForBarChartOfHRV(
 
 
 @Composable
-fun AnalysisHRVStat(modifier: Modifier = Modifier) {
+fun AnalysisHRVSection(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()

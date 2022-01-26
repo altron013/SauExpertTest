@@ -52,7 +52,7 @@ fun SleepScreen() {
                 )
                 .padding(16.dp)
         ) {
-            SleepStat()
+            SleepTitle()
             Spacer(modifier = Modifier.height(12.dp))
             BarChartForSleep(
                 SleepData = listOf(
@@ -76,9 +76,9 @@ fun SleepScreen() {
 
             )
             Spacer(modifier = Modifier.height(20.dp))
-            SleepStat2()
+            SleepWakeUpStatistics()
             Spacer(modifier = Modifier.height(16.dp))
-            ProgressBar(
+            ProgressBarForSleep(
                 deepSleepValue = 120,
                 deepSleepPercent = 40,
                 lightSleepValue = 115,
@@ -91,7 +91,7 @@ fun SleepScreen() {
 }
 
 @Composable
-fun SleepStat(
+fun SleepTitle(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -264,7 +264,7 @@ fun BarChartForSleep(
 }
 
 @Composable
-fun SleepStat2(
+fun SleepWakeUpStatistics(
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -297,7 +297,7 @@ fun SleepStat2(
 }
 
 @Composable
-fun ProgressBar(
+fun ProgressBarForSleep(
     modifier: Modifier = Modifier,
     deepSleepValue: Int = 0,
     deepSleepPercent: Int = 0,

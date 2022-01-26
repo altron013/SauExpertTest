@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.*
@@ -85,9 +84,9 @@ fun Sp02Screen() {
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
-                AnalysisSOASStat()
+                AnalysisSOASSection()
                 Spacer(modifier = Modifier.height(24.dp))
-                AnalysisSOASStat2()
+                AnalysisSp02Section()
             }
 
             MainButton(
@@ -117,7 +116,7 @@ fun SP02withLineGraph(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        SP02Stat()
+        SP02Title()
         Spacer(modifier = Modifier.height(40.dp))
         LineChartForSp02(
             Sp02Data = listOf(
@@ -141,13 +140,13 @@ fun SP02withLineGraph(
 
         )
         Spacer(modifier = Modifier.height(20.dp))
-        SP02Stat2()
+        SP02Indicator()
 
     }
 }
 
 @Composable
-fun SP02Stat(
+fun SP02Title(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -301,7 +300,7 @@ fun LineChartForSp02(
 }
 
 @Composable
-fun SP02Stat2(modifier: Modifier = Modifier) {
+fun SP02Indicator(modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth()
@@ -343,7 +342,7 @@ fun SP02Stat2(modifier: Modifier = Modifier) {
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
-fun AnalysisSOASStat(modifier: Modifier = Modifier) {
+fun AnalysisSOASSection(modifier: Modifier = Modifier) {
 //    val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
 //
 //    InfoDialogForSOAS(visible = visible)
@@ -368,7 +367,6 @@ fun AnalysisSOASStat(modifier: Modifier = Modifier) {
 //                }
 //            )
 //        }
-
 
 
         Column(
@@ -476,7 +474,7 @@ fun AnalysisSOASTitle(
 
 
 @Composable
-fun AnalysisSOASStat2(modifier: Modifier = Modifier) {
+fun AnalysisSp02Section(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(R.string.sp02),
@@ -519,7 +517,6 @@ fun AnalysisSOASStat2(modifier: Modifier = Modifier) {
 
     }
 }
-
 
 
 //fun Modifier.customDialogModifier(pos: String) = layout { measurable, constraints ->

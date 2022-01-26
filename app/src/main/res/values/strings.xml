@@ -166,6 +166,9 @@
     <string name="hypotension">Гипотония</string>
     <string name="begin_first_inspection">Начните первый осмотр</string>
     <string name="begin_first_inspection_desc">Осмотрите пациента и внесите его показатели</string>
+    <string name="glucose">Глюкоза</string>
+    <string name="pressure_pulse">Давление и пульс</string>
+
 
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>

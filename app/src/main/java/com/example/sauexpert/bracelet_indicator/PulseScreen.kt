@@ -1,8 +1,6 @@
 package com.example.sauexpert.bracelet_indicator
 
 import android.graphics.Paint
-import androidx.compose.animation.core.FloatTweenSpec
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -16,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -47,7 +44,7 @@ fun PulseScreen() {
     ) {
         PulseStatwithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPulseStat()
+        AnalysisPulseSection()
     }
 }
 
@@ -57,7 +54,6 @@ fun PulseStatwithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
-
         modifier = modifier
             .fillMaxWidth()
             .background(
@@ -65,7 +61,7 @@ fun PulseStatwithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        PulseStat()
+        PulseTitle()
         Spacer(modifier = Modifier.height(12.dp))
         LineChartForPulse(
             PulseData = listOf(
@@ -91,7 +87,7 @@ fun PulseStatwithBarChart(
 }
 
 @Composable
-fun PulseStat(
+fun PulseTitle(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -145,12 +141,6 @@ fun LineChartForPulse(
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
-
-
-    val heightPre by animateFloatAsState(
-        targetValue = if (start) 1f else 0f,
-        animationSpec = FloatTweenSpec(duration = 1000)
-    )
 
     InfoDialogForBarChartOfPulse(
         visible = visible,
@@ -313,7 +303,7 @@ fun InfoDialogForBarChartOfPulse(
 
 
 @Composable
-fun AnalysisPulseStat(modifier: Modifier = Modifier) {
+fun AnalysisPulseSection(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()

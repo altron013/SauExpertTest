@@ -32,7 +32,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 
 @Composable
-fun IndicatorsScreen() {
+fun IndicatorPatientCardScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
