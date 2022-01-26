@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -20,9 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.Placeholder
-import androidx.compose.ui.text.PlaceholderVerticalAlign
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,11 +44,11 @@ fun BraceletIndicatorScreen() {
             .background(
                 color = Gray30.copy(alpha = 0.19f)
             )
-            .padding(16.dp)
+//            .padding(16.dp)
     ) {
-        TopBarForBracelet()
+        TopBarForBraceletAndIndicator()
         Spacer(modifier = Modifier.height(28.dp))
-        TabView(
+        TabViewWithRoundBorder(
             TextOfTab = listOf(
                 TextOfTabData(
                     text = stringResource(id = R.string.sleep)
@@ -76,7 +75,7 @@ fun BraceletIndicatorScreen() {
             0 -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(bottom = 10.dp)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 SleepScreen()
                 MainButton(
@@ -87,34 +86,21 @@ fun BraceletIndicatorScreen() {
                         .align(Alignment.BottomCenter)
                 )
             }
-            1 -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 10.dp)
-            ) {
-                Sp02Screen()
-                MainButton(
-                    text = stringResource(id = R.string.range_customize),
-                    onClick = { /*TODO*/ },
-                    enableState = true,
-                    modifier = Modifier.fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                )
-
-            }
+            1 -> Sp02Screen()
             2 -> Box(
                 modifier = Modifier.fillMaxSize()
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 HRVScreen()
             }
             3 -> Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
 
             ) {
                 PressureScreen()
             }
             4 -> Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
             ) {
                 PulseScreen()
             }
@@ -124,10 +110,10 @@ fun BraceletIndicatorScreen() {
 
 
 @Composable
-fun TopBarForBracelet(
+fun TopBarForBraceletAndIndicator(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.fillMaxWidth()) {
+    Box(modifier = modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
 
         Icon(
             imageVector = Icons.Default.ArrowBack,
@@ -155,7 +141,7 @@ fun TopBarForBracelet(
 }
 
 @Composable
-fun TabView(
+fun TabViewWithRoundBorder(
     modifier: Modifier = Modifier,
     TextOfTab: List<TextOfTabData>,
     onTabSelected: (selectedIndex: Int) -> Unit
@@ -174,8 +160,10 @@ fun TabView(
         divider = {},
         modifier = modifier
             .fillMaxWidth()
+            .padding(horizontal = 16.dp)
             .clip(shape = shape)
             .border(width = 2.dp, color = backgroundColor, shape = shape)
+
     ) {
         TextOfTab.forEachIndexed { index, item ->
             Tab(
@@ -206,6 +194,77 @@ fun TabView(
         }
 
     }
+}
+
+
+@Composable
+fun TextWithIconForGraph(
+    color: Color,
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Circle,
+            contentDescription = "",
+            tint = color.copy(alpha = 0.25f),
+            modifier = modifier.size(9.dp)
+        )
+
+        Spacer(modifier = Modifier.width(2.dp))
+
+        Text(
+            text = text,
+            style = MaterialTheme.typography.h6,
+            fontSize = 13.sp,
+            color = Gray30,
+        )
+
+    }
+}
+
+
+@Composable
+fun TextWithBigValueAndDateForGraph(
+    textValue: Int,
+    text: String,
+    textDate: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    style = SpanStyle(
+                        color = Color.Black,
+                        fontSize = 34.sp
+                    )
+                ) {
+                    append("$textValue ")
+                }
+
+                append(text)
+            },
+            style = MaterialTheme.typography.subtitle1,
+            fontWeight = FontWeight.Bold,
+            color = Gray30
+        )
+
+        Text(
+            text = textDate,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
+            color = Gray30
+        )
+    }
+
 }
 
 

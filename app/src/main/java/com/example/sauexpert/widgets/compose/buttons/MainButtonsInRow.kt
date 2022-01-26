@@ -17,51 +17,12 @@ import com.example.sauexpert.widgets.compose.MainButton
 @Composable
 fun MainButtonsInRow(
     modifier: Modifier = Modifier,
-    textForOutlineBtn: String,
-    textForMainBtn: String,
-    onClickForOutlineBtn: () -> Unit,
-    onClickForMainBtn: () -> Unit,
-    enableStateForOutlineBtn: Boolean,
-    enableStateForMainBtn: Boolean,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        OutlinedMainButton(
-            text = textForOutlineBtn,
-            onClick = onClickForOutlineBtn,
-            enableState = enableStateForOutlineBtn,
-            modifier = Modifier
-                .weight(0.4f),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.onPrimary,
-                contentColor = Color.Red,
-            ),
-            textColor = Color.Red
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        MainButton(
-            text = textForMainBtn,
-            onClick = onClickForMainBtn,
-            enableState = enableStateForMainBtn,
-            modifier = Modifier
-                .weight(0.6f)
-        )
-    }
-}
-
-@Composable
-fun MainButtonsInRowWithIcon(
-    modifier: Modifier = Modifier,
-    textForOutlineBtn: String,
+    textForOutlineBtn: String? = null,
     iconForOutlineBtn: Int? = null,
-    textForMainBtn: String,
-    iconForMainBtn: Painter,
+    textForMainBtn: String? = null,
+    iconForMainBtn: Int? = null,
+    weightOfFirstButton: Float = 0.4f,
+    borderColor: Color = Color.Red,
     onClickForOutlineBtn: () -> Unit,
     onClickForMainBtn: () -> Unit,
     enableStateForOutlineBtn: Boolean,
@@ -79,23 +40,23 @@ fun MainButtonsInRowWithIcon(
             onClick = onClickForOutlineBtn,
             enableState = enableStateForOutlineBtn,
             modifier = Modifier
-                .weight(0.4f),
+                .weight(weightOfFirstButton),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = MaterialTheme.colors.onPrimary,
                 contentColor = Color.Red,
             ),
-            textColor = Color.Red
+            textColor = borderColor
         )
 
         Spacer(modifier = Modifier.width(12.dp))
 
-        MainButtonWithIcon(
+        MainButton(
             text = textForMainBtn,
             icon = iconForMainBtn,
             onClick = onClickForMainBtn,
             enableState = enableStateForMainBtn,
             modifier = Modifier
-                .weight(0.6f)
+                .weight(1f - weightOfFirstButton)
         )
     }
 }
