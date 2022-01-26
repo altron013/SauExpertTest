@@ -118,7 +118,11 @@ fun DiagnosisContent() {
                 contentDescription = ""
             )
             Spacer(modifier = Modifier.padding(start = 8.dp))
-            Text(text = stringResource(R.string.new_diagnosis), color = Red435B, style = SauExpertTypography.body1)
+            Text(
+                text = stringResource(R.string.new_diagnosis),
+                color = Red435B,
+                style = SauExpertTypography.body1
+            )
         }
     }
 
@@ -198,7 +202,10 @@ fun DiagnosisCriticalCase() {
     Column {
         HeaderText(text = stringResource(R.string.critical_case))
 
-        SwitchWithText(text = stringResource(R.string.critical_case))
+        SwitchWithText(
+            text = stringResource(R.string.critical_case),
+            modifier = Modifier.padding(start = 30.dp, end = 30.dp, top = 20.dp, bottom = 10.dp)
+        )
 
         DescriptionTextField(placeHolderText = stringResource(R.string.desc_case))
 
@@ -215,11 +222,17 @@ fun DiagnosisMore() {
 
         HeaderText(text = stringResource(R.string.more))
 
-        SwitchWithText(text = stringResource(R.string.base_therapy))
+        SwitchWithText(
+            text = stringResource(R.string.base_therapy),
+            modifier = Modifier.padding(start = 30.dp, end = 30.dp, top = 20.dp, bottom = 10.dp)
+        )
 
         DescriptionTextField(placeHolderText = stringResource(R.string.description))
 
-        SwitchWithText(text = stringResource(R.string.insulin_usage))
+        SwitchWithText(
+            text = stringResource(R.string.insulin_usage),
+            modifier = Modifier.padding(start = 30.dp, end = 30.dp, top = 20.dp, bottom = 10.dp)
+        )
 
         DescriptionTextField(placeHolderText = stringResource(R.string.description))
     }
@@ -227,13 +240,13 @@ fun DiagnosisMore() {
 }
 
 @Composable
-fun SwitchWithText(text: String) {
+fun SwitchWithText(text: String, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(start = 30.dp, end = 30.dp, top = 20.dp, bottom = 10.dp)
+
     ) {
         Text(
             text = text,
