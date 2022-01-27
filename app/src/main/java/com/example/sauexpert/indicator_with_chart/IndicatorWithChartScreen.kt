@@ -50,7 +50,7 @@ fun IndicatorWithChartScreen() {
                     .fillMaxSize()
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
-
+                GlucoseScreen()
             }
             1 -> Box(
                 modifier = Modifier

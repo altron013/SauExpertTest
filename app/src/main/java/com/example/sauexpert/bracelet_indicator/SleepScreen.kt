@@ -76,7 +76,7 @@ fun SleepScreen() {
 
             )
             Spacer(modifier = Modifier.height(20.dp))
-            SleepWakeUpStatistics()
+            SleepWakeUpStatistics(textValue = 3)
             Spacer(modifier = Modifier.height(16.dp))
             ProgressBarForSleep(
                 deepSleepValue = 120,
@@ -244,33 +244,30 @@ fun BarChartForSleep(
 
 @Composable
 fun SleepWakeUpStatistics(
+    textValue: Int,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
-            .size(width = 300.dp, height = 50.dp)
             .background(
                 color = Gray30.copy(alpha = 0.19f),
                 shape = RoundedCornerShape(10.dp)
             )
+            .padding(16.dp)
     ) {
         Text(
             text = stringResource(R.string.woke_up_in_middle),
             style = MaterialTheme.typography.button,
             fontSize = 15.sp,
-            modifier = modifier
-                .align(Alignment.CenterStart)
-                .padding(horizontal = 16.dp)
         )
 
         Text(
-            text = "3 раза",
+            text = "$textValue раза",
             style = MaterialTheme.typography.subtitle2,
             fontSize = 15.sp,
-            modifier = modifier
-                .align(Alignment.CenterEnd)
-                .padding(horizontal = 16.dp)
         )
     }
 }

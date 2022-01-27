@@ -1,22 +1,20 @@
-package com.example.sauexpert.bracelet_indicator
+package com.example.sauexpert.indicator_with_chart
 
 import android.graphics.Paint
+import androidx.compose.animation.core.FloatTweenSpec
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
@@ -26,27 +24,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
+import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
+import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.model.ListNumberOfYForTableData
-import com.example.sauexpert.model.PulseData
+import com.example.sauexpert.model.StepsData
 import com.example.sauexpert.ui.theme.Gray30
 
 @Composable
-fun PulseScreen() {
+fun GlucoseScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        PulsewithBarChart()
-        Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPulseSection()
+        GlucosewithBarChart()
     }
 }
 
-
 @Composable
-fun PulsewithBarChart(
+fun GlucosewithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -57,33 +54,44 @@ fun PulsewithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        PulseTitle()
+        GlucoseTitle()
         Spacer(modifier = Modifier.height(12.dp))
-        LineChartForPulse(
-            PulseData = listOf(
-                PulseData(positionOnX = 50f, pulseInMinuteAverage = 200f, time = "00:00"),
-                PulseData(positionOnX = 160f, pulseInMinuteAverage = 370f, time = "02:00"),
-                PulseData(positionOnX = 270f, pulseInMinuteAverage = 190f, time = "04:00"),
-                PulseData(positionOnX = 380f, pulseInMinuteAverage = 180f, time = "06:00"),
-                PulseData(positionOnX = 490f, pulseInMinuteAverage = 220f, time = "08:00"),
-                PulseData(positionOnX = 600f, pulseInMinuteAverage = 240f, time = "10:00"),
-//                PulseData(positionOnX = 590f, pulseInMinuteAverage = 240f, time = ""),
+        BarChartForGlucose(
+            StepsData = listOf(
+                StepsData(positionOnX = 9f, stepsPerDay = 200f, dateName = "16.12"),
+                StepsData(positionOnX = 108f, stepsPerDay = 30f, dateName = "17.12"),
+                StepsData(positionOnX = 208f, stepsPerDay = 190f, dateName = "18.12"),
+                StepsData(positionOnX = 308f, stepsPerDay = 180f, dateName = "19.12"),
+                StepsData(positionOnX = 408f, stepsPerDay = 220f, dateName = "20.12"),
+                StepsData(positionOnX = 508f, stepsPerDay = 240f, dateName = "21.12"),
+                StepsData(positionOnX = 608f, stepsPerDay = 30f, dateName = "22.12")
             ),
             ListNumberData = listOf(
-                ListNumberOfYForTableData("280"),
-                ListNumberOfYForTableData("240"),
-                ListNumberOfYForTableData("200"),
-                ListNumberOfYForTableData("160"),
-                ListNumberOfYForTableData("120"),
-                ListNumberOfYForTableData("80"),
-                ListNumberOfYForTableData("60"),
+                ListNumberOfYForTableData("8.5"),
+                ListNumberOfYForTableData("8.0"),
+                ListNumberOfYForTableData("7.5"),
+                ListNumberOfYForTableData("7.0"),
+                ListNumberOfYForTableData("6.5"),
+                ListNumberOfYForTableData("6.0"),
+                ListNumberOfYForTableData("5.5"),
             )
+        )
+
+        MeasurementChangeForGlucose()
+        Spacer(modifier = Modifier.height(12.dp))
+        TextWithIconForGraph(
+            color = Color.Red,
+            text = stringResource(id = R.string.level_of_glucose_before_food)
+        )
+        TextWithIconForGraph(
+            color = Color.Red,
+            text = stringResource(id = R.string.level_of_glucose_after_food)
         )
     }
 }
 
 @Composable
-fun PulseTitle(
+fun GlucoseTitle(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -91,13 +99,13 @@ fun PulseTitle(
             .fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.pulse),
+            text = stringResource(id = R.string.glucose),
             style = MaterialTheme.typography.caption
         )
 
         TextWithBigValueAndDateForGraph(
-            textValue = 150,
-            text = stringResource(R.string.pulse_in_minute_average),
+            textValue = 6,
+            text = stringResource(R.string.millimoles_per_liter_average),
             textDate = "18-20 ноября 2021"
         )
     }
@@ -105,52 +113,43 @@ fun PulseTitle(
 
 
 @Composable
-fun LineChartForPulse(
-    PulseData: List<PulseData>,
+fun BarChartForGlucose(
+    StepsData: List<StepsData>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
-    val scale by remember { mutableStateOf(1f) }
-    val path = Path()
-
-
     var start by remember { mutableStateOf(false) }
+    val heightPre by animateFloatAsState(
+        targetValue = if (start) 1f else 0f,
+        animationSpec = FloatTweenSpec(duration = 1000)
+    )
+
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
 
-    InfoDialogForBarChartOfPulse(
+    InfoDialogForBarChartOfGlucose(
         visible = visible,
         itemID = itemID,
         xPosition = positionOfX,
         yPosition = positionOfY,
-        dataList = PulseData
+        StepsData = StepsData
     )
-
-    for ((index, item) in PulseData.withIndex()) {
-        if (index == 0) {
-            path.moveTo(0f * scale, item.pulseInMinuteAverage)
-            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
-        } else {
-            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
-        }
-    }
-
 
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(250.dp)
+            .height(240.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForPulse(PulseData, it.x, it.y)
-                        ResetColorInsideDataClassForPulse(dataList = PulseData)
+                        itemID.value = identifyClickItemForGlucose(StepsData, it.x, it.y)
+                        ResetColorInsideDataClassForGlucose(StepsData = StepsData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
                             visible.value = true
-                            PulseData[itemID.value].colorFocus = Color.Red
+                            StepsData[itemID.value].colorFocus = Color.Red
                         }
                     }
                 )
@@ -163,7 +162,6 @@ fun LineChartForPulse(
             textSize = 13.sp.toPx()
             color = Gray30.toArgb()
         }
-
 
         for (i in ListNumberData) {
             drawLine(
@@ -180,19 +178,11 @@ fun LineChartForPulse(
                 paint
             )
 
-            height += 34
+            height += 35
         }
 
         start = true
-
-        drawPath(
-            path = path,
-            color = Color.Blue.copy(alpha = 0.3f),
-            style = Stroke(width = 5f)
-        )
-
-
-        for (i in PulseData) {
+        for (p in StepsData) {
             drawLine(
                 start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
                 end = Offset(wight.dp.toPx(), 0f),
@@ -200,56 +190,64 @@ fun LineChartForPulse(
                 strokeWidth = 2f
             )
 
-            drawCircle(
-                color = Color.White,
-                radius = 13f,
-                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+            drawRect(
+                color = Color(251, 241, 243),
+                topLeft = Offset(
+                    x = p.positionOnX,
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 85f) * heightPre
+                ),
+                size = Size(
+                    width = 32.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - 85f) * heightPre
+                )
             )
 
-            drawCircle(
-                color = i.colorFocus,
-                radius = 10f,
-                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+            drawRect(
+                color = p.colorFocus,
+                topLeft = Offset(
+                    x = p.positionOnX,
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
+                ),
+                size = Size(
+                    width = 32.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
+                )
             )
 
             drawContext.canvas.nativeCanvas.drawText(
-                "${i.time}",
-                (wight + 20).dp.toPx(),
-                (height - 14).dp.toPx(),
+                "${p.dateName}",
+                p.positionOnX + 38,
+                (height - 15).dp.toPx(),
                 paint
             )
 
-            wight += 40
+            wight += 38
         }
     }
 }
 
-private fun identifyClickItemForPulse(dataList: List<PulseData>, x: Float, y: Float): Int {
+private fun identifyClickItemForGlucose(dataList: List<StepsData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX - 10
-            && x < dataList.positionOnX + 10
-            && y > dataList.pulseInMinuteAverage - 10
-            && y < dataList.pulseInMinuteAverage + 10
-        ) {
+        if (x > dataList.positionOnX && x < dataList.positionOnX + 80 && y > dataList.stepsPerDay) {
             return index
         }
     }
     return -1
 }
 
-private fun ResetColorInsideDataClassForPulse(dataList: List<PulseData>) {
-    for (p in dataList) {
-        p.colorFocus = Color.Blue
+private fun ResetColorInsideDataClassForGlucose(StepsData: List<StepsData>) {
+    for (p in StepsData) {
+        p.colorFocus = Color(250, 218, 221)
     }
 }
 
 @Composable
-fun InfoDialogForBarChartOfPulse(
+fun InfoDialogForBarChartOfGlucose(
     visible: MutableState<Boolean>,
     itemID: MutableState<Int>,
     xPosition: MutableState<Int>,
     yPosition: MutableState<Int>,
-    dataList: List<PulseData>,
+    StepsData: List<StepsData>,
     modifier: Modifier = Modifier
 ) {
     if (visible.value) {
@@ -267,14 +265,14 @@ fun InfoDialogForBarChartOfPulse(
                         visible.value = false
                     } else {
                         Text(
-                            text = "${itemID.value} | ${dataList[itemID.value].pulseInMinuteAverage} | " +
-                                    "${dataList[itemID.value].time}",
+                            text = "${itemID.value} | ${StepsData[itemID.value].stepsPerDay} | " +
+                                    "${StepsData[itemID.value].dateName}",
                             style = MaterialTheme.typography.h5,
                             modifier = modifier
                                 .align(alignment = Alignment.Center)
                                 .clickable {
                                     visible.value = false
-                                    ResetColorInsideDataClassForPulse(dataList = dataList)
+                                    ResetColorInsideDataClassForGlucose(StepsData = StepsData)
                                 }
                         )
                     }
@@ -284,51 +282,31 @@ fun InfoDialogForBarChartOfPulse(
     }
 }
 
-
 @Composable
-fun AnalysisPulseSection(modifier: Modifier = Modifier) {
-    Column(
+fun MeasurementChangeForGlucose(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = Color.White,
+                color = Gray30.copy(alpha = 0.19f),
                 shape = RoundedCornerShape(10.dp)
             )
+            .padding(16.dp)
     ) {
-        AnalysisStatFieldWithIconAtEnd(
-            title = stringResource(R.string.highest_value),
-            value = "18",
-            imageVector = Icons.Filled.FlashOn
+        Text(
+            text = stringResource(R.string.show_measurements),
+            style = MaterialTheme.typography.button,
+            fontSize = 15.sp,
         )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
-            title = stringResource(R.string.lowest_value),
-            value = "18"
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
-            title = stringResource(R.string.average_value),
-            value = "18"
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
-            title = stringResource(R.string.last_value),
-            value = "18"
+
+        Text(
+            text = "3 раза",
+            style = MaterialTheme.typography.subtitle2,
+            fontSize = 15.sp,
         )
     }
 }
