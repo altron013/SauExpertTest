@@ -199,7 +199,7 @@ fun SearchView(state: MutableState<TextFieldValue>) {
             cursorColor = Color.DarkGray,
             leadingIconColor = Color.DarkGray,
             trailingIconColor = Color.DarkGray,
-            backgroundColor = Surace1F7,
+            backgroundColor = Surface1F7,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent
@@ -236,7 +236,7 @@ fun NewPatientCard() {
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth(),
-        backgroundColor = SuraceF9
+        backgroundColor = SurfaceF9
     ) {
         Row(
             Modifier.padding(16.dp),

@@ -95,7 +95,7 @@
     <string name="install_password_code">Установите код быстрого доступа</string>
     <string name="install_password_code_description">С помощью него Вы можете заходить в Sau Expert 24</string>
     <string name="last_day_of_check_up">ДАТА ОСМОТРА</string>
-    <string name="last_doctor_who_inspect">ОСМАТРИВАЛ В ПОСЛЕДНИЙ РАЗ:</string>
+    <string name="last_doctor_who_inspect">ОwСМАТРИВАЛ В ПОСЛЕДНИЙ РАЗ:</string>
     <string name="profile">Профиль</string>
     <string name="monthly_report">Отчёт за месяц</string>
     <string name="treatment_history">История лечения</string>
@@ -158,7 +158,7 @@
     <string name="fulfillment_prescription">Выполнение назначений</string>
     <string name="weight">Вес</string>
     <string name="kg">кг</string>
-    <string name="critical_case">Критические случаи</string>
+    <string name="critical_cases">Критические случаи</string>
     <string name="data_for">Данные за:</string>
     <string name="hypoglycemia">Гипогликемия</string>
     <string name="hyperglycemia">Гипергликемия</string>
@@ -228,6 +228,9 @@
     <string name="create_group">Создать группу</string>
     <string name="patients_chosen">Пациентов выбрано:</string>
     <string name="search_placeholder_patients">Поиск по ФИО пациента</string>
+    <string name="subscription_notice">\Стоимость продления подписки на 30 дней (до %1$s) %2$s ₸</string>
+    <string name="subscription_info">При включенной функции автопродления подписка будет ежемесячно автоматически продлеваться с использованием данных Вашей платежной карты</string>
+    <string name="congratulations">Поздравляем!</string>
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
