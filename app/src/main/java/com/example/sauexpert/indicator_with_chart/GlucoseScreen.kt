@@ -7,6 +7,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
@@ -27,11 +28,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
-import com.example.sauexpert.bracelet_indicator.*
+import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
+import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.model.GlucoseData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.widgets.compose.MainButton
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -313,6 +314,8 @@ private fun identifyClickItemForGlucose(dataList: List<GlucoseData>, x: Float, y
         } else {
             dataList.glucoseBeforeFood
         }
+
+
         if (x > dataList.positionOnX && x < dataList.positionOnX + 60 && y > itemY) {
             return index
         }
@@ -434,10 +437,6 @@ fun BottomSheetContentForGlucose(
                 .padding(vertical = 14.dp, horizontal = 24.dp)
         )
 
-
-
-
-
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -447,13 +446,14 @@ fun BottomSheetContentForGlucose(
                 )
                 .align(alignment = Alignment.Center)
         ) {
-            items(list.size) {
+            itemsIndexed(
+                list
+            ) { index, item ->
                 Text(
-                    text = list[it],
+                    text = item,
                     style = MaterialTheme.typography.overline
                 )
             }
-
         }
     }
 }
