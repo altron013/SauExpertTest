@@ -2,6 +2,7 @@ package com.example.sauexpert.indicator_with_chart
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,6 +14,7 @@ import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
 
+@ExperimentalMaterialApi
 @Composable
 fun IndicatorWithChartScreen() {
     var selectedTabIndex by remember {
@@ -45,13 +47,9 @@ fun IndicatorWithChartScreen() {
             selectedTabIndex = it
         }
         when (selectedTabIndex) {
-            0 -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
-            ) {
+            0 ->
                 GlucoseScreen()
-            }
+
             1 -> Box(
                 modifier = Modifier
                     .fillMaxSize()

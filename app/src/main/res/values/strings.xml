@@ -173,6 +173,7 @@
     <string name="show_measurements">Показывать замеры:</string>
     <string name="level_of_glucose_before_food">УРОВЕНЬ ГЛЮКОЗЫ ДО ЕДЫ</string>
     <string name="level_of_glucose_after_food">УРОВЕНЬ ГЛЮКОЗЫ ПОСЛЕ ЕДЫ</string>
+    <string name="done">Готово</string>
 
 
     <string name="home">Главная</string>

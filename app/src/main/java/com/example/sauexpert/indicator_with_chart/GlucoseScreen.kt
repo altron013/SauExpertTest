@@ -6,9 +6,10 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,33 +19,74 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
-import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
-import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
+import com.example.sauexpert.bracelet_indicator.*
 import com.example.sauexpert.model.GlucoseData
 import com.example.sauexpert.model.ListNumberOfYForTableData
-import com.example.sauexpert.model.StepsData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.MainButton
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @Composable
 fun GlucoseScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState())
-            .padding(top = 24.dp, bottom = 10.dp)
+
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    BottomSheetScaffold(
+        sheetShape = RoundedCornerShape(10.dp, 10.dp, 0.dp, 0.dp),
+        scaffoldState = bottomSheetScaffoldState,
+        sheetContent = {
+
+            BottomSheetContentForGlucose(
+                onClick = {
+                    coroutineScope.launch {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    }
+                }
+            )
+        },
+        sheetPeekHeight = 0.dp
     ) {
-        GlucosewithBarChart()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = Gray30.copy(alpha = 0.19f)
+                )
+                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(top = 24.dp, bottom = 10.dp)
+            ) {
+                GlucosewithBarChart(
+                    onClick = {
+                        coroutineScope.launch {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        }
+                    }
+                )
+            }
+        }
     }
 }
 
 @Composable
 fun GlucosewithBarChart(
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -74,7 +116,7 @@ fun GlucosewithBarChart(
                 GlucoseData(
                     positionOnX = 215f,
                     glucoseBeforeFood = 190f,
-                    glucoseAfterFood = 200f,
+                    glucoseAfterFood = 60f,
                     dateName = "18.12"
                 ),
                 GlucoseData(
@@ -113,7 +155,7 @@ fun GlucosewithBarChart(
             )
         )
 
-        MeasurementChangeForGlucose()
+        MeasurementChangeForGlucose(onClick = onClick)
         Spacer(modifier = Modifier.height(12.dp))
         TextWithIconForGraph(
             color = Color.Red,
@@ -264,8 +306,14 @@ fun BarChartForGlucose(
 }
 
 private fun identifyClickItemForGlucose(dataList: List<GlucoseData>, x: Float, y: Float): Int {
+    var itemY: Float
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX && x < dataList.positionOnX + 60 && y > dataList.glucoseBeforeFood) {
+        itemY = if (dataList.glucoseBeforeFood > dataList.glucoseAfterFood) {
+            dataList.glucoseAfterFood
+        } else {
+            dataList.glucoseBeforeFood
+        }
+        if (x > dataList.positionOnX && x < dataList.positionOnX + 60 && y > itemY) {
             return index
         }
     }
@@ -324,6 +372,7 @@ fun InfoDialogForBarChartOfGlucose(
 
 @Composable
 fun MeasurementChangeForGlucose(
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -343,10 +392,68 @@ fun MeasurementChangeForGlucose(
             fontSize = 15.sp,
         )
 
-        Text(
-            text = "3 раза",
-            style = MaterialTheme.typography.subtitle2,
-            fontSize = 15.sp,
+        ClickableText(
+            text = AnnotatedString("3 раза"),
+            style = MaterialTheme.typography.subtitle2.copy(color = Color.Black, fontSize = 15.sp),
+            onClick = onClick
         )
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun BottomSheetContentForGlucose(
+    modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit,
+) {
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
+
+    val list = listOf(
+        stringResource(R.string.before_after_food),
+        stringResource(R.string.before_food),
+        stringResource(R.string.after_food),
+    )
+
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(screenHeight / 2)
+            .background(
+                color = Color.White
+            )
+    ) {
+
+        ClickableText(
+            text = AnnotatedString(stringResource(R.string.done)),
+            style = MaterialTheme.typography.body2.copy(Color.Red),
+            onClick = onClick,
+            modifier = modifier
+                .align(alignment = Alignment.TopEnd)
+                .padding(vertical = 14.dp, horizontal = 24.dp)
+        )
+
+
+
+
+
+        LazyColumn(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    color = Gray30.copy(alpha = 0.19f)
+                )
+                .align(alignment = Alignment.Center)
+        ) {
+            items(list.size) {
+                Text(
+                    text = list[it],
+                    style = MaterialTheme.typography.overline
+                )
+            }
+
+        }
     }
 }
