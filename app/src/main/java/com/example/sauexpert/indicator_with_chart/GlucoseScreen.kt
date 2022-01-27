@@ -26,6 +26,7 @@ import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
+import com.example.sauexpert.model.GlucoseData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.StepsData
 import com.example.sauexpert.ui.theme.Gray30
@@ -57,14 +58,49 @@ fun GlucosewithBarChart(
         GlucoseTitle()
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForGlucose(
-            StepsData = listOf(
-                StepsData(positionOnX = 9f, stepsPerDay = 200f, dateName = "16.12"),
-                StepsData(positionOnX = 108f, stepsPerDay = 30f, dateName = "17.12"),
-                StepsData(positionOnX = 208f, stepsPerDay = 190f, dateName = "18.12"),
-                StepsData(positionOnX = 308f, stepsPerDay = 180f, dateName = "19.12"),
-                StepsData(positionOnX = 408f, stepsPerDay = 220f, dateName = "20.12"),
-                StepsData(positionOnX = 508f, stepsPerDay = 240f, dateName = "21.12"),
-                StepsData(positionOnX = 608f, stepsPerDay = 30f, dateName = "22.12")
+            GlucoseData = listOf(
+                GlucoseData(
+                    positionOnX = 15f,
+                    glucoseBeforeFood = 200f,
+                    glucoseAfterFood = 200f,
+                    dateName = "16.12"
+                ),
+                GlucoseData(
+                    positionOnX = 115f,
+                    glucoseBeforeFood = 30f,
+                    glucoseAfterFood = 200f,
+                    dateName = "17.12"
+                ),
+                GlucoseData(
+                    positionOnX = 215f,
+                    glucoseBeforeFood = 190f,
+                    glucoseAfterFood = 200f,
+                    dateName = "18.12"
+                ),
+                GlucoseData(
+                    positionOnX = 315f,
+                    glucoseBeforeFood = 180f,
+                    glucoseAfterFood = 200f,
+                    dateName = "19.12"
+                ),
+                GlucoseData(
+                    positionOnX = 415f,
+                    glucoseBeforeFood = 220f,
+                    glucoseAfterFood = 200f,
+                    dateName = "20.12"
+                ),
+                GlucoseData(
+                    positionOnX = 515f,
+                    glucoseBeforeFood = 240f,
+                    glucoseAfterFood = 200f,
+                    dateName = "21.12"
+                ),
+                GlucoseData(
+                    positionOnX = 615f,
+                    glucoseBeforeFood = 30f,
+                    glucoseAfterFood = 200f,
+                    dateName = "22.12"
+                )
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("8.5"),
@@ -114,7 +150,7 @@ fun GlucoseTitle(
 
 @Composable
 fun BarChartForGlucose(
-    StepsData: List<StepsData>,
+    GlucoseData: List<GlucoseData>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
@@ -133,7 +169,7 @@ fun BarChartForGlucose(
         itemID = itemID,
         xPosition = positionOfX,
         yPosition = positionOfY,
-        StepsData = StepsData
+        GlucoseData = GlucoseData
     )
 
     Canvas(
@@ -143,13 +179,14 @@ fun BarChartForGlucose(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForGlucose(StepsData, it.x, it.y)
-                        ResetColorInsideDataClassForGlucose(StepsData = StepsData)
+                        itemID.value = identifyClickItemForGlucose(GlucoseData, it.x, it.y)
+                        ResetColorInsideDataClassForGlucose(GlucoseData = GlucoseData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
                             visible.value = true
-                            StepsData[itemID.value].colorFocus = Color.Red
+                            GlucoseData[itemID.value].colorFocusBeforeFood = Color.Red
+                            GlucoseData[itemID.value].colorFocusAfterFood = Color.Red
                         }
                     }
                 )
@@ -182,7 +219,7 @@ fun BarChartForGlucose(
         }
 
         start = true
-        for (p in StepsData) {
+        for (p in GlucoseData) {
             drawLine(
                 start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
                 end = Offset(wight.dp.toPx(), 0f),
@@ -191,26 +228,26 @@ fun BarChartForGlucose(
             )
 
             drawRect(
-                color = Color(251, 241, 243),
+                color = p.colorFocusBeforeFood,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 85f) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
                 ),
                 size = Size(
-                    width = 32.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - 85f) * heightPre
+                    width = 10.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
                 )
             )
 
             drawRect(
-                color = p.colorFocus,
+                color = p.colorFocusAfterFood,
                 topLeft = Offset(
-                    x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
+                    x = p.positionOnX + 35,
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
                 ),
                 size = Size(
-                    width = 32.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
+                    width = 10.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
                 )
             )
 
@@ -226,18 +263,19 @@ fun BarChartForGlucose(
     }
 }
 
-private fun identifyClickItemForGlucose(dataList: List<StepsData>, x: Float, y: Float): Int {
+private fun identifyClickItemForGlucose(dataList: List<GlucoseData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX && x < dataList.positionOnX + 80 && y > dataList.stepsPerDay) {
+        if (x > dataList.positionOnX && x < dataList.positionOnX + 60 && y > dataList.glucoseBeforeFood) {
             return index
         }
     }
     return -1
 }
 
-private fun ResetColorInsideDataClassForGlucose(StepsData: List<StepsData>) {
-    for (p in StepsData) {
-        p.colorFocus = Color(250, 218, 221)
+private fun ResetColorInsideDataClassForGlucose(GlucoseData: List<GlucoseData>) {
+    for (p in GlucoseData) {
+        p.colorFocusBeforeFood = Color(250, 218, 221)
+        p.colorFocusAfterFood = Color(242, 181, 188)
     }
 }
 
@@ -247,7 +285,7 @@ fun InfoDialogForBarChartOfGlucose(
     itemID: MutableState<Int>,
     xPosition: MutableState<Int>,
     yPosition: MutableState<Int>,
-    StepsData: List<StepsData>,
+    GlucoseData: List<GlucoseData>,
     modifier: Modifier = Modifier
 ) {
     if (visible.value) {
@@ -265,14 +303,16 @@ fun InfoDialogForBarChartOfGlucose(
                         visible.value = false
                     } else {
                         Text(
-                            text = "${itemID.value} | ${StepsData[itemID.value].stepsPerDay} | " +
-                                    "${StepsData[itemID.value].dateName}",
+                            text = "${itemID.value} | " +
+                                    "${GlucoseData[itemID.value].glucoseBeforeFood} | " +
+                                    "${GlucoseData[itemID.value].glucoseAfterFood} | " +
+                                    "${GlucoseData[itemID.value].dateName}",
                             style = MaterialTheme.typography.h5,
                             modifier = modifier
                                 .align(alignment = Alignment.Center)
                                 .clickable {
                                     visible.value = false
-                                    ResetColorInsideDataClassForGlucose(StepsData = StepsData)
+                                    ResetColorInsideDataClassForGlucose(GlucoseData = GlucoseData)
                                 }
                         )
                     }
