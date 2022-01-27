@@ -173,15 +173,22 @@ fun GlucosewithBarChart(
             state = state
         )
 
+        Spacer(modifier = Modifier.height(20.dp))
+
         MeasurementChangeForGlucose(
             onClick = onClick,
             state = state
         )
+
         Spacer(modifier = Modifier.height(12.dp))
+
         TextWithIconForGraph(
-            color = Color.Red,
+            color = Color(232, 171, 178),
             text = stringResource(id = R.string.level_of_glucose_before_food)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         TextWithIconForGraph(
             color = Color.Red,
             text = stringResource(id = R.string.level_of_glucose_after_food)
@@ -309,7 +316,7 @@ fun BarChartForGlucose(
                 strokeWidth = 2f
             )
 
-            if(!hideBarBeforeFood) {
+            if (!hideBarBeforeFood) {
                 drawRect(
                     color = p.colorFocusBeforeFood,
                     topLeft = Offset(
@@ -323,7 +330,7 @@ fun BarChartForGlucose(
                 )
             }
 
-            if(!hideBarAfterFood) {
+            if (!hideBarAfterFood) {
                 drawRect(
                     color = p.colorFocusAfterFood,
                     topLeft = Offset(
@@ -469,19 +476,40 @@ fun BottomSheetContentForGlucose(
             .fillMaxWidth()
             .height(screenHeight / 2)
             .background(
-                color = Color.White
+                color = Gray30.copy(alpha = 0.25f)
             )
     ) {
 
-        ClickableText(
-            text = AnnotatedString(stringResource(R.string.done)),
-            style = MaterialTheme.typography.body2.copy(Color.Red),
-            onClick = onClick,
+        Box(
             modifier = modifier
-                .align(alignment = Alignment.TopEnd)
-                .padding(vertical = 14.dp, horizontal = 24.dp)
-        )
+                .fillMaxWidth()
+                .background(color = Color.White)
+        ) {
+            ClickableText(
+                text = AnnotatedString(stringResource(R.string.done)),
+                style = MaterialTheme.typography.body2.copy(Color.Red),
+                onClick = onClick,
+                modifier = modifier
+                    .align(alignment = Alignment.TopEnd)
+                    .padding(vertical = 14.dp, horizontal = 24.dp)
+            )
+        }
 
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = modifier
+                .fillMaxWidth()
+                .height(34.dp)
+                .padding(horizontal = 25.dp)
+                .background(
+                    color = Gray30.copy(alpha = 0.35f),
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .align(alignment = Alignment.Center)
+        ) {
+
+        }
 
         ListItemPicker(
             label = { it },
