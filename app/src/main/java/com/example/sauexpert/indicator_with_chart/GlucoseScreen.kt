@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import com.chargemap.compose.numberpicker.ListItemPicker
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
@@ -44,6 +46,14 @@ fun GlucoseScreen() {
     )
     val coroutineScope = rememberCoroutineScope()
 
+    val list = listOf(
+        stringResource(R.string.before_after_food),
+        stringResource(R.string.before_food),
+        stringResource(R.string.after_food),
+    )
+
+    var state by rememberSaveable { mutableStateOf(list[0]) }
+
     BottomSheetScaffold(
         sheetShape = RoundedCornerShape(10.dp, 10.dp, 0.dp, 0.dp),
         scaffoldState = bottomSheetScaffoldState,
@@ -54,7 +64,10 @@ fun GlucoseScreen() {
                     coroutineScope.launch {
                         bottomSheetScaffoldState.bottomSheetState.collapse()
                     }
-                }
+                },
+                possibleValues = list,
+                state = state,
+                onNameChange = { state = it }
             )
         },
         sheetPeekHeight = 0.dp
@@ -78,7 +91,8 @@ fun GlucoseScreen() {
                         coroutineScope.launch {
                             bottomSheetScaffoldState.bottomSheetState.expand()
                         }
-                    }
+                    },
+                    state = state
                 )
             }
         }
@@ -88,6 +102,8 @@ fun GlucoseScreen() {
 @Composable
 fun GlucosewithBarChart(
     onClick: (Int) -> Unit,
+//    listDataForFilter: List<String>,
+    state: String,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -153,10 +169,14 @@ fun GlucosewithBarChart(
                 ListNumberOfYForTableData("6.5"),
                 ListNumberOfYForTableData("6.0"),
                 ListNumberOfYForTableData("5.5"),
-            )
+            ),
+            state = state
         )
 
-        MeasurementChangeForGlucose(onClick = onClick)
+        MeasurementChangeForGlucose(
+            onClick = onClick,
+            state = state
+        )
         Spacer(modifier = Modifier.height(12.dp))
         TextWithIconForGraph(
             color = Color.Red,
@@ -194,6 +214,7 @@ fun GlucoseTitle(
 @Composable
 fun BarChartForGlucose(
     GlucoseData: List<GlucoseData>,
+    state: String,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
@@ -214,6 +235,24 @@ fun BarChartForGlucose(
         yPosition = positionOfY,
         GlucoseData = GlucoseData
     )
+
+    var hideBarBeforeFood = false
+    var hideBarAfterFood = false
+
+    when (state) {
+        stringResource(R.string.before_food) -> {
+            hideBarBeforeFood = false
+            hideBarAfterFood = true
+        }
+        stringResource(R.string.after_food) -> {
+            hideBarBeforeFood = true
+            hideBarAfterFood = false
+        }
+        else -> {
+            hideBarBeforeFood = false
+            hideBarAfterFood = false
+        }
+    }
 
     Canvas(
         modifier = Modifier
@@ -270,29 +309,37 @@ fun BarChartForGlucose(
                 strokeWidth = 2f
             )
 
-            drawRect(
-                color = p.colorFocusBeforeFood,
-                topLeft = Offset(
-                    x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
-                ),
-                size = Size(
-                    width = 10.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
+            if(!hideBarBeforeFood) {
+                drawRect(
+                    color = p.colorFocusBeforeFood,
+                    topLeft = Offset(
+                        x = p.positionOnX,
+                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
+                    ),
+                    size = Size(
+                        width = 10.dp.toPx(),
+                        height = ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
+                    )
                 )
-            )
+            }
 
-            drawRect(
-                color = p.colorFocusAfterFood,
-                topLeft = Offset(
-                    x = p.positionOnX + 35,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
-                ),
-                size = Size(
-                    width = 10.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
+            if(!hideBarAfterFood) {
+                drawRect(
+                    color = p.colorFocusAfterFood,
+                    topLeft = Offset(
+                        x = p.positionOnX + 35,
+                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
+                    ),
+                    size = Size(
+                        width = 10.dp.toPx(),
+                        height = ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
+                    )
                 )
-            )
+            }
+
+
+
+
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
@@ -376,6 +423,7 @@ fun InfoDialogForBarChartOfGlucose(
 @Composable
 fun MeasurementChangeForGlucose(
     onClick: (Int) -> Unit,
+    state: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -396,7 +444,7 @@ fun MeasurementChangeForGlucose(
         )
 
         ClickableText(
-            text = AnnotatedString("3 раза"),
+            text = AnnotatedString(state),
             style = MaterialTheme.typography.subtitle2.copy(color = Color.Black, fontSize = 15.sp),
             onClick = onClick
         )
@@ -407,16 +455,13 @@ fun MeasurementChangeForGlucose(
 @Composable
 fun BottomSheetContentForGlucose(
     modifier: Modifier = Modifier,
+    possibleValues: List<String>,
+    state: String,
+    onNameChange: (String) -> Unit,
     onClick: (Int) -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
-
-    val list = listOf(
-        stringResource(R.string.before_after_food),
-        stringResource(R.string.before_food),
-        stringResource(R.string.after_food),
-    )
 
 
     Box(
@@ -437,23 +482,33 @@ fun BottomSheetContentForGlucose(
                 .padding(vertical = 14.dp, horizontal = 24.dp)
         )
 
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = Gray30.copy(alpha = 0.19f)
-                )
-                .align(alignment = Alignment.Center)
-        ) {
-            itemsIndexed(
-                list
-            ) { index, item ->
-                Text(
-                    text = item,
-                    style = MaterialTheme.typography.overline
-                )
-            }
-        }
+
+        ListItemPicker(
+            label = { it },
+            value = state,
+            onValueChange = onNameChange,
+            list = possibleValues,
+            modifier = modifier.align(alignment = Alignment.Center)
+        )
+
+
+//        LazyColumn(
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .background(
+//                    color = Gray30.copy(alpha = 0.19f)
+//                )
+//                .align(alignment = Alignment.Center)
+//        ) {
+//            itemsIndexed(
+//                list
+//            ) { index, item ->
+//                Text(
+//                    text = item,
+//                    style = MaterialTheme.typography.overline
+//                )
+//            }
+//        }
     }
 }
