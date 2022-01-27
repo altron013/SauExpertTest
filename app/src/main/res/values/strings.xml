@@ -158,7 +158,6 @@
     <string name="fulfillment_prescription">Выполнение назначений</string>
     <string name="weight">Вес</string>
     <string name="kg">кг</string>
-    <string name="critical_case">Критические случаи</string>
     <string name="data_for">Данные за:</string>
     <string name="hypoglycemia">Гипогликемия</string>
     <string name="hyperglycemia">Гипергликемия</string>
@@ -168,6 +167,7 @@
     <string name="begin_first_inspection_desc">Осмотрите пациента и внесите его показатели</string>
     <string name="glucose">Глюкоза</string>
     <string name="pressure_pulse">Давление и пульс</string>
+    <string name="steps_per_day">шагов в день</string>
 
 
     <string name="home">Главная</string>

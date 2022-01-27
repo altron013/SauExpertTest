@@ -64,7 +64,7 @@ fun IndicatorWithChartScreen() {
                     .fillMaxSize()
                     .padding(horizontal = 16.dp)
             ) {
-
+                StepsScreen()
             }
         }
     }
