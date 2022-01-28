@@ -236,7 +236,7 @@ fun BarChartForGlucose(
     )
 
 
-    val itemID = remember { mutableStateOf(1) }
+    val itemID = remember { mutableStateOf(-1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
 
@@ -266,6 +266,9 @@ fun BarChartForGlucose(
         }
     }
 
+    setRedColorInsideDataClassForGlucose(GlucoseData = glucoseData, itemID = itemID, visible = visible)
+//    ResetColorInsideDataClassForGlucose(GlucoseData = glucoseData)
+
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
@@ -278,9 +281,11 @@ fun BarChartForGlucose(
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
-                            glucoseData[itemID.value].colorFocusBeforeFood = Color.Red
-                            glucoseData[itemID.value].colorFocusAfterFood = Color.Red
+
+//                            glucoseData[itemID.value].colorFocusBeforeFood = Color.Red
+//                            glucoseData[itemID.value].colorFocusAfterFood = Color.Red
                             visible.value = true
+                            setRedColorInsideDataClassForGlucose(GlucoseData = glucoseData, itemID = itemID, visible = visible)
                         }
                     }
                 )
@@ -383,6 +388,14 @@ private fun ResetColorInsideDataClassForGlucose(GlucoseData: List<GlucoseData>) 
     for (p in GlucoseData) {
         p.colorFocusBeforeFood = Color(250, 218, 221)
         p.colorFocusAfterFood = Color(242, 181, 188)
+    }
+}
+
+private fun setRedColorInsideDataClassForGlucose(GlucoseData: List<GlucoseData>, itemID: MutableState<Int>, visible: MutableState<Boolean>) {
+    if (itemID.value != -1 && visible.value) {
+        ResetColorInsideDataClassForGlucose(GlucoseData = GlucoseData)
+        GlucoseData[itemID.value].colorFocusBeforeFood = Color.Red
+        GlucoseData[itemID.value].colorFocusAfterFood = Color.Red
     }
 }
 
