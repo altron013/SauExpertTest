@@ -14,7 +14,8 @@ val SystemGray = Color(0xFF8E8E93)
 val SystemGray2 = Color(0xFF636366)
 val SystemDark = Color(0xFF1C1C1E)
 val GrayBCBBC1 = Color(0xFFBCBBC1)
-
+val BorderGray = Color(0xFFE5E5EA)
+val Pink10P = Color(0x1AFF435B)
 
 val Gray15 = Color(0xFFE5E5E6)
 val SurfaceBlue = Color(0xFFF2F2F7)

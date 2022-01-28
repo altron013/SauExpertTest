@@ -75,7 +75,6 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
         }
     }
 
-
     val textState = remember { mutableStateOf(TextFieldValue("")) }
 
     SauExpertTheme {
@@ -161,9 +160,6 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
                     Spacer(modifier = Modifier.padding(9.dp))
 
 
-
-
-
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
@@ -214,13 +210,11 @@ fun SheetLayout(
     onBackPressed: () -> Unit,
     onNextPressed: () -> Unit
 ) {
-
     when (bottomSheetType) {
         BottomSheetType.ACTION_VIEW -> ButtonActionView()
         BottomSheetType.NEW_GROUP -> NewGroup(closeSheet, state, onNextPressed)
         BottomSheetType.INITIAL -> {}
         BottomSheetType.ADD_GROUP -> AddGroup(onBackPressed)
-
     }
 }
 
