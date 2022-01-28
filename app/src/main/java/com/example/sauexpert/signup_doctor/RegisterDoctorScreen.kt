@@ -26,8 +26,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.signup_patient.AuthItem
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.GrayF0F
-import com.example.sauexpert.ui.theme.SauExpertTheme
-import com.example.sauexpert.ui.theme.SuraceBlue
+import com.example.sauexpert.ui.theme.SurfaceBlue
 import com.example.sauexpert.widgets.compose.MainButtonM
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -114,7 +113,7 @@ fun RegisterDoctorScreen() {
                                 .fillMaxWidth()
                                 .height(242.dp),
                             shape = RoundedCornerShape(12.dp),
-                            backgroundColor = SuraceBlue
+                            backgroundColor = SurfaceBlue
                         )
                         {
                             Text(
@@ -248,7 +247,7 @@ fun InfoCard(cardIcon: Painter, header: String, description: String) {
             .fillMaxWidth()
             .height(242.dp),
         shape = RoundedCornerShape(12.dp),
-        backgroundColor = SuraceBlue
+        backgroundColor = SurfaceBlue
     )
     {
         Text(
@@ -289,7 +288,7 @@ fun MessageCard(text: String) {
         modifier = Modifier
             .border(
                 width = 1.dp,
-                color = SuraceBlue,
+                color = SurfaceBlue,
                 shape = RoundedCornerShape(10.dp)
             )
             .padding(top = 16.dp, bottom = 16.dp)

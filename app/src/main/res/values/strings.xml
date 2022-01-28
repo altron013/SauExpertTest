@@ -234,6 +234,9 @@
     <string name="create_group">Создать группу</string>
     <string name="patients_chosen">Пациентов выбрано:</string>
     <string name="search_placeholder_patients">Поиск по ФИО пациента</string>
+    <string name="subscription_notice">\Стоимость продления подписки на 30 дней (до %1$s) %2$s ₸</string>
+    <string name="subscription_info">При включенной функции автопродления подписка будет ежемесячно автоматически продлеваться с использованием данных Вашей платежной карты</string>
+    <string name="congratulations">Поздравляем!</string>
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->
     <!--    <string name="medcard_online">Медкарта онлайн</string>-->

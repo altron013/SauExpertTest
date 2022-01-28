@@ -304,7 +304,7 @@ fun NewGroup(
         SearchViewNewGroup(
             state = textState(),
             modifier = Modifier
-                .background(color = Surace1F7)
+                .background(color = Surface1F7)
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp)
         )
@@ -436,7 +436,7 @@ fun SearchViewNewGroup(state: MutableState<TextFieldValue>, modifier: Modifier) 
             cursorColor = Color.DarkGray,
             leadingIconColor = Gray50,
             trailingIconColor = Color.DarkGray,
-            backgroundColor = Surace1F7.copy(alpha = BackgroundOpacity),
+            backgroundColor = Surface1F7.copy(alpha = BackgroundOpacity),
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent

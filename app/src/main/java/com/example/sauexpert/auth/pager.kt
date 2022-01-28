@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import com.example.sauexpert.ui.theme.SuraceBlue
+import com.example.sauexpert.ui.theme.SurfaceBlue
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 
@@ -52,7 +52,7 @@ internal fun PagerSampleItem(
                 .fillMaxWidth()
                 .height(242.dp),
             shape = RoundedCornerShape(12.dp),
-            backgroundColor = SuraceBlue
+            backgroundColor = SurfaceBlue
         )
         {}
     }
