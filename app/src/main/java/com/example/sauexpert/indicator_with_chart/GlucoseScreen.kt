@@ -45,6 +45,7 @@ fun GlucoseScreen() {
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val coroutineScope = rememberCoroutineScope()
+    val visible = remember { mutableStateOf(false) }
 
     val list = listOf(
         stringResource(R.string.before_after_food),
@@ -91,8 +92,10 @@ fun GlucoseScreen() {
                         coroutineScope.launch {
                             bottomSheetScaffoldState.bottomSheetState.expand()
                         }
+                        visible.value = false
                     },
-                    state = state
+                    state = state,
+                    visible = visible
                 )
             }
         }
@@ -102,7 +105,7 @@ fun GlucoseScreen() {
 @Composable
 fun GlucosewithBarChart(
     onClick: (Int) -> Unit,
-//    listDataForFilter: List<String>,
+    visible: MutableState<Boolean>,
     state: String,
     modifier: Modifier = Modifier
 ) {
@@ -117,7 +120,7 @@ fun GlucosewithBarChart(
         GlucoseTitle()
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForGlucose(
-            GlucoseData = listOf(
+            glucoseData = listOf(
                 GlucoseData(
                     positionOnX = 15f,
                     glucoseBeforeFood = 200f,
@@ -140,13 +143,13 @@ fun GlucosewithBarChart(
                     positionOnX = 315f,
                     glucoseBeforeFood = 180f,
                     glucoseAfterFood = 200f,
-                    dateName = "19.12"
+                    dateName = "19.12",
                 ),
                 GlucoseData(
                     positionOnX = 415f,
                     glucoseBeforeFood = 220f,
                     glucoseAfterFood = 200f,
-                    dateName = "20.12"
+                    dateName = "20.12",
                 ),
                 GlucoseData(
                     positionOnX = 515f,
@@ -170,7 +173,8 @@ fun GlucosewithBarChart(
                 ListNumberOfYForTableData("6.0"),
                 ListNumberOfYForTableData("5.5"),
             ),
-            state = state
+            state = state,
+            visible = visible
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -220,8 +224,9 @@ fun GlucoseTitle(
 
 @Composable
 fun BarChartForGlucose(
-    GlucoseData: List<GlucoseData>,
+    glucoseData: List<GlucoseData>,
     state: String,
+    visible: MutableState<Boolean>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
@@ -230,7 +235,7 @@ fun BarChartForGlucose(
         animationSpec = FloatTweenSpec(duration = 1000)
     )
 
-    val visible = remember { mutableStateOf(false) }
+
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
@@ -240,11 +245,11 @@ fun BarChartForGlucose(
         itemID = itemID,
         xPosition = positionOfX,
         yPosition = positionOfY,
-        GlucoseData = GlucoseData
+        GlucoseData = glucoseData
     )
 
-    var hideBarBeforeFood = false
-    var hideBarAfterFood = false
+    val hideBarBeforeFood: Boolean
+    val hideBarAfterFood: Boolean
 
     when (state) {
         stringResource(R.string.before_food) -> {
@@ -268,14 +273,14 @@ fun BarChartForGlucose(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForGlucose(GlucoseData, it.x, it.y)
-                        ResetColorInsideDataClassForGlucose(GlucoseData = GlucoseData)
+                        itemID.value = identifyClickItemForGlucose(glucoseData, it.x, it.y)
+                        ResetColorInsideDataClassForGlucose(GlucoseData = glucoseData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
+                            glucoseData[itemID.value].colorFocusBeforeFood = Color.Red
+                            glucoseData[itemID.value].colorFocusAfterFood = Color.Red
                             visible.value = true
-                            GlucoseData[itemID.value].colorFocusBeforeFood = Color.Red
-                            GlucoseData[itemID.value].colorFocusAfterFood = Color.Red
                         }
                     }
                 )
@@ -308,7 +313,7 @@ fun BarChartForGlucose(
         }
 
         start = true
-        for (p in GlucoseData) {
+        for (p in glucoseData) {
             drawLine(
                 start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
                 end = Offset(wight.dp.toPx(), 0f),
@@ -343,9 +348,6 @@ fun BarChartForGlucose(
                     )
                 )
             }
-
-
-
 
 
             drawContext.canvas.nativeCanvas.drawText(
@@ -417,13 +419,14 @@ fun InfoDialogForBarChartOfGlucose(
                                 .align(alignment = Alignment.Center)
                                 .clickable {
                                     visible.value = false
-                                    ResetColorInsideDataClassForGlucose(GlucoseData = GlucoseData)
                                 }
                         )
                     }
                 }
             }
         }
+    } else {
+        ResetColorInsideDataClassForGlucose(GlucoseData = GlucoseData)
     }
 }
 
@@ -516,7 +519,9 @@ fun BottomSheetContentForGlucose(
             value = state,
             onValueChange = onNameChange,
             list = possibleValues,
-            modifier = modifier.align(alignment = Alignment.Center)
+            dividersColor = Color.Transparent,
+            modifier = modifier
+                .align(alignment = Alignment.Center)
         )
 
 
