@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -21,6 +23,7 @@ import com.example.sauexpert.navigation.BottomNavItem
 import com.example.sauexpert.navigation.BottomNavigationBar
 import com.example.sauexpert.navigation.Navigation
 import com.example.sauexpert.ui.theme.SauExpertTheme
+import com.example.sauexpert.widgets.compose.snackbars.DefaultSnackbar
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 class MainActivity : ComponentActivity() {
@@ -43,6 +46,8 @@ class MainActivity : ComponentActivity() {
                 // LoginScreen()
                 // RegisterDoctorScreen()
                 //MyPatients()
+
+                val scaffoldState = rememberScaffoldState()
 
                 val navController = rememberNavController()
                 Scaffold(
@@ -81,10 +86,15 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(it.route)
                             }
                         )
-                    }
+                    },
+                    scaffoldState = scaffoldState,
+                    snackbarHost = { scaffoldState.snackbarHostState}
                 ) {
                     Box( modifier = Modifier.padding(it)) {
-                        Navigation(navController = navController)
+                        Navigation(navController = navController, scaffoldState = scaffoldState)
+                        DefaultSnackbar(snackbarHostState = scaffoldState.snackbarHostState, onDismiss = {
+                            scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+                        }, modifier = Modifier.align(Alignment.TopCenter))
                     }
                 }
                 // MyPatients2()
