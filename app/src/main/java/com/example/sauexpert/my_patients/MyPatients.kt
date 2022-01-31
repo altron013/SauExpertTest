@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.DoubleArrow
@@ -20,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
@@ -89,24 +89,41 @@ fun Tabs(tabTitles: List<String>) {
         ScrollableTabRow(
             selectedTabIndex = tabIndex, backgroundColor = Color.Transparent,
             contentColor = Color.Black,
-//             indicator = {
-//                     TabDefaults.Indicator(
-//                         color = Color.Red,
-//                         height = 4.dp,
-//                         modifier = Modifier
-//                             .tabIndicatorOffset(it[selectedSeason])
-//                     )
-//
-//            }
-
             modifier = Modifier.fillMaxWidth(),
             edgePadding = 0.dp,
+            indicator = {
+                TabRowDefaults.Indicator(
+                    color = Red435B,
+                    height = 2.dp,
+                    modifier = Modifier.tabIndicatorOffset(it[tabIndex])
+                )
+            }
         ) {
             tabTitles.forEachIndexed { index, title ->
-                Tab(selected = tabIndex == index,
-                    onClick = { tabIndex = index },
-                    text = { Text(text = title) }
-                )
+                if (title == "Новая группа") {
+                    LeadingIconTab(
+                        selected = tabIndex == index,
+                        onClick = { tabIndex = index },
+                        text = { Text(text = title, color = Red435B) },
+                        icon = {
+                            Image(
+                                painter = painterResource(R.drawable.ic_plus_circle_conflict),
+                                contentDescription = "tabIcon",
+                                contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                                modifier = Modifier
+                                    .size(13.dp)
+                                    .clip(CircleShape)
+                            )
+                        },
+
+                    )
+                } else {
+                    Tab(
+                        selected = tabIndex == index,
+                        onClick = { tabIndex = index },
+                        text = { Text(text = title) },
+                    )
+                }
             }
         }
         when (tabIndex) {
@@ -197,16 +214,11 @@ fun SearchView(state: MutableState<TextFieldValue>) {
         },
         modifier = Modifier
             .height(46.dp)
-            .padding(0.dp),
+            .padding(4.dp),
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SearchViewPreview() {
-    val textState = remember { mutableStateOf(TextFieldValue("")) }
-    SearchView(textState)
-}
+
 
 @Composable
 fun NewPatientContent() {

@@ -146,12 +146,18 @@
     <string name="fulfillment_prescription">Выполнение назначений</string>
     <string name="weight">Вес</string>
     <string name="kg">кг</string>
-    <string name="critical_case">Критические случаи</string>
+    <string name="critical_cases">Критические случаи</string>
     <string name="data_for">Данные за:</string>
     <string name="hypoglycemia">Гипогликемия</string>
     <string name="hyperglycemia">Гипергликемия</string>
     <string name="hypertension">Гипертония</string>
     <string name="hypotension">Гипотония</string>
+    <string name="begin_first_inspection">Начните первый осмотр</string>
+    <string name="begin_first_inspection_desc">Осмотрите пациента и внесите его показатели</string>
+    <string name="glucose">Глюкоза</string>
+    <string name="pressure_pulse">Давление и пульс</string>
+
+
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
     <string name="messages">Сообщения</string>
@@ -188,5 +194,33 @@
     <string name="case_in_june">Случаи в июне</string>
     <string name="indicators_per_day">Отчеты за день</string>
     <string name="case_in_may"> Случаи в мае</string>
+    <string name="first_inspection">Начните первый осмотр</string>
+    <string name="begin_examination">Начать осмотр</string>
+    <string name="caps_main">ОСНОВНОЙ</string>
+    <string name="caps_related">СОПУТСТВУЮЩИЙ</string>
+    <string name="new_diagnosis">Новый диагноз</string>
+    <string name="main_diagnosis">Основной диагноз</string>
+    <string name="caps_diagnosis">ДИАГНОЗ</string>
+    <string name="caps_start_date">ДАТА НАЧАЛА</string>
+    <string name="caps_comment">КОММЕНТАРИЙ</string>
+    <string name="critical_case">Критический случай</string>
+    <string name="desc_case">Опишите случай</string>
+    <string name="when_occurred">КОГДА ПРОИЗОШЛО</string>
+    <string name="more">Ещё</string>
+    <string name="base_therapy">Базовая терапия</string>
+    <string name="insulin_usage">Использование инсулина</string>
+    <string name="new_group">Новая группа</string>
+    <string name="name_group">Назовите группу</string>
+    <string name="create_group">Создать группу</string>
+    <string name="patients_chosen">Пациентов выбрано:</string>
+    <string name="search_placeholder_patients">Поиск по ФИО пациента</string>
+    <string name="subscription_notice">\Стоимость продления подписки на 30 дней (до %1$s) %2$s ₸</string>
+    <string name="subscription_info">При включенной функции автопродления подписка будет ежемесячно автоматически продлеваться с использованием данных Вашей платежной карты</string>
+    <string name="congratulations">Поздравляем!</string>
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
+    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
+
 
 </resources>

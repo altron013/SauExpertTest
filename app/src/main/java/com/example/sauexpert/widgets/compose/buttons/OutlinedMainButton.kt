@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun OutlinedMainButton(
     modifier: Modifier = Modifier,
-    text: String,
+    text: String? = null,
     icon: Int? = null,
     onClick: () -> Unit,
     enableState: Boolean,
@@ -65,14 +65,19 @@ fun OutlinedMainButton(
                 Icon(
                     painter = painterResource(id = icon),
                     contentDescription = null,
-                    modifier = Modifier.padding(end = 16.dp)
                 )
             }
-            Text(
-                text = text,
-                fontSize = sizeText.sp,
-                style = MaterialTheme.typography.button
-            )
+
+            if (icon != null && text != null) {Spacer(modifier = Modifier.width(16.dp))}
+
+            text?.let {
+                Text(
+                    text = text,
+                    fontSize = sizeText.sp,
+                    style = MaterialTheme.typography.button
+                )
+
+            }
         }
     }
 }

@@ -41,17 +41,17 @@ fun PressureScreen() {
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
-            .padding(top = 24.dp)
+            .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        PressureStatwithBarChart()
+        PressurewithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPressureStat()
+        AnalysisPressureSection()
     }
 }
 
 
 @Composable
-fun PressureStatwithBarChart(
+fun PressurewithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -63,17 +63,52 @@ fun PressureStatwithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        PressureStat()
+        PressureTitle()
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForPressure(
             PressureData = listOf(
-                PressureData(positionOnX = 10f, pressureInAverage = 200f, dateName = "16.12"),
-                PressureData(positionOnX = 105f, pressureInAverage = 370f, dateName = "17.12"),
-                PressureData(positionOnX = 200f, pressureInAverage = 190f, dateName = "18.12"),
-                PressureData(positionOnX = 295f, pressureInAverage = 180f, dateName = "19.12"),
-                PressureData(positionOnX = 390f, pressureInAverage = 220f, dateName = "20.12"),
-                PressureData(positionOnX = 485f, pressureInAverage = 240f, dateName = "21.12"),
-                PressureData(positionOnX = 580f, pressureInAverage = 30f, dateName = "22.12")
+                PressureData(
+                    positionOnX = 15f,
+                    pressureInAverage = 200f,
+                    dateName = "16.12",
+                    startPoint = 250f
+                ),
+                PressureData(
+                    positionOnX = 110f,
+                    pressureInAverage = 300f,
+                    dateName = "17.12",
+                    startPoint = 200f
+                ),
+                PressureData(
+                    positionOnX = 205f,
+                    pressureInAverage = 190f,
+                    dateName = "18.12",
+                    startPoint = 250f
+                ),
+                PressureData(
+                    positionOnX = 300f,
+                    pressureInAverage = 180f,
+                    dateName = "19.12",
+                    startPoint = 250f
+                ),
+                PressureData(
+                    positionOnX = 395f,
+                    pressureInAverage = 220f,
+                    dateName = "20.12",
+                    startPoint = 230f
+                ),
+                PressureData(
+                    positionOnX = 490f,
+                    pressureInAverage = 240f,
+                    dateName = "21.12",
+                    startPoint = 250f
+                ),
+                PressureData(
+                    positionOnX = 585f,
+                    pressureInAverage = 50f,
+                    dateName = "22.12",
+                    startPoint = 280f
+                )
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("240"),
@@ -81,13 +116,15 @@ fun PressureStatwithBarChart(
                 ListNumberOfYForTableData("160"),
                 ListNumberOfYForTableData("120"),
                 ListNumberOfYForTableData("80"),
+                ListNumberOfYForTableData("40"),
+                ListNumberOfYForTableData("0"),
             )
         )
     }
 }
 
 @Composable
-fun PressureStat(
+fun PressureTitle(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -99,29 +136,10 @@ fun PressureStat(
             style = MaterialTheme.typography.caption
         )
 
-        Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Black,
-                        fontSize = 34.sp
-                    )
-                ) {
-                    append("150 ")
-                }
-
-                append(stringResource(R.string.mmhg_average))
-            },
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
-            color = Gray30
-        )
-
-        Text(
-            text = "18-20 ноября 2021",
-            style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
-            color = Gray30
+        TextWithBigValueAndDateForGraph(
+            textValue = 150,
+            text = stringResource(R.string.mmhg_average),
+            textDate = "18-20 ноября 2021"
         )
     }
 }
@@ -156,7 +174,7 @@ fun BarChartForPressure(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(155.dp)
+            .height(240.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
@@ -208,21 +226,28 @@ fun BarChartForPressure(
             )
 
 
+//            drawRect(
+//                color = p.colorFocus,
+//                topLeft = Offset(
+//                    x = p.positionOnX,
+//                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.pressureInAverage) * heightPre
+//                ),
+//                size = Size(
+//                    width = 75f,
+//                    height = ((height - 35).dp.toPx() - p.pressureInAverage) * heightPre
+//                )
+//            )
+
             drawRect(
                 color = p.colorFocus,
-                topLeft = Offset(
-                    x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.pressureInAverage) * heightPre
-                ),
-                size = Size(
-                    width = 75f,
-                    height = ((height - 35).dp.toPx() - p.pressureInAverage) * heightPre
-                )
+                topLeft = Offset(p.positionOnX, p.startPoint * heightPre),
+                size = Size(24.dp.toPx(), p.pressureInAverage * heightPre)
+
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 38,
+                p.positionOnX + 32f,
                 (height - 15).dp.toPx(),
                 paint
             )
@@ -242,7 +267,11 @@ fun BarChartForPressure(
 
 private fun identifyClickItemForPressure(dataList: List<PressureData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX && x < dataList.positionOnX + 70 && y > dataList.pressureInAverage) {
+        if (x > dataList.positionOnX
+            && x < dataList.positionOnX + 70
+            && y > dataList.startPoint
+            && y < dataList.pressureInAverage + dataList.startPoint
+        ) {
             return index
         }
     }
@@ -298,7 +327,7 @@ fun InfoDialogForBarChartOfPressure(
 
 
 @Composable
-fun AnalysisPressureStat(modifier: Modifier = Modifier) {
+fun AnalysisPressureSection(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()

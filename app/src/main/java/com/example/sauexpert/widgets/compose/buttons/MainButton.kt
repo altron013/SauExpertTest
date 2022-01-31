@@ -4,13 +4,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -20,7 +19,8 @@ import com.example.sauexpert.ui.theme.SauExpertTheme
 @Composable
 fun MainButton(
     modifier: Modifier = Modifier.fillMaxWidth(),
-    text: String,
+    text: String? = null,
+    icon: Int? = null,
     onClick: () -> Unit,
     enableState: Boolean,
     buttonHeight: Dp = 50.dp,
@@ -39,8 +39,36 @@ fun MainButton(
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                icon?.let {
+                    Icon(
+                        painter = painterResource(id = icon),
+                        contentDescription = null,
+                        tint = textColor,
+                    )
+                }
+
+                if (icon != null && text != null) {
+                    Spacer(modifier = Modifier.width(10.dp))
+                }
+
+                text?.let {
+                    Text(
+                        text = text,
+                        fontWeight = FontWeight.W600,
+                        letterSpacing = 0.sp,
+                        color = textColor
+                    )
+
+                }
+            }
             Text(
-                text = text,
+                text = text?:"",
                 fontWeight = FontWeight.W500,
                 letterSpacing = 0.sp,
                 color = textColor

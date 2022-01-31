@@ -1,20 +1,24 @@
-package com.example.sauexpert.profile
+package com.example.sauexpert.patient_card_screen
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -25,237 +29,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRow
-import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRowWithIcon
 
 @Composable
-fun PatientCardScreen() {
-
-    var selectedTabIndex by remember {
-        mutableStateOf(0)
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Gray30.copy(alpha = 0.19f))
-    ) {
-        TopBarForPatientCardScreen()
-        Spacer(modifier = Modifier.height(24.dp))
-        ProfileForPatientCard(
-            userName = "Жанна Ахметова",
-            diagnosisString = "E11.9 Сахарный диабет"
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        AnamnesisCell(lastAnamnesisDiagnos = "Перенесла операцию на сердце в 2017")
-        Spacer(modifier = Modifier.height(28.dp))
-
-        TabViewForPatientCardScreen(
-            TextOfTab = listOf(
-                TextOfTabData(
-                    text = stringResource(id = R.string.indicators)
-                ),
-                TextOfTabData(
-                    text = stringResource(id = R.string.diagnosis)
-                ),
-                TextOfTabData(
-                    text = stringResource(id = R.string.analysis)
-                ),
-                TextOfTabData(
-                    text = stringResource(id = R.string.appointments)
-                )
-            )
-
-
-        ) {
-            selectedTabIndex = it
-        }
-        when (selectedTabIndex) {
-            0 -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = Color.White)
-                    .padding(bottom = 10.dp)
-
-            ) {
-                IndicatorsScreen()
-
-                MainButtonsInRowWithIcon(
-                    textForOutlineBtn = stringResource(id = R.string.skip),
-                    iconForOutlineBtn = R.drawable.ic_sms,
-                    textForMainBtn = stringResource(id = R.string.begin_diagnostic),
-                    iconForMainBtn = painterResource(R.drawable.ic_play_fill),
-                    onClickForOutlineBtn = { /*TODO*/ },
-                    onClickForMainBtn = { /*TODO*/ },
-                    enableStateForOutlineBtn = true,
-                    enableStateForMainBtn = true,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .align(Alignment.BottomCenter)
-                )
-
-
-            }
-        }
-    }
-}
-
-@Composable
-fun TopBarForPatientCardScreen(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.Black,
-            modifier = modifier
-                .clickable {
-                }
-        )
-    }
-}
-
-@Composable
-fun ProfileForPatientCard(
-    userName: String,
-    diagnosisString: String,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-    ) {
-        RoundImage(
-            image = painterResource(id = R.drawable.avatar),
-            modifier = Modifier
-                .size(48.dp)
-        )
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        Column() {
-            Text(
-                text = userName,
-                style = MaterialTheme.typography.subtitle2,
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                text = diagnosisString,
-                style = MaterialTheme.typography.body2,
-            )
-
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Icon(
-            imageVector = Icons.Filled.KeyboardArrowRight,
-            contentDescription = "",
-            tint = Color.Black,
-            modifier = modifier.size(20.dp)
-        )
-
-
-    }
-
-}
-
-@Composable
-fun AnamnesisCell(
-    lastAnamnesisDiagnos: String,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .background(
-                color = Gray30.copy(alpha = 0.35f),
-                shape = RoundedCornerShape(10.dp)
-            )
-    ) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 11.dp
-                )
-        ) {
-
-            Text(
-                text = stringResource(R.string.anamnesis),
-                style = MaterialTheme.typography.body2,
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-
-            Text(
-                text = lastAnamnesisDiagnos,
-                style = MaterialTheme.typography.button,
-                fontSize = 15.sp
-            )
-        }
-    }
-}
-
-
-@Composable
-fun TabViewForPatientCardScreen(
-    modifier: Modifier = Modifier,
-    TextOfTab: List<TextOfTabData>,
-    onTabSelected: (selectedIndex: Int) -> Unit
-) {
-    var selectedTabIndex by remember {
-        mutableStateOf(0)
-    }
-    val inactiveColor = Gray30
-    ScrollableTabRow(
-        selectedTabIndex = selectedTabIndex,
-        backgroundColor = Color.Transparent,
-        contentColor = Color.Red,
-        modifier = modifier.fillMaxWidth()
-    ) {
-        TextOfTab.forEachIndexed { index, item ->
-            Tab(selected = selectedTabIndex == index,
-                selectedContentColor = Color.Black,
-                unselectedContentColor = inactiveColor,
-                onClick = {
-                    selectedTabIndex = index
-                    onTabSelected(index)
-
-                }
-            ) {
-                Text(
-                    text = item.text,
-                    style = MaterialTheme.typography.subtitle2,
-                    fontSize = 15.sp,
-                    modifier = Modifier
-                        .padding(5.dp)
-                )
-            }
-
-        }
-
-    }
-}
-
-@Composable
-fun IndicatorsScreen() {
+fun IndicatorPatientCardScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -388,64 +165,6 @@ fun IndicatorInfromationStat(
 
 
 @Composable
-fun CardItemForPatientCard(
-    title: String,
-    subtitle: String,
-    textValue: String,
-    showDate: Boolean = true,
-    dateText: String = "15 Октября 15:00",
-    modifier: Modifier = Modifier
-) {
-    Card(
-        shape = RoundedCornerShape(10.dp),
-    ) {
-        Column(
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier
-                .border(
-                    width = 1.dp,
-                    color = Gray30.copy(alpha = 0.35f),
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .height(160.dp)
-                .padding(16.dp)
-        ) {
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Black,
-                            fontSize = 13.sp
-                        )
-                    ) {
-                        append(title)
-                    }
-
-                    append(" $subtitle")
-                },
-                style = MaterialTheme.typography.button,
-                fontSize = 13.sp,
-                color = Gray30
-            )
-
-            Text(
-                text = textValue,
-                style = MaterialTheme.typography.caption,
-            )
-
-            if (showDate) {
-                Text(
-                    text = dateText,
-                    style = MaterialTheme.typography.button,
-                    fontSize = 13.sp,
-                    color = Gray30
-                )
-            }
-        }
-    }
-}
-
-@Composable
 fun ProgressBarForSteps(
     modifier: Modifier = Modifier,
     stepValue: Int = 0,
@@ -541,24 +260,22 @@ fun DailyReportInfromation(
                     title = stringResource(R.string.fulfillment_prescription),
                     subtitle = "",
                     textValue = "70%",
-                    showDate = false,
                     modifier = modifier.width(screenWidth).height(112.dp)
                 )
 
                 Spacer(modifier = Modifier.height(13.dp))
 
-                CardItemForPatientCard(
+                CardItemWithGraphForPatientCard(
                     title = stringResource(R.string.weight),
                     subtitle = stringResource(R.string.kg),
                     textValue = "75",
+                    textValue2 = "+2.3",
+                    ListNumberData = listOf(10f, 15f, 13f, 25f, 30f),
                     dateText = "15 Октября 15:00",
                     modifier = modifier.width(screenWidth).height(112.dp)
 
                 )
-
             }
-
-
         }
 
         Spacer(modifier = Modifier.height(13.dp))
@@ -566,7 +283,63 @@ fun DailyReportInfromation(
         CriticalCaseCell(month = "сентябрь")
 
     }
+}
 
+@Composable
+fun CardItemForPatientCard(
+    title: String,
+    subtitle: String,
+    textValue: String,
+    dateText: String? = null,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        shape = RoundedCornerShape(10.dp),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .border(
+                    width = 1.dp,
+                    color = Gray30.copy(alpha = 0.35f),
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .height(160.dp)
+                .padding(16.dp)
+        ) {
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.Black,
+                            fontSize = 13.sp
+                        )
+                    ) {
+                        append(title)
+                    }
+
+                    append(" $subtitle")
+                },
+                style = MaterialTheme.typography.button,
+                fontSize = 13.sp,
+                color = Gray30
+            )
+
+            Text(
+                text = textValue,
+                style = MaterialTheme.typography.caption,
+            )
+
+            dateText?.let {
+                Text(
+                    text = dateText,
+                    style = MaterialTheme.typography.button,
+                    fontSize = 13.sp,
+                    color = Gray30
+                )
+            }
+        }
+    }
 }
 
 
@@ -575,8 +348,7 @@ fun CardItemWithIconForPatientCard(
     title: String,
     icon: ImageVector,
     textValue: String,
-    showDate: Boolean = true,
-    dateText: String = "15 Октября 15:00",
+    dateText: String? = null,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -604,7 +376,7 @@ fun CardItemWithIconForPatientCard(
 
             Icon(
                 imageVector = icon,
-                contentDescription = "Back",
+                contentDescription = null,
                 tint = Color.Black,
             )
 
@@ -618,7 +390,7 @@ fun CardItemWithIconForPatientCard(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            if (showDate) {
+            dateText?.let {
                 Text(
                     text = dateText,
                     style = MaterialTheme.typography.button,
@@ -629,6 +401,114 @@ fun CardItemWithIconForPatientCard(
         }
     }
 }
+
+@Composable
+fun CardItemWithGraphForPatientCard(
+    title: String,
+    subtitle: String,
+    textValue: String,
+    textValue2: String,
+    dateText: String? = null,
+    ListNumberData: List<Float>,
+    modifier: Modifier = Modifier
+) {
+    val scale by remember { mutableStateOf(1f) }
+    var wight = 0f
+    val path = Path()
+    for ((index, item) in ListNumberData.withIndex()) {
+        if (index == 0) {
+            path.moveTo(0f * scale, 70f - item)
+            wight += 20f
+        } else {
+            path.lineTo(wight * scale, 70f - item)
+            wight += 20f
+        }
+    }
+
+
+    Card(
+        shape = RoundedCornerShape(10.dp),
+    ) {
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .border(
+                    width = 1.dp,
+                    color = Gray30.copy(alpha = 0.35f),
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .height(160.dp)
+                .padding(16.dp)
+        ) {
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.Black,
+                            fontSize = 13.sp
+                        )
+                    ) {
+                        append(title)
+                    }
+
+                    append(" $subtitle")
+                },
+                style = MaterialTheme.typography.button,
+                fontSize = 13.sp,
+                color = Gray30
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                Text(
+                    text = textValue,
+                    style = MaterialTheme.typography.caption,
+                )
+
+                Spacer(modifier = Modifier.width(12.dp))
+
+                Canvas(
+                    modifier = Modifier
+                        .width(36.dp)
+                        .height(36.dp)
+                        .background(Color.White)
+                ) {
+
+                    drawPath(
+                        path = path,
+                        color = Color.Red,
+                        style = Stroke(width = 2f)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(4.dp))
+
+
+                Text(
+                    text = textValue2,
+                    style = MaterialTheme.typography.body2,
+                    fontSize = 13.sp,
+                    color = Gray30
+                )
+
+            }
+
+
+
+            dateText?.let {
+                Text(
+                    text = dateText,
+                    style = MaterialTheme.typography.button,
+                    fontSize = 13.sp,
+                    color = Gray30
+                )
+            }
+        }
+    }
+}
+
 
 @Composable
 fun CriticalCaseCell(

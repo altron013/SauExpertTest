@@ -28,6 +28,7 @@ import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.ui.theme.SurfaceBlue
+import com.example.sauexpert.ui.theme.SurfaceBlue
 import com.example.sauexpert.widgets.compose.MainButtonM
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager

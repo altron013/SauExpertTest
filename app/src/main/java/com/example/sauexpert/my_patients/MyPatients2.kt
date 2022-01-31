@@ -37,7 +37,7 @@ fun MyPatients2() {
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val coroutineScope = rememberCoroutineScope()
-    val tabTitles = listOf("Новые", "Все", "Гипертония", "Сахарный диабет")
+    val tabTitles = listOf("Новые", "Все", "Гипертония", "Сахарный диабет", "Новая группа")
     SauExpertTheme() {
         BottomSheetScaffold(
             drawerScrimColor = MaterialTheme.colors.onSurface.copy(alpha = 0.40f),
@@ -81,7 +81,6 @@ fun MyPatients2() {
                             painter = painterResource(id = R.drawable.ic_arrow_left_arrow_right),
                             contentDescription = "",
                             modifier = Modifier
-                                .padding(12.dp)
                                 .clickable {
                                     coroutineScope.launch {
                                         if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
@@ -91,6 +90,7 @@ fun MyPatients2() {
                                         }
                                     }
                                 }
+                                .padding(12.dp)
                         )
                     }
                 }
