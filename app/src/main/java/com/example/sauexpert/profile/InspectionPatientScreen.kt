@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +21,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -29,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Green117259
 import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
@@ -72,7 +77,8 @@ fun TopBarForInspectionPatientScreen(
             imageVector = Icons.Default.ArrowBack,
             contentDescription = "Back",
             tint = Color.Black,
-            modifier = modifier.align(Alignment.CenterStart)
+            modifier = modifier
+                .align(Alignment.CenterStart)
                 .clickable {
                 }
         )
@@ -132,9 +138,7 @@ fun PreviousInspectionsStat(
             modifier = modifier
                 .padding(vertical = 16.dp)
         )
-
         AnalysisInspectionsDateField(dateOfInspection)
-
         if (yourInspection) {
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -148,8 +152,6 @@ fun PreviousInspectionsStat(
                 textColor = Color.Red
             )
         }
-
-
     }
 }
 
@@ -238,9 +240,7 @@ fun TopBarForInspectionScreen(
                 .clickable {
                 }
         )
-
         Spacer(modifier = Modifier.height(20.dp))
-
         Text(
             text = stringResource(R.string.general_inspection),
             style = MaterialTheme.typography.h4,
@@ -250,11 +250,13 @@ fun TopBarForInspectionScreen(
 }
 
 @Composable
-fun profileForInspection(
-    userName: String,
-    percentage: Float,
+fun ProfileForInspection(
+    content: String,
+    text: Float,
     showPercentage: Boolean = false,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    image: Painter=painterResource(id = R.drawable.avatar),
+    painter:Painter?=null
 ) {
     Row(
         modifier = modifier
@@ -276,25 +278,32 @@ fun profileForInspection(
                 )
         ) {
             RoundImage(
-                image = painterResource(id = R.drawable.avatar),
+                image = image,
                 modifier = Modifier
                     .size(32.dp)
+                    .weight(1f)
             )
-
             Spacer(modifier = Modifier.width(8.dp))
-
             Text(
-                text = userName,
+                text = content,
                 style = MaterialTheme.typography.subtitle2,
+                modifier = Modifier.weight(3f)
             )
-
             Spacer(modifier = Modifier.weight(1f))
-
+            if(text!=null){
             CircularProgressBar(
-                percentage = percentage,
+                percentage = text,
                 number = 100,
                 showPercentage = showPercentage
-            )
+            )}
+            else{
+              Icon(
+                  painter = painterResource(id = R.drawable.ic_report_davlenie),
+                  contentDescription = "",
+                  tint = Color.Black,
+                  modifier = modifier.size(20.dp)
+               )
+          }
         }
     }
 }
@@ -304,7 +313,7 @@ fun CircularProgressBar(
     percentage: Float,
     number: Int,
     radius: Dp = 12.dp,
-    color: Color = Color.Green,
+    color: Color = Green117259,
     strokeWidth: Dp = 3.dp,
     animDuration: Int = 1000,
     animDelay: Int = 0,
@@ -365,7 +374,6 @@ fun FillTextFiled(
 
 ) {
 //    var textStateField by remember { mutableStateOf(textStateField) }
-
     val colorOfTextField = TextFieldDefaults.textFieldColors(
 //                    textColor = Color.Gray,
         disabledTextColor = Color.Transparent,
@@ -374,8 +382,6 @@ fun FillTextFiled(
         unfocusedIndicatorColor = Color.Transparent,
         disabledIndicatorColor = Color.Transparent
     )
-
-
     TextField(
         modifier = Modifier
             .fillMaxWidth()

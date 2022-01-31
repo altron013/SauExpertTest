@@ -50,8 +50,6 @@ fun WellBeingDescription() {
             WellBeingCheck()
             Spacer(Modifier.padding(5.dp))
             DefineWellBeing()
-            Spacer(Modifier.padding(30.dp))
-
         }
     }
 }
@@ -161,36 +159,96 @@ fun WellBeingCheck() {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        options.forEach { text ->
-            OutlinedMainButton(
-                text = text,
-                onClick = {
-                    onSelectionChange(text)
-                },
-                enableState = true,
-                modifier = Modifier
-                    .clickable {
-                        onSelectionChange(text)
-                    }
-                    .weight(0.5f)
-                    .border(
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color =
-                            if (text == selectedOption) {
-                                Color.Red
-                            } else {
-                                Color.Transparent
-                            },
-                        ),
-                        shape = RoundedCornerShape(
-                            size = 8.dp,
-                        )
+
+        OutlinedMainButton(
+            text = "Да",
+            onClick = {
+                onSelectionChange("Да")
+            },
+            enableState = true,
+            modifier = Modifier
+                .clickable {
+                    onSelectionChange("Да")
+                }
+                .weight(0.5f)
+                .border(
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color =
+                        if ("Да" == selectedOption) {
+                            Color.Red
+                        } else {
+                            Color.Transparent
+                        },
+                    ),
+                    shape = RoundedCornerShape(
+                        size = 8.dp,
                     )
-            )
-        }
+                )
+        )
         Spacer(modifier = Modifier.padding(10.dp))
+        OutlinedMainButton(
+            text = "Нет",
+            onClick = {
+                onSelectionChange("Нет")
+            },
+            enableState = true,
+            modifier = Modifier
+                .clickable {
+                    onSelectionChange("Нет")
+                }
+                .weight(0.5f)
+                .border(
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color =
+                        if ("Нет" == selectedOption) {
+                            Color.Red
+                        } else {
+                            Color.Transparent
+                        },
+                    ),
+                    shape = RoundedCornerShape(
+                        size = 8.dp,
+                    )
+                )
+        )
     }
+
+}
+
+
+@Composable
+fun OutlinedActionButton(
+    text: String,
+    selectedOption: String,
+    onSelectionChange: (String) -> Unit
+) {
+    OutlinedMainButton(
+        text = text,
+        onClick = {
+            onSelectionChange(text)
+        },
+        enableState = true,
+        modifier = Modifier
+            .clickable {
+                onSelectionChange(text)
+            }
+            .border(
+                border = BorderStroke(
+                    width = 1.dp,
+                    color =
+                    if (text == selectedOption) {
+                        Color.Red
+                    } else {
+                        Color.Transparent
+                    },
+                ),
+                shape = RoundedCornerShape(
+                    size = 8.dp,
+                )
+            )
+    )
 }
 
 @Composable
