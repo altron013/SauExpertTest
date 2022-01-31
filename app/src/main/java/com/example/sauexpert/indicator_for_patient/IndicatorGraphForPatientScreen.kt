@@ -68,7 +68,7 @@ fun TopBarForIndicatorForPatient(
 
         Text(
             text = stringResource(id = R.string.back),
-            style = MaterialTheme.typography.subtitle2,
+            style = MaterialTheme.typography.body1,
             color = Color(17, 114, 89),
         )
     }
