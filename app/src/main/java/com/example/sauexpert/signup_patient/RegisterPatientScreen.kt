@@ -23,7 +23,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.SauExpertTheme
-import com.example.sauexpert.ui.theme.SuraceF9
+import com.example.sauexpert.ui.theme.SurfaceF9
 import com.example.sauexpert.widgets.compose.MainButtonM
 
 
@@ -241,7 +241,7 @@ fun AuthTextFiled(
         //isError = ErrorState.value,
         label = null,
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = SuraceF9,
+            backgroundColor = SurfaceF9,
             disabledTextColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,

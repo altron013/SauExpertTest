@@ -19,10 +19,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.sauexpert.auth.LoginScreen
 import com.example.sauexpert.my_patients.MyPatients2
-import com.example.sauexpert.signup_doctor.RegisterDoctorScreen
-import com.example.sauexpert.signup_patient.GetAccessScreen
+import com.example.sauexpert.patients_bracelet_indicators.CriticalCaseIndicators
+import com.example.sauexpert.patients_bracelet_indicators.GraphicIndicators
+import com.example.sauexpert.patients_bracelet_indicators.WorkAroundExample
 import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.well_being.GlucoseLevelScreen
 import com.example.sauexpert.well_being.WellBeingDescription
@@ -46,19 +46,21 @@ data class BottomNavItem(
 fun Navigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-           // HomeScreen()
-            LoginScreen()
+            // HomeScreen()
+            // LoginScreen()
+            GraphicIndicators()
+           // WorkAroundExample(criticalIndicatorsList)
         }
         composable("myPatients") {
             MyPatients2()
-           // RegisterDoctorScreen()
+            // RegisterDoctorScreen()
         }
         composable("settings") {
             GlucoseLevelScreen()
         }
         composable("notification") {
             WellBeingDescription()
-           // GlucoseLevelScreen()
+            // GlucoseLevelScreen()
         }
         composable("profile") {
             //LoginScreen()
@@ -122,8 +124,6 @@ fun BottomNavigationBar(
                     }
                 }
             )
-
-
         }
 
     }

@@ -1,7 +1,8 @@
 package com.example.sauexpert.widgets.compose
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -29,13 +30,7 @@ fun MainButton(
     SauExpertTheme() {
         Button(
             modifier = modifier
-               // .fillMaxWidth()
-                .height(height = buttonHeight)
-//                .absolutePadding(
-//                    left = 10.dp,
-//                    right = 10.dp
-//                )
-            ,
+                .height(height = buttonHeight),
             enabled = enableState,
             onClick = onClick,
             colors = ButtonDefaults.buttonColors(
@@ -48,7 +43,7 @@ fun MainButton(
                 text = text,
                 fontWeight = FontWeight.W500,
                 letterSpacing = 0.sp,
-                color= textColor
+                color = textColor
             )
         }
     }
@@ -76,7 +71,7 @@ fun MainButtonS(
     enableState: Boolean
 ) {
     MainButton(
-        modifier=Modifier.wrapContentSize(),
+        modifier = Modifier.wrapContentSize(),
         text = text,
         onClick = onClick,
         enableState = enableState

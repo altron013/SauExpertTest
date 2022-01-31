@@ -1,29 +1,22 @@
 package com.example.sauexpert.widgets.compose.Toolbars
 
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.ArrowLeft
-import androidx.compose.material.icons.filled.Backpack
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun MainToolbar(
     modifier: Modifier = Modifier,
-    text: String = "",
+    text: String? = null,
     onBackClick: () -> Unit,
     onSortClick: (() -> Unit)? = null,
     onFilterClick: (() -> Unit)? = null,
@@ -32,10 +25,10 @@ fun MainToolbar(
     TopAppBar(
         title = {
             Text(
-                text = text,
+                text = text ?: "",
                 maxLines = 1,
                 textAlign = TextAlign.Justify,
-                style= MaterialTheme.typography.subtitle2,
+                style = MaterialTheme.typography.subtitle2,
                 fontWeight = FontWeight.Bold,
                 modifier = modifier
                     .fillMaxWidth()

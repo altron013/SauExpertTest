@@ -152,7 +152,6 @@
     <string name="hyperglycemia">Гипергликемия</string>
     <string name="hypertension">Гипертония</string>
     <string name="hypotension">Гипотония</string>
-
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
     <string name="messages">Сообщения</string>
@@ -183,6 +182,11 @@
     <string name="keep_in_constant_contact_with_chat">Поддерживайте постоянный контакт с помощью чата.</string>
     <string name="manage_the_treatment_process">Управляйте процессом лечения</string>
     <string name="prescribe_medications_tests_monitor_implementation">Назначайте медикаменты и анализы, контролируйте выполнение рекомендаций, отслеживайте показатели пациентов.</string>
-
+    <string name="graphic_indicators">Отчеты в графиках</string>
+    <string name="critical_case_indicators">Отчеты по критическим случаям</string>
+    <string name="last_case">Последний случай</string>
+    <string name="case_in_june">Случаи в июне</string>
+    <string name="indicators_per_day">Отчеты за день</string>
+    <string name="case_in_may"> Случаи в мае</string>
 
 </resources>
