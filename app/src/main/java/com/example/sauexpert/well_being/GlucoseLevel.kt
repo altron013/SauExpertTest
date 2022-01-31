@@ -14,7 +14,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.bracelet_indicator.customDialogModifier
 import com.example.sauexpert.ui.theme.Green57C3A7
 import com.example.sauexpert.widgets.compose.Toolbars.MainToolbar
 import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton

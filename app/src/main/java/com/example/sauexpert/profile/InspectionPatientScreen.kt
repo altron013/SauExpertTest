@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.toSize
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
-import com.example.sauexpert.widgets.compose.buttons.MainButtonWithIcon
 import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
