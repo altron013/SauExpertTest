@@ -1,5 +1,6 @@
 package com.example.sauexpert.my_patients
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,14 +16,16 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.profile.RoundImage
+import com.example.sauexpert.ui.theme.Blue007AFF
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.SauExpertTheme
+import com.example.sauexpert.widgets.compose.MainButtonM
 import kotlinx.coroutines.launch
 
 
@@ -37,10 +40,14 @@ fun MyPatients2() {
     val tabTitles = listOf("Новые", "Все", "Гипертония", "Сахарный диабет", "Новая группа")
     SauExpertTheme() {
         BottomSheetScaffold(
+            drawerScrimColor = MaterialTheme.colors.onSurface.copy(alpha = 0.40f),
             scaffoldState = bottomSheetScaffoldState,
+            sheetPeekHeight = 0.dp,
+            sheetShape = RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp),
             sheetContent = {
                 ButtonActionView()
-            }, sheetPeekHeight = 0.dp
+                //ChoosePriority()
+            },
         ) {
             Column(
                 Modifier
@@ -51,7 +58,6 @@ fun MyPatients2() {
                 Spacer(modifier = Modifier.padding(29.dp))
                 Text(
                     text = "Мои пациенты",
-                    //style = MaterialTheme.typography.h4,
                     fontSize = 34.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -107,7 +113,7 @@ fun ButtonWithTextColorChange(
 ) {
     Button(
         modifier = Modifier
-            .padding(start = 16.dp, end = 16.dp)
+            //.padding(start = 16.dp, end = 16.dp)
             .fillMaxWidth()
             .height(height = 56.dp),
         enabled = enableState,
@@ -115,7 +121,6 @@ fun ButtonWithTextColorChange(
         colors = ButtonDefaults.buttonColors(
             backgroundColor = MaterialTheme.colors.onPrimary,
             contentColor = contentColor
-
         ),
         elevation = ButtonDefaults.elevation(2.dp),
         shape = shape
@@ -131,206 +136,92 @@ fun ButtonActionView() {
     Box {
         Column(
             modifier = Modifier
-                .align(Alignment.BottomCenter)
+            // .align(Alignment.BottomCenter)
         ) {
             ButtonWithTextColorChange(
-                text = stringResource(id = R.string.on_pulse),
+                text = "Осмотреть пациента",
                 onClick = {},
                 enableState = true,
                 shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
-                contentColor = Color.Black
+                contentColor = Blue007AFF
             )
             ButtonWithTextColorChange(
-                text = stringResource(id = R.string.on_pulse),
+                text = "Перейти к карточке",
+                onClick = {},
+                enableState = true,
+                shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp),
+                contentColor = Blue007AFF
+            )
+            ButtonWithTextColorChange(
+                text = "Поставить приоритет",
                 onClick = {},
                 enableState = true,
                 shape = RoundedCornerShape(0.dp, 0.dp, 12.dp, 12.dp),
-                contentColor = Color.Black
+                contentColor = Blue007AFF
             )
             Spacer(modifier = Modifier.padding(bottom = 9.dp))
             ButtonWithTextColorChange(
-                text = stringResource(id = R.string.on_pulse),
+                text = "Отменить",
                 onClick = {},
                 enableState = true,
-                contentColor = Color.Black
-            )
-            Spacer(modifier = Modifier.padding(bottom = 9.dp))
-            ButtonWithTextColorChange(
-                text = stringResource(id = R.string.on_pulse),
-                onClick = {},
-                enableState = true,
-                contentColor = Color.Black
+                contentColor = Blue007AFF
             )
         }
     }
 }
-//data class ActionButtonData(
-//    var title: String = "",
-//    var space: Dp = 8.dp,
-//    var shape: RoundedCornerShape = RoundedCornerShape(0.dp),
-//    val buttonType: ButtonType,
-//    val textColor: Int = R.color.green27AE60,
-//    val actionButtonType: ActionButtonType?
-//)
-//enum class ButtonType {
-//    BUTTON_ACTION,
-//    SPACE,
-//    TEXT,
-//
-//}
-//enum class ActionButtonType {
-//    JUST_TEXT,
-//    SPACE,
-//    PUBLISH,
-//    PREVIEW,
-//    SAVE_TO_DRAFT,
-//    SHARE,
-//    ADD_TO_COLLECTION,
-//    MOVE_TO_COLLECTION,
-//    REMOVE_COLLECTION,
-//    REMOVE_FROM_COLLECTION,
-//    ADD_TO_FAVORITES,
-//    REMOVE_FROM_FAVORITES,
-//    ADD_TO_HIDDEN,
-//    REMOVE_FROM_HIDDEN,
-//    COMPLAIN,
-//    CANCEL,
-//    EDIT,
-//    ACTIVATE,
-//    DEACTIVATE,
-//    DELETE,
-//    VIEW_SEARCH,
-//    REMOVE_SEARCH
-//}
-//@Composable
-//fun AdvertOfFavoritesOptionsContent(
-//    onShareClick: () -> Unit,
-//    onAddToCollectionClick: () -> Unit,
-//    onRemoveFromLikedClick: () -> Unit,
-//    onAddToHiddenClick: () -> Unit,
-//    onComplainClick: () -> Unit,
-//    onCancelClick: () -> Unit
-//) {
-//    val actionList = mutableListOf<ActionButtonData>().apply {
-//        add(
-//            ActionButtonData(
-//                title = stringResource(id = R.string.options_title),
-//                shape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp),
-//                buttonType = ButtonType.TEXT,
-//                actionButtonType = ActionButtonType.JUST_TEXT,
-//                textColor = R.color.grayA9ACB0
-//            )
-//        )
-//        add(
-//            ActionButtonData(
-//                title = stringResource(id = R.string.share),
-//                shape = RoundedCornerShape(0.dp),
-//                buttonType = ButtonType.BUTTON_ACTION,
-//                actionButtonType = ActionButtonType.SHARE
-//            )
-//        )
-//        add(
-//            ActionButtonData(
-//                title = stringResource(id = R.string.options_add_to_collection),
-//                shape = RoundedCornerShape(0.dp),
-//                buttonType = ButtonType.BUTTON_ACTION,
-//                actionButtonType = ActionButtonType.ADD_TO_COLLECTION
-//            )
-//        )
-//        add(
-//            ActionButtonData(
-//                title = stringResource(id = R.string.remove_from_favorites),
-//                shape = RoundedCornerShape(0.dp),
-//                buttonType = ButtonType.BUTTON_ACTION,
-//                actionButtonType = ActionButtonType.REMOVE_FROM_FAVORITES
-//            )
-//        )
-//        add(
-//            ActionButtonData(
-//                title = stringResource(id = R.string.hide),
-//                shape = RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp),
-//                buttonType = ButtonType.BUTTON_ACTION,
-//                actionButtonType = ActionButtonType.ADD_TO_HIDDEN
-//            )
-//        )
-//        add(
-//            ActionButtonData(
-//                buttonType = ButtonType.SPACE,
-//                actionButtonType = null
-//            )
-//        )
-//        add(
-//            ActionButtonData(
-//                title = stringResource(id = R.string.complain),
-//                shape = RoundedCornerShape(12.dp),
-//                buttonType = ButtonType.BUTTON_ACTION,
-//                actionButtonType = ActionButtonType.COMPLAIN,
-//                textColor = R.color.redB10909
-//            )
-//        )
-//        add(
-//            ActionButtonData(
-//                buttonType = ButtonType.SPACE,
-//                actionButtonType = null
-//            )
-//        )
-//        add(
-//            ActionButtonData(
-//                title = stringResource(id = R.string.cancellation),
-//                shape = RoundedCornerShape(12.dp),
-//                buttonType = ButtonType.BUTTON_ACTION,
-//                actionButtonType = ActionButtonType.CANCEL
-//            )
-//        )
-//    }
-//
-//    Column {
-//        actionList.forEachIndexed { index, item ->
-//            ActionButtonItems(
-//                item = item,
-//                isVisibilityDivider = if (index != actionList.size - 1) {
-//                    actionList[index + 1].buttonType != ButtonType.SPACE
-//                } else {
-//                    false
-//                },
-//                onShareClick = { onShareClick() },
-//                onAddToCollectionClick = { onAddToCollectionClick() },
-//                onRemoveFromFavoritesClick = { onRemoveFromLikedClick() },
-//                onAddToHiddenClick = { onAddToHiddenClick() },
-//                onComplainClick = { onComplainClick() },
-//                onCancelClick = { onCancelClick() }
-//            )
-//        }
-//    }
-//}
-//
-//@Composable
-//fun BottomSheetActionsContainer(
-//    modifier: Modifier = Modifier,
-//    content: @Composable () -> Unit
-//) {
-//    Box(
-//        modifier
-//            .fillMaxWidth()
-//            .padding(start = 16.dp, end = 16.dp, bottom = 50.dp)
-//    ) {
-//        content()
-//    }
-//}
-//
-//@Preview
-//@Composable
-//fun FavoriteAdvertBottomSheetContentPreview() {
-//    BottomSheetActionsContainer(
-//        content = {
-//            AdvertOfFavoritesOptionsContent(
-//                onShareClick = {},
-//                onAddToCollectionClick = {},
-//                onRemoveFromLikedClick = {},
-//                onAddToHiddenClick = {},
-//                onComplainClick = {},
-//                onCancelClick = {}
-//            )
-//        }
-//    )
-//}
+
+@Composable
+fun ChoosePriority() {
+    Spacer(modifier = Modifier.padding(8.dp))
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Поставить приоритет", fontWeight = FontWeight.Bold, fontSize = 22.sp)
+        Spacer(modifier = Modifier.padding(14.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(7.dp)
+                )
+        ) {
+            RoundImage(
+                image = painterResource(id = R.drawable.avatar),
+                modifier = Modifier
+                    .size(48.dp)
+            )
+            Column(modifier = Modifier.padding(start = 12.dp)) {
+                Text(
+                    text = "Jabe",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 17.sp
+                )
+                Text(
+                    text = "Description",
+                    fontSize = 12.sp
+                    //style = MaterialTheme.typography.subtitle2,
+                )
+            }
+        }
+        Spacer(modifier = Modifier.padding(8.dp))
+        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(10.dp)) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "Jabe",
+                    //style = MaterialTheme.typography.subtitle2,
+                )
+                Text(
+                    text = "Description",
+                    //style = MaterialTheme.typography.subtitle2,
+                )
+                Text(
+                    text = "Jabe",
+                    //style = MaterialTheme.typography.subtitle2,
+                )
+            }
+        }
+        Spacer(modifier = Modifier.padding(10.dp))
+        MainButtonM(text = "Сохранить", onClick = { /*TODO*/ }, enableState = true)
+        Spacer(modifier = Modifier.padding(10.dp))
+    }
+}

@@ -5,13 +5,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,16 +36,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SauExpertTheme {
-                // GetAccessScreen()
-                // LandingScreen()
-                //  RegisterOtp()
-                //OTPScreen()
-                //RegisterPatientScreen()
-                //RegisterPatientScreen2()
-                // RegisterDoctorScreen()
-                // LoginScreen()
-                // RegisterDoctorScreen()
-                //MyPatients()
 
                 val navController = rememberNavController()
                 Scaffold(
@@ -87,8 +80,7 @@ class MainActivity : ComponentActivity() {
                         Navigation(navController = navController)
                     }
                 }
-                // MyPatients2()
-                //EmptyTabItem()
+
             }
         }
     }

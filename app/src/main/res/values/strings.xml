@@ -38,16 +38,6 @@
     <string name="login">Войти</string>
     <string name="code_sended_to_this_address">На Ваш Email alexsandro@gmail.com
 был отправлен код. Введите его.</string>
-    <!--    <string name="app_name">SauExpert</string>-->
-    <!--    <string name="app_name">Регистрация</string>-->
-    <!--    <string name="app_name">Новое фото</string>-->
-    <!--    <string name="app_name">SauExpert</string>-->
-    <!--    <string name="app_name">Регистрация</string>-->
-    <!--    <string name="app_name">Новое фото</string>-->
-    <!--    <string name="app_name">SauExpert</string>-->
-    <!--    <string name="app_name">Регистрация</string>-->
-    <!--    <string name="app_name">Новое фото</string>-->
-
     <string name="close">Закрыть</string>
     <string name="send">Отправить</string>
     <string name="submit_application">Подать заявку</string>
@@ -71,8 +61,6 @@
     <string name="on_pulse">На пульсе</string>
     <string name="to_log_in_use_your_credentials...">Для входа используйте учетные данные,
      ранее они были высланы на Ваш Email.</string>
-
-
     <string name="info">Инфо</string>
     <string name="diagnosis">Диагноз</string>
     <string name="no_diagnosis">Нет диагноза</string>
@@ -95,7 +83,7 @@
     <string name="install_password_code">Установите код быстрого доступа</string>
     <string name="install_password_code_description">С помощью него Вы можете заходить в Sau Expert 24</string>
     <string name="last_day_of_check_up">ДАТА ОСМОТРА</string>
-    <string name="last_doctor_who_inspect">ОwСМАТРИВАЛ В ПОСЛЕДНИЙ РАЗ:</string>
+    <string name="last_doctor_who_inspect">ОСМАТРИВАЛ В ПОСЛЕДНИЙ РАЗ:</string>
     <string name="profile">Профиль</string>
     <string name="monthly_report">Отчёт за месяц</string>
     <string name="treatment_history">История лечения</string>
@@ -174,7 +162,6 @@
     <string name="my_patients">Мои пациенты</string>
     <string name="messages">Сообщения</string>
     <string name="notifications">Уведомления</string>
-
     <string name="cancel">Отменить</string>
     <string name="a_z">А-Я</string>
     <string name="by_last_update">По дате последнего изменения</string>
@@ -182,32 +169,31 @@
     <string name="by_severity_issue">По тяжести болезни</string>
     <string name="by_diagnosis">По диагнозу</string>
     <string name="back">Назад</string>
-
     <string name="arterial_pressure">Артериальное давление</string>
     <string name="glucose_level">Уровень глюкозы</string>
-
     <string name="glucose_level_in_blood">Показатель уровня глюкозы в крови </string>
     <string name="when_measurement_was_taken">Когда был произведен этот замер </string>
     <string name="required_field">* обязательное поле</string>
     <string name="before_food">До еды</string>
     <string name="after_food">После еды</string>
-
     <string name="very_bad">Очень плохо</string>
     <string name="bad">Плохо</string>
     <string name="normal">Нормально</string>
     <string name="good">Хорошо</string>
     <string name="very_good">Отлично</string>
-
     <string name="well_being">Самочувствие</string>
-
     <string name="online_access_to_medical_data">Онлайн доступ к медицинским данным</string>
     <string name="save_record_look_medical">Храните, записывайте и просматривайте медицинские записи пациентов с Вашего смартфона</string>
-
     <string name="be_always_in_touch_with_your_patients">Будьте всегда на связи с Вашими пациентами</string>
     <string name="keep_in_constant_contact_with_chat">Поддерживайте постоянный контакт с помощью чата.</string>
-
     <string name="manage_the_treatment_process">Управляйте процессом лечения</string>
     <string name="prescribe_medications_tests_monitor_implementation">Назначайте медикаменты и анализы, контролируйте выполнение рекомендаций, отслеживайте показатели пациентов.</string>
+    <string name="graphic_indicators">Отчеты в графиках</string>
+    <string name="critical_case_indicators">Отчеты по критическим случаям</string>
+    <string name="last_case">Последний случай</string>
+    <string name="case_in_june">Случаи в июне</string>
+    <string name="indicators_per_day">Отчеты за день</string>
+    <string name="case_in_may"> Случаи в мае</string>
     <string name="first_inspection">Начните первый осмотр</string>
     <string name="begin_examination">Начать осмотр</string>
     <string name="caps_main">ОСНОВНОЙ</string>
