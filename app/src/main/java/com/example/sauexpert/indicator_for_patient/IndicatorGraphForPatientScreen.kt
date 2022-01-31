@@ -7,11 +7,10 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Stop
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,10 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.model.ListNumberOfYForTableData
-import com.example.sauexpert.model.PressureData
-import com.example.sauexpert.model.PulseData
-import com.example.sauexpert.model.StepsData
+import com.example.sauexpert.model.*
 import com.example.sauexpert.ui.theme.Gray30
 
 @Composable
@@ -43,6 +39,8 @@ fun IndicatorGraphForPatientScreen() {
         Spacer(modifier = Modifier.height(32.dp))
         TitleForIndicatorGraphForPatient()
         Spacer(modifier = Modifier.height(24.dp))
+        GlucoseWithBarChartForIndicatorGraph()
+        Spacer(modifier = Modifier.height(25.dp))
         BloodPressureAndPulseWithBarChart()
         Spacer(modifier = Modifier.height(25.dp))
         StepsTakenWithBarChart()
@@ -102,6 +100,245 @@ fun TitleForIndicatorGraphForPatient(
         )
     }
 }
+
+
+@Composable
+fun GlucoseWithBarChartForIndicatorGraph(
+    modifier: Modifier = Modifier
+) {
+    val checkedStateBeforeFood = remember { mutableStateOf(true) }
+    val checkedStateAfterFood = remember { mutableStateOf(true) }
+
+    Column {
+        Text(
+            text = stringResource(id = R.string.glucose_level),
+            style = MaterialTheme.typography.subtitle2,
+            modifier = modifier.padding(horizontal = 20.dp)
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(
+                    color = Color.White,
+                )
+                .padding(vertical = 30.dp, horizontal = 19.dp)
+        ) {
+            BarChartForGlucoseForIndicatorGraph(
+                glucoseData = listOf(
+                    GlucoseData(
+                        positionOnX = 50f,
+                        glucoseBeforeFood = 200f,
+                        glucoseAfterFood = 200f,
+                        dateName = "16.12"
+                    ),
+                    GlucoseData(
+                        positionOnX = 150f,
+                        glucoseBeforeFood = 30f,
+                        glucoseAfterFood = 200f,
+                    ),
+                    GlucoseData(
+                        positionOnX = 250f,
+                        glucoseBeforeFood = 190f,
+                        glucoseAfterFood = 60f,
+                        dateName = "18.12"
+                    ),
+                    GlucoseData(
+                        positionOnX = 350f,
+                        glucoseBeforeFood = 180f,
+                        glucoseAfterFood = 200f
+                    ),
+                    GlucoseData(
+                        positionOnX = 450f,
+                        glucoseBeforeFood = 220f,
+                        glucoseAfterFood = 200f,
+                        dateName = "20.12",
+                    ),
+                    GlucoseData(
+                        positionOnX = 550f,
+                        glucoseBeforeFood = 240f,
+                        glucoseAfterFood = 200f
+                    ),
+                    GlucoseData(
+                        positionOnX = 650f,
+                        glucoseBeforeFood = 30f,
+                        glucoseAfterFood = 200f,
+                        dateName = "22.12"
+                    )
+                ),
+
+                ListNumberData = listOf(
+                    ListNumberOfYForTableData("7.6"),
+                    ListNumberOfYForTableData("6.6"),
+                    ListNumberOfYForTableData("5.6"),
+                    ListNumberOfYForTableData("4.6"),
+                    ListNumberOfYForTableData("0"),
+                ),
+                checkedStateBeforeFood = checkedStateBeforeFood,
+                checkedStateAfterFood = checkedStateAfterFood
+
+            )
+
+            Spacer(modifier = Modifier.height(22.dp))
+
+            Text(
+                text = stringResource(id = R.string.show_measurements),
+                style = MaterialTheme.typography.body1,
+            )
+
+            Spacer(modifier = Modifier.height(22.dp))
+
+            SwitchRowWithIcon(
+                checkedState = checkedStateBeforeFood,
+                color = Color(255, 79, 79).copy(alpha = 0.79f),
+                text = stringResource(R.string.glucose_after_meal)
+            )
+
+            Divider(
+                color = Gray30.copy(alpha = 0.19f),
+                thickness = 1.dp,
+                modifier = modifier
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            )
+
+            SwitchRowWithIcon(
+                checkedState = checkedStateAfterFood,
+                color = Color(87, 195, 167),
+                text = stringResource(R.string.glucose_after_meal)
+            )
+
+
+        }
+    }
+}
+
+@Composable
+fun SwitchRowWithIcon(
+    modifier: Modifier = Modifier,
+    checkedState: MutableState<Boolean>,
+    color: Color,
+    text: String
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Icon(
+            imageVector = Icons.Default.Stop,
+            contentDescription = "",
+            tint = color,
+            modifier = modifier.size(20.dp)
+        )
+
+        Spacer(modifier = Modifier.width(3.dp))
+
+        Text(
+            text = text,
+            style = MaterialTheme.typography.body1,
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+
+        Switch(
+            checked = checkedState.value,
+            onCheckedChange = { checkedState.value = it }
+        )
+
+    }
+
+
+}
+
+
+@Composable
+fun BarChartForGlucoseForIndicatorGraph(
+    glucoseData: List<GlucoseData>,
+    ListNumberData: List<ListNumberOfYForTableData>,
+    checkedStateBeforeFood: MutableState<Boolean>,
+    checkedStateAfterFood: MutableState<Boolean>,
+) {
+    var start by remember { mutableStateOf(false) }
+    val heightPre by animateFloatAsState(
+        targetValue = if (start) 1f else 0f,
+        animationSpec = FloatTweenSpec(duration = 1000)
+    )
+
+
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(110.dp)
+    ) {
+        var height = 0
+        val paint = Paint().apply {
+            textAlign = Paint.Align.CENTER
+            textSize = 13.sp.toPx()
+            color = Gray30.toArgb()
+        }
+
+        for (i in ListNumberData) {
+            drawContext.canvas.nativeCanvas.drawText(
+                i.number,
+                0f,
+                (5 + height).dp.toPx(),
+                paint
+            )
+
+            drawLine(
+                start = Offset(x = 18.dp.toPx(), y = height.dp.toPx()),
+                end = Offset(x = 346.dp.toPx(), y = height.dp.toPx()),
+                color = Gray30,
+                strokeWidth = 2f
+            )
+
+            height += 26
+        }
+
+        start = true
+        for (p in glucoseData) {
+            if (checkedStateBeforeFood.value) {
+                drawRect(
+                    color = Color(255, 79, 79).copy(alpha = 0.79f),
+                    topLeft = Offset(
+                        x = p.positionOnX,
+                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
+                    ),
+                    size = Size(
+                        width = 12.dp.toPx(),
+                        height = ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
+                    )
+                )
+            }
+
+            if (checkedStateAfterFood.value) {
+                drawRect(
+                    color = Color(87, 195, 167),
+                    topLeft = Offset(
+                        x = p.positionOnX + 35,
+                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
+                    ),
+                    size = Size(
+                        width = 12.dp.toPx(),
+                        height = ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
+                    )
+                )
+            }
+
+            drawContext.canvas.nativeCanvas.drawText(
+                "${p.dateName}",
+                12.dp.toPx() + p.positionOnX,
+                (height - 5).dp.toPx(),
+                paint
+            )
+        }
+    }
+}
+
 
 @Composable
 fun BloodPressureAndPulseWithBarChart(
@@ -232,7 +469,6 @@ fun BarChartForBloodPressureAndPulse(
         }
 
         for (i in ListNumberData) {
-
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
                 0f,
@@ -246,8 +482,6 @@ fun BarChartForBloodPressureAndPulse(
                 color = Gray30,
                 strokeWidth = 2f
             )
-
-
 
             height += 26
         }
@@ -368,7 +602,7 @@ fun BarChartForStepsTaken(
             )
 
             drawLine(
-                start = Offset(x = 18.dp.toPx(), y = height.dp.toPx()),
+                start = Offset(x = 20.dp.toPx(), y = height.dp.toPx()),
                 end = Offset(x = 346.dp.toPx(), y = height.dp.toPx()),
                 color = Gray30,
                 strokeWidth = 2f
@@ -384,7 +618,7 @@ fun BarChartForStepsTaken(
         for (p in StepsData) {
 
             drawRect(
-                brush = SolidColor(Color.Blue),
+                brush = SolidColor(Color(117, 166, 211)),
                 topLeft = Offset(
                     x = p.positionOnX + 1f,
                     y = (height - 26).dp.toPx() - ((height - 26).dp.toPx() - 70f) * heightPre
@@ -398,7 +632,7 @@ fun BarChartForStepsTaken(
 
 
             drawRect(
-                color = Color.Blue,
+                color = Color(117, 166, 211),
                 topLeft = Offset(
                     x = p.positionOnX,
                     y = (height - 26).dp.toPx() - ((height - 26).dp.toPx() - p.stepsPerDay) * heightPre
