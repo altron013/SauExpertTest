@@ -91,4 +91,7 @@ dependencies {
 
     implementation "com.chargemap.compose:numberpicker:0.0.11"
 
+    //FlowRow
+    implementation "com.google.accompanist:accompanist-flowlayout:0.20.0"
+
 }

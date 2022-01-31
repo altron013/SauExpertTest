@@ -1,12 +1,9 @@
 package com.example.sauexpert.my_patients
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
@@ -36,7 +33,6 @@ import kotlinx.coroutines.launch
 @ExperimentalComposeUiApi
 @Composable
 fun MyPatients() {
-
     val coroutineScope = rememberCoroutineScope()
     SauExpertTheme() {
         Column(
@@ -131,7 +127,13 @@ fun Tabs(tabTitles: List<String>) {
             }
         }
         when (tabIndex) {
-            0 -> EmptyTabItem()
+            0 -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.White)
+            ) {
+                EmptyTabItem()
+            }
             1 -> NewPatientContent()
             2 -> AllPatientsContent()
         }
@@ -141,10 +143,10 @@ fun Tabs(tabTitles: List<String>) {
 @Composable
 fun EmptyTabItem() {
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
 
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
     ) {
         Text(
             text = "Нет пациентов",
@@ -154,7 +156,6 @@ fun EmptyTabItem() {
         Spacer(modifier = Modifier.padding(5.dp))
         Text(text = "Попросите администратора добавить ваших пациентов")
     }
-
 }
 
 @Composable

@@ -25,7 +25,7 @@ fun ModifyInspectionInfoScreen() {
     ) {
         TopBarForInspectionScreen()
         Spacer(modifier = Modifier.height(20.dp))
-        profileForInspection(userName = "user", percentage = 0.4f)
+        ProfileForInspection(content = "user", text= 0.4f)
         Spacer(modifier = Modifier.height(32.dp))
         InfoStatInspectionSection(
             titleIllness = "Мочевыделительная система",
@@ -35,11 +35,7 @@ fun ModifyInspectionInfoScreen() {
             bottomText = stringResource(R.string.completed_inspection_des),
         )
     }
-
 }
-
-
-
 
 @Composable
 fun InfoStatInspectionSection(
