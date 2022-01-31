@@ -177,6 +177,9 @@
     <string name="graphs">Графики</string>
     <string name="blood_pressure_pulse">Артериальное давление и пульс</string>
     <string name="steps_taken">Пройденные шаги</string>
+    <string name="synchronization">Синхронизация</string>
+    <string name="report">Отчет</string>
+
 
 
     <string name="home">Главная</string>
