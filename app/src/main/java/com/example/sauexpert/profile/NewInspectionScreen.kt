@@ -2,7 +2,6 @@ package com.example.sauexpert.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -23,7 +22,7 @@ fun NewInspectionScreen() {
     ) {
         TopBarForInspectionScreen()
         Spacer(modifier = Modifier.height(20.dp))
-        profileForInspection(userName = "user", percentage = 0.4f, showPercentage = true)
+        ProfileForInspection(content = "user", text = 0.4f, showPercentage = true)
         Spacer(modifier = Modifier.height(32.dp))
         FillInfoStatFiled()
     }
