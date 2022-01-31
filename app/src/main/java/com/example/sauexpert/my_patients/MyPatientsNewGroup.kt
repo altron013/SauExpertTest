@@ -69,6 +69,7 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
 
     val textStateMain = remember { mutableStateOf(TextFieldValue("")) }
 
+
     val showSnackOnText = {
         coroutineScope.launch {
             scaffoldState.snackbarHostState.showSnackbar(textStateMain.value.text)
@@ -415,7 +416,6 @@ fun AllPatients() {
 @Composable
 fun TabsNewGroup(tabTitles: List<String>, openSheet: () -> Job, onBottomSheetChange: () -> Unit) {
     var tabIndex by remember { mutableStateOf(0) }
-
     Column(modifier = Modifier.fillMaxSize()) {
         ScrollableTabRow(
             selectedTabIndex = tabIndex, backgroundColor = Color.Transparent,

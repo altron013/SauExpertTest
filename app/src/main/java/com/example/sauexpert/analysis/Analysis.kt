@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -111,7 +112,13 @@ fun NewAnalysis() {
         Divider(thickness = 0.5.dp, color = SystemGray)
         Spacer(modifier = Modifier.height(16.dp))
         NewAnalysisItem()
-        ButtonWithIcon(onClick = { /*TODO*/ }, modifier = Modifier.padding(start = 16.dp))
+        ButtonWithIcon(
+            onClick = { /*TODO*/ },
+            modifier = Modifier.padding(start = 16.dp),
+            backgroundColor = Pink20p,
+            text = "Новый диагноз",
+            contentColor = Red435B
+        )
         Spacer(modifier = Modifier.height(40.dp))
         MainButton(
             text = "Назначить анализ",
@@ -278,25 +285,32 @@ fun AnalysisPeriod(modifier: Modifier = Modifier) {
 }
 
 @Composable()
-fun ButtonWithIcon(onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun ButtonWithIcon(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color,
+    text: String,
+    contentColor: Color,
+    iconId: Int = R.drawable.ic_plus_circle_conflict
+) {
     Button(
-        onClick = { /*TODO*/ },
+        onClick = { onClick() },
         shape = RoundedCornerShape(24.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Pink20p,
-            contentColor = Red435B
+            backgroundColor = backgroundColor,
+            contentColor = contentColor
         ),
         modifier = modifier,
         elevation = ButtonDefaults.elevation(0.dp)
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_plus_circle_conflict),
+            painter = painterResource(id = iconId),
             contentDescription = ""
         )
 
         Spacer(modifier = Modifier.width(9.dp))
 
-        Text(text = "Добавить анализ", style = SauExpertTypography.body1)
+        Text(text = text, style = SauExpertTypography.body1, fontWeight = FontWeight.W600)
 
     }
 }
