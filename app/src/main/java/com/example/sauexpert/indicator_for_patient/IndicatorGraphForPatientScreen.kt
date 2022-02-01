@@ -48,32 +48,7 @@ fun IndicatorGraphForPatientScreen() {
     }
 }
 
-@Composable
-fun TopBarForIndicatorForPatient(
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(start = 8.dp, top = 30.dp)
-            .clickable {
-            }
-    ) {
 
-        Icon(
-            imageVector = Icons.Default.KeyboardArrowLeft,
-            contentDescription = "Back",
-            tint = Green57C3A7,
-        )
-
-        Text(
-            text = stringResource(id = R.string.back),
-            style = MaterialTheme.typography.body1,
-            color = Green57C3A7,
-        )
-    }
-}
 
 @Composable
 fun TitleForIndicatorGraphForPatient(
@@ -307,11 +282,11 @@ fun BarChartForGlucoseForIndicatorGraph(
                     color = Red4294.copy(alpha = 0.79f),
                     topLeft = Offset(
                         x = p.positionOnX,
-                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
+                        y = (height - 26).dp.toPx() - ((height - 26).dp.toPx() - p.glucoseBeforeFood) * heightPre
                     ),
                     size = Size(
                         width = 12.dp.toPx(),
-                        height = ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
+                        height = ((height - 26).dp.toPx() - p.glucoseBeforeFood) * heightPre
                     )
                 )
             }
@@ -321,11 +296,11 @@ fun BarChartForGlucoseForIndicatorGraph(
                     color = Green57C3A7,
                     topLeft = Offset(
                         x = p.positionOnX + 35,
-                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
+                        y = (height - 26).dp.toPx() - ((height - 26).dp.toPx() - p.glucoseAfterFood) * heightPre
                     ),
                     size = Size(
                         width = 12.dp.toPx(),
-                        height = ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
+                        height = ((height - 26).dp.toPx() - p.glucoseAfterFood) * heightPre
                     )
                 )
             }

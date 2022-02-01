@@ -60,7 +60,7 @@ fun Navigation(navController: NavHostController, scaffoldState: ScaffoldState) {
         }
         composable("myPatients") {
             //MyPatients2()
-            MyPatientsNewGroup(scaffoldState = scaffoldState)=======
+            MyPatientsNewGroup(scaffoldState = scaffoldState)
           
            // MyPatients2()
             // RegisterDoctorScreen()

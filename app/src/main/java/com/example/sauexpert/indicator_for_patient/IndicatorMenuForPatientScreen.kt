@@ -1,15 +1,13 @@
 package com.example.sauexpert.indicator_for_patient
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Green57C3A7
 
 @Composable
 fun IndicatorMenuForPatientScreen() {
@@ -78,7 +77,9 @@ fun TitleForIndicatorMenuForPatient(
             text = stringResource(id = R.string.synchronization),
             style = MaterialTheme.typography.subtitle2,
             fontWeight = FontWeight.W700,
-            fontSize = 15.sp
+            fontSize = 15.sp,
+            modifier = modifier
+                .clickable { }
         )
     }
 }
@@ -181,4 +182,32 @@ fun BraceletIndicatorSection(
 
     }
 
+}
+
+
+@Composable
+fun TopBarForIndicatorForPatient(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, top = 30.dp)
+            .clickable {
+            }
+    ) {
+
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowLeft,
+            contentDescription = "Back",
+            tint = Green57C3A7,
+        )
+
+        Text(
+            text = stringResource(id = R.string.back),
+            style = MaterialTheme.typography.body1,
+            color = Green57C3A7,
+        )
+    }
 }
