@@ -26,7 +26,9 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
+import com.example.sauexpert.BottomSheetType
 import com.example.sauexpert.R
+import com.example.sauexpert.SheetLayout
 import com.example.sauexpert.navigation.BottomNavItem
 import com.example.sauexpert.navigation.BottomNavigationBar
 import com.example.sauexpert.navigation.Navigation
@@ -47,25 +49,11 @@ import kotlinx.coroutines.launch
 )
 @ExperimentalMaterialApi
 @Composable
-fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
-
-    var currentBottomSheet: BottomSheetType? by remember { mutableStateOf(BottomSheetType.INITIAL) }
+fun MyPatientsNewGroup(scaffoldState: ScaffoldState, openSheet: () -> Job, toNewGroup: () -> Unit, toActionView: () -> Unit) {
 
     val tabTitles = listOf("Новые", "Все", "Гипертония", "Новая группа")
 
-    val modalBottomSheetState = rememberModalBottomSheetState(
-        ModalBottomSheetValue.Hidden
-    )
-
     val coroutineScope = rememberCoroutineScope()
-
-    val closeSheet = {
-        coroutineScope.launch { modalBottomSheetState.hide() }
-    }
-
-    val openSheet = {
-        coroutineScope.launch { modalBottomSheetState.show() }
-    }
 
     val textStateMain = remember { mutableStateOf(TextFieldValue("")) }
 
@@ -79,73 +67,9 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
 
     SauExpertTheme {
-        ModalBottomSheetLayout(
+        Scaffold(
             modifier = Modifier.fillMaxSize(),
-            sheetState = modalBottomSheetState,
-            sheetShape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp),
-            sheetContent = {
-                currentBottomSheet?.let {
-                    Box(modifier = Modifier.defaultMinSize(minHeight = 1.dp)) {
-                        SheetLayout(
-                            bottomSheetType = it,
-                            closeSheet = { closeSheet() },
-                            state = { textState },
-                            onBackPressed = { currentBottomSheet = BottomSheetType.NEW_GROUP },
-                            onNextPressed = { currentBottomSheet = BottomSheetType.ADD_GROUP }
-                        )
-                    }
-                }
-            },
             content = {
-//                val navController = rememberNavController()
-//                Scaffold(
-//                    bottomBar = {
-//                        BottomNavigationBar(
-//                            items = listOf(
-//                                BottomNavItem(
-//                                    name = stringResource(id = R.string.home),
-//                                    route = "home",
-//                                    icon = painterResource(id = R.drawable.ic_home)
-//                                ),
-//                                BottomNavItem(
-//                                    name = stringResource(id = R.string.my_patients),
-//                                    route = "myPatients",
-//                                    icon = painterResource(id = R.drawable.ic_patients),
-//                                    badgeCount = 23
-//                                ),
-//                                BottomNavItem(
-//                                    name = stringResource(id = R.string.messages),
-//                                    route = "settings",
-//                                    icon = painterResource(id = R.drawable.ic_mail)
-//                                ),
-//                                BottomNavItem(
-//                                    name = stringResource(id = R.string.notifications),
-//                                    route = "notification",
-//                                    icon = painterResource(id = R.drawable.ic_notification)
-//                                ),
-//                                BottomNavItem(
-//                                    name = stringResource(id = R.string.profile),
-//                                    route = "profile",
-//                                    icon = painterResource(id = R.drawable.ic_profile_squared)
-//                                )
-//                            ),
-//                            navController = navController,
-//                            onItemClick = {
-//                                navController.navigate(it.route)
-//                            }
-//                        )
-//                    },
-//                    scaffoldState = scaffoldState,
-//                    snackbarHost = { scaffoldState.snackbarHostState}
-//                ) {
-//                    Box( modifier = Modifier.padding(it)) {
-//                        Navigation(navController = navController, scaffoldState = scaffoldState)
-//                        DefaultSnackbar(snackbarHostState = scaffoldState.snackbarHostState, onDismiss = {
-//                            scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-//                        }, modifier = Modifier.align(Alignment.TopCenter))
-//                    }
-//                }
-
                 Column(
                     Modifier
                         .fillMaxSize()
@@ -168,7 +92,7 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
                     ) {
                         SearchViewNewGroup(
                             textStateMain,
-                            Modifier
+                            Modifier,
                         ) { showSnackOnText() }
                         Spacer(modifier = Modifier.padding(4.dp))
                         Card(
@@ -183,7 +107,7 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
                                 contentDescription = "",
                                 modifier = Modifier
                                     .clickable {
-                                        currentBottomSheet = BottomSheetType.ACTION_VIEW
+                                        toActionView()
                                         openSheet()
                                     }
                                     .padding(12.dp)
@@ -195,7 +119,7 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
                         TabsNewGroup(
                             tabTitles,
                             openSheet = { openSheet() },
-                            onBottomSheetChange = { currentBottomSheet = BottomSheetType.NEW_GROUP })
+                            onBottomSheetChange = { toNewGroup() })
                     }
                 }
             }
@@ -203,25 +127,7 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
     }
 }
 
-@Composable
-fun SheetLayout(
-    bottomSheetType: BottomSheetType,
-    closeSheet: () -> Unit,
-    state: () -> MutableState<TextFieldValue>,
-    onBackPressed: () -> Unit,
-    onNextPressed: () -> Unit
-) {
-    when (bottomSheetType) {
-        BottomSheetType.ACTION_VIEW -> ButtonActionView()
-        BottomSheetType.NEW_GROUP -> NewGroup(closeSheet, state, onNextPressed)
-        BottomSheetType.INITIAL -> {}
-        BottomSheetType.ADD_GROUP -> AddGroup(onBackPressed)
-    }
-}
 
-enum class BottomSheetType {
-    ACTION_VIEW, NEW_GROUP, INITIAL, ADD_GROUP //Add new type to add new bottom sheet
-}
 
 @Composable
 fun AddGroup(onBackPressed: () -> Unit) {
@@ -316,7 +222,6 @@ fun AddGroup(onBackPressed: () -> Unit) {
 @Composable
 fun NewGroup(
     closeSheet: () -> Unit,
-    textState: () -> MutableState<TextFieldValue>,
     onNextPressed: () -> Unit
 ) {
     Column {
@@ -378,8 +283,10 @@ fun NewGroup(
             }
         }
         Spacer(modifier = Modifier.padding(2.dp))
+
+        val textStateMain = remember { mutableStateOf(TextFieldValue("")) }
         SearchViewNewGroup(
-            state = textState(),
+            state = textStateMain,
             modifier = Modifier
                 .background(color = Surface1F7)
                 .fillMaxWidth()

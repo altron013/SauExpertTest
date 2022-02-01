@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.ui.theme.Gray75
+import com.example.sauexpert.ui.theme.Gray70
 import com.example.sauexpert.ui.theme.Green57C3A7
 import com.example.sauexpert.widgets.compose.Toolbars.MainToolbar
 import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton
@@ -151,7 +151,7 @@ fun EmojiCard(painter: Painter, content: String, modifier: Modifier) {
         .border(
             BorderStroke(
                 width = 1.dp,
-                color = Gray75
+                color = Gray70
             ),
             shape = RoundedCornerShape(10.dp)
         )
@@ -169,7 +169,7 @@ fun EmojiCard(painter: Painter, content: String, modifier: Modifier) {
             Icon(
                 painter = painter,
                 contentDescription = "",
-                tint = Gray75,
+                tint = Gray70,
                 modifier = Modifier.size(48.dp)
             )
             Text(
