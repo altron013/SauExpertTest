@@ -19,11 +19,13 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.CardListItemData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.SauExpertTheme
 
 @Composable
 fun ProfileScreen() {
@@ -31,7 +33,8 @@ fun ProfileScreen() {
     val spaceHeight = 16.dp
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(color = Gray30.copy(alpha = 0.19f))
             .padding(16.dp)
     ) {
@@ -123,7 +126,8 @@ fun TopBarForProfile(
             style = MaterialTheme.typography.body1,
             fontSize = 16.sp,
             color = Color.Red,
-            modifier = modifier.align(Alignment.CenterStart)
+            modifier = modifier
+                .align(Alignment.CenterStart)
                 .clickable {
                 }
         )
@@ -306,6 +310,14 @@ fun ProfileStatSection(
                     .align(Alignment.CenterStart)
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewProf() {
+    SauExpertTheme {
+        ProfileScreen()
     }
 }
 

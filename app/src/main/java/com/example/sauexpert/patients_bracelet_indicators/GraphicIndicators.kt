@@ -22,7 +22,6 @@ import com.example.sauexpert.R
 import com.example.sauexpert.profile.CircularProgressBar
 import com.example.sauexpert.profile.ProfileForInspection
 import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.ui.theme.SurfaceE5E5E5
 import com.example.sauexpert.widgets.compose.Toolbars.MainToolbar
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
@@ -123,7 +122,7 @@ fun GraphicIndicators() {
     Column(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
-            .background(SurfaceE5E5E5),
+//            .background(SurfaceE5E5E5),
     ) {
         MainToolbar(onBackClick = {})
         Column(
