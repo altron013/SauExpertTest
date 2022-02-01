@@ -25,16 +25,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
 import com.example.sauexpert.R
+import com.example.sauexpert.navigation.BottomNavItem
+import com.example.sauexpert.navigation.BottomNavigationBar
+import com.example.sauexpert.navigation.Navigation
 import com.example.sauexpert.ui.theme.*
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.snackbars.DefaultSnackbar
+import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
+@OptIn(ExperimentalPagerApi::class, androidx.compose.animation.ExperimentalAnimationApi::class,
+    androidx.compose.animation.ExperimentalAnimationApi::class,
+    androidx.compose.animation.ExperimentalAnimationApi::class,
+    androidx.compose.ui.ExperimentalComposeUiApi::class,
+    androidx.compose.ui.ExperimentalComposeUiApi::class,
+    androidx.compose.foundation.ExperimentalFoundationApi::class
+)
 @ExperimentalMaterialApi
 @Composable
-fun MyPatientsNewGroup() {
+fun MyPatientsNewGroup(scaffoldState: ScaffoldState) {
 
     var currentBottomSheet: BottomSheetType? by remember { mutableStateOf(BottomSheetType.INITIAL) }
 
@@ -52,6 +65,15 @@ fun MyPatientsNewGroup() {
 
     val openSheet = {
         coroutineScope.launch { modalBottomSheetState.show() }
+    }
+
+    val textStateMain = remember { mutableStateOf(TextFieldValue("")) }
+
+
+    val showSnackOnText = {
+        coroutineScope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(textStateMain.value.text)
+        }
     }
 
     val textState = remember { mutableStateOf(TextFieldValue("")) }
@@ -73,57 +95,111 @@ fun MyPatientsNewGroup() {
                         )
                     }
                 }
-            }
-        ) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(start = 16.dp, end = 16.dp)
-            ) {
-                Spacer(modifier = Modifier.padding(29.dp))
-                Text(
-                    text = stringResource(R.string.my_patients),
-                    fontSize = 34.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.padding(9.dp))
-                val textStateMain = remember { mutableStateOf(TextFieldValue("")) }
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+            },
+            content = {
+//                val navController = rememberNavController()
+//                Scaffold(
+//                    bottomBar = {
+//                        BottomNavigationBar(
+//                            items = listOf(
+//                                BottomNavItem(
+//                                    name = stringResource(id = R.string.home),
+//                                    route = "home",
+//                                    icon = painterResource(id = R.drawable.ic_home)
+//                                ),
+//                                BottomNavItem(
+//                                    name = stringResource(id = R.string.my_patients),
+//                                    route = "myPatients",
+//                                    icon = painterResource(id = R.drawable.ic_patients),
+//                                    badgeCount = 23
+//                                ),
+//                                BottomNavItem(
+//                                    name = stringResource(id = R.string.messages),
+//                                    route = "settings",
+//                                    icon = painterResource(id = R.drawable.ic_mail)
+//                                ),
+//                                BottomNavItem(
+//                                    name = stringResource(id = R.string.notifications),
+//                                    route = "notification",
+//                                    icon = painterResource(id = R.drawable.ic_notification)
+//                                ),
+//                                BottomNavItem(
+//                                    name = stringResource(id = R.string.profile),
+//                                    route = "profile",
+//                                    icon = painterResource(id = R.drawable.ic_profile_squared)
+//                                )
+//                            ),
+//                            navController = navController,
+//                            onItemClick = {
+//                                navController.navigate(it.route)
+//                            }
+//                        )
+//                    },
+//                    scaffoldState = scaffoldState,
+//                    snackbarHost = { scaffoldState.snackbarHostState}
+//                ) {
+//                    Box( modifier = Modifier.padding(it)) {
+//                        Navigation(navController = navController, scaffoldState = scaffoldState)
+//                        DefaultSnackbar(snackbarHostState = scaffoldState.snackbarHostState, onDismiss = {
+//                            scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+//                        }, modifier = Modifier.align(Alignment.TopCenter))
+//                    }
+//                }
+
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(start = 16.dp, end = 16.dp)
                 ) {
-                    SearchViewNewGroup(textStateMain, Modifier)
-                    Spacer(modifier = Modifier.padding(4.dp))
-                    Card(
-                        modifier = Modifier
-                            .height(44.dp)
-                            .width(44.dp),
-                        backgroundColor = Gray15,
-                        shape = RoundedCornerShape(10.dp)
+                    Spacer(modifier = Modifier.padding(29.dp))
+                    Text(
+                        text = stringResource(R.string.my_patients),
+                        fontSize = 34.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.padding(9.dp))
+
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_arrow_left_arrow_right),
-                            contentDescription = "",
+                        SearchViewNewGroup(
+                            textStateMain,
+                            Modifier
+                        ) { showSnackOnText() }
+                        Spacer(modifier = Modifier.padding(4.dp))
+                        Card(
                             modifier = Modifier
-                                .clickable {
-                                    currentBottomSheet = BottomSheetType.ACTION_VIEW
-                                    openSheet()
-                                }
-                                .padding(12.dp)
-                        )
+                                .height(44.dp)
+                                .width(44.dp),
+                            backgroundColor = Gray15,
+                            shape = RoundedCornerShape(10.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_arrow_left_arrow_right),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .clickable {
+                                        currentBottomSheet = BottomSheetType.ACTION_VIEW
+                                        openSheet()
+                                    }
+                                    .padding(12.dp)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.padding(8.dp))
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        TabsNewGroup(
+                            tabTitles,
+                            openSheet = { openSheet() },
+                            onBottomSheetChange = { currentBottomSheet = BottomSheetType.NEW_GROUP })
                     }
                 }
-                Spacer(modifier = Modifier.padding(8.dp))
-                Column(modifier = Modifier.fillMaxSize()) {
-                    TabsNewGroup(
-                        tabTitles,
-                        openSheet = { openSheet() },
-                        onBottomSheetChange = { currentBottomSheet = BottomSheetType.NEW_GROUP })
-                }
             }
-        }
+        )
     }
 }
 
@@ -135,13 +211,11 @@ fun SheetLayout(
     onBackPressed: () -> Unit,
     onNextPressed: () -> Unit
 ) {
-
     when (bottomSheetType) {
         BottomSheetType.ACTION_VIEW -> ButtonActionView()
         BottomSheetType.NEW_GROUP -> NewGroup(closeSheet, state, onNextPressed)
         BottomSheetType.INITIAL -> {}
         BottomSheetType.ADD_GROUP -> AddGroup(onBackPressed)
-
     }
 }
 
@@ -297,7 +371,10 @@ fun NewGroup(
                     .weight(0.9f, false),
                 elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
             ) {
-                Text(text = stringResource(id = R.string.next), style = SauExpertTypography.subtitle2)
+                Text(
+                    text = stringResource(id = R.string.next),
+                    style = SauExpertTypography.subtitle2
+                )
             }
         }
         Spacer(modifier = Modifier.padding(2.dp))
@@ -306,7 +383,7 @@ fun NewGroup(
             modifier = Modifier
                 .background(color = Surface1F7)
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(start = 16.dp, end = 16.dp),
         )
         Spacer(modifier = Modifier.padding(1.dp))
         Row() {
@@ -339,7 +416,6 @@ fun AllPatients() {
 @Composable
 fun TabsNewGroup(tabTitles: List<String>, openSheet: () -> Job, onBottomSheetChange: () -> Unit) {
     var tabIndex by remember { mutableStateOf(0) }
-
     Column(modifier = Modifier.fillMaxSize()) {
         ScrollableTabRow(
             selectedTabIndex = tabIndex, backgroundColor = Color.Transparent,
@@ -395,11 +471,16 @@ fun TabsNewGroup(tabTitles: List<String>, openSheet: () -> Job, onBottomSheetCha
 }
 
 @Composable
-fun SearchViewNewGroup(state: MutableState<TextFieldValue>, modifier: Modifier) {
+fun SearchViewNewGroup(
+    state: MutableState<TextFieldValue>,
+    modifier: Modifier,
+    onValueChange: (() -> Job)? = null
+) {
     TextField(
         value = state.value,
         onValueChange = { value ->
             state.value = value
+            onValueChange?.let { it() }
         },
         textStyle = TextStyle(color = Color.Black, fontSize = 18.sp),
         leadingIcon = {

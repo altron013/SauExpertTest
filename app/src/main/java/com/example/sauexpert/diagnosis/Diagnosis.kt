@@ -158,6 +158,8 @@ fun DiagnosisCard() {
         })
 }
 
+
+
 @Composable
 fun DiagnosisFill() {
 
@@ -190,7 +192,7 @@ fun DiagnosisFill() {
 
         SubHeaderText(text = stringResource(R.string.caps_start_date))
 
-        DiagnosisDateWithPadding()
+        DiagnosisDateWithPadding("25.11.2020")
 
         SubHeaderText(text = stringResource(R.string.caps_comment))
         DescriptionTextField(placeHolderText = stringResource(R.string.description))
@@ -211,7 +213,7 @@ fun DiagnosisCriticalCase() {
 
         SubHeaderText(text = stringResource(R.string.when_occurred))
 
-        DiagnosisDateWithPadding()
+        DiagnosisDateWithPadding("25.11.2020")
     }
 }
 
@@ -293,13 +295,13 @@ fun DescriptionTextField(placeHolderText: String) {
 }
 
 @Composable
-fun DiagnosisDateWithPadding() {
+fun DiagnosisDateWithPadding( date: String) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(start = 30.dp, top = 20.dp, bottom = 30.dp)
     ) {
-        Text(text = "25.11.2020", style = SauExpertTypography.body1, color = BlackAccent)
+        Text(text = date, style = SauExpertTypography.body1, color = BlackAccent)
 
         Image(
             painter = painterResource(id = R.drawable.ic_calendar),
