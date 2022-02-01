@@ -225,6 +225,7 @@ fun AnalysisInspectionsDateField(
 
 @Composable
 fun TopBarForInspectionScreen(
+    titleString: String = stringResource(R.string.general_inspection),
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -240,9 +241,11 @@ fun TopBarForInspectionScreen(
                 .clickable {
                 }
         )
+
         Spacer(modifier = Modifier.height(20.dp))
+
         Text(
-            text = stringResource(R.string.general_inspection),
+            text = titleString,
             style = MaterialTheme.typography.h4,
             fontSize = 28.sp
         )
@@ -256,7 +259,8 @@ fun ProfileForInspection(
     showPercentage: Boolean = false,
     modifier: Modifier = Modifier,
     image: Painter = painterResource(id = R.drawable.avatar),
-    painter: Painter? = null
+    painter: Painter? = null,
+    color: Color = Color.Green
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -291,7 +295,8 @@ fun ProfileForInspection(
             CircularProgressBar(
                 percentage = text,
                 number = 100,
-                showPercentage = showPercentage
+                showPercentage = showPercentage,
+                color = color
             )
         } else {
             painter?.let {
