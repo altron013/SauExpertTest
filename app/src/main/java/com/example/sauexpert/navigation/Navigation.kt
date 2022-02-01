@@ -51,7 +51,7 @@ data class BottomNavItem(
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun Navigation(navController: NavHostController) {
+fun Navigation(navController: NavHostController, scaffoldState: ScaffoldState) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
             // HomeScreen()
@@ -62,7 +62,8 @@ fun Navigation(navController: NavHostController) {
         }
         composable("myPatients") {
             //MyPatients2()
-            MyPatientsNewGroup()
+            MyPatientsNewGroup(scaffoldState = scaffoldState)
+          
            // MyPatients2()
             // RegisterDoctorScreen()
         }

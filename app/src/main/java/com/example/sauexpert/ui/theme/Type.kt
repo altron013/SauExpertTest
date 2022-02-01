@@ -39,6 +39,11 @@ val appTypography = Typography(
     overline = defaultTypography.overline.copy(fontFamily = SfpPro)
 )
 val SauExpertTypography = Typography(
+    h3 = TextStyle(
+        fontFamily = SfpDisplay,
+        fontWeight = FontWeight.W700,
+        fontSize = 28.sp
+    ),
     h4 = TextStyle(
         fontFamily = SfpDisplay,
         fontWeight = FontWeight.Bold,

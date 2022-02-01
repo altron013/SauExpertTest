@@ -2,10 +2,7 @@ package com.example.sauexpert.widgets.compose.snackbars
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Snackbar
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Green34C759
+import com.example.sauexpert.ui.theme.RedAccent
 import com.example.sauexpert.ui.theme.SauExpertTypography
 
 
@@ -47,7 +45,7 @@ fun ApplicationSnackbar() {
 }
 
 @Composable
-fun SnackbarText(text : String) {
+fun SnackbarText(text: String) {
     Snackbar(
         modifier = Modifier.padding(16.dp),
         shape = RoundedCornerShape(16.dp),
@@ -71,9 +69,45 @@ fun SnackbarText(text : String) {
     }
 }
 
+@Composable
+fun DefaultSnackbar(
+    snackbarHostState: SnackbarHostState,
+    modifier: Modifier = Modifier,
+    onDismiss: () -> Unit = { }
+) {
+    SnackbarHost(
+        hostState = snackbarHostState,
+        snackbar = { data ->
+            Snackbar(
+                modifier = Modifier.padding(16.dp),
+                content = {
+                    Text(
+                        text = data.message,
+                        style = SauExpertTypography.body1
+                    )
+                },
+                action = {
+                    data.actionLabel?.let { actionLabel ->
+                        TextButton(onClick = onDismiss) {
+                            Text(
+                                text = actionLabel,
+                                color = RedAccent,
+                                style = SauExpertTypography.body1
+                            )
+                        }
+                    }
+                }
+            )
+        },
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight(Alignment.Bottom)
+    )
+}
+
 
 @Preview
 @Composable
-fun PrevApp(){
+fun PrevApp() {
     SnackbarText(text = "\uD83D\uDC4F Группа пациентов создана")
 }
