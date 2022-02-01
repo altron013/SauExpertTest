@@ -30,6 +30,7 @@ val Red4294 = Color(0xFFFF4F4F)
 val Red435B = Color(0xFFFF435B)
 val Red4141 = Color(0xFFFF4141)
 val Pink20p = Color(0x33FF4141)
+val Orange4294 = Color(0xFFFF9500)
 
 val Green34C759 = Color(0xFF34C759)
 val Green15B83D = Color(0xFF15B83D)

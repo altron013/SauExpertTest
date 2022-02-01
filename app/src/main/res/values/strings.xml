@@ -171,7 +171,9 @@
     <string name="average_for_week">Среднее за неделю</string>
     <string name="last_measurements">Последний замер</string>
     <string name="task_completing">Выполнение заданий</string>
-
+    <string name="low">Низко</string>
+    <string name="high">Высоко</string>
+    <string name="fine">В норме</string>
 
 
     <string name="home">Главная</string>
