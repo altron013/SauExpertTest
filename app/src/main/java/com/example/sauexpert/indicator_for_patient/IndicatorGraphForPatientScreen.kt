@@ -3,9 +3,7 @@ package com.example.sauexpert.indicator_for_patient
 import android.graphics.Paint
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -24,16 +22,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.*
-import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.*
 
 @Composable
 fun IndicatorGraphForPatientScreen() {
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(
                 color = Gray30.copy(alpha = 0.19f)
             )
+            .padding(bottom = 20.dp)
     ) {
         TopBarForIndicatorForPatient()
         Spacer(modifier = Modifier.height(32.dp))
@@ -63,13 +64,13 @@ fun TopBarForIndicatorForPatient(
         Icon(
             imageVector = Icons.Default.KeyboardArrowLeft,
             contentDescription = "Back",
-            tint = Color(17, 114, 89),
+            tint = Green57C3A7,
         )
 
         Text(
             text = stringResource(id = R.string.back),
             style = MaterialTheme.typography.body1,
-            color = Color(17, 114, 89),
+            color = Green57C3A7,
         )
     }
 }
@@ -192,7 +193,7 @@ fun GlucoseWithBarChartForIndicatorGraph(
 
             SwitchRowWithIcon(
                 checkedState = checkedStateBeforeFood,
-                color = Color(255, 79, 79).copy(alpha = 0.79f),
+                color = Red4294.copy(alpha = 0.79f),
                 text = stringResource(R.string.glucose_after_meal)
             )
 
@@ -205,7 +206,7 @@ fun GlucoseWithBarChartForIndicatorGraph(
 
             SwitchRowWithIcon(
                 checkedState = checkedStateAfterFood,
-                color = Color(87, 195, 167),
+                color = Green57C3A7,
                 text = stringResource(R.string.glucose_after_meal)
             )
 
@@ -303,7 +304,7 @@ fun BarChartForGlucoseForIndicatorGraph(
         for (p in glucoseData) {
             if (checkedStateBeforeFood.value) {
                 drawRect(
-                    color = Color(255, 79, 79).copy(alpha = 0.79f),
+                    color = Red4294.copy(alpha = 0.79f),
                     topLeft = Offset(
                         x = p.positionOnX,
                         y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
@@ -317,7 +318,7 @@ fun BarChartForGlucoseForIndicatorGraph(
 
             if (checkedStateAfterFood.value) {
                 drawRect(
-                    color = Color(87, 195, 167),
+                    color = Green57C3A7,
                     topLeft = Offset(
                         x = p.positionOnX + 35,
                         y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
@@ -490,7 +491,7 @@ fun BarChartForBloodPressureAndPulse(
 
         for (p in PressureData) {
             drawRect(
-                color = Color(87, 195, 167),
+                color = Green57C3A7,
                 topLeft = Offset(
                     x = p.positionOnX,
                     y = p.startPoint * heightPre
@@ -618,7 +619,7 @@ fun BarChartForStepsTaken(
         for (p in StepsData) {
 
             drawRect(
-                brush = SolidColor(Color(117, 166, 211)),
+                brush = SolidColor(Blue4285),
                 topLeft = Offset(
                     x = p.positionOnX + 1f,
                     y = (height - 26).dp.toPx() - ((height - 26).dp.toPx() - 70f) * heightPre
@@ -632,7 +633,7 @@ fun BarChartForStepsTaken(
 
 
             drawRect(
-                color = Color(117, 166, 211),
+                color = Blue4285,
                 topLeft = Offset(
                     x = p.positionOnX,
                     y = (height - 26).dp.toPx() - ((height - 26).dp.toPx() - p.stepsPerDay) * heightPre

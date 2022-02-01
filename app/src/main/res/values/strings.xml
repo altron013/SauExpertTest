@@ -167,6 +167,10 @@
     <string name="steps_taken">Пройденные шаги</string>
     <string name="synchronization">Синхронизация</string>
     <string name="report">Отчет</string>
+    <string name="last_mark">Последняя отметка</string>
+    <string name="average_for_week">Среднее за неделю</string>
+    <string name="last_measurements">Последний замер</string>
+    <string name="task_completing">Выполнение заданий</string>
 
 
 
