@@ -67,14 +67,13 @@ fun Navigation(
         }
         composable("myPatients") {
             //MyPatients2()
+
             MyPatientsNewGroup(
                 scaffoldState = scaffoldState,
                 openSheet = openSheet,
                 toNewGroup = toNewGroup,
                 toActionView = toActionView
             )
-
-            // MyPatients2()
             // RegisterDoctorScreen()
         }
         composable("settings") {
