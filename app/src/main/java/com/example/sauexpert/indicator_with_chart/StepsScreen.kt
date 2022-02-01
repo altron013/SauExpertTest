@@ -1,4 +1,4 @@
-package com.example.sauexpert.bracelet_indicator
+package com.example.sauexpert.indicator_with_chart
 
 import android.graphics.Paint
 import androidx.compose.animation.core.FloatTweenSpec
@@ -7,11 +7,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,28 +24,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
-import com.example.sauexpert.model.HRVData
+import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
 import com.example.sauexpert.model.ListNumberOfYForTableData
+import com.example.sauexpert.model.StepsData
 import com.example.sauexpert.ui.theme.Gray30
 
-
 @Composable
-fun HRVScreen() {
+fun StepsScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        HRVwithBarChart()
-//        Spacer(modifier = Modifier.height(24.dp))
-//        AnalysisHRVSection()
+        StepswithBarChart()
     }
 }
 
-
 @Composable
-fun HRVwithBarChart(
+fun StepswithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -59,31 +53,33 @@ fun HRVwithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        HRVTitle()
+        StepsTitle()
         Spacer(modifier = Modifier.height(12.dp))
-        BarChartForHRV(
-            HRVData = listOf(
-                HRVData(positionOnX = 9f, hourOfHRV = 200f, dateName = "16.12"),
-                HRVData(positionOnX = 108f, hourOfHRV = 30f, dateName = "17.12"),
-                HRVData(positionOnX = 208f, hourOfHRV = 190f, dateName = "18.12"),
-                HRVData(positionOnX = 308f, hourOfHRV = 180f, dateName = "19.12"),
-                HRVData(positionOnX = 408f, hourOfHRV = 220f, dateName = "20.12"),
-                HRVData(positionOnX = 508f, hourOfHRV = 240f, dateName = "21.12"),
-                HRVData(positionOnX = 608f, hourOfHRV = 30f, dateName = "22.12")
+        BarChartForSteps(
+            StepsData = listOf(
+                StepsData(positionOnX = 9f, stepsPerDay = 200f, dateName = "16.12"),
+                StepsData(positionOnX = 108f, stepsPerDay = 30f, dateName = "17.12"),
+                StepsData(positionOnX = 208f, stepsPerDay = 190f, dateName = "18.12"),
+                StepsData(positionOnX = 308f, stepsPerDay = 180f, dateName = "19.12"),
+                StepsData(positionOnX = 408f, stepsPerDay = 220f, dateName = "20.12"),
+                StepsData(positionOnX = 508f, stepsPerDay = 240f, dateName = "21.12"),
+                StepsData(positionOnX = 608f, stepsPerDay = 30f, dateName = "22.12")
             ),
             ListNumberData = listOf(
-                ListNumberOfYForTableData("240"),
-                ListNumberOfYForTableData("200"),
-                ListNumberOfYForTableData("160"),
-                ListNumberOfYForTableData("120"),
-                ListNumberOfYForTableData("80"),
+                ListNumberOfYForTableData("5 000"),
+                ListNumberOfYForTableData("4 500"),
+                ListNumberOfYForTableData("4 000"),
+                ListNumberOfYForTableData("3 500"),
+                ListNumberOfYForTableData("3 000"),
+                ListNumberOfYForTableData("2 500"),
+                ListNumberOfYForTableData("2 000"),
             )
         )
     }
 }
 
 @Composable
-fun HRVTitle(
+fun StepsTitle(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -91,13 +87,13 @@ fun HRVTitle(
             .fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.hrv),
+            text = stringResource(id = R.string.steps),
             style = MaterialTheme.typography.caption
         )
 
         TextWithBigValueAndDateForGraph(
-            textValue = 150,
-            text = stringResource(R.string.milliseconds_average),
+            textValue = 3320,
+            text = stringResource(R.string.steps_per_day),
             textDate = "18-20 ноября 2021"
         )
     }
@@ -105,8 +101,8 @@ fun HRVTitle(
 
 
 @Composable
-fun BarChartForHRV(
-    HRVData: List<HRVData>,
+fun BarChartForSteps(
+    StepsData: List<StepsData>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
@@ -120,28 +116,28 @@ fun BarChartForHRV(
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
 
-    InfoDialogForBarChartOfHRV(
+    InfoDialogForBarChartOfSteps(
         visible = visible,
         itemID = itemID,
         xPosition = positionOfX,
         yPosition = positionOfY,
-        HRVData = HRVData
+        StepsData = StepsData
     )
 
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(155.dp)
+            .height(240.dp)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItem(HRVData, it.x, it.y)
-                        ResetColorInsideDataClass(HRVData = HRVData)
+                        itemID.value = identifyClickItemForSteps(StepsData, it.x, it.y)
+                        ResetColorInsideDataClassForSteps(StepsData = StepsData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
                             visible.value = true
-                            HRVData[itemID.value].colorFocus = Color.Red
+                            StepsData[itemID.value].colorFocus = Color.Red
                         }
                     }
                 )
@@ -174,7 +170,7 @@ fun BarChartForHRV(
         }
 
         start = true
-        for (p in HRVData) {
+        for (p in StepsData) {
             drawLine(
                 start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
                 end = Offset(wight.dp.toPx(), 0f),
@@ -183,14 +179,26 @@ fun BarChartForHRV(
             )
 
             drawRect(
-                color = p.colorFocus,
+                color = Color(251, 241, 243),
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.hourOfHRV) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 85f) * heightPre
                 ),
                 size = Size(
                     width = 32.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - p.hourOfHRV) * heightPre
+                    height = ((height - 35).dp.toPx() - 85f) * heightPre
+                )
+            )
+
+            drawRect(
+                color = p.colorFocus,
+                topLeft = Offset(
+                    x = p.positionOnX,
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
+                ),
+                size = Size(
+                    width = 32.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
                 )
             )
 
@@ -203,38 +211,31 @@ fun BarChartForHRV(
 
             wight += 38
         }
-
-        drawLine(
-            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-            end = Offset(wight.dp.toPx(), 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
     }
 }
 
-private fun identifyClickItem(dataList: List<HRVData>, x: Float, y: Float): Int {
+private fun identifyClickItemForSteps(dataList: List<StepsData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX && x < dataList.positionOnX + 80 && y > dataList.hourOfHRV) {
+        if (x > dataList.positionOnX && x < dataList.positionOnX + 80 && y > dataList.stepsPerDay) {
             return index
         }
     }
     return -1
 }
 
-private fun ResetColorInsideDataClass(HRVData: List<HRVData>) {
-    for (p in HRVData) {
+private fun ResetColorInsideDataClassForSteps(StepsData: List<StepsData>) {
+    for (p in StepsData) {
         p.colorFocus = Color(250, 218, 221)
     }
 }
 
 @Composable
-fun InfoDialogForBarChartOfHRV(
+fun InfoDialogForBarChartOfSteps(
     visible: MutableState<Boolean>,
     itemID: MutableState<Int>,
     xPosition: MutableState<Int>,
     yPosition: MutableState<Int>,
-    HRVData: List<HRVData>,
+    StepsData: List<StepsData>,
     modifier: Modifier = Modifier
 ) {
     if (visible.value) {
@@ -252,68 +253,19 @@ fun InfoDialogForBarChartOfHRV(
                         visible.value = false
                     } else {
                         Text(
-                            text = "${itemID.value} | ${HRVData[itemID.value].hourOfHRV} | " +
-                                    "${HRVData[itemID.value].dateName}",
+                            text = "${itemID.value} | ${StepsData[itemID.value].stepsPerDay} | " +
+                                    "${StepsData[itemID.value].dateName}",
                             style = MaterialTheme.typography.h5,
                             modifier = modifier
                                 .align(alignment = Alignment.Center)
                                 .clickable {
                                     visible.value = false
-                                    ResetColorInsideDataClass(HRVData = HRVData)
+                                    ResetColorInsideDataClassForSteps(StepsData = StepsData)
                                 }
                         )
                     }
                 }
             }
         }
-    }
-}
-
-
-@Composable
-fun AnalysisHRVSection(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(10.dp)
-            )
-    ) {
-        AnalysisStatFieldWithIconAtEnd(
-            title = stringResource(R.string.highest_value),
-            value = "18",
-            imageVector = Icons.Filled.FlashOn
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
-            title = stringResource(R.string.lowest_value),
-            value = "18"
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
-            title = stringResource(R.string.average_value),
-            value = "18"
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
-            title = stringResource(R.string.last_value),
-            value = "18"
-        )
     }
 }

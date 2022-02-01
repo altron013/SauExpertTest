@@ -87,6 +87,10 @@ dependencies {
     //Navigation
     implementation "androidx.navigation:navigation-compose:2.4.0-alpha06"
 
+
+
+    implementation "com.chargemap.compose:numberpicker:0.0.11"
+
     //FlowRow
     implementation "com.google.accompanist:accompanist-flowlayout:0.20.0"
 

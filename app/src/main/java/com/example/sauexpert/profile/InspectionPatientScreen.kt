@@ -255,10 +255,12 @@ fun ProfileForInspection(
     text: Float,
     showPercentage: Boolean = false,
     modifier: Modifier = Modifier,
-    image: Painter=painterResource(id = R.drawable.avatar),
-    painter:Painter?=null
+    image: Painter = painterResource(id = R.drawable.avatar),
+    painter: Painter? = null
 ) {
     Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
@@ -266,47 +268,44 @@ fun ProfileForInspection(
                 color = Color.White,
                 shape = RoundedCornerShape(10.dp)
             )
+            .padding(
+                horizontal = 16.dp,
+                vertical = 11.dp
+            )
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 11.dp
-                )
-        ) {
-            RoundImage(
-                image = image,
-                modifier = Modifier
-                    .size(32.dp)
-                    .weight(1f)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = content,
-                style = MaterialTheme.typography.subtitle2,
-                modifier = Modifier.weight(3f)
-            )
-            Spacer(modifier = Modifier.weight(1f))
-            if(text!=null){
+
+        RoundImage(
+            image = image,
+            modifier = Modifier
+                .size(32.dp)
+                .weight(1f)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = content,
+            style = MaterialTheme.typography.subtitle2,
+            modifier = Modifier.weight(3f)
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        if (text != 0f) {
             CircularProgressBar(
                 percentage = text,
                 number = 100,
                 showPercentage = showPercentage
-            )}
-            else{
-              Icon(
-                  painter = painterResource(id = R.drawable.ic_report_davlenie),
-                  contentDescription = "",
-                  tint = Color.Black,
-                  modifier = modifier.size(20.dp)
-               )
-          }
+            )
+        } else {
+            painter?.let {
+                Icon(
+                    painter = it,
+                    contentDescription = "",
+                    tint = Color.Black,
+                    modifier = modifier.size(20.dp)
+                )
+            }
         }
     }
 }
+
 
 @Composable
 fun CircularProgressBar(
