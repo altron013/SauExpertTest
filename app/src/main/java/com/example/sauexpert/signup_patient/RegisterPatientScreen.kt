@@ -217,7 +217,16 @@ object Gender {
 fun AuthTextFiled(
     name: MutableState<TextFieldValue>,
     ErrorState: MutableState<Boolean>,
-    placeholder: String
+    placeholder: String,
+    modifier: Modifier=Modifier.fillMaxWidth()
+        .border(
+            BorderStroke(
+                width = 1.dp,
+                color = if (ErrorState.value) Color.Red else Color.Transparent
+            ),
+            shape = RoundedCornerShape(10.dp)
+
+        )
 ) {
 
     TextField(
@@ -228,7 +237,7 @@ fun AuthTextFiled(
             }
             name.value = it
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .border(
                 BorderStroke(

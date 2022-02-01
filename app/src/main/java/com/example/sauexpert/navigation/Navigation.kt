@@ -27,6 +27,7 @@ import com.example.sauexpert.patients_bracelet_indicators.CriticalCaseIndicators
 import com.example.sauexpert.patients_bracelet_indicators.GraphicIndicators
 import com.example.sauexpert.patients_bracelet_indicators.WorkAroundExample
 import com.example.sauexpert.my_patients.MyPatientsNewGroup
+import com.example.sauexpert.questionnaire.PreDiabetScreen
 import com.example.sauexpert.signup_doctor.RegisterDoctorScreen
 import com.example.sauexpert.signup_patient.GetAccessScreen
 import com.example.sauexpert.signup_patient.RegisterPatientScreen2
@@ -54,9 +55,10 @@ fun Navigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
             // HomeScreen()
-            // LoginScreen()
-            GraphicIndicators()
+             //LoginScreen()
+           // GraphicIndicators()
            // WorkAroundExample(criticalIndicatorsList)
+            PreDiabetScreen()
         }
         composable("myPatients") {
             //MyPatients2()
