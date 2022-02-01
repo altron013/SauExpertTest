@@ -79,7 +79,7 @@ fun IndicatorReportForPatientScreen() {
         TopBarForIndicatorForPatient()
 
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         Column(
             modifier = Modifier.padding(horizontal = 20.dp)
         ) {
@@ -92,6 +92,7 @@ fun IndicatorReportForPatientScreen() {
             )
 
             DailyReportSection()
+
             Divider(
                 modifier = Modifier.padding(
                     top = 20.dp,
@@ -99,6 +100,7 @@ fun IndicatorReportForPatientScreen() {
                 ),
                 color = Color.LightGray
             )
+
             Text(
                 text = stringResource(id = R.string.critical_case_indicators),
                 fontWeight = FontWeight.Bold,
@@ -132,7 +134,8 @@ fun GraphReportSection(
             image = painterResource(R.drawable.ic_report_glukoza),
             title = stringResource(id = R.string.glucose_level),
             date = "22.08.2020 | 14:00",
-            percentage = 0.9f
+            percentage = 0.06f,
+            showFullProgress = true
         )
 
         Spacer(modifier = Modifier.height(17.dp))
@@ -141,7 +144,9 @@ fun GraphReportSection(
             image = painterResource(R.drawable.ic_report_davlenie),
             title = stringResource(id = R.string.arterial_pressure),
             date = "22.08.2020 | 14:00",
-            percentage = 0.02f
+            percentage = 120f,
+            secondPercentage = 80f,
+            showDividedNumber = true
         )
 
         Spacer(modifier = Modifier.height(17.dp))
@@ -150,7 +155,8 @@ fun GraphReportSection(
             image = painterResource(R.drawable.ic_report_pulse),
             title = stringResource(id = R.string.pulse),
             date = "22.08.2020 | 14:00",
-            percentage = 0.01f
+            percentage = 0.86f,
+            showFullProgress = true
         )
 
         Spacer(modifier = Modifier.height(17.dp))
@@ -208,11 +214,12 @@ fun DailyReportSection(
         IndicatorCardForReport(
             image = painterResource(R.drawable.ic_report_wes),
             title = stringResource(id = R.string.weight),
-            percentage = 0.7f,
+            percentage = 0.75f,
             painterContent = painterResource(R.drawable.ic_report_wes),
             subtitleForDate = stringResource(R.string.last_measurements),
             date = "22.08.2020 | 14:00",
-            showArrowForwardIcon = false
+            showArrowForwardIcon = false,
+            showFullProgress = true
         )
     }
 }
@@ -225,10 +232,13 @@ fun IndicatorCardForReport(
     subtitleForDate: String = stringResource(R.string.last_measurements),
     title: String,
     percentage: Float? = null,
+    secondPercentage: Float? = null,
     progressBarPercentage: Float? = null,
     progressBarValue: Int? = null,
     painterContent: Painter? = null,
     showArrowForwardIcon: Boolean = true,
+    showFullProgress: Boolean = false,
+    showDividedNumber: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
@@ -246,11 +256,14 @@ fun IndicatorCardForReport(
                 modifier = modifier.weight(0.9f)
             ) {
                 IndicatorReportWithProgress(
-                    text = percentage ?: 0f,
+                    numberPercentage = percentage ?: 0f,
+                    secondNumberPercentage = secondPercentage ?: 0f,
                     content = title,
                     image = image,
                     showPercentage = true,
-                    painter = painterContent
+                    painter = painterContent,
+                    showFullProgress = showFullProgress,
+                    showDividedNumber = showDividedNumber
                 )
 
                 Spacer(modifier = Modifier.height(18.dp))
@@ -319,8 +332,11 @@ fun IndicatorCardForReport(
 @Composable
 fun IndicatorReportWithProgress(
     content: String,
-    text: Float,
+    numberPercentage: Float,
+    secondNumberPercentage: Float,
     showPercentage: Boolean = false,
+    showDividedNumber: Boolean = false,
+    showFullProgress: Boolean = false,
     modifier: Modifier = Modifier,
     image: Painter,
     painter: Painter? = null
@@ -345,13 +361,22 @@ fun IndicatorReportWithProgress(
             modifier = Modifier.weight(3f)
         )
         Spacer(modifier = Modifier.weight(1f))
-        if (text != 0f) {
+        if (numberPercentage != 0f && !showFullProgress && !showDividedNumber) {
             CircularProgressBar(
-                percentage = text,
+                percentage = numberPercentage,
                 number = 100,
                 showPercentage = showPercentage,
                 radius = 20.dp
             )
+        } else if (numberPercentage != 0f && showFullProgress) {
+            CircularProgressBarWithFullProgress(
+                number = (numberPercentage * 100).toInt(),
+                showPercentage = true,
+                radius = 20.dp
+            )
+
+        } else if (numberPercentage != 0f && showDividedNumber) {
+            DividedNumber(numberPercentage.toInt(), secondNumberPercentage.toInt())
         } else {
             painter?.let {
                 Icon(
@@ -362,6 +387,36 @@ fun IndicatorReportWithProgress(
                 )
             }
         }
+    }
+}
+
+
+@Composable
+fun DividedNumber(
+    number: Int,
+    number2: Int,
+
+    ) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = number.toString(),
+            style = MaterialTheme.typography.body1,
+            color = Green117259
+        )
+
+        Divider(
+            modifier = Modifier.size(width = 31.dp, height = 2.dp),
+            color = Green117259
+        )
+
+        Text(
+            text = number2.toString(),
+            style = MaterialTheme.typography.body1,
+            color = Green117259
+        )
     }
 }
 
@@ -388,6 +443,7 @@ fun ReportForCriticalCase(items: List<CriticalCaseIndicators>) {
         }
     }
 }
+
 
 @Composable
 fun DiseaseCardForCriticalCase(
