@@ -3,11 +3,13 @@ package com.example.sauexpert.indicator_for_patient
 import android.graphics.Paint
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,7 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.*
-import com.example.sauexpert.ui.theme.*
+import com.example.sauexpert.ui.theme.Blue4285
+import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Green57C3A7
+import com.example.sauexpert.ui.theme.Red4294
 
 @Composable
 fun IndicatorGraphForPatientScreen() {
