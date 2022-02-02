@@ -33,7 +33,6 @@ import com.example.sauexpert.ui.theme.Gray50
 import com.example.sauexpert.ui.theme.SurfaceF9
 import com.example.sauexpert.widgets.compose.MainButton
 
-
 @Composable
 fun PhysicalActivityScreen() {
     val field = remember { mutableStateOf(TextFieldValue()) }
