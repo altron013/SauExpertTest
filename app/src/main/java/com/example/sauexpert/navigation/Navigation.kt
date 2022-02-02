@@ -19,20 +19,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.sauexpert.auth.LoginScreen
-import com.example.sauexpert.home.HomeScreen
-import com.example.sauexpert.my_patients.MyPatients
-import com.example.sauexpert.my_patients.MyPatients2
-import com.example.sauexpert.patients_bracelet_indicators.CriticalCaseIndicators
-import com.example.sauexpert.patients_bracelet_indicators.GraphicIndicators
-import com.example.sauexpert.patients_bracelet_indicators.WorkAroundExample
 import com.example.sauexpert.my_patients.MyPatientsNewGroup
-import com.example.sauexpert.signup_doctor.RegisterDoctorScreen
 import com.example.sauexpert.signup_patient.GetAccessScreen
-import com.example.sauexpert.signup_patient.RegisterPatientScreen2
+import com.example.sauexpert.survey.PhysicalActivityScreen
 import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.well_being.GlucoseLevelScreen
-import com.example.sauexpert.well_being.WellBeingDescription
 import com.example.sauexpert.well_being.WellBeingScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.Job
@@ -60,31 +51,23 @@ fun Navigation(
 ) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            // HomeScreen()
-            // LoginScreen()
-            GraphicIndicators()
-            // WorkAroundExample(criticalIndicatorsList)
+            PhysicalActivityScreen()
         }
         composable("myPatients") {
-            //MyPatients2()
-
             MyPatientsNewGroup(
                 scaffoldState = scaffoldState,
                 openSheet = openSheet,
                 toNewGroup = toNewGroup,
                 toActionView = toActionView
             )
-            // RegisterDoctorScreen()
         }
         composable("settings") {
             GetAccessScreen()
         }
         composable("notification") {
-            WellBeingDescription()
-            // GlucoseLevelScreen()
+            GlucoseLevelScreen()
         }
         composable("profile") {
-            //LoginScreen()
             WellBeingScreen()
         }
     }

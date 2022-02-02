@@ -11,7 +11,7 @@
     <string name="write_middle_name">Введите отчество</string>
     <string name="birth_date">ДАТА РОЖДЕНИЯ</string>
     <string name="choose_date">Выберите дату</string>
-    <string name="gender">ПОЛ</string>
+    <string name="gender">Пол</string>
     <string name="male">Мужской</string>
     <string name="write_code_doctor">Введите код врача</string>
     <string name="doctor_code_optional">КОД ВРАЧА (не обязательно)</string>
@@ -173,7 +173,6 @@
     <string name="task_completing">Выполнение заданий</string>
 
 
-
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
     <string name="messages">Сообщения</string>
@@ -233,10 +232,22 @@
     <string name="subscription_notice">\Стоимость продления подписки на 30 дней (до %1$s) %2$s ₸</string>
     <string name="subscription_info">При включенной функции автопродления подписка будет ежемесячно автоматически продлеваться с использованием данных Вашей платежной карты</string>
     <string name="congratulations">Поздравляем!</string>
-    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
-    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
-    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
-    <!--    <string name="medcard_online">Медкарта онлайн</string>-->
-
-
+    <string name="your_age">Ваш возраст</string>
+    <string name="height_cm">Рост, см</string>
+    <string name="weight_kg">Вес, кг</string>
+    <string name="body_mass_index">Индекс массы тела</string>
+    <string name="data_entered_by_system">Данные внесены системой</string>
+    <string name="you_complete_the_prediabetes_questionnaire">Вы завершаете анкету предиабета и перейдёте
+к анкете физической активности. </string>
+    <string name="prediabet_questionnaire">Анкета предиабета</string>
+    <string name="find_out_patients_diabet_risk">Узнайте риск развития сахарного диабета или предиабета у пациента.</string>
+    <string name="hads">Шкала тревоги и депрессии (HADS)</string>
+    <string name="fill_hads_survey">Заполните анкету шкалы тревоги и депрессии (HADS)</string>
+    <string name="physical_activity">Физическая активность</string>
+    <string name="complete_physical_activity_survey">Заполните анкету физической активности</string>
+    <string name="intensive_exercise_stress">Интенсивная физическая нагрузка</string>
+    <string name="nonintensive_exercise_stress">Неинтенсивная физическая нагрузка</string>
+    <string name="activity">Активность</string>
+    <string name="you_complete_physical_activity_start_hads">Вы завершаете анкету физической активности и перейдёте к анкете шкалы тревоги и депресии
+(HADS). </string>
 </resources>
