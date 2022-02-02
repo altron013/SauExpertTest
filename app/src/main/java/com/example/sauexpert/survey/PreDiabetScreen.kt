@@ -64,18 +64,7 @@ fun PreDiabetScreen() {
             .background(Color(0xFFF2F2F7))
             .verticalScroll(rememberScrollState())
     ) {
-        Icon(
-            imageVector = Icons.Rounded.ArrowBack,
-            contentDescription = null,
-            modifier = Modifier.padding(top = 26.dp, start = 16.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.prediabet_questionnaire),
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 26.dp)
-        )
-        ProfileForInspection(content = "Zhanna Ahmetova", text = 0.3f)
+        SurveyHeader(stringResource(id = R.string.prediabet_questionnaire))
         Spacer(modifier = Modifier.padding(10.dp))
         Column(
             Modifier

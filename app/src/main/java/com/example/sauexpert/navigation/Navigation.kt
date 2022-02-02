@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sauexpert.my_patients.MyPatientsNewGroup
 import com.example.sauexpert.signup_patient.GetAccessScreen
+import com.example.sauexpert.survey.HadsScreen
 import com.example.sauexpert.survey.PhysicalActivityScreen
 import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.well_being.GlucoseLevelScreen
@@ -54,12 +55,7 @@ fun Navigation(
             PhysicalActivityScreen()
         }
         composable("myPatients") {
-            MyPatientsNewGroup(
-                scaffoldState = scaffoldState,
-                openSheet = openSheet,
-                toNewGroup = toNewGroup,
-                toActionView = toActionView
-            )
+            HadsScreen()
         }
         composable("settings") {
             GetAccessScreen()
@@ -114,7 +110,6 @@ fun BottomNavigationBar(
 //                                Text(text=item.name,
 //                                    textAlign = TextAlign.Center,
 //                                    fontSize = 10.sp)
-
                             }
                         } else {
                             Icon(item.icon, contentDescription = null)
