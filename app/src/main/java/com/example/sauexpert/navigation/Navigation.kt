@@ -19,11 +19,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.sauexpert.my_patients.MyPatients2
 import com.example.sauexpert.my_patients.MyPatientsNewGroup
-import com.example.sauexpert.patients_bracelet_indicators.GraphicIndicators
-import com.example.sauexpert.survey.PhysicalActivityScreen
 import com.example.sauexpert.signup_patient.GetAccessScreen
+import com.example.sauexpert.survey.PhysicalActivityScreen
 import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.well_being.GlucoseLevelScreen
 import com.example.sauexpert.well_being.WellBeingScreen
@@ -53,43 +51,23 @@ fun Navigation(
 ) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            // HomeScreen()
-            // LoginScreen()
-            GraphicIndicators()
-            // WorkAroundExample(criticalIndicatorsList)
-            //LoginScreen()
-            // GraphicIndicators()
-            // WorkAroundExample(criticalIndicatorsList)
-            //PreDiabetScreen()
-            // MainContent()
             PhysicalActivityScreen()
-            //RegisterOtp()
         }
         composable("myPatients") {
-            //MyPatients2()
-
             MyPatientsNewGroup(
                 scaffoldState = scaffoldState,
                 openSheet = openSheet,
                 toNewGroup = toNewGroup,
                 toActionView = toActionView
             )
-            // RegisterDoctorScreen()
-            //MyPatientsNewGroup(scaffoldState = scaffoldState)
-            MyPatients2()
-            //RegisterDoctorScreen()
         }
         composable("settings") {
             GetAccessScreen()
-            //RegisterPatientScreen()
         }
         composable("notification") {
-            //WellBeingDescription()
             GlucoseLevelScreen()
-            // LandingScreen()
         }
         composable("profile") {
-            //LoginScreen()
             WellBeingScreen()
         }
     }
