@@ -26,6 +26,7 @@ import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.well_being.GlucoseLevelScreen
 import com.example.sauexpert.well_being.WellBeingScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
+import kotlinx.coroutines.Job
 
 
 data class BottomNavItem(
@@ -41,10 +42,19 @@ data class BottomNavItem(
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun Navigation(navController: NavHostController, scaffoldState: ScaffoldState) {
+fun Navigation(
+    navController: NavHostController,
+    scaffoldState: ScaffoldState,
+    openSheet: () -> Job,
+    toNewGroup: () -> Unit,
+    toActionView: () -> Unit
+) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
             // HomeScreen()
+            // LoginScreen()
+            GraphicIndicators()
+            // WorkAroundExample(criticalIndicatorsList)
             //LoginScreen()
             // GraphicIndicators()
             // WorkAroundExample(criticalIndicatorsList)
@@ -55,6 +65,14 @@ fun Navigation(navController: NavHostController, scaffoldState: ScaffoldState) {
         }
         composable("myPatients") {
             //MyPatients2()
+
+            MyPatientsNewGroup(
+                scaffoldState = scaffoldState,
+                openSheet = openSheet,
+                toNewGroup = toNewGroup,
+                toActionView = toActionView
+            )
+            // RegisterDoctorScreen()
             //MyPatientsNewGroup(scaffoldState = scaffoldState)
             MyPatients2()
             //RegisterDoctorScreen()
@@ -73,6 +91,7 @@ fun Navigation(navController: NavHostController, scaffoldState: ScaffoldState) {
             WellBeingScreen()
         }
     }
+
 }
 
 
