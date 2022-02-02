@@ -1,8 +1,11 @@
 package com.example.sauexpert.inspection
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -11,9 +14,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,28 +30,45 @@ import com.example.sauexpert.ui.theme.Blue007AFF
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
+import com.example.sauexpert.widgets.compose.MainButton
 import kotlinx.coroutines.launch
+
+
+data class TimeActivity(
+    val Activity: String,
+    val time: String
+)
+
 
 @ExperimentalMaterialApi
 @Composable
 fun DailyRoutineScreen() {
 
+    val listActivity = mutableListOf(
+        TimeActivity("Завтрка", "09:00"),
+        TimeActivity("Обед", "09:00"),
+        TimeActivity("Ужин", "10:00"),
+    )
+
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
+
+
     val coroutineScope = rememberCoroutineScope()
     SauExpertTheme() {
         BottomSheetScaffold(
+            sheetBackgroundColor = Color.Transparent,
             drawerScrimColor = MaterialTheme.colors.onSurface.copy(alpha = 0.40f),
             scaffoldState = bottomSheetScaffoldState,
-//            sheetShape = RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp),
             sheetContent = {
                 BottomSheetContentForDailyRoutine(
                     onClick = {
                         coroutineScope.launch {
                             bottomSheetScaffoldState.bottomSheetState.collapse()
                         }
-                    }
+                    },
+//                    listActivity = listActivity
 
                 )
             },
@@ -73,7 +95,8 @@ fun DailyRoutineScreen() {
                             coroutineScope.launch {
                                 bottomSheetScaffoldState.bottomSheetState.expand()
                             }
-                        }
+                        },
+                        listActivity = listActivity
                     )
                 }
             }
@@ -85,8 +108,11 @@ fun DailyRoutineScreen() {
 @Composable
 fun BottomSheetContentForDailyRoutine(
     modifier: Modifier = Modifier,
+//    listActivity: MutableList<TimeActivity>,
     onClick: () -> Unit,
 ) {
+
+//    val context = LocalContext.current
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -112,7 +138,13 @@ fun BottomSheetContentForDailyRoutine(
             )
             ButtonWithTextColorChange(
                 text = stringResource(R.string.delete),
-                onClick = {},
+                onClick = {
+//                    if (listActivity.size == 0) {
+//                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+//                    } else {
+//                        listActivity.removeAt(0)
+//                    }
+                },
                 enableState = true,
                 shape = RoundedCornerShape(0.dp, 0.dp, 12.dp, 12.dp),
                 contentColor = Color.Red
@@ -132,6 +164,7 @@ fun BottomSheetContentForDailyRoutine(
 @Composable
 fun MainDailyRoutineSection(
     modifier: Modifier = Modifier,
+    listActivity: MutableList<TimeActivity>,
     onClick: () -> Unit,
 ) {
     Column(
@@ -168,21 +201,19 @@ fun MainDailyRoutineSection(
             )
         }
 
-
-
         Spacer(modifier = Modifier.height(15.dp))
 
-        CardForMainDailyRoutine("Завтрак", "09:00", onClick = onClick)
+        for (i in listActivity) {
+            CardForMainDailyRoutine(
+                title = i.Activity,
+                text = i.time,
+                onClick = onClick
+            )
 
-        Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+        }
 
-        CardForMainDailyRoutine("Обед", "09:00", onClick = onClick)
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        CardForMainDailyRoutine("Ужин", "09:00", onClick = onClick)
-
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Text(
             text = stringResource(R.string.sleep),
@@ -196,6 +227,15 @@ fun MainDailyRoutineSection(
         Spacer(modifier = Modifier.height(12.dp))
 
         CardForMainDailyRoutine("Сон", "09:00", onClick = onClick)
+
+        Spacer(modifier = Modifier.height(42.dp))
+
+        MainButton(
+            text = stringResource(id = R.string.complete_general_inspection),
+            onClick = { /*TODO*/ },
+            enableState = true,
+            modifier = Modifier.fillMaxWidth()
+        )
 
 
     }

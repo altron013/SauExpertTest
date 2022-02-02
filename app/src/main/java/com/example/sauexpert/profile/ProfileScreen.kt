@@ -32,6 +32,7 @@ fun ProfileScreen() {
 
     Column(
         modifier = Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(color = Gray30.copy(alpha = 0.19f))
             .padding(16.dp)
     ) {
@@ -65,7 +66,6 @@ fun ProfileScreen() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
         ) {
             ProfileStatSectionGroup(
                 textForGender = stringResource(R.string.female),
