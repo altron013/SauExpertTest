@@ -1,11 +1,8 @@
 package com.example.sauexpert.inspection
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -14,14 +11,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.example.sauexpert.R
 import com.example.sauexpert.my_patients.ButtonWithTextColorChange
 import com.example.sauexpert.profile.ProfileForInspection
@@ -31,6 +27,7 @@ import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton
 import kotlinx.coroutines.launch
 
 
@@ -113,6 +110,11 @@ fun BottomSheetContentForDailyRoutine(
 ) {
 
 //    val context = LocalContext.current
+
+    val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
+
+    RenameDialog(isDialogOpen = visible)
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -124,7 +126,9 @@ fun BottomSheetContentForDailyRoutine(
         ) {
             ButtonWithTextColorChange(
                 text = stringResource(R.string.rename),
-                onClick = {},
+                onClick = {
+                    visible.value = true
+                },
                 enableState = true,
                 shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
                 contentColor = Blue007AFF
@@ -295,5 +299,91 @@ fun CardForMainDailyRoutine(
 
     }
 
+}
+
+
+@Composable
+fun RenameDialog(
+    modifier: Modifier = Modifier,
+    isDialogOpen: MutableState<Boolean>
+) {
+    val emailVal = remember { mutableStateOf("") }
+
+    if (isDialogOpen.value) {
+        Dialog(onDismissRequest = { isDialogOpen.value = false }) {
+
+            Column(
+                modifier = Modifier
+                    .background(
+                        color = Gray15,
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                    .padding(5.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Spacer(modifier = Modifier.padding(5.dp))
+
+                Text(
+                    text = stringResource(R.string.meal_time),
+                    style = MaterialTheme.typography.subtitle2,
+                )
+
+                Spacer(modifier = Modifier.padding(15.dp))
+
+                OutlinedTextField(
+                    value = emailVal.value,
+                    onValueChange = { emailVal.value = it },
+                    placeholder = { Text(text = "Hello") },
+                    singleLine = true,
+                )
+
+
+                Spacer(modifier = Modifier.padding(15.dp))
+
+                Divider(
+                    color = Gray30.copy(alpha = 0.19f),
+                    thickness = 1.dp,
+                    modifier = modifier.fillMaxWidth()
+                )
+
+                Row(
+                    modifier = Modifier.height(IntrinsicSize.Min)
+                ) {
+                    OutlinedMainButton(
+                        text = stringResource(id = R.string.cancellation),
+                        onClick = { isDialogOpen.value = false },
+                        enableState = true,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Gray15,
+                            contentColor = Blue007AFF,
+                        ),
+                        textColor = Color.Transparent,
+                        modifier = Modifier.weight(0.5f)
+                    )
+
+                    Divider(
+                        color = Gray30.copy(alpha = 0.19f),
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(1.dp)
+                    )
+
+                    OutlinedMainButton(
+                        text = stringResource(id = R.string.done),
+                        onClick = { /*TODO*/ },
+                        enableState = true,
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Gray15,
+                            contentColor = Blue007AFF,
+                        ),
+                        textColor = Color.Transparent,
+                        modifier = Modifier.weight(0.5f)
+                    )
+
+                }
+            }
+        }
+    }
 }
 
