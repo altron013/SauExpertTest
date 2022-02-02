@@ -177,6 +177,9 @@
     <string name="daily_routine">Режим дня</string>
     <string name="describe_daily_routine_of_patient">Опишите режим дня пациента.</string>
     <string name="meal_time">Приём пищи</string>
+    <string name="rename">Переименовать</string>
+    <string name="delete">Удалить</string>
+    <string name="swap">Поменять местами</string>
 
 
     <string name="home">Главная</string>

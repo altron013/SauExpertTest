@@ -6,14 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,31 +18,121 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.profile.InfoStatInspectionSection
+import com.example.sauexpert.my_patients.ButtonWithTextColorChange
 import com.example.sauexpert.profile.ProfileForInspection
 import com.example.sauexpert.profile.TopBarForInspectionScreen
+import com.example.sauexpert.ui.theme.Blue007AFF
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.SauExpertTheme
+import kotlinx.coroutines.launch
 
+@ExperimentalMaterialApi
 @Composable
 fun DailyRoutineScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .background(color = Gray30.copy(alpha = 0.19f))
-    ) {
-        TopBarForInspectionScreen(titleString = stringResource(R.string.daily_routine))
-        Spacer(modifier = Modifier.height(4.dp))
-        ProfileForInspection(content = "user", text = 0.4f)
-        Spacer(modifier = Modifier.height(32.dp))
-        MainDailyRoutineSection()
+
+    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+    )
+    val coroutineScope = rememberCoroutineScope()
+    SauExpertTheme() {
+        BottomSheetScaffold(
+            drawerScrimColor = MaterialTheme.colors.onSurface.copy(alpha = 0.40f),
+            scaffoldState = bottomSheetScaffoldState,
+//            sheetShape = RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp),
+            sheetContent = {
+                BottomSheetContentForDailyRoutine(
+                    onClick = {
+                        coroutineScope.launch {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+
+                )
+            },
+            sheetPeekHeight = 0.dp
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = Gray30.copy(alpha = 0.19f)
+                    )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    TopBarForInspectionScreen(titleString = stringResource(R.string.daily_routine))
+                    Spacer(modifier = Modifier.height(4.dp))
+                    ProfileForInspection(content = "user", text = 0.4f)
+                    Spacer(modifier = Modifier.height(32.dp))
+                    MainDailyRoutineSection(
+                        onClick = {
+                            coroutineScope.launch {
+                                bottomSheetScaffoldState.bottomSheetState.expand()
+                            }
+                        }
+                    )
+                }
+            }
+        }
     }
 }
 
+
+@Composable
+fun BottomSheetContentForDailyRoutine(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+
+    ) {
+        Column(
+            modifier = Modifier
+        ) {
+            ButtonWithTextColorChange(
+                text = stringResource(R.string.rename),
+                onClick = {},
+                enableState = true,
+                shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
+                contentColor = Blue007AFF
+            )
+            ButtonWithTextColorChange(
+                text = stringResource(R.string.swap),
+                onClick = {},
+                enableState = true,
+                shape = RoundedCornerShape(0.dp),
+                contentColor = Blue007AFF
+            )
+            ButtonWithTextColorChange(
+                text = stringResource(R.string.delete),
+                onClick = {},
+                enableState = true,
+                shape = RoundedCornerShape(0.dp, 0.dp, 12.dp, 12.dp),
+                contentColor = Color.Red
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            ButtonWithTextColorChange(
+                text = stringResource(R.string.cancel),
+                onClick = onClick,
+                enableState = true,
+                contentColor = Blue007AFF
+            )
+        }
+    }
+}
+
+
 @Composable
 fun MainDailyRoutineSection(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -85,15 +172,15 @@ fun MainDailyRoutineSection(
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        CardForMainDailyRoutine("Завтрак", "09:00")
+        CardForMainDailyRoutine("Завтрак", "09:00", onClick = onClick)
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        CardForMainDailyRoutine("Обед", "09:00")
+        CardForMainDailyRoutine("Обед", "09:00", onClick = onClick)
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        CardForMainDailyRoutine("Ужин", "09:00")
+        CardForMainDailyRoutine("Ужин", "09:00", onClick = onClick)
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -104,11 +191,11 @@ fun MainDailyRoutineSection(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        CardForMainDailyRoutine("Подъём", "09:00")
+        CardForMainDailyRoutine("Подъём", "09:00", onClick = onClick)
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        CardForMainDailyRoutine("Сон", "09:00")
+        CardForMainDailyRoutine("Сон", "09:00", onClick = onClick)
 
 
     }
@@ -118,6 +205,7 @@ fun MainDailyRoutineSection(
 fun CardForMainDailyRoutine(
     title: String,
     text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -155,14 +243,15 @@ fun CardForMainDailyRoutine(
 
         Spacer(modifier = Modifier.width(22.dp))
 
-        Icon(
-            imageVector = Icons.Default.MoreHoriz,
-            contentDescription = null,
-            tint = Color.Red,
-            modifier = modifier
-                .clickable {
-                }
-        )
+        IconButton(
+            onClick = onClick
+        ) {
+            Icon(
+                imageVector = Icons.Default.MoreHoriz,
+                contentDescription = null,
+                tint = Color.Red,
+            )
+        }
 
     }
 
