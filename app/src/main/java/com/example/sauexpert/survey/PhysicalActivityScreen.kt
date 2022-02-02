@@ -7,11 +7,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -27,10 +24,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.profile.ProfileForInspection
 import com.example.sauexpert.signup_patient.AuthTextFiled
 import com.example.sauexpert.ui.theme.Gray50
-import com.example.sauexpert.ui.theme.SurfaceF9
+import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
@@ -60,7 +56,6 @@ fun PhysicalActivityScreen() {
             )
         ),
     )
-
     val activity = listOf(
         Question(
             "Сколько времени ходит пешком в течение дня? ",
@@ -84,25 +79,13 @@ fun PhysicalActivityScreen() {
             )
         )
     )
-
     Column(
         Modifier
             .fillMaxSize()
             .background(Color(0xFFF2F2F7))
             .verticalScroll(rememberScrollState())
     ) {
-        Icon(
-            imageVector = Icons.Rounded.ArrowBack,
-            contentDescription = null,
-            modifier = Modifier.padding(top = 26.dp, start = 16.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.physical_activity),
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 26.dp)
-        )
-        ProfileForInspection(content = "Zhanna Ahmetova", text = 0.3f)
+        SurveyHeader(stringResource(id = R.string.physical_activity))
         Spacer(modifier = Modifier.padding(10.dp))
         Column(
             Modifier
@@ -194,7 +177,7 @@ fun SurveyGroup(
             mutableStateOf(radioOptions[0])
         }
         Card(
-            backgroundColor = SurfaceF9,
+            backgroundColor = GrayF0F,
             modifier = Modifier
                 .padding(top = 10.dp)
                 .fillMaxWidth(),

@@ -250,4 +250,7 @@
     <string name="activity">Активность</string>
     <string name="you_complete_physical_activity_start_hads">Вы завершаете анкету физической активности и перейдёте к анкете шкалы тревоги и депресии
 (HADS). </string>
+    <string name="complete_hads_survey">Заполните анкету шкалы тревоги и депрессии (HADS)</string>
+    <string name="hads_scale">Шкала тревоги
+и депрессии (HADS)</string>
 </resources>
