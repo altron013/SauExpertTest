@@ -45,8 +45,8 @@ fun MyPatients2() {
             sheetPeekHeight = 0.dp,
             sheetShape = RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp),
             sheetContent = {
-                ButtonActionView()
-                //ChoosePriority()
+               // ButtonActionView()
+                ChoosePriority()
             },
         ) {
             Column(

@@ -173,7 +173,6 @@
     <string name="task_completing">Выполнение заданий</string>
 
 
-
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
     <string name="messages">Сообщения</string>
@@ -242,6 +241,13 @@
 к анкете физической активности. </string>
     <string name="prediabet_questionnaire">Анкета предиабета</string>
     <string name="find_out_patients_diabet_risk">Узнайте риск развития сахарного диабета или предиабета у пациента.</string>
-
-
+    <string name="hads">Шкала тревоги и депрессии (HADS)</string>
+    <string name="fill_hads_survey">Заполните анкету шкалы тревоги и депрессии (HADS)</string>
+    <string name="physical_activity">Физическая активность</string>
+    <string name="complete_physical_activity_survey">Заполните анкету физической активности</string>
+    <string name="intensive_exercise_stress">Интенсивная физическая нагрузка</string>
+    <string name="nonintensive_exercise_stress">Неинтенсивная физическая нагрузка</string>
+    <string name="activity">Активность</string>
+    <string name="you_complete_physical_activity_start_hads">Вы завершаете анкету физической активности и перейдёте к анкете шкалы тревоги и депресии
+(HADS). </string>
 </resources>
