@@ -20,6 +20,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sauexpert.my_patients.MyPatients2
+import com.example.sauexpert.my_patients.MyPatientsNewGroup
+import com.example.sauexpert.patients_bracelet_indicators.GraphicIndicators
 import com.example.sauexpert.survey.PhysicalActivityScreen
 import com.example.sauexpert.signup_patient.GetAccessScreen
 import com.example.sauexpert.ui.theme.GrayF0F
