@@ -36,7 +36,8 @@ import kotlinx.coroutines.launch
 
 data class TimeActivity(
     var activity: String,
-    var time: String
+    var time: String,
+    val meal: Boolean
 )
 
 
@@ -45,18 +46,25 @@ data class TimeActivity(
 fun DailyRoutineScreen() {
 
     val listActivity = mutableListOf(
-        TimeActivity("Завтрка", "09:00"),
-        TimeActivity("Обед", "09:00"),
-        TimeActivity("Ужин", "10:00"),
+        TimeActivity(activity = "Завтрак", time = "09:00", meal = true),
+        TimeActivity(activity = "Обед", time = "09:00", meal = true),
+        TimeActivity(activity = "Ужин", time = "10:00", meal = true),
+        TimeActivity(activity = "Подъём", time = "10:00", meal = false),
+        TimeActivity(activity = "Сон", time = "10:00", meal = false),
     )
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
 
-    var index = remember { mutableStateOf(0) }
+
+
 
     val coroutineScope = rememberCoroutineScope()
+
+
+
+
     SauExpertTheme() {
         BottomSheetScaffold(
             sheetBackgroundColor = Color.Transparent,
@@ -221,17 +229,17 @@ fun MainDailyRoutineSection(
         Spacer(modifier = Modifier.height(15.dp))
 
         for (i in listActivity) {
-            CardForMainDailyRoutine(
-                title = i.activity,
-                text = i.time,
-                listActivity = listActivity,
-                onClick = onClick,
-                index = index
-            )
-
-
-
-            Spacer(modifier = Modifier.height(12.dp))
+            if (i.meal) {
+//                index.value = listActivity.indexOf(i)
+                CardForMainDailyRoutine(
+                    title = i.activity,
+                    text = i.time,
+                    onClick = onClick,
+                    index = index,
+                    id = listActivity.indexOf(i),
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+            }
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -243,23 +251,21 @@ fun MainDailyRoutineSection(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-//        CardForMainDailyRoutine(
-//            "Подъём", "09:00",
-//            onClick = onClick,
-//            listActivity = listActivity,
-//            index = index
-//        )
-//
-//        Spacer(modifier = Modifier.height(12.dp))
-//
-//        CardForMainDailyRoutine(
-//            "Сон", "09:00",
-//            onClick = onClick,
-//            listActivity = listActivity,
-//            index = index
-//        )
+        for (i in listActivity) {
+            if (!i.meal) {
+//                index.value = listActivity.indexOf(i)
+                CardForMainDailyRoutine(
+                    title = i.activity,
+                    text = i.time,
+                    onClick = onClick,
+                    index = index,
+                    id = listActivity.indexOf(i),
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+        }
 
-        Spacer(modifier = Modifier.height(42.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         MainButton(
             text = stringResource(id = R.string.complete_general_inspection),
@@ -273,19 +279,16 @@ fun MainDailyRoutineSection(
 }
 
 
-
 @Composable
 fun CardForMainDailyRoutine(
     title: String,
     text: String,
-    listActivity: MutableList<TimeActivity>,
     index: MutableState<Int>,
+    id: Int,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    index.value = listActivity.indexOf( listActivity.find {it.activity == title})
-
+    val context = LocalContext.current
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -300,6 +303,11 @@ fun CardForMainDailyRoutine(
         Text(
             text = title,
             style = MaterialTheme.typography.body1,
+            modifier = modifier.clickable {
+                index.value = id
+                Toast.makeText(context, "${index.value}", Toast.LENGTH_SHORT).show()
+
+            }
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -345,10 +353,8 @@ fun RenameDialog(
     isDialogOpen: MutableState<Boolean>
 
 ) {
-
     if (isDialogOpen.value) {
         Dialog(onDismissRequest = { isDialogOpen.value = false }) {
-
             Column(
                 modifier = Modifier
                     .background(
@@ -359,8 +365,6 @@ fun RenameDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Spacer(modifier = Modifier.padding(5.dp))
-
                 Text(
                     text = stringResource(R.string.meal_time),
                     style = MaterialTheme.typography.subtitle2,
