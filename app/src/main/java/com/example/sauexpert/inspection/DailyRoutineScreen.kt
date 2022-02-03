@@ -1,5 +1,6 @@
 package com.example.sauexpert.inspection
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,9 +12,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,8 +35,8 @@ import kotlinx.coroutines.launch
 
 
 data class TimeActivity(
-    val Activity: String,
-    val time: String
+    var activity: String,
+    var time: String
 )
 
 
@@ -51,6 +54,7 @@ fun DailyRoutineScreen() {
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
 
+    var index = remember { mutableStateOf(0) }
 
     val coroutineScope = rememberCoroutineScope()
     SauExpertTheme() {
@@ -65,7 +69,8 @@ fun DailyRoutineScreen() {
                             bottomSheetScaffoldState.bottomSheetState.collapse()
                         }
                     },
-//                    listActivity = listActivity
+                    listActivity = listActivity,
+                    indexFromList = index
 
                 )
             },
@@ -93,8 +98,10 @@ fun DailyRoutineScreen() {
                                 bottomSheetScaffoldState.bottomSheetState.expand()
                             }
                         },
-                        listActivity = listActivity
+                        listActivity = listActivity,
+                        index = index
                     )
+
                 }
             }
         }
@@ -105,15 +112,20 @@ fun DailyRoutineScreen() {
 @Composable
 fun BottomSheetContentForDailyRoutine(
     modifier: Modifier = Modifier,
-//    listActivity: MutableList<TimeActivity>,
+    listActivity: MutableList<TimeActivity>,
+    indexFromList: MutableState<Int>,
     onClick: () -> Unit,
 ) {
 
-//    val context = LocalContext.current
+    var stateForRename by rememberSaveable { mutableStateOf(listActivity[indexFromList.value].activity) }
 
     val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
 
-    RenameDialog(isDialogOpen = visible)
+    RenameDialog(
+        isDialogOpen = visible,
+        stateForRename = stateForRename,
+        onNameChange = { stateForRename = it }
+    )
 
     Box(
         modifier = modifier
@@ -169,6 +181,7 @@ fun BottomSheetContentForDailyRoutine(
 fun MainDailyRoutineSection(
     modifier: Modifier = Modifier,
     listActivity: MutableList<TimeActivity>,
+    index: MutableState<Int>,
     onClick: () -> Unit,
 ) {
     Column(
@@ -209,10 +222,14 @@ fun MainDailyRoutineSection(
 
         for (i in listActivity) {
             CardForMainDailyRoutine(
-                title = i.Activity,
+                title = i.activity,
                 text = i.time,
-                onClick = onClick
+                listActivity = listActivity,
+                onClick = onClick,
+                index = index
             )
+
+
 
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -226,11 +243,21 @@ fun MainDailyRoutineSection(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        CardForMainDailyRoutine("Подъём", "09:00", onClick = onClick)
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        CardForMainDailyRoutine("Сон", "09:00", onClick = onClick)
+//        CardForMainDailyRoutine(
+//            "Подъём", "09:00",
+//            onClick = onClick,
+//            listActivity = listActivity,
+//            index = index
+//        )
+//
+//        Spacer(modifier = Modifier.height(12.dp))
+//
+//        CardForMainDailyRoutine(
+//            "Сон", "09:00",
+//            onClick = onClick,
+//            listActivity = listActivity,
+//            index = index
+//        )
 
         Spacer(modifier = Modifier.height(42.dp))
 
@@ -245,13 +272,21 @@ fun MainDailyRoutineSection(
     }
 }
 
+
+
 @Composable
 fun CardForMainDailyRoutine(
     title: String,
     text: String,
+    listActivity: MutableList<TimeActivity>,
+    index: MutableState<Int>,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    index.value = listActivity.indexOf( listActivity.find {it.activity == title})
+
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -305,9 +340,11 @@ fun CardForMainDailyRoutine(
 @Composable
 fun RenameDialog(
     modifier: Modifier = Modifier,
+    stateForRename: String,
+    onNameChange: (String) -> Unit,
     isDialogOpen: MutableState<Boolean>
+
 ) {
-    val emailVal = remember { mutableStateOf("") }
 
     if (isDialogOpen.value) {
         Dialog(onDismissRequest = { isDialogOpen.value = false }) {
@@ -332,9 +369,9 @@ fun RenameDialog(
                 Spacer(modifier = Modifier.padding(15.dp))
 
                 OutlinedTextField(
-                    value = emailVal.value,
-                    onValueChange = { emailVal.value = it },
-                    placeholder = { Text(text = "Hello") },
+                    value = stateForRename,
+                    onValueChange = onNameChange,
+                    placeholder = { Text(text = stateForRename) },
                     singleLine = true,
                 )
 
