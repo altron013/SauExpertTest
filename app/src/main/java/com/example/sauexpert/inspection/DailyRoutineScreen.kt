@@ -57,7 +57,7 @@ fun DailyRoutineScreen() {
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
 
-
+    val index = rememberSaveable{ mutableStateOf(0) }
 
 
     val coroutineScope = rememberCoroutineScope()
