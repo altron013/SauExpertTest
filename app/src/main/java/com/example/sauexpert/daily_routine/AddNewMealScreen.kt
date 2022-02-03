@@ -1,4 +1,4 @@
-package com.example.sauexpert.inspection
+package com.example.sauexpert.daily_routine
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,6 +50,8 @@ fun AddNewMealScreen() {
 @Composable
 fun TopBarForAddNewMeal(
     titleText: String,
+    closeText: String = stringResource(id = R.string.close),
+    showDoneButton: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -58,7 +60,7 @@ fun TopBarForAddNewMeal(
             .padding(16.dp)
     ) {
         Text(
-            text = stringResource(id = R.string.close),
+            text = closeText,
             style = MaterialTheme.typography.body1,
             color = Color.Red,
             modifier = modifier.align(Alignment.CenterStart)
@@ -71,6 +73,17 @@ fun TopBarForAddNewMeal(
             style = MaterialTheme.typography.subtitle2,
             modifier = modifier.align(Alignment.Center)
         )
+
+        if (showDoneButton) {
+            Text(
+                text = stringResource(id = R.string.done),
+                style = MaterialTheme.typography.subtitle2,
+                color = Color.Red,
+                modifier = modifier.align(Alignment.CenterEnd)
+                    .clickable {
+                    }
+            )
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-package com.example.sauexpert.inspection
+package com.example.sauexpert.daily_routine
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 data class TimeActivity(
     var activity: String,
     var time: String,
-    val meal: Boolean
+    val meal: Boolean = true
 )
 
 
@@ -47,9 +47,9 @@ data class TimeActivity(
 fun DailyRoutineScreen() {
 
     val listActivity = mutableListOf(
-        TimeActivity(activity = "Завтрак", time = "09:00", meal = true),
-        TimeActivity(activity = "Обед", time = "09:00", meal = true),
-        TimeActivity(activity = "Ужин", time = "10:00", meal = true),
+        TimeActivity(activity = "Завтрак", time = "09:00"),
+        TimeActivity(activity = "Обед", time = "09:00"),
+        TimeActivity(activity = "Ужин", time = "10:00"),
         TimeActivity(activity = "Подъём", time = "10:00", meal = false),
         TimeActivity(activity = "Сон", time = "10:00", meal = false),
     )
