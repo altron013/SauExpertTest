@@ -27,10 +27,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toSize
+import androidx.compose.ui.unit.*
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
@@ -372,11 +369,13 @@ fun CircularProgressBar(
 
 @Composable
 fun OutlinedTextFieldWithBackground(
-    textForHint: String,
+    textForHint: String? = null,
     enableStatus: Boolean = true,
     textState: String,
     colorBackground: Color = Gray30.copy(alpha = 0.19f),
-    onTextChange: (String) -> Unit
+    onTextChange: (String) -> Unit,
+    textSize: TextUnit = 17.sp,
+    modifier: Modifier = Modifier
 
 ) {
 //    var textStateField by remember { mutableStateOf(textStateField) }
@@ -389,18 +388,21 @@ fun OutlinedTextFieldWithBackground(
         disabledIndicatorColor = Color.Transparent
     )
     TextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(height = 55.dp),
         enabled = enableStatus,
         value = textState,
         onValueChange = onTextChange,
         placeholder = {
-            Text(
-                text = textForHint,
-                style = MaterialTheme.typography.body1,
-            )
+            if (textForHint != null) {
+                Text(
+                    text = textForHint,
+                    style = MaterialTheme.typography.body1,
+                )
+            }
         },
+        textStyle = TextStyle(fontSize = textSize),
         colors = colorOfTextField,
         shape = RoundedCornerShape(10.dp)
     )

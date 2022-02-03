@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.sauexpert.R
 import com.example.sauexpert.my_patients.ButtonWithTextColorChange
+import com.example.sauexpert.profile.OutlinedTextFieldWithBackground
 import com.example.sauexpert.profile.ProfileForInspection
 import com.example.sauexpert.profile.TopBarForInspectionScreen
 import com.example.sauexpert.ui.theme.Blue007AFF
@@ -356,31 +357,33 @@ fun RenameDialog(
     if (isDialogOpen.value) {
         Dialog(onDismissRequest = { isDialogOpen.value = false }) {
             Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .background(
                         color = Gray15,
-                        shape = RoundedCornerShape(10.dp)
+                        shape = RoundedCornerShape(14.dp)
                     )
-                    .padding(5.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                    .padding(top = 18.dp),
             ) {
                 Text(
                     text = stringResource(R.string.meal_time),
                     style = MaterialTheme.typography.subtitle2,
                 )
 
-                Spacer(modifier = Modifier.padding(15.dp))
+                Spacer(modifier = Modifier.height(15.dp))
 
-                OutlinedTextField(
-                    value = stateForRename,
-                    onValueChange = onNameChange,
-                    placeholder = { Text(text = stateForRename) },
-                    singleLine = true,
+                OutlinedTextFieldWithBackground(
+                    textState = stateForRename,
+                    onTextChange = onNameChange,
+                    colorBackground = Color.White,
+//                    textSize = 12.sp,
+                    modifier = modifier
+                        .padding(horizontal = 16.dp)
                 )
 
 
-                Spacer(modifier = Modifier.padding(15.dp))
+                Spacer(modifier = Modifier.height(15.dp))
 
                 Divider(
                     color = Gray30.copy(alpha = 0.19f),
