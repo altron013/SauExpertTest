@@ -85,7 +85,7 @@ fun InfoStatInspectionSection(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            FillTextFiled(stringResource(R.string.description),
+            OutlinedTextFieldWithBackground(stringResource(R.string.description),
                 enableStatus = parameterChange,
                 textState = textDescriptionField,
                 onTextChange = { textDescriptionField = it }

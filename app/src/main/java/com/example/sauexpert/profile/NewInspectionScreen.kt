@@ -58,7 +58,7 @@ fun FillInfoStatFiled(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            FillTextFiled(
+            OutlinedTextFieldWithBackground(
                 textForHint = stringResource(R.string.complaints_patient),
                 textState = textComplaintsField,
                 onTextChange = { textComplaintsField = it }
@@ -66,13 +66,13 @@ fun FillInfoStatFiled(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            FillTextFiled(textForHint = stringResource(R.string.anamnesis_illness),
+            OutlinedTextFieldWithBackground(textForHint = stringResource(R.string.anamnesis_illness),
                 textState = textIllnessField,
                 onTextChange = { textIllnessField = it })
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            FillTextFiled(textForHint = stringResource(R.string.anamnesis_of_life),
+            OutlinedTextFieldWithBackground(textForHint = stringResource(R.string.anamnesis_of_life),
                 textState = textLifeField,
                 onTextChange = { textLifeField = it })
 

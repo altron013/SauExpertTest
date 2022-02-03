@@ -182,6 +182,9 @@
     <string name="swap">Поменять местами</string>
     <string name="complete_general_inspection">Завершить общий осмотр</string>
     <string name="cancellation">Отмена</string>
+    <string name="new_meal_time">Новый приём пищи</string>
+    <string name="example_afternoon_snack">Например, полдник</string>
+    <string name="time_for_meal">Время приёма</string>
 
 
     <string name="home">Главная</string>

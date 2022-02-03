@@ -369,11 +369,13 @@ fun CircularProgressBar(
     }
 }
 
+
 @Composable
-fun FillTextFiled(
+fun OutlinedTextFieldWithBackground(
     textForHint: String,
     enableStatus: Boolean = true,
     textState: String,
+    colorBackground: Color = Gray30.copy(alpha = 0.19f),
     onTextChange: (String) -> Unit
 
 ) {
@@ -381,7 +383,7 @@ fun FillTextFiled(
     val colorOfTextField = TextFieldDefaults.textFieldColors(
 //                    textColor = Color.Gray,
         disabledTextColor = Color.Transparent,
-        backgroundColor = Gray30.copy(alpha = 0.19f),
+        backgroundColor = colorBackground,
         focusedIndicatorColor = Color.Transparent,
         unfocusedIndicatorColor = Color.Transparent,
         disabledIndicatorColor = Color.Transparent
