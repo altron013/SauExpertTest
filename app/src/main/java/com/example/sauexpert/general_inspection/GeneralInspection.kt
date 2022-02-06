@@ -107,7 +107,7 @@ fun GeneralInspection() {
             }
             InspectionChange(progress = progress)
             Spacer(modifier = Modifier.height(24.dp))
-            val context = LocalContext.current
+
             if(progress.value < 8) {
                 Text(
                     text = "Далее",
@@ -115,7 +115,6 @@ fun GeneralInspection() {
                     color = Red435B,
                     modifier = Modifier
                         .clickable { progress.value += 1
-                            Toast.makeText(context, "${progress.value}", Toast.LENGTH_SHORT).show()
                         }
                         .align(alignment = Alignment.CenterHorizontally)
                         .fillMaxWidth()
