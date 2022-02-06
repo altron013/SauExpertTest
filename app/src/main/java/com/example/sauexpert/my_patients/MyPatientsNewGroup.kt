@@ -130,7 +130,7 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState, openSheet: () -> Job, toNew
 
 
 @Composable
-fun AddGroup(onBackPressed: () -> Unit) {
+fun AddGroup(onBackPressed: () -> Unit, showSnackBar: () -> Job) {
     Column {
         Box(
             modifier = Modifier
@@ -208,12 +208,14 @@ fun AddGroup(onBackPressed: () -> Unit) {
 
             MainButton(
                 text = stringResource(R.string.create_group),
-                onClick = { /*TODO*/ },
-                enableState = buttonEnabled.value,
+                onClick = { showSnackBar()},
+                enableState = true,
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 24.dp)
                     .fillMaxWidth()
             )
+
+            Spacer(modifier = Modifier.height(300.dp))
         }
 
     }
@@ -454,7 +456,7 @@ fun PatientChip() {
     ) {
         Column {
             Image(
-                painter = painterResource(R.drawable.logo_light_1),
+                painter = painterResource(R.drawable.avatar),
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop,            // crop the image if it's not a square
                 modifier = Modifier
@@ -492,7 +494,7 @@ fun AllPatientsCardNewGroup() {
         {
             //Image(painter = painterResource(id = R.drawable.ic_patient),contentDescription = "")
             Image(
-                painter = painterResource(R.drawable.logo_light_1),
+                painter = painterResource(R.drawable.avatar),
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop,            // crop the image if it's not a square
                 modifier = Modifier
@@ -513,7 +515,7 @@ fun AllPatientsCardNewGroup() {
 
 
 @Composable
-fun RoundedCheckView() {
+fun RoundedCheckView(id : Int = R.drawable.ic_checkbox_checked) {
     val isChecked = remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -526,7 +528,7 @@ fun RoundedCheckView() {
     ) {
         if (isChecked.value) {
             Image(
-                painter = painterResource(id = R.drawable.ic_checkbox_checked),
+                painter = painterResource(id = id),
                 modifier = Modifier.size(24.dp),
                 contentDescription = ""
             )

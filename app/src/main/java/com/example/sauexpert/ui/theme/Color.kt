@@ -16,7 +16,7 @@ val SystemDark = Color(0xFF1C1C1E)
 val GrayBCBBC1 = Color(0xFFBCBBC1)
 val BorderGray = Color(0xFFE5E5EA)
 val Pink10P = Color(0x1AFF435B)
-
+val RadioDisabled = Color(0xFFAEAEB2)
 val Separator = Color(0x4A3C3C43)
 val TabBorder = Color(0X0A000000)
 val Gray15 = Color(0xFFE5E5E6)

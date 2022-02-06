@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.analyzes_diagnostics.FilledAnalysis
 import com.example.sauexpert.diagnosis.DiagnosisDateWithPadding
 import com.example.sauexpert.diagnosis.SubHeaderText
 import com.example.sauexpert.ui.theme.*
@@ -108,7 +109,7 @@ fun AnylisisContent() {
 fun NewAnalysis() {
     Column {
         BottomSheetHeader(title = "Назначить анализ", onClick = {})
-
+        Spacer(modifier = Modifier.height(40.dp))
         Divider(thickness = 0.5.dp, color = SystemGray)
         Spacer(modifier = Modifier.height(16.dp))
         NewAnalysisItem()
@@ -188,7 +189,6 @@ fun BottomSheetHeader(title: String, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(bottom = 40.dp)
     ) {
         Row(
             modifier = Modifier
@@ -341,6 +341,6 @@ fun HeaderChevronRight(text: String, modifier: Modifier = Modifier) {
 @Composable
 fun Prev() {
     SauExpertTheme {
-        Analysis()
+        NewAnalysis()
     }
 }

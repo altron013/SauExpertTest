@@ -157,7 +157,7 @@ fun SubscriptionToolBar(
 @Composable
 fun ToolbarPrev() {
     SauExpertTheme() {
-        SubscriptionToolBar(onBackClick = { /*TODO*/ }, text = "Подписка")
+        MainToolbar(onBackClick = { /*TODO*/ })
     }
 }
 

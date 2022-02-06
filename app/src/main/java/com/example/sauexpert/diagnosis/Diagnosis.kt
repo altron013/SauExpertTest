@@ -21,7 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.analysis.BottomSheetHeader
 import com.example.sauexpert.ui.theme.*
+import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
 fun EmptyDiagnosis() {
@@ -144,7 +146,8 @@ fun DiagnosisCard() {
                     Text(
                         text = "E11.9 Сахарный диабет",
                         style = SauExpertTypography.body1,
-                        color = BlackAccent
+                        color = BlackAccent,
+                        fontWeight = FontWeight.W600
                     )
 
                     Image(
@@ -159,15 +162,14 @@ fun DiagnosisCard() {
 }
 
 
-
 @Composable
-fun DiagnosisFill() {
+fun DiagnosisFill(text: String) {
 
     Column(
         horizontalAlignment = Alignment.Start
     ) {
 
-        HeaderText(text = stringResource(R.string.main_diagnosis))
+        HeaderText(text = text)
 
         SubHeaderText(text = stringResource(R.string.caps_diagnosis))
 
@@ -295,7 +297,7 @@ fun DescriptionTextField(placeHolderText: String) {
 }
 
 @Composable
-fun DiagnosisDateWithPadding( date: String) {
+fun DiagnosisDateWithPadding(date: String) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -333,11 +335,31 @@ fun SubHeaderText(text: String) {
     )
 }
 
+@Composable
+fun NewDiagnosis() {
+    Column {
+        BottomSheetHeader(title = "Новый диагноз", onClick = {})
+        Spacer(modifier = Modifier.height(24.dp))
+        DiagnosisFill(text = stringResource(id = R.string.main_diagnosis))
+        DiagnosisFill(text = "Сопутствующий диагноз")
+        DiagnosisCriticalCase()
+        DiagnosisMore()
+        Spacer(modifier = Modifier.height(24.dp))
+        MainButton(
+            onClick = { /*TODO*/ },
+            enableState = true,
+            text = "Готово",
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DiagnosisPreview() {
     SauExpertTheme {
-        DiagnosisMore()
+        NewDiagnosis()
     }
 }
 
