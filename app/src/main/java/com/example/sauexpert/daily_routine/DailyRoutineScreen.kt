@@ -64,8 +64,6 @@ fun DailyRoutineScreen() {
     val coroutineScope = rememberCoroutineScope()
 
 
-
-
     SauExpertTheme() {
         BottomSheetScaffold(
             sheetBackgroundColor = Color.Transparent,
@@ -113,74 +111,6 @@ fun DailyRoutineScreen() {
 
                 }
             }
-        }
-    }
-}
-
-
-@Composable
-fun BottomSheetContentForDailyRoutine(
-    modifier: Modifier = Modifier,
-    listActivity: MutableList<TimeActivity>,
-    indexFromList: MutableState<Int>,
-    onClick: () -> Unit,
-) {
-
-    var stateForRename by rememberSaveable { mutableStateOf(listActivity[indexFromList.value].activity) }
-
-    val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
-
-    RenameDialog(
-        isDialogOpen = visible,
-        stateForRename = stateForRename,
-        onNameChange = { stateForRename = it }
-    )
-
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-
-    ) {
-        Column(
-            modifier = Modifier
-        ) {
-            ButtonWithTextColorChange(
-                text = stringResource(R.string.rename),
-                onClick = {
-                    visible.value = true
-                },
-                enableState = true,
-                shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
-                contentColor = Blue007AFF
-            )
-            ButtonWithTextColorChange(
-                text = stringResource(R.string.swap),
-                onClick = {},
-                enableState = true,
-                shape = RoundedCornerShape(0.dp),
-                contentColor = Blue007AFF
-            )
-            ButtonWithTextColorChange(
-                text = stringResource(R.string.delete),
-                onClick = {
-//                    if (listActivity.size == 0) {
-//                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-//                    } else {
-//                        listActivity.removeAt(0)
-//                    }
-                },
-                enableState = true,
-                shape = RoundedCornerShape(0.dp, 0.dp, 12.dp, 12.dp),
-                contentColor = Color.Red
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            ButtonWithTextColorChange(
-                text = stringResource(R.string.cancel),
-                onClick = onClick,
-                enableState = true,
-                contentColor = Blue007AFF
-            )
         }
     }
 }
@@ -343,6 +273,74 @@ fun CardForMainDailyRoutine(
 
     }
 
+}
+
+
+@Composable
+fun BottomSheetContentForDailyRoutine(
+    modifier: Modifier = Modifier,
+    listActivity: MutableList<TimeActivity>,
+    indexFromList: MutableState<Int>,
+    onClick: () -> Unit,
+) {
+
+    var stateForRename by rememberSaveable { mutableStateOf(listActivity[indexFromList.value].activity) }
+
+    val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
+
+    RenameDialog(
+        isDialogOpen = visible,
+        stateForRename = stateForRename,
+        onNameChange = { stateForRename = it }
+    )
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+
+    ) {
+        Column(
+            modifier = Modifier
+        ) {
+            ButtonWithTextColorChange(
+                text = stringResource(R.string.rename),
+                onClick = {
+                    visible.value = true
+                },
+                enableState = true,
+                shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
+                contentColor = Blue007AFF
+            )
+            ButtonWithTextColorChange(
+                text = stringResource(R.string.swap),
+                onClick = {},
+                enableState = true,
+                shape = RoundedCornerShape(0.dp),
+                contentColor = Blue007AFF
+            )
+            ButtonWithTextColorChange(
+                text = stringResource(R.string.delete),
+                onClick = {
+//                    if (listActivity.size == 0) {
+//                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+//                    } else {
+//                        listActivity.removeAt(0)
+//                    }
+                },
+                enableState = true,
+                shape = RoundedCornerShape(0.dp, 0.dp, 12.dp, 12.dp),
+                contentColor = Color.Red
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            ButtonWithTextColorChange(
+                text = stringResource(R.string.cancel),
+                onClick = onClick,
+                enableState = true,
+                contentColor = Blue007AFF
+            )
+        }
+    }
 }
 
 

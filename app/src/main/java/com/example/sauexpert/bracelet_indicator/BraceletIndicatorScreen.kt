@@ -1,10 +1,8 @@
 package com.example.sauexpert.bracelet_indicator
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
@@ -28,7 +26,11 @@ import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Gray4292
+import com.example.sauexpert.ui.theme.GrayBCBBC1
+import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.widgets.compose.MainButton
+import java.util.*
 
 
 @ExperimentalMaterialApi
@@ -151,7 +153,7 @@ fun TabViewWithRoundBorder(
     }
 
     val shape = RoundedCornerShape(10.dp)
-    val backgroundColor = Color(220, 220, 223)
+    val backgroundColor = Gray4292
 
     TabRow(
         selectedTabIndex = selectedTabIndex,
@@ -180,6 +182,11 @@ fun TabViewWithRoundBorder(
                         if (selectedTabIndex == index) Color.White else backgroundColor,
 //                        if (selectedTabIndex == index) RoundedCornerShape(10.dp) else RoundedCornerShape(0.dp),
                         shape = RoundedCornerShape(10.dp)
+                    )
+                    .clip(
+                        shape = RoundedCornerShape(
+                            size = 10.dp,
+                        ),
                     )
             ) {
                 Text(
@@ -265,6 +272,60 @@ fun TextWithBigValueAndDateForGraph(
         )
     }
 
+}
+
+
+@Composable
+fun CustomRadioGroup() {
+    val options = listOf(
+        stringResource(R.string.week),
+        stringResource(R.string.month),
+        stringResource(R.string.choose)
+    )
+    var selectedOption by remember {
+        mutableStateOf("")
+    }
+    val onSelectionChange = { text: String ->
+        selectedOption = text
+    }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        options.forEach { text ->
+            Row(
+                modifier = Modifier
+                    .padding(4.dp),
+            ) {
+                Text(
+                    text = text,
+                    style = MaterialTheme.typography.h6,
+                    fontSize = 13.sp,
+                    modifier = Modifier
+                        .border(width = 1.dp, color = Gray4292, shape = RoundedCornerShape(10.dp))
+                        .clip(
+                            shape = RoundedCornerShape(
+                                size = 10.dp,
+                            ),
+                        )
+                        .clickable {
+                            onSelectionChange(text)
+                        }
+                        .background(
+                            if (text == selectedOption) {
+                                Gray4292
+                            } else {
+                                Color.White
+                            }
+                        )
+                        .padding(
+                            vertical = 4.dp,
+                            horizontal = 12.dp,
+                        ),
+                )
+            }
+        }
+    }
 }
 
 
