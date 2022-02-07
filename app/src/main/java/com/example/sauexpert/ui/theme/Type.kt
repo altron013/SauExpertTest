@@ -93,3 +93,56 @@ val SauExpertTypography = Typography(
         fontSize = 22.sp
     ),
 )
+
+val SauExpertTypography2=Typography(
+    h4 = TextStyle(
+        fontFamily = SfpDisplay,
+        fontWeight = FontWeight.Bold,
+        fontSize = 34.sp
+    ),
+    h5 = TextStyle(
+        fontFamily = SfpPro,
+        fontSize = 12.sp
+    ),
+    h6 = TextStyle(
+        fontFamily = SfpPro,
+        fontWeight = FontWeight.W600,
+        fontSize = 20.sp
+    ),
+    subtitle1 = TextStyle(
+        fontFamily = SfpPro,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
+    ),
+    subtitle2 = TextStyle(
+        fontFamily = SfpPro,
+        fontWeight = FontWeight.Bold,
+        fontSize = 17.sp
+    ),
+    body1 = TextStyle(
+        fontFamily = SfpPro,
+        fontWeight = FontWeight.Normal,
+        fontSize = 17.sp,
+    ),
+    body2 = TextStyle(
+        fontFamily = SfpPro,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
+    ),
+    button = TextStyle(
+        fontFamily = SfpPro,
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp
+    ),
+    caption= TextStyle(
+        fontFamily = SfpDisplay,
+        fontWeight = FontWeight.Bold,
+        fontSize = 22.sp
+    ),
+    overline = TextStyle(
+        fontFamily = SfpDisplay,
+        fontSize = 22.sp
+    )
+)
+
+
