@@ -7,11 +7,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -85,6 +82,12 @@ fun HRVwithBarChart(
 fun HRVTitle(
     modifier: Modifier = Modifier
 ) {
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
+
+    var textDate = "18-20 ноября 2021"
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -100,12 +103,22 @@ fun HRVTitle(
                 style = MaterialTheme.typography.caption
             )
 
-            CustomRadioGroup()
+
+            CustomTextRadioGroup(
+
+            ) {
+                selectedTabIndex = it
+            }
+            when (selectedTabIndex) {
+                0 -> textDate = "18-20 ноября 2021"
+                1 -> textDate = "Ноября 2021"
+
+            }
         }
 
 
         Text(
-            text = "18-20 ноября 2021",
+            text = textDate,
             style = MaterialTheme.typography.h6,
             fontSize = 15.sp,
             color = Gray30
@@ -168,7 +181,7 @@ fun BarChartForHRV(
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
-                HRVData[listSize].positionOnX + 30.dp.toPx(),
+                HRVData[listSize].positionOnX + 38.dp.toPx(),
                 (10 + height).dp.toPx(),
                 paint
             )
@@ -255,54 +268,5 @@ fun InfoDialogForBarChartOfHRV(
                 }
             }
         }
-    }
-}
-
-
-@Composable
-fun AnalysisHRVSection(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(10.dp)
-            )
-    ) {
-        AnalysisStatFieldWithIconAtEnd(
-            title = stringResource(R.string.highest_value),
-            value = "18",
-            imageVector = Icons.Filled.FlashOn
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
-            title = stringResource(R.string.lowest_value),
-            value = "18"
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
-            title = stringResource(R.string.average_value),
-            value = "18"
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
-            title = stringResource(R.string.last_value),
-            value = "18"
-        )
     }
 }

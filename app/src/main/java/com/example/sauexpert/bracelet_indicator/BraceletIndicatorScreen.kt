@@ -1,8 +1,10 @@
 package com.example.sauexpert.bracelet_indicator
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
@@ -27,10 +29,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray4292
-import com.example.sauexpert.ui.theme.GrayBCBBC1
-import com.example.sauexpert.ui.theme.GrayF0F
 import com.example.sauexpert.widgets.compose.MainButton
-import java.util.*
 
 
 @ExperimentalMaterialApi
@@ -180,13 +179,10 @@ fun TabViewWithRoundBorder(
                 modifier = modifier
                     .background(
                         if (selectedTabIndex == index) Color.White else backgroundColor,
-//                        if (selectedTabIndex == index) RoundedCornerShape(10.dp) else RoundedCornerShape(0.dp),
-                        shape = RoundedCornerShape(10.dp)
+                        shape = shape
                     )
                     .clip(
-                        shape = RoundedCornerShape(
-                            size = 10.dp,
-                        ),
+                        shape = shape,
                     )
             ) {
                 Text(
@@ -218,7 +214,7 @@ fun TextWithIconForGraph(
         Icon(
             imageVector = Icons.Filled.Circle,
             contentDescription = "",
-            tint = color.copy(alpha = 0.25f),
+            tint = color,
             modifier = modifier.size(9.dp)
         )
 
@@ -276,29 +272,30 @@ fun TextWithBigValueAndDateForGraph(
 
 
 @Composable
-fun CustomRadioGroup() {
-    val options = listOf(
-        stringResource(R.string.week),
-        stringResource(R.string.month),
-        stringResource(R.string.choose)
+fun CustomTextRadioGroup(
+//    TextOfTab: List<TextOfTabData>,
+    onTabSelected: (selectedIndex: Int) -> Unit
+) {
+    val TextOfTab = listOf(
+        TextOfTabData(stringResource(R.string.week)),
+        TextOfTabData(stringResource(R.string.month)),
+        TextOfTabData(stringResource(R.string.choose))
     )
-    var selectedOption by remember {
-        mutableStateOf("")
-    }
-    val onSelectionChange = { text: String ->
-        selectedOption = text
+
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
     }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        options.forEach { text ->
+        TextOfTab.forEachIndexed { index, item ->
             Row(
                 modifier = Modifier
                     .padding(4.dp),
             ) {
                 Text(
-                    text = text,
+                    text = item.text,
                     style = MaterialTheme.typography.h6,
                     fontSize = 13.sp,
                     modifier = Modifier
@@ -309,14 +306,11 @@ fun CustomRadioGroup() {
                             ),
                         )
                         .clickable {
-                            onSelectionChange(text)
+                            selectedTabIndex = index
+                            onTabSelected(index)
                         }
                         .background(
-                            if (text == selectedOption) {
-                                Gray4292
-                            } else {
-                                Color.White
-                            }
+                            if (selectedTabIndex == index) Gray4292 else Color.White
                         )
                         .padding(
                             vertical = 4.dp,
