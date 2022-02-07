@@ -279,7 +279,10 @@ fun CustomTextRadioGroup(
     val TextOfTab = listOf(
         TextOfTabData(stringResource(R.string.week)),
         TextOfTabData(stringResource(R.string.month)),
-        TextOfTabData(stringResource(R.string.choose))
+        TextOfTabData(
+            stringResource(R.string.choose),
+            painter = painterResource(R.drawable.ic_calendar_icon)
+        )
     )
 
     var selectedTabIndex by remember {
@@ -291,31 +294,43 @@ fun CustomTextRadioGroup(
     ) {
         TextOfTab.forEachIndexed { index, item ->
             Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(4.dp),
+                    .padding(start = 8.dp)
+                    .border(width = 1.dp, color = Gray4292, shape = RoundedCornerShape(10.dp))
+                    .clip(
+                        shape = RoundedCornerShape(
+                            size = 10.dp,
+                        ),
+                    )
+                    .clickable {
+                        selectedTabIndex = index
+                        onTabSelected(index)
+                    }
+                    .background(
+                        if (selectedTabIndex == index) Gray4292 else Color.White
+                    )
+                    .padding(
+                        vertical = 4.dp,
+                        horizontal = 12.dp,
+                    )
             ) {
+
+                item.painter?.let {
+                    Icon(
+                        painter = it,
+                        contentDescription = null,
+                        tint = Gray30,
+                        modifier = Modifier.size(14.dp)
+                    )
+
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
+
                 Text(
                     text = item.text,
                     style = MaterialTheme.typography.h6,
                     fontSize = 13.sp,
-                    modifier = Modifier
-                        .border(width = 1.dp, color = Gray4292, shape = RoundedCornerShape(10.dp))
-                        .clip(
-                            shape = RoundedCornerShape(
-                                size = 10.dp,
-                            ),
-                        )
-                        .clickable {
-                            selectedTabIndex = index
-                            onTabSelected(index)
-                        }
-                        .background(
-                            if (selectedTabIndex == index) Gray4292 else Color.White
-                        )
-                        .padding(
-                            vertical = 4.dp,
-                            horizontal = 12.dp,
-                        ),
                 )
             }
         }
