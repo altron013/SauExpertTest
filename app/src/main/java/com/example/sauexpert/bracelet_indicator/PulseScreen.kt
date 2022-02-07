@@ -67,7 +67,7 @@ fun PulsewithBarChart(
                 PulseData(positionOnX = 380f, pulseInMinuteAverage = 180f, time = "06:00"),
                 PulseData(positionOnX = 490f, pulseInMinuteAverage = 220f, time = "08:00"),
                 PulseData(positionOnX = 600f, pulseInMinuteAverage = 240f, time = "10:00"),
-//                PulseData(positionOnX = 590f, pulseInMinuteAverage = 240f, time = ""),
+
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("280"),

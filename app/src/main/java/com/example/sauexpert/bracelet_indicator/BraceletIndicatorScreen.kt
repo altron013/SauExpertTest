@@ -12,6 +12,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -342,11 +343,11 @@ fun CustomTextRadioGroup(
 fun AnalysisField(
     title: String,
     value: String,
-    time: String? = null,
+    dateData: String? = null,
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(11.dp)
+        modifier = modifier.padding(vertical = 11.dp, horizontal = 16.dp)
     ) {
 
         Row(
@@ -367,7 +368,7 @@ fun AnalysisField(
 
         }
 
-        time?.let {
+        dateData?.let {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
@@ -383,12 +384,12 @@ fun AnalysisField(
 fun AnalysisFieldWithIconAtBeg(
     title: String,
     value: String,
-    time: String? = null,
+    dateData: String? = null,
     imageVector: ImageVector,
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(11.dp)
+        modifier = modifier.padding(vertical = 11.dp, horizontal = 16.dp)
     ) {
 
         Row(
@@ -419,7 +420,7 @@ fun AnalysisFieldWithIconAtBeg(
             )
 
         }
-        time?.let {
+        dateData?.let {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
@@ -435,7 +436,7 @@ fun AnalysisFieldWithIconAtBeg(
 fun AnalysisFieldWithIconAtEnd(
     title: String,
     value: String,
-    time: String? = null,
+    dateData: String? = null,
     imageVector: ImageVector,
     modifier: Modifier = Modifier
 ) {
@@ -462,7 +463,7 @@ fun AnalysisFieldWithIconAtEnd(
     )
 
     Column(
-        modifier = modifier.padding(11.dp)
+        modifier = modifier.padding(vertical = 11.dp, horizontal = 16.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -484,7 +485,7 @@ fun AnalysisFieldWithIconAtEnd(
 
         }
 
-        time?.let {
+        dateData?.let {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
@@ -494,6 +495,56 @@ fun AnalysisFieldWithIconAtEnd(
             )
         }
 
+    }
+}
+
+
+@Composable
+fun RangeCustomizeSection(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .clip(
+                shape = RoundedCornerShape(10.dp)
+            )
+            .clickable {}
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(19.dp)
+
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_gear),
+                contentDescription = "",
+                tint = Color.Black,
+                modifier = modifier.size(20.dp)
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Text(
+                text = stringResource(R.string.range_customize),
+                style = MaterialTheme.typography.body1,
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowRight,
+                contentDescription = "",
+                tint = Color.Black,
+                modifier = modifier.size(20.dp)
+            )
+
+        }
     }
 }
 

@@ -8,10 +8,12 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FlashOn
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -43,6 +46,8 @@ fun PressureScreen() {
         PressurewithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
         AnalysisPressureSection()
+        Spacer(modifier = Modifier.height(16.dp))
+        RangeCustomizeSection()
     }
 }
 
@@ -324,7 +329,7 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
         AnalysisFieldWithIconAtEnd(
             title = stringResource(R.string.highest_value),
             value = "18",
-            time = "16:14",
+            dateData = "19 Декабря в 23:13",
             imageVector = Icons.Filled.FlashOn
         )
         Divider(
@@ -336,9 +341,9 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
         AnalysisField(
             title = stringResource(R.string.lowest_value),
             value = "18",
-            time = "16:14",
+            dateData = "19 Декабря в 23:13",
 
-        )
+            )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
             thickness = 1.dp,
@@ -354,7 +359,7 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
         AnalysisField(
             title = stringResource(R.string.last_value),
             value = "18",
-            time = "16:14",
+            dateData = "20 Декабря в 23:13",
         )
     }
 }
