@@ -91,18 +91,20 @@ fun BraceletIndicatorScreen() {
             1 -> Sp02Screen()
             2 -> Box(
                 modifier = Modifier.fillMaxSize()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .padding(horizontal = 16.dp)
             ) {
                 HRVScreen()
             }
             3 -> Box(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
+                modifier = Modifier.fillMaxSize()
+                    .padding(horizontal = 16.dp)
 
             ) {
                 PressureScreen()
             }
             4 -> Box(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
+                modifier = Modifier.fillMaxSize()
+                    .padding(horizontal = 16.dp)
             ) {
                 PulseScreen()
             }

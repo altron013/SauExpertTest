@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -63,16 +64,20 @@ fun Sp02Screen() {
                 .background(
                     color = Gray30.copy(alpha = 0.19f)
                 )
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                .padding(horizontal =  16.dp)
         ) {
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
-                    .padding(bottom = 70.dp, top = 24.dp)
+                    .padding(top = 24.dp, bottom = 10.dp)
             ) {
                 SP02withLineGraph()
+                Spacer(modifier = Modifier.height(24.dp))
+
+
+                AnalysisSp02Section()
                 Spacer(modifier = Modifier.height(24.dp))
 
                 AnalysisSOASTitle(
@@ -85,17 +90,9 @@ fun Sp02Screen() {
 
                 Spacer(modifier = Modifier.height(12.dp))
                 AnalysisSOASSection()
-                Spacer(modifier = Modifier.height(24.dp))
-                AnalysisSp02Section()
+                Spacer(modifier = Modifier.height(16.dp))
+                RangeCustomizeSection()
             }
-
-            MainButton(
-                text = stringResource(id = R.string.range_customize),
-                onClick = { /*TODO*/ },
-                enableState = true,
-                modifier = Modifier.fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-            )
 
         }
 
@@ -120,15 +117,23 @@ fun SP02withLineGraph(
         Spacer(modifier = Modifier.height(40.dp))
         LineChartForSp02(
             Sp02Data = listOf(
-                Sp02Data(positionOnX = 0f, positionOnY = 0f),
-                Sp02Data(positionOnX = 80f, positionOnY = 100f, time = "00:00"),
-                Sp02Data(positionOnX = 160f, positionOnY = 30f),
-                Sp02Data(positionOnX = 240f, positionOnY = 200f, time = "02:00", sleepApnea = true),
-                Sp02Data(positionOnX = 320f, positionOnY = 120f),
-                Sp02Data(positionOnX = 400f, positionOnY = 30f),
-                Sp02Data(positionOnX = 480f, positionOnY = 280f, sleepApnea = true),
-                Sp02Data(positionOnX = 560f, positionOnY = 100f),
-                Sp02Data(positionOnX = 640f, positionOnY = 40f),
+                Sp02Data(positionOnX = 0f, positionOnY = 0f, dateName = "16"),
+                Sp02Data(
+                    positionOnX = 110f,
+                    positionOnY = 100f,
+                    dateName = "17",
+                    sleepApnea = true
+                ),
+                Sp02Data(positionOnX = 210f, positionOnY = 30f, dateName = "18"),
+                Sp02Data(
+                    positionOnX = 310f,
+                    positionOnY = 200f,
+                    dateName = "19",
+                    sleepApnea = true
+                ),
+                Sp02Data(positionOnX = 410f, positionOnY = 120f, dateName = "20"),
+                Sp02Data(positionOnX = 510f, positionOnY = 30f, dateName = "21"),
+                Sp02Data(positionOnX = 610f, positionOnY = 280f, dateName = "22"),
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("100"),
@@ -140,7 +145,19 @@ fun SP02withLineGraph(
 
         )
         Spacer(modifier = Modifier.height(20.dp))
-        SP02Indicator()
+
+        TextWithIconForGraph(
+            color = Color.Green.copy(alpha = 0.25f),
+            text = stringResource(id = R.string.oxygen_level)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        TextWithIconForGraph(
+            color = Color.Red,
+            text = stringResource(id = R.string.sleep_apnea)
+        )
+//        SP02Indicator()
 
     }
 }
@@ -149,23 +166,42 @@ fun SP02withLineGraph(
 fun SP02Title(
     modifier: Modifier = Modifier
 ) {
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
+
+    var textDate = "18-20 ноября 2021"
+
     Column(
         modifier = modifier
             .fillMaxWidth()
     ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(id = R.string.sp02),
+                style = MaterialTheme.typography.caption
+            )
+
+
+            CustomTextRadioGroup() {
+                selectedTabIndex = it
+            }
+            when (selectedTabIndex) {
+                0 -> textDate = "18-20 ноября 2021"
+                1 -> textDate = "Ноября 2021"
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
         Text(
-            text = stringResource(id = R.string.sp02),
-            style = MaterialTheme.typography.caption
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        TextWithIconForGraph(color = Color.Green, text = stringResource(id = R.string.oxygen_level))
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Text(
-            text = "18-20 ноября 2021",
+            text = textDate,
             style = MaterialTheme.typography.h6,
             fontSize = 15.sp,
             color = Gray30
@@ -181,11 +217,16 @@ fun LineChartForSp02(
 ) {
     val scale by remember { mutableStateOf(1f) }
     val listSize = Sp02Data.size - 1
+    val heightForGraph = (ListNumberData.size * 35).dp
+
     val path = Path()
+
+
     for ((index, item) in Sp02Data.withIndex()) {
         when (index) {
             0 -> {
-                path.moveTo(item.positionOnX * scale, item.positionOnY)
+                path.moveTo(0f * scale, 0f)
+                path.lineTo(item.positionOnX * scale, item.positionOnY)
             }
             listSize -> {
                 path.lineTo(item.positionOnX * scale, item.positionOnY)
@@ -202,7 +243,7 @@ fun LineChartForSp02(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(150.dp)
+            .height(heightForGraph)
             .background(Color.White)
     ) {
         var height = 0
@@ -222,12 +263,12 @@ fun LineChartForSp02(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${i.number}",
-                320.dp.toPx(),
-                10.dp.toPx() + height.dp.toPx(),
+                Sp02Data[listSize].positionOnX + 38.dp.toPx(),
+                height.dp.toPx(),
                 paint
             )
 
-            height += 34
+            height += 35
         }
 
 
@@ -246,7 +287,7 @@ fun LineChartForSp02(
                 color = Color.Green.copy(alpha = 0.1f),
                 size = Size(
                     width = Sp02Data[listSize].positionOnX,
-                    height = (height - 34).dp.toPx()
+                    height = (height - 35).dp.toPx()
                 )
             )
         }
@@ -262,6 +303,12 @@ fun LineChartForSp02(
 
             if (Sp02Data[i].sleepApnea) {
                 drawCircle(
+                    color = Color.White,
+                    radius = 13f,
+                    center = Offset(Sp02Data[i].positionOnX, Sp02Data[i].positionOnY - 1f)
+                )
+
+                drawCircle(
                     color = Color.Red,
                     radius = 10f,
                     center = Offset(Sp02Data[i].positionOnX, Sp02Data[i].positionOnY - 1f)
@@ -270,52 +317,19 @@ fun LineChartForSp02(
             }
 
             drawContext.canvas.nativeCanvas.drawText(
-                "${Sp02Data[i].time}",
+                "${Sp02Data[i].dateName}",
                 Sp02Data[i].positionOnX,
-                (height - 14).dp.toPx(),
+                (height - 15).dp.toPx(),
                 paint
             )
         }
-    }
-}
 
-@Composable
-fun SP02Indicator(modifier: Modifier = Modifier) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth()
-    ) {
-
-        Icon(
-            painter = painterResource(R.drawable.ic_liner_indicator),
-            contentDescription = "",
-            tint = Color.Green,
-            modifier = modifier.size(width = 16.dp, height = 4.dp)
+        drawContext.canvas.nativeCanvas.drawText(
+            "${Sp02Data[listSize].dateName}",
+            Sp02Data[listSize].positionOnX,
+            (height - 15).dp.toPx(),
+            paint
         )
-
-        Spacer(modifier = Modifier.width(2.dp))
-
-        Text(
-            text = stringResource(R.string.sp02),
-            style = MaterialTheme.typography.button,
-        )
-
-        Spacer(modifier = Modifier.width(21.dp))
-
-        Icon(
-            painter = painterResource(R.drawable.ic_liner_indicator),
-            contentDescription = "",
-            tint = Color.Red,
-            modifier = modifier.size(width = 16.dp, height = 4.dp)
-        )
-
-        Spacer(modifier = Modifier.width(2.dp))
-
-        Text(
-            text = stringResource(R.string.sleep_apnea),
-            style = MaterialTheme.typography.button,
-        )
-
     }
 }
 

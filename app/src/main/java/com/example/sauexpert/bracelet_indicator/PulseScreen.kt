@@ -64,13 +64,13 @@ fun PulsewithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         LineChartForPulse(
             PulseData = listOf(
-                PulseData(positionOnX = 50f, pulseInMinuteAverage = 200f, time = "16"),
-                PulseData(positionOnX = 150f, pulseInMinuteAverage = 370f, time = "17"),
-                PulseData(positionOnX = 250f, pulseInMinuteAverage = 190f, time = "18"),
-                PulseData(positionOnX = 350f, pulseInMinuteAverage = 180f, time = "19"),
-                PulseData(positionOnX = 450f, pulseInMinuteAverage = 220f, time = "20"),
-                PulseData(positionOnX = 550f, pulseInMinuteAverage = 240f, time = "21"),
-                PulseData(positionOnX = 650f, pulseInMinuteAverage = 270f, time = "22"),
+                PulseData(positionOnX = 50f, pulseInMinuteAverage = 200f, dateName = "16"),
+                PulseData(positionOnX = 150f, pulseInMinuteAverage = 370f, dateName = "17"),
+                PulseData(positionOnX = 250f, pulseInMinuteAverage = 190f, dateName = "18"),
+                PulseData(positionOnX = 350f, pulseInMinuteAverage = 180f, dateName = "19"),
+                PulseData(positionOnX = 450f, pulseInMinuteAverage = 220f, dateName = "20"),
+                PulseData(positionOnX = 550f, pulseInMinuteAverage = 240f, dateName = "21"),
+                PulseData(positionOnX = 650f, pulseInMinuteAverage = 270f, dateName = "22"),
 
                 ),
             ListNumberData = listOf(
@@ -226,7 +226,7 @@ fun LineChartForPulse(
             )
 
             drawContext.canvas.nativeCanvas.drawText(
-                "${i.time}",
+                "${i.dateName}",
                 i.positionOnX,
                 (height - 35).dp.toPx(),
                 paint
@@ -279,7 +279,7 @@ fun InfoDialogForBarChartOfPulse(
                     } else {
                         Text(
                             text = "${itemID.value} | ${dataList[itemID.value].pulseInMinuteAverage} | " +
-                                    "${dataList[itemID.value].time}",
+                                    "${dataList[itemID.value].dateName}",
                             style = MaterialTheme.typography.h5,
                             modifier = modifier
                                 .align(alignment = Alignment.Center)
