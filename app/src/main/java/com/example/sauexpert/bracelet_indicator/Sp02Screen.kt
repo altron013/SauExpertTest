@@ -358,7 +358,7 @@ fun AnalysisSOASSection(modifier: Modifier = Modifier) {
                 )
         ) {
 
-            AnalysisStatFieldWithIconAtBeg(
+            AnalysisFieldWithIconAtBeg(
                 title = stringResource(R.string.severe_degree),
                 value = "18",
                 imageVector = Icons.Filled.Circle
@@ -369,14 +369,14 @@ fun AnalysisSOASSection(modifier: Modifier = Modifier) {
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisStatField(title = stringResource(R.string.sleep_apnea_case), value = "18")
+            AnalysisField(title = stringResource(R.string.sleep_apnea_case), value = "18")
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisStatField(title = stringResource(R.string.hypopnea_case), value = "18")
+            AnalysisField(title = stringResource(R.string.hypopnea_case), value = "18")
 
         }
 
@@ -470,28 +470,28 @@ fun AnalysisSp02Section(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(10.dp)
                 )
         ) {
-            AnalysisStatField(title = stringResource(R.string.sp02_average), value = "18")
+            AnalysisField(title = stringResource(R.string.sp02_average), value = "18")
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisStatField(title = stringResource(R.string.breathing_rate), value = "18")
+            AnalysisField(title = stringResource(R.string.breathing_rate), value = "18")
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisStatField(title = stringResource(R.string.hypoxia_case), value = "18")
+            AnalysisField(title = stringResource(R.string.hypoxia_case), value = "18")
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisStatField(title = stringResource(R.string.cardiac_pressure), value = "18")
+            AnalysisField(title = stringResource(R.string.cardiac_pressure), value = "18")
 
         }
 

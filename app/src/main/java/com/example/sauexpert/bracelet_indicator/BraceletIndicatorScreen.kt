@@ -296,7 +296,7 @@ fun CustomTextRadioGroup(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(start = 8.dp)
+                    .padding(end = 8.dp)
                     .border(width = 1.dp, color = Gray4292, shape = RoundedCornerShape(10.dp))
                     .clip(
                         shape = RoundedCornerShape(
@@ -339,73 +339,103 @@ fun CustomTextRadioGroup(
 
 
 @Composable
-fun AnalysisStatField(
+fun AnalysisField(
     title: String,
     value: String,
+    time: String? = null,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(11.dp)
+    Column(
+        modifier = modifier.padding(11.dp)
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.body1,
-        )
 
-        Text(
-            text = value,
-            style = MaterialTheme.typography.body1,
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.body1,
+            )
 
+            Text(
+                text = value,
+                style = MaterialTheme.typography.body1,
+            )
+
+        }
+
+        time?.let {
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = it,
+                style = MaterialTheme.typography.h5,
+                color = Gray30
+            )
+        }
     }
 }
 
 @Composable
-fun AnalysisStatFieldWithIconAtBeg(
+fun AnalysisFieldWithIconAtBeg(
     title: String,
     value: String,
+    time: String? = null,
     imageVector: ImageVector,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(11.dp)
+    Column(
+        modifier = modifier.padding(11.dp)
     ) {
-        Icon(
-            imageVector = imageVector,
-            contentDescription = "",
-            tint = Color.Red,
-            modifier = modifier.size(12.dp)
-        )
 
-        Spacer(modifier = Modifier.width(3.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            Icon(
+                imageVector = imageVector,
+                contentDescription = "",
+                tint = Color.Red,
+                modifier = modifier.size(12.dp)
+            )
 
-        Text(
-            text = title,
-            style = MaterialTheme.typography.body1,
-        )
+            Spacer(modifier = Modifier.width(3.dp))
 
-        Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = title,
+                style = MaterialTheme.typography.body1,
+            )
 
-        Text(
-            text = value,
-            style = MaterialTheme.typography.body1,
-        )
+            Spacer(modifier = Modifier.weight(1f))
 
+            Text(
+                text = value,
+                style = MaterialTheme.typography.body1,
+            )
+
+        }
+        time?.let {
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = it,
+                style = MaterialTheme.typography.h5,
+                color = Gray30
+            )
+        }
     }
 }
 
 @Composable
-fun AnalysisStatFieldWithIconAtEnd(
+fun AnalysisFieldWithIconAtEnd(
     title: String,
     value: String,
+    time: String? = null,
     imageVector: ImageVector,
     modifier: Modifier = Modifier
 ) {
@@ -431,25 +461,38 @@ fun AnalysisStatFieldWithIconAtEnd(
         )
     )
 
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(11.dp)
+    Column(
+        modifier = modifier.padding(11.dp)
     ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
 
-        Text(
-            text = text,
-            style = MaterialTheme.typography.body1,
-            inlineContent = inlineContent
-        )
+            Text(
+                text = text,
+                style = MaterialTheme.typography.body1,
+                inlineContent = inlineContent
+            )
 
-        Text(
-            text = value,
-            style = MaterialTheme.typography.body1,
-        )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.body1,
+            )
+
+        }
+
+        time?.let {
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = it,
+                style = MaterialTheme.typography.h5,
+                color = Gray30
+            )
+        }
 
     }
 }

@@ -30,6 +30,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun PressureScreen() {
@@ -64,50 +65,49 @@ fun PressurewithBarChart(
         BarChartForPressure(
             PressureData = listOf(
                 PressureData(
-                    positionOnX = 15f,
-                    pressureInAverage = 200f,
-                    dateName = "16.12",
-                    startPoint = 250f
-                ),
-                PressureData(
-                    positionOnX = 110f,
-                    pressureInAverage = 300f,
-                    dateName = "17.12",
+                    positionOnX = 10f,
+                    pressureInAverage = 150f,
+                    dateName = "16",
                     startPoint = 200f
                 ),
                 PressureData(
-                    positionOnX = 205f,
+                    positionOnX = 110f,
+                    pressureInAverage = 230f,
+                    dateName = "17",
+                    startPoint = 170f
+                ),
+                PressureData(
+                    positionOnX = 210f,
                     pressureInAverage = 190f,
-                    dateName = "18.12",
-                    startPoint = 250f
+                    dateName = "18",
+                    startPoint = 190f
                 ),
                 PressureData(
-                    positionOnX = 300f,
+                    positionOnX = 310f,
                     pressureInAverage = 180f,
-                    dateName = "19.12",
-                    startPoint = 250f
+                    dateName = "19",
+                    startPoint = 150f
                 ),
                 PressureData(
-                    positionOnX = 395f,
+                    positionOnX = 410f,
                     pressureInAverage = 220f,
-                    dateName = "20.12",
-                    startPoint = 230f
+                    dateName = "20",
+                    startPoint = 130f
                 ),
                 PressureData(
-                    positionOnX = 490f,
+                    positionOnX = 510f,
                     pressureInAverage = 240f,
-                    dateName = "21.12",
-                    startPoint = 250f
+                    dateName = "21",
+                    startPoint = 150f
                 ),
                 PressureData(
-                    positionOnX = 585f,
+                    positionOnX = 610f,
                     pressureInAverage = 50f,
-                    dateName = "22.12",
+                    dateName = "22",
                     startPoint = 280f
                 )
             ),
             ListNumberData = listOf(
-                ListNumberOfYForTableData("240"),
                 ListNumberOfYForTableData("200"),
                 ListNumberOfYForTableData("160"),
                 ListNumberOfYForTableData("120"),
@@ -123,6 +123,12 @@ fun PressurewithBarChart(
 fun PressureTitle(
     modifier: Modifier = Modifier
 ) {
+    var selectedTabIndex by remember {
+        mutableStateOf(1)
+    }
+
+    var textDate = "18-20 ноября 2021"
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -132,11 +138,26 @@ fun PressureTitle(
             style = MaterialTheme.typography.caption
         )
 
-        TextWithBigValueAndDateForGraph(
-            textValue = 150,
-            text = stringResource(R.string.mmhg_average),
-            textDate = "18-20 ноября 2021"
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = textDate,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
+            color = Gray30
         )
+
+        Spacer(modifier = Modifier.height(14.dp))
+
+
+        CustomTextRadioGroup() {
+            selectedTabIndex = it
+        }
+        when (selectedTabIndex) {
+            0 -> textDate = "18-20 ноября 2021"
+            1 -> textDate = "Ноября 2021"
+
+        }
     }
 }
 
@@ -151,7 +172,7 @@ fun BarChartForPressure(
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
-
+    val listSize = PressureData.size - 1
 
     val heightPre by animateFloatAsState(
         targetValue = if (start) 1f else 0f,
@@ -187,7 +208,6 @@ fun BarChartForPressure(
             }
     ) {
         var height = 0
-        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -195,17 +215,10 @@ fun BarChartForPressure(
         }
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(x = 0f, y = height.dp.toPx()),
-                end = Offset(x = 780f, y = height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
-                320.dp.toPx(),
-                (10 + height).dp.toPx(),
+                PressureData[listSize].positionOnX + 38.dp.toPx(),
+                height.dp.toPx(),
                 paint
             )
 
@@ -214,57 +227,33 @@ fun BarChartForPressure(
 
         start = true
         for (p in PressureData) {
-            drawLine(
-                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-                end = Offset(wight.dp.toPx(), 0f),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
-
-//            drawRect(
-//                color = p.colorFocus,
-//                topLeft = Offset(
-//                    x = p.positionOnX,
-//                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.pressureInAverage) * heightPre
-//                ),
-//                size = Size(
-//                    width = 75f,
-//                    height = ((height - 35).dp.toPx() - p.pressureInAverage) * heightPre
-//                )
-//            )
-
             drawRect(
                 color = p.colorFocus,
-                topLeft = Offset(p.positionOnX, p.startPoint * heightPre),
-                size = Size(24.dp.toPx(), p.pressureInAverage * heightPre)
+                topLeft = Offset(
+                    x = p.positionOnX,
+                    y = p.startPoint * heightPre
+                ),
+                size = Size(
+                    width = 8.dp.toPx(),
+                    height = p.pressureInAverage * heightPre
+                )
 
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 32f,
+                p.positionOnX + 8,
                 (height - 15).dp.toPx(),
                 paint
             )
-            wight += 36
-
         }
-
-        drawLine(
-            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-            end = Offset(wight.dp.toPx(), 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
     }
 }
 
 private fun identifyClickItemForPressure(dataList: List<PressureData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX
-            && x < dataList.positionOnX + 70
+            && x < dataList.positionOnX + 20
             && y > dataList.startPoint
             && y < dataList.pressureInAverage + dataList.startPoint
         ) {
@@ -276,7 +265,7 @@ private fun identifyClickItemForPressure(dataList: List<PressureData>, x: Float,
 
 private fun ResetColorInsideDataClassForPressure(dataList: List<PressureData>) {
     for (p in dataList) {
-        p.colorFocus = Color(250, 218, 221)
+        p.colorFocus = Gray50
     }
 }
 
@@ -332,9 +321,10 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
                 shape = RoundedCornerShape(10.dp)
             )
     ) {
-        AnalysisStatFieldWithIconAtEnd(
+        AnalysisFieldWithIconAtEnd(
             title = stringResource(R.string.highest_value),
             value = "18",
+            time = "16:14",
             imageVector = Icons.Filled.FlashOn
         )
         Divider(
@@ -343,9 +333,11 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.lowest_value),
-            value = "18"
+            value = "18",
+            time = "16:14",
+
         )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
@@ -353,19 +345,16 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
-            title = stringResource(R.string.average_value),
-            value = "18"
-        )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
             thickness = 1.dp,
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.last_value),
-            value = "18"
+            value = "18",
+            time = "16:14",
         )
     }
 }

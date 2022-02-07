@@ -104,9 +104,7 @@ fun HRVTitle(
             )
 
 
-            CustomTextRadioGroup(
-
-            ) {
+            CustomTextRadioGroup() {
                 selectedTabIndex = it
             }
             when (selectedTabIndex) {
@@ -115,6 +113,8 @@ fun HRVTitle(
 
             }
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
 
         Text(
@@ -182,7 +182,7 @@ fun BarChartForHRV(
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
                 HRVData[listSize].positionOnX + 38.dp.toPx(),
-                (10 + height).dp.toPx(),
+                height.dp.toPx(),
                 paint
             )
 
@@ -217,7 +217,10 @@ fun BarChartForHRV(
 
 private fun identifyClickItem(dataList: List<HRVData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX && x < dataList.positionOnX + 20 && y > dataList.hourOfHRV) {
+        if (x > dataList.positionOnX
+            && x < dataList.positionOnX + 20
+            && y > dataList.hourOfHRV
+        ) {
             return index
         }
     }

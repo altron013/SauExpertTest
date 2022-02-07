@@ -295,7 +295,7 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
                 shape = RoundedCornerShape(10.dp)
             )
     ) {
-        AnalysisStatFieldWithIconAtEnd(
+        AnalysisFieldWithIconAtEnd(
             title = stringResource(R.string.highest_value),
             value = "18",
             imageVector = Icons.Filled.FlashOn
@@ -306,7 +306,7 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.lowest_value),
             value = "18"
         )
@@ -316,7 +316,7 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.average_value),
             value = "18"
         )
@@ -326,7 +326,7 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.last_value),
             value = "18"
         )

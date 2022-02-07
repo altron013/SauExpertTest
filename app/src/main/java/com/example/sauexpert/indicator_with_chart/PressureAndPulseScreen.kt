@@ -29,10 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
-import com.example.sauexpert.bracelet_indicator.AnalysisStatField
-import com.example.sauexpert.bracelet_indicator.AnalysisStatFieldWithIconAtEnd
-import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
-import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
+import com.example.sauexpert.bracelet_indicator.*
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
 import com.example.sauexpert.model.PulseData
@@ -405,7 +402,7 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
                 shape = RoundedCornerShape(10.dp)
             )
     ) {
-        AnalysisStatFieldWithIconAtEnd(
+        AnalysisFieldWithIconAtEnd(
             title = stringResource(R.string.highest_value),
             value = "18",
             imageVector = Icons.Filled.FlashOn
@@ -416,7 +413,7 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.lowest_value),
             value = "18"
         )
@@ -426,7 +423,7 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.average_value),
             value = "18"
         )
@@ -436,7 +433,7 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.last_value),
             value = "18"
         )
