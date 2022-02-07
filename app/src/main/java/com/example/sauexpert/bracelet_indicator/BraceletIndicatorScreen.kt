@@ -276,17 +276,9 @@ fun TextWithBigValueAndDateForGraph(
 
 @Composable
 fun CustomTextRadioGroup(
-//    TextOfTab: List<TextOfTabData>,
+    TextOfTab: List<TextOfTabData>,
     onTabSelected: (selectedIndex: Int) -> Unit
 ) {
-    val TextOfTab = listOf(
-        TextOfTabData(stringResource(R.string.week)),
-        TextOfTabData(stringResource(R.string.month)),
-        TextOfTabData(
-            stringResource(R.string.choose),
-            painter = painterResource(R.drawable.ic_calendar_icon)
-        )
-    )
 
     var selectedTabIndex by remember {
         mutableStateOf(0)

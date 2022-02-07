@@ -23,6 +23,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -31,8 +32,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.model.HRVData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.SleepData
+import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 
 
@@ -52,29 +55,7 @@ fun SleepScreen() {
                 )
                 .padding(16.dp)
         ) {
-            SleepTitle()
-            Spacer(modifier = Modifier.height(12.dp))
-            BarChartForSleep(
-                SleepData = listOf(
-                    SleepData(positionOnX = 27f, hourOfSleep = 140f, dateName = "16.12"),
-                    SleepData(positionOnX = 127f, hourOfSleep = 200f, dateName = "17.12"),
-                    SleepData(positionOnX = 227f, hourOfSleep = 190f, dateName = "18.12"),
-                    SleepData(positionOnX = 327f, hourOfSleep = 180f, dateName = "19.12"),
-                    SleepData(positionOnX = 427f, hourOfSleep = 220f, dateName = "20.12"),
-                    SleepData(positionOnX = 527f, hourOfSleep = 510f, dateName = "21.12"),
-                    SleepData(positionOnX = 627f, hourOfSleep = 370f, dateName = "22.12")
-                ),
-                ListNumberData = listOf(
-                    ListNumberOfYForTableData("12"),
-                    ListNumberOfYForTableData("10"),
-                    ListNumberOfYForTableData("8"),
-                    ListNumberOfYForTableData("6"),
-                    ListNumberOfYForTableData("4"),
-                    ListNumberOfYForTableData("2"),
-                    ListNumberOfYForTableData("0"),
-                )
-
-            )
+            SleepwithBarChart()
             Spacer(modifier = Modifier.height(20.dp))
             SleepWakeUpStatistics(textValue = 3)
             Spacer(modifier = Modifier.height(16.dp))
@@ -90,56 +71,95 @@ fun SleepScreen() {
     }
 }
 
+
 @Composable
-fun SleepTitle(
+fun SleepwithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(10.dp)
+            ).padding(16.dp)
     ) {
-        Text(
-            text = stringResource(id = R.string.sleep),
-            style = MaterialTheme.typography.caption
-        )
-
+        SleepTitle()
         Spacer(modifier = Modifier.height(12.dp))
+        BarChartForSleep(
+            SleepData = listOf(
+                SleepData(positionOnX = 27f, hourOfSleep = 140f, dateName = "16.12"),
+                SleepData(positionOnX = 127f, hourOfSleep = 200f, dateName = "17.12"),
+                SleepData(positionOnX = 227f, hourOfSleep = 190f, dateName = "18.12"),
+                SleepData(positionOnX = 327f, hourOfSleep = 180f, dateName = "19.12"),
+                SleepData(positionOnX = 427f, hourOfSleep = 220f, dateName = "20.12"),
+                SleepData(positionOnX = 527f, hourOfSleep = 510f, dateName = "21.12"),
+                SleepData(positionOnX = 627f, hourOfSleep = 370f, dateName = "22.12")
+            ),
+            ListNumberData = listOf(
+                ListNumberOfYForTableData("12"),
+                ListNumberOfYForTableData("10"),
+                ListNumberOfYForTableData("8"),
+                ListNumberOfYForTableData("6"),
+                ListNumberOfYForTableData("4"),
+                ListNumberOfYForTableData("2"),
+                ListNumberOfYForTableData("0"),
+            )
 
-        TextWithIconForGraph(color = Color.Red, text = stringResource(id = R.string.sleep_duration))
-
-        Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Black,
-                        fontSize = 34.sp
-                    )
-                ) {
-                    append("6")
-                }
-                append("ч ")
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Black,
-                        fontSize = 34.sp
-                    )
-                ) {
-                    append("36")
-                }
-                append("мин")
-            },
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
-            color = Gray30
         )
+    }
+}
+
+@Composable
+fun SleepTitle(
+    modifier: Modifier = Modifier
+) {
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
+
+    var textDate = "18-20 ноября 2021"
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(id = R.string.sleep),
+                style = MaterialTheme.typography.caption
+            )
+
+
+            CustomTextRadioGroup(
+                TextOfTab = listOf(
+                    TextOfTabData(stringResource(R.string.week)),
+                    TextOfTabData(stringResource(R.string.month)),
+                )
+            ) {
+                selectedTabIndex = it
+            }
+            when (selectedTabIndex) {
+                0 -> textDate = "18-20 ноября 2021"
+                1 -> textDate = "Ноября 2021"
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
 
         Text(
-            text = "18-20 ноября 2021",
+            text = textDate,
             style = MaterialTheme.typography.h6,
             fontSize = 15.sp,
             color = Gray30
         )
-
     }
 
 }

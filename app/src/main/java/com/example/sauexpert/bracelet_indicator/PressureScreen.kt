@@ -32,6 +32,7 @@ import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
+import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray50
 
@@ -154,7 +155,16 @@ fun PressureTitle(
         Spacer(modifier = Modifier.height(14.dp))
 
 
-        CustomTextRadioGroup() {
+        CustomTextRadioGroup(
+            TextOfTab = listOf(
+                TextOfTabData(stringResource(R.string.week)),
+                TextOfTabData(stringResource(R.string.month)),
+                TextOfTabData(
+                    stringResource(R.string.choose),
+                    painter = painterResource(R.drawable.ic_calendar_icon)
+                )
+            )
+        ) {
             selectedTabIndex = it
         }
         when (selectedTabIndex) {
@@ -182,7 +192,7 @@ fun BarChartForPressure(
         targetValue = if (start) 1f else 0f,
         animationSpec = FloatTweenSpec(duration = 1000)
     )
-    val heightForGraph =  ((ListNumberData.size - 1) * 35).dp
+    val heightForGraph = ((ListNumberData.size - 1) * 35).dp
 
     InfoDialogForBarChartOfPressure(
         visible = visible,

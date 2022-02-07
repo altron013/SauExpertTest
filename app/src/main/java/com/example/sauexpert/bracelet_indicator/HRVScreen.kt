@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,7 @@ import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.model.HRVData
 import com.example.sauexpert.model.ListNumberOfYForTableData
+import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray50
 
@@ -104,7 +106,16 @@ fun HRVTitle(
             )
 
 
-            CustomTextRadioGroup() {
+            CustomTextRadioGroup(
+                TextOfTab = listOf(
+                    TextOfTabData(stringResource(R.string.week)),
+                    TextOfTabData(stringResource(R.string.month)),
+                    TextOfTabData(
+                        stringResource(R.string.choose),
+                        painter = painterResource(R.drawable.ic_calendar_icon)
+                    )
+                )
+            ) {
                 selectedTabIndex = it
             }
             when (selectedTabIndex) {
@@ -139,7 +150,7 @@ fun BarChartForHRV(
     )
 
     val listSize = HRVData.size - 1
-    val heightForGraph =  (ListNumberData.size * 35).dp
+    val heightForGraph = (ListNumberData.size * 35).dp
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }

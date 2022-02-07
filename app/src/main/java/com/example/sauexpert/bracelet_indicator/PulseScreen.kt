@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -28,6 +29,7 @@ import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PulseData
+import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Blue4285
 import com.example.sauexpert.ui.theme.Gray30
 
@@ -111,7 +113,16 @@ fun PulseTitle(
             )
 
 
-            CustomTextRadioGroup() {
+            CustomTextRadioGroup(
+                TextOfTab = listOf(
+                    TextOfTabData(stringResource(R.string.week)),
+                    TextOfTabData(stringResource(R.string.month)),
+                    TextOfTabData(
+                        stringResource(R.string.choose),
+                        painter = painterResource(R.drawable.ic_calendar_icon)
+                    )
+                )
+            ) {
                 selectedTabIndex = it
             }
             when (selectedTabIndex) {
@@ -142,7 +153,7 @@ fun LineChartForPulse(
     val scale by remember { mutableStateOf(1f) }
     val path = Path()
     val listSize = PulseData.size - 1
-    val heightForGraph =  ((ListNumberData.size - 1) * 35).dp
+    val heightForGraph = ((ListNumberData.size - 1) * 35).dp
 
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }

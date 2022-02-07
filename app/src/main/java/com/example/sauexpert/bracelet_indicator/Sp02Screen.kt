@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.Sp02Data
+import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
 import kotlinx.coroutines.launch
@@ -64,7 +65,7 @@ fun Sp02Screen() {
                 .background(
                     color = Gray30.copy(alpha = 0.19f)
                 )
-                .padding(horizontal =  16.dp)
+                .padding(horizontal = 16.dp)
         ) {
 
             Column(
@@ -80,16 +81,11 @@ fun Sp02Screen() {
                 AnalysisSp02Section()
                 Spacer(modifier = Modifier.height(24.dp))
 
-                AnalysisSOASTitle(
-                    onClick = {
-                        coroutineScope.launch {
-                            bottomSheetScaffoldState.bottomSheetState.expand()
-                        }
+                AnalysisSOASSection(onClick = {
+                    coroutineScope.launch {
+                        bottomSheetScaffoldState.bottomSheetState.expand()
                     }
-                )
-
-                Spacer(modifier = Modifier.height(12.dp))
-                AnalysisSOASSection()
+                })
                 Spacer(modifier = Modifier.height(16.dp))
                 RangeCustomizeSection()
             }
@@ -187,7 +183,16 @@ fun SP02Title(
             )
 
 
-            CustomTextRadioGroup() {
+            CustomTextRadioGroup(
+                TextOfTab = listOf(
+                    TextOfTabData(stringResource(R.string.week)),
+                    TextOfTabData(stringResource(R.string.month)),
+                    TextOfTabData(
+                        stringResource(R.string.choose),
+                        painter = painterResource(R.drawable.ic_calendar_icon)
+                    )
+                )
+            ) {
                 selectedTabIndex = it
             }
             when (selectedTabIndex) {
@@ -336,7 +341,10 @@ fun LineChartForSp02(
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
-fun AnalysisSOASSection(modifier: Modifier = Modifier) {
+fun AnalysisSOASSection(
+    onClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
 //    val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
 //
 //    InfoDialogForSOAS(visible = visible)
@@ -361,6 +369,25 @@ fun AnalysisSOASSection(modifier: Modifier = Modifier) {
 //                }
 //            )
 //        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(R.string.soas_analysis),
+                style = MaterialTheme.typography.subtitle2,
+            )
+
+            ClickableText(
+                text = AnnotatedString(stringResource(R.string.more_detail)),
+                style = MaterialTheme.typography.body2.copy(Color.Red),
+                onClick = onClick,
+            )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
 
 
         Column(
@@ -441,31 +468,6 @@ fun BottomSheetContentForSoas(
         }
     }
 }
-
-@Composable
-fun AnalysisSOASTitle(
-    modifier: Modifier = Modifier,
-    onClick: (Int) -> Unit,
-) {
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(R.string.soas_analysis),
-            style = MaterialTheme.typography.subtitle2,
-        )
-
-        ClickableText(
-            text = AnnotatedString(stringResource(R.string.more_detail)),
-            style = MaterialTheme.typography.body2.copy(Color.Red),
-            onClick = onClick,
-        )
-    }
-}
-
 
 @Composable
 fun AnalysisSp02Section(modifier: Modifier = Modifier) {
