@@ -139,6 +139,7 @@ fun BarChartForHRV(
     )
 
     val listSize = HRVData.size - 1
+    val heightForGraph =  (ListNumberData.size * 35).dp
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
@@ -155,7 +156,7 @@ fun BarChartForHRV(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(155.dp)
+            .height(heightForGraph)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {

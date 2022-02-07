@@ -57,7 +57,6 @@ fun PressurewithBarChart(
     modifier: Modifier = Modifier
 ) {
     Column(
-
         modifier = modifier
             .fillMaxWidth()
             .background(
@@ -183,6 +182,7 @@ fun BarChartForPressure(
         targetValue = if (start) 1f else 0f,
         animationSpec = FloatTweenSpec(duration = 1000)
     )
+    val heightForGraph =  ((ListNumberData.size - 1) * 35).dp
 
     InfoDialogForBarChartOfPressure(
         visible = visible,
@@ -196,7 +196,7 @@ fun BarChartForPressure(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(240.dp)
+            .height(heightForGraph)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
@@ -248,7 +248,7 @@ fun BarChartForPressure(
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
                 p.positionOnX + 8,
-                (height - 15).dp.toPx(),
+                (height - 35).dp.toPx(),
                 paint
             )
         }
