@@ -77,16 +77,9 @@ fun BraceletIndicatorScreen() {
             0 -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .padding(horizontal = 16.dp)
             ) {
                 SleepScreen()
-                MainButton(
-                    text = stringResource(id = R.string.range_customize),
-                    onClick = { /*TODO*/ },
-                    enableState = true,
-                    modifier = Modifier.fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                )
             }
             1 -> Sp02Screen()
             2 -> Box(

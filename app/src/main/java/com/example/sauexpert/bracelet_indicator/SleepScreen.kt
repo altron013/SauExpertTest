@@ -43,32 +43,28 @@ import com.example.sauexpert.ui.theme.Gray30
 fun SleepScreen() {
     Column(
         modifier = Modifier
-            .fillMaxWidth().verticalScroll(rememberScrollState())
-            .padding(bottom = 70.dp, top = 24.dp)
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+            .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .padding(16.dp)
-        ) {
-            SleepwithBarChart()
-            Spacer(modifier = Modifier.height(20.dp))
-            SleepWakeUpStatistics(textValue = 3)
-            Spacer(modifier = Modifier.height(16.dp))
-            ProgressBarForSleep(
-                deepSleepValue = 120,
-                deepSleepPercent = 40,
-                lightSleepValue = 115,
-                lightSleepPercent = 30
-            )
 
-        }
+        SleepwithBarChart()
+        Spacer(modifier = Modifier.height(20.dp))
+        SleepWakeUpStatistics(textValue = 3)
+        Spacer(modifier = Modifier.height(16.dp))
+        ProgressBarForSleep(
+            deepSleepValue = 120,
+            deepSleepPercent = 40,
+            lightSleepValue = 115,
+            lightSleepPercent = 30
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+        RangeCustomizeSection()
 
     }
+
+
 }
 
 
@@ -88,16 +84,15 @@ fun SleepwithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSleep(
             SleepData = listOf(
-                SleepData(positionOnX = 27f, hourOfSleep = 140f, dateName = "16.12"),
-                SleepData(positionOnX = 127f, hourOfSleep = 200f, dateName = "17.12"),
-                SleepData(positionOnX = 227f, hourOfSleep = 190f, dateName = "18.12"),
-                SleepData(positionOnX = 327f, hourOfSleep = 180f, dateName = "19.12"),
-                SleepData(positionOnX = 427f, hourOfSleep = 220f, dateName = "20.12"),
-                SleepData(positionOnX = 527f, hourOfSleep = 510f, dateName = "21.12"),
-                SleepData(positionOnX = 627f, hourOfSleep = 370f, dateName = "22.12")
+                SleepData(positionOnX = 10f, hourOfSleep = 140f, dateName = "16"),
+                SleepData(positionOnX = 110f, hourOfSleep = 200f, dateName = "17"),
+                SleepData(positionOnX = 210f, hourOfSleep = 190f, dateName = "18"),
+                SleepData(positionOnX = 310f, hourOfSleep = 180f, dateName = "19"),
+                SleepData(positionOnX = 410f, hourOfSleep = 220f, dateName = "20"),
+                SleepData(positionOnX = 510f, hourOfSleep = 400f, dateName = "21"),
+                SleepData(positionOnX = 610f, hourOfSleep = 370f, dateName = "22")
             ),
             ListNumberData = listOf(
-                ListNumberOfYForTableData("12"),
                 ListNumberOfYForTableData("10"),
                 ListNumberOfYForTableData("8"),
                 ListNumberOfYForTableData("6"),
@@ -171,6 +166,9 @@ fun BarChartForSleep(
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
+    val listSize = SleepData.size - 1
+    val heightForGraph = (ListNumberData.size * 35).dp
+
     val heightPre by animateFloatAsState(
         targetValue = if (start) 1f else 0f,
         animationSpec = FloatTweenSpec(duration = 1000)
@@ -179,10 +177,9 @@ fun BarChartForSleep(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(250.dp)
+            .height(heightForGraph)
     ) {
         var height = 0
-        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -192,72 +189,51 @@ fun BarChartForSleep(
 
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(0f, height.dp.toPx()),
-                end = Offset(780f, height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
-                "${i.number}",
-                320.dp.toPx(),
-                (10 + height).dp.toPx(),
+                i.number,
+                SleepData[listSize].positionOnX + 38.dp.toPx(),
+                height.dp.toPx(),
                 paint
             )
 
-            height += 34
+            height += 35
         }
 
         start = true
         for (p in SleepData) {
-            drawLine(
-                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-                end = Offset(wight.dp.toPx(), 0f),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
-
             drawRect(
-                color = Color(250, 218, 221),
+                color = Gray30,
                 topLeft = Offset(
-                    x = (wight + 10).dp.toPx(),
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 180f) * heightPre
+                    x = p.positionOnX,
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 75f) * heightPre
                 ),
                 size = Size(
-                    width = 17.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - 180f) * heightPre
+                    width = 8.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - 75f) * heightPre
                 )
             )
 
             drawRect(
-                color = Color.Red,
+                color = p.colorFocus,
                 topLeft = Offset(
-                    x = (wight + 10).dp.toPx(),
+                    x = p.positionOnX,
                     y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.hourOfSleep) * heightPre
                 ),
                 size = Size(
-                    width = 17.dp.toPx(),
+                    width = 8.dp.toPx(),
                     height = ((height - 35).dp.toPx() - p.hourOfSleep) * heightPre
                 )
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                (wight + 15).dp.toPx(),
-                (height - 14).dp.toPx(),
+                p.positionOnX + 8,
+                (height - 15).dp.toPx(),
                 paint
             )
-            wight += 38
+
         }
 
-        drawLine(
-            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-            end = Offset(wight.dp.toPx(), 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
 
     }
 }
