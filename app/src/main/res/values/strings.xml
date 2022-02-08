@@ -96,6 +96,7 @@
     <string name="range_customize">Настроить диапазон</string>
     <string name="deep_sleep">Глубокий сон</string>
     <string name="light_sleep">Легкий сон</string>
+    <string name="rem_sleep">Быстрый сон</string>
     <string name="woke_up_in_middle">Просыпался среди ночи</string>
     <string name="sleep_duration">ПРОДОЛЖИТЕЛЬНОСТЬ СНА</string>
     <string name="oxygen_level">УРОВЕНЬ КИСЛОРОДА В КРОВИ</string>
