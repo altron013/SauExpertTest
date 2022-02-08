@@ -178,7 +178,7 @@ fun BarChartForSleep(
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
 
-    setRedColorInsideDataClassForGlucose(
+    setRedColorInsideDataClassForSleep(
         sleepData = SleepData,
         itemID = itemID,
         visible = visible
@@ -199,7 +199,7 @@ fun BarChartForSleep(
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
                             visible.value = true
-                            setRedColorInsideDataClassForGlucose(
+                            setRedColorInsideDataClassForSleep(
                                 sleepData = SleepData,
                                 itemID = itemID,
                                 visible = visible
@@ -290,7 +290,7 @@ private fun ResetColorInsideDataClassForSleep(dataList: List<SleepData>) {
     }
 }
 
-private fun setRedColorInsideDataClassForGlucose(
+private fun setRedColorInsideDataClassForSleep(
     sleepData: List<SleepData>,
     itemID: MutableState<Int>,
     visible: MutableState<Boolean>
