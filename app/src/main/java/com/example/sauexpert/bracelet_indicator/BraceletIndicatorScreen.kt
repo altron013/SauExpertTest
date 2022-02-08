@@ -270,6 +270,8 @@ fun TextWithBigValueAndDateForGraph(
 @Composable
 fun CustomTextRadioGroup(
     TextOfTab: List<TextOfTabData>,
+    backgroundColor: Color = Gray4292,
+    textColor: Color = Color.Black,
     onTabSelected: (selectedIndex: Int) -> Unit
 ) {
 
@@ -296,7 +298,7 @@ fun CustomTextRadioGroup(
                         onTabSelected(index)
                     }
                     .background(
-                        if (selectedTabIndex == index) Gray4292 else Color.White
+                        if (selectedTabIndex == index) backgroundColor else Color.White
                     )
                     .padding(
                         vertical = 4.dp,
@@ -318,6 +320,7 @@ fun CustomTextRadioGroup(
                 Text(
                     text = item.text,
                     style = MaterialTheme.typography.h6,
+                    color = if (selectedTabIndex == index) textColor else Color.Black,
                     fontSize = 13.sp,
                 )
             }

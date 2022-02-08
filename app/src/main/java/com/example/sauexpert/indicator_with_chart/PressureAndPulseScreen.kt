@@ -23,7 +23,10 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,7 +36,10 @@ import com.example.sauexpert.bracelet_indicator.*
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
 import com.example.sauexpert.model.PulseData
+import com.example.sauexpert.model.TextOfTabData
+import com.example.sauexpert.ui.theme.Blue4285
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun PressureAndPulseScreen() {
@@ -66,61 +72,60 @@ fun PressureAndPulsewithBarChart(
         BarChartForPressureAndPulse(
             PressureData = listOf(
                 PressureData(
-                    positionOnX = 20f,
-                    pressureInAverage = 200f,
-                    dateName = "16.12",
-                    startPoint = 250f
-                ),
-                PressureData(
-                    positionOnX = 120f,
-                    pressureInAverage = 300f,
-                    dateName = "17.12",
+                    positionOnX = 10f,
+                    pressureInAverage = 150f,
+                    dateName = "16",
                     startPoint = 200f
                 ),
                 PressureData(
-                    positionOnX = 220f,
+                    positionOnX = 110f,
+                    pressureInAverage = 230f,
+                    dateName = "17",
+                    startPoint = 170f
+                ),
+                PressureData(
+                    positionOnX = 210f,
                     pressureInAverage = 190f,
-                    dateName = "18.12",
-                    startPoint = 250f
+                    dateName = "18",
+                    startPoint = 190f
                 ),
                 PressureData(
-                    positionOnX = 320f,
+                    positionOnX = 310f,
                     pressureInAverage = 180f,
-                    dateName = "19.12",
-                    startPoint = 250f
+                    dateName = "19",
+                    startPoint = 150f
                 ),
                 PressureData(
-                    positionOnX = 420f,
+                    positionOnX = 410f,
                     pressureInAverage = 220f,
-                    dateName = "20.12",
-                    startPoint = 230f
+                    dateName = "20",
+                    startPoint = 130f
                 ),
                 PressureData(
-                    positionOnX = 520f,
+                    positionOnX = 510f,
                     pressureInAverage = 240f,
-                    dateName = "21.12",
-                    startPoint = 250f
+                    dateName = "21",
+                    startPoint = 150f
                 ),
                 PressureData(
-                    positionOnX = 620f,
+                    positionOnX = 610f,
                     pressureInAverage = 50f,
-                    dateName = "22.12",
+                    dateName = "22",
                     startPoint = 280f
                 )
             ),
 
             PulseData = listOf(
-                PulseData(positionOnX = 50f, pulseInMinuteAverage = 350f),
-                PulseData(positionOnX = 150f, pulseInMinuteAverage = 370f),
-                PulseData(positionOnX = 250f, pulseInMinuteAverage = 350f),
-                PulseData(positionOnX = 350f, pulseInMinuteAverage = 370f),
-                PulseData(positionOnX = 450f, pulseInMinuteAverage = 250f),
-                PulseData(positionOnX = 550f, pulseInMinuteAverage = 290f),
-                PulseData(positionOnX = 650f, pulseInMinuteAverage = 300f),
+                PulseData(positionOnX = 20f, pulseInMinuteAverage = 350f),
+                PulseData(positionOnX = 120f, pulseInMinuteAverage = 370f),
+                PulseData(positionOnX = 220f, pulseInMinuteAverage = 350f),
+                PulseData(positionOnX = 320f, pulseInMinuteAverage = 370f),
+                PulseData(positionOnX = 420f, pulseInMinuteAverage = 250f),
+                PulseData(positionOnX = 520f, pulseInMinuteAverage = 290f),
+                PulseData(positionOnX = 620f, pulseInMinuteAverage = 300f),
             ),
 
             ListNumberData = listOf(
-                ListNumberOfYForTableData("240"),
                 ListNumberOfYForTableData("200"),
                 ListNumberOfYForTableData("160"),
                 ListNumberOfYForTableData("120"),
@@ -131,9 +136,9 @@ fun PressureAndPulsewithBarChart(
 
 
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         TextWithIconForGraph(color = Color.Red, text = stringResource(id = R.string.pressure))
-        TextWithIconForGraph(color = Color.Blue, text = stringResource(id = R.string.pulse))
+        TextWithIconForGraph(color = Blue4285, text = stringResource(id = R.string.pulse))
     }
 }
 
@@ -141,27 +146,50 @@ fun PressureAndPulsewithBarChart(
 fun PressureAndPulseTitle(
     modifier: Modifier = Modifier
 ) {
+    var selectedTabIndex by remember {
+        mutableStateOf(1)
+    }
+
+    var textDate = "18-20 ноября 2021"
+
     Column(
         modifier = modifier
             .fillMaxWidth()
     ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(id = R.string.pressure_pulse),
+                style = MaterialTheme.typography.caption
+            )
+
+
+            CustomTextRadioGroup(
+                TextOfTab = listOf(
+                    TextOfTabData(stringResource(R.string.week)),
+                    TextOfTabData(stringResource(R.string.month)),
+                )
+            ) {
+                selectedTabIndex = it
+            }
+            when (selectedTabIndex) {
+                0 -> textDate = "18-20 ноября 2021"
+                1 -> textDate = "Ноября 2021"
+
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
         Text(
-            text = stringResource(id = R.string.pressure_pulse),
-            style = MaterialTheme.typography.caption
-        )
-
-        TextWithBigValueAndDateForGraph(
-            textValue = 150,
-            text = stringResource(R.string.mmhg_average),
-            textDate = "18-20 ноября 2021"
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        TextWithBigValueAndDateForGraph(
-            textValue = 150,
-            text = stringResource(R.string.pulse_in_minute_average),
-            textDate = "18-20 ноября 2021"
+            text = textDate,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
+            color = Gray30
         )
     }
 }
@@ -179,6 +207,8 @@ fun BarChartForPressureAndPulse(
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
+    val listSize = PulseData.size - 1
+    val heightForGraph = ((ListNumberData.size - 1) * 35).dp
 
 
     val heightPre by animateFloatAsState(
@@ -209,7 +239,7 @@ fun BarChartForPressureAndPulse(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(240.dp)
+            .height(heightForGraph)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
@@ -231,7 +261,6 @@ fun BarChartForPressureAndPulse(
             }
     ) {
         var height = 0
-        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -248,8 +277,8 @@ fun BarChartForPressureAndPulse(
 
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
-                320.dp.toPx(),
-                (10 + height).dp.toPx(),
+                PulseData[listSize].positionOnX + 38.dp.toPx(),
+                height.dp.toPx(),
                 paint
             )
 
@@ -259,33 +288,30 @@ fun BarChartForPressureAndPulse(
         start = true
 
         for (p in PressureData) {
-            drawLine(
-                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-                end = Offset(wight.dp.toPx(), 0f),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawRect(
                 color = p.colorFocus,
-                topLeft = Offset(p.positionOnX, p.startPoint * heightPre),
-                size = Size(24.dp.toPx(), p.pressureInAverage * heightPre)
+                topLeft = Offset(
+                    x = p.positionOnX,
+                    y = p.startPoint * heightPre
+                ),
+                size = Size(
+                    width = 8.dp.toPx(),
+                    height = p.pressureInAverage * heightPre
+                )
 
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 32f,
-                (height - 15).dp.toPx(),
+                p.positionOnX + 8,
+                (height - 35).dp.toPx(),
                 paint
             )
-            wight += 38
-
         }
 
         drawPath(
             path = path,
-            color = Color.Blue.copy(alpha = 0.3f),
+            color = Blue4285,
             style = Stroke(width = 5f)
         )
 
@@ -303,13 +329,6 @@ fun BarChartForPressureAndPulse(
             )
         }
 
-        drawLine(
-            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-            end = Offset(wight.dp.toPx(), 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
-
     }
 }
 
@@ -320,7 +339,7 @@ private fun identifyClickItemForPressureAndPulse(
 ): Int {
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX
-            && x < dataList.positionOnX + 70
+            && x < dataList.positionOnX + 20
             && y > dataList.startPoint
             && y < dataList.pressureInAverage + dataList.startPoint
         ) {
@@ -335,11 +354,11 @@ private fun ResetColorInsideDataClassForPressureAndPusle(
     pulseData: List<PulseData>
 ) {
     for (p in pressureData) {
-        p.colorFocus = Color(250, 218, 221)
+        p.colorFocus = Gray50
     }
 
     for (i in pulseData) {
-        i.colorFocus = Color.Blue
+        i.colorFocus = Blue4285
     }
 }
 
@@ -394,49 +413,86 @@ fun InfoDialogForBarChartOfPressureAndPulse(
 
 @Composable
 fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(10.dp)
+    var selectedTabIndex by remember {
+        mutableStateOf(1)
+    }
+
+    var textDate = "18"
+
+
+    Column {
+
+        Text(
+            text = "Показатели за 21 декабря 2021",
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
+            color = Gray30
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        CustomTextRadioGroup(
+            TextOfTab = listOf(
+                TextOfTabData(stringResource(R.string.pressure).toUpperCase(Locale.current)),
+                TextOfTabData(stringResource(R.string.pulse).toUpperCase(Locale.current)),
+            ),
+            backgroundColor = Color.Black,
+            textColor = Color.White
+        ) {
+            selectedTabIndex = it
+        }
+        when (selectedTabIndex) {
+            0 -> textDate = "20"
+            1 -> textDate = "18"
+
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(10.dp)
+                )
+        ) {
+            AnalysisFieldWithIconAtEnd(
+                title = stringResource(R.string.highest_value),
+                value = textDate,
+                dateData = "19 Декабря в 23:13",
+                imageVector = Icons.Filled.FlashOn
             )
-    ) {
-        AnalysisFieldWithIconAtEnd(
-            title = stringResource(R.string.highest_value),
-            value = "18",
-            imageVector = Icons.Filled.FlashOn
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisField(
-            title = stringResource(R.string.lowest_value),
-            value = "18"
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisField(
-            title = stringResource(R.string.average_value),
-            value = "18"
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisField(
-            title = stringResource(R.string.last_value),
-            value = "18"
-        )
+            Divider(
+                color = Gray30.copy(alpha = 0.19f),
+                thickness = 1.dp,
+                modifier = modifier
+                    .padding(horizontal = 16.dp)
+            )
+            AnalysisField(
+                title = stringResource(R.string.lowest_value),
+                value = textDate,
+                dateData = "19 Декабря в 23:13",
+
+                )
+            Divider(
+                color = Gray30.copy(alpha = 0.19f),
+                thickness = 1.dp,
+                modifier = modifier
+                    .padding(horizontal = 16.dp)
+            )
+            Divider(
+                color = Gray30.copy(alpha = 0.19f),
+                thickness = 1.dp,
+                modifier = modifier
+                    .padding(horizontal = 16.dp)
+            )
+            AnalysisField(
+                title = stringResource(R.string.last_value),
+                value = "18",
+                dateData = "20 Декабря в 23:13",
+            )
+        }
     }
 }
 
