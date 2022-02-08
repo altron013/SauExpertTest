@@ -1,6 +1,8 @@
 package com.example.sauexpert.bracelet_indicator
 
+import android.app.DatePickerDialog
 import android.graphics.Paint
+import android.widget.DatePicker
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -18,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -30,6 +33,7 @@ import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray50
+import java.util.*
 
 
 @Composable
@@ -88,7 +92,26 @@ fun HRVTitle(
         mutableStateOf(0)
     }
 
-    var textDate = "18-20 ноября 2021"
+    val context = LocalContext.current
+
+    val year: Int
+    val month: Int
+    val day: Int
+
+    val calendar = Calendar.getInstance()
+    year = calendar.get(Calendar.YEAR)
+    month = calendar.get(Calendar.MONTH) + 1
+    day = calendar.get(Calendar.DAY_OF_MONTH)
+    calendar.time = Date()
+
+    val date = remember { mutableStateOf("") }
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+            date.value = "$dayOfMonth/${month}/$year"
+        }, year, month, day
+    )
+
 
     Column(
         modifier = modifier
@@ -119,8 +142,9 @@ fun HRVTitle(
                 selectedTabIndex = it
             }
             when (selectedTabIndex) {
-                0 -> textDate = "18-20 ноября 2021"
-                1 -> textDate = "Ноября 2021"
+                0 -> date.value = "18-20 ноября 2021"
+                1 -> date.value = "Ноября 2021"
+                2 -> datePickerDialog.show()
 
             }
         }
@@ -129,7 +153,7 @@ fun HRVTitle(
 
 
         Text(
-            text = textDate,
+            text = "${date.value}",
             style = MaterialTheme.typography.h6,
             fontSize = 15.sp,
             color = Gray30
