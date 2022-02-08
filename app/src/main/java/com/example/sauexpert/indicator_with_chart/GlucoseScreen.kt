@@ -30,12 +30,13 @@ import androidx.compose.ui.window.Popup
 import com.chargemap.compose.numberpicker.ListItemPicker
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.CustomTextRadioGroup
-import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.model.GlucoseData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
-import com.example.sauexpert.ui.theme.*
+import com.example.sauexpert.ui.theme.Blue4289
+import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Pink4294
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -327,6 +328,7 @@ fun BarChartForGlucose(
             }
     ) {
         var height = 0
+        var width = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -342,6 +344,34 @@ fun BarChartForGlucose(
             )
 
             height += 35
+        }
+
+        drawRect(
+            color = Color.Green.copy(alpha = 0.05f),
+            topLeft = Offset(
+                x = 0f,
+                y = 47.dp.toPx()
+            ),
+            size = Size(
+                width = glucoseData[listSize].positionOnX + 20.dp.toPx(),
+                height = 35.dp.toPx()
+            )
+        )
+
+        for (i in 0 until listSize * 7) {
+            drawLine(
+                Gray30.copy(alpha = 0.5f),
+                Offset(
+                    x = (width + 6).dp.toPx(),
+                    y = 47.dp.toPx()
+                ),
+                Offset(
+                    x = width.dp.toPx(),
+                    y = 82.dp.toPx()
+                )
+            )
+
+            width += 6
         }
 
         start = true

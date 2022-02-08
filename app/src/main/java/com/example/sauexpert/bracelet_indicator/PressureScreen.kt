@@ -223,6 +223,7 @@ fun BarChartForPressure(
             }
     ) {
         var height = 0
+        var width = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -239,6 +240,35 @@ fun BarChartForPressure(
 
             height += 35
         }
+
+        drawRect(
+            color = Color.Green.copy(alpha = 0.05f),
+            topLeft = Offset(
+                x = 0f,
+                y = 70.dp.toPx()
+            ),
+            size = Size(
+                width = PressureData[listSize].positionOnX + 20.dp.toPx(),
+                height = 35.dp.toPx()
+            )
+        )
+
+        for (i in 0 until listSize * 7) {
+            drawLine(
+                Gray30.copy(alpha = 0.5f),
+                Offset(
+                    x = (width + 6).dp.toPx(),
+                    y = 70.dp.toPx()
+                ),
+                Offset(
+                    x = width.dp.toPx(),
+                    y = 105.dp.toPx()
+                )
+            )
+
+            width += 6
+        }
+
 
         start = true
         for (p in PressureData) {
