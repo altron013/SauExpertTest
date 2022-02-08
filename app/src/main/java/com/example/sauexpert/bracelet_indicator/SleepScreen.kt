@@ -178,6 +178,12 @@ fun BarChartForSleep(
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
 
+    setRedColorInsideDataClassForGlucose(
+        sleepData = SleepData,
+        itemID = itemID,
+        visible = visible
+    )
+
 
     Canvas(
         modifier = Modifier
@@ -187,11 +193,17 @@ fun BarChartForSleep(
                 detectTapGestures(
                     onTap = {
                         itemID.value = identifyClickItemForSleep(SleepData, it.x, it.y)
+                        visible.value = false
                         ResetColorInsideDataClassForSleep(dataList = SleepData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
                             visible.value = true
+                            setRedColorInsideDataClassForGlucose(
+                                sleepData = SleepData,
+                                itemID = itemID,
+                                visible = visible
+                            )
                             SleepData[itemID.value].colorFocus = Color.Red
                         } else {
                             visible.value = false
@@ -275,6 +287,17 @@ private fun identifyClickItemForSleep(dataList: List<SleepData>, x: Float, y: Fl
 private fun ResetColorInsideDataClassForSleep(dataList: List<SleepData>) {
     for (p in dataList) {
         p.colorFocus = Gray50
+    }
+}
+
+private fun setRedColorInsideDataClassForGlucose(
+    sleepData: List<SleepData>,
+    itemID: MutableState<Int>,
+    visible: MutableState<Boolean>
+) {
+    if (itemID.value != -1 && visible.value) {
+        ResetColorInsideDataClassForSleep(dataList = sleepData)
+        sleepData[itemID.value].colorFocus = Color.Red
     }
 }
 
