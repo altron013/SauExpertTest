@@ -3,10 +3,13 @@ package com.example.sauexpert.bracelet_indicator
 import android.graphics.Paint
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -22,10 +25,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.SleepData
@@ -173,18 +174,9 @@ fun BarChartForSleep(
         animationSpec = FloatTweenSpec(duration = 1000)
     )
 
-//    val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
-
-    InfoDialogForBarChartOfSleep(
-        visible = visible,
-        itemID = itemID,
-        xPosition = positionOfX,
-        yPosition = positionOfY,
-        SleepData = SleepData
-    )
 
 
     Canvas(
@@ -201,6 +193,8 @@ fun BarChartForSleep(
                         if (itemID.value != -1) {
                             visible.value = true
                             SleepData[itemID.value].colorFocus = Color.Red
+                        } else {
+                            visible.value = false
                         }
                     }
                 )
@@ -266,48 +260,6 @@ fun BarChartForSleep(
 }
 
 
-@Composable
-fun InfoDialogForBarChartOfSleep(
-    visible: MutableState<Boolean>,
-    itemID: MutableState<Int>,
-    xPosition: MutableState<Int>,
-    yPosition: MutableState<Int>,
-    SleepData: List<SleepData>,
-    modifier: Modifier = Modifier
-) {
-    if (visible.value) {
-        Box {
-            Popup(
-                alignment = Alignment.Center,
-                IntOffset(xPosition.value, yPosition.value - 70)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(width = 140.dp, height = 40.dp)
-                        .background(Color.White, RoundedCornerShape(10.dp))
-                ) {
-                    if (itemID.value == -1) {
-                        visible.value = false
-                    } else {
-                        Text(
-                            text = "${itemID.value} | ${SleepData[itemID.value].hourOfSleep} | " +
-                                    "${SleepData[itemID.value].dateName}",
-                            style = MaterialTheme.typography.h5,
-                            modifier = modifier
-                                .align(alignment = Alignment.Center)
-                                .clickable {
-                                    visible.value = false
-                                    ResetColorInsideDataClassForSleep(dataList = SleepData)
-                                }
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-
 private fun identifyClickItemForSleep(dataList: List<SleepData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX
@@ -334,10 +286,7 @@ fun SleepStatisticsSection(
     modifier: Modifier = Modifier
 ) {
 
-
     if (visible.value) {
-
-
         Column {
 
             Text(
