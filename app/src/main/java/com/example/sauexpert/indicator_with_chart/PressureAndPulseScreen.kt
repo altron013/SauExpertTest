@@ -33,10 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.*
-import com.example.sauexpert.model.ListNumberOfYForTableData
-import com.example.sauexpert.model.PressureData
-import com.example.sauexpert.model.PulseData
-import com.example.sauexpert.model.TextOfTabData
+import com.example.sauexpert.model.*
 import com.example.sauexpert.ui.theme.Blue4285
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray50
@@ -59,6 +56,8 @@ fun PressureAndPulseScreen() {
 fun PressureAndPulsewithBarChart(
     modifier: Modifier = Modifier
 ) {
+    val visible = remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -132,12 +131,17 @@ fun PressureAndPulsewithBarChart(
                 ListNumberOfYForTableData("80"),
                 ListNumberOfYForTableData("40"),
                 ListNumberOfYForTableData("0"),
-            )
+            ),
+            visible = visible
 
 
         )
         Spacer(modifier = Modifier.height(20.dp))
-        TextWithIconForGraph(color = Color.Red, text = stringResource(id = R.string.pressure))
+        TextWithIconForGraph(
+            color =
+            if (visible.value) Color.Red else Gray50,
+            text = stringResource(id = R.string.pressure)
+        )
         TextWithIconForGraph(color = Blue4285, text = stringResource(id = R.string.pulse))
     }
 }
@@ -198,12 +202,12 @@ fun PressureAndPulseTitle(
 fun BarChartForPressureAndPulse(
     PressureData: List<PressureData>,
     PulseData: List<PulseData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    visible: MutableState<Boolean>,
 ) {
     val scale by remember { mutableStateOf(1f) }
     val path = Path()
     var start by remember { mutableStateOf(false) }
-    val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
@@ -234,6 +238,13 @@ fun BarChartForPressureAndPulse(
         }
     }
 
+    setRedColorInsideDataClassForPressureAndPulse(
+        pressureData = PressureData,
+        pulseData = PulseData,
+        itemID = itemID,
+        visible = visible
+    )
+
 
 
     Canvas(
@@ -245,7 +256,7 @@ fun BarChartForPressureAndPulse(
                     onTap = {
                         itemID.value =
                             identifyClickItemForPressureAndPulse(PressureData, it.x, it.y)
-                        ResetColorInsideDataClassForPressureAndPusle(
+                        ResetColorInsideDataClassForPressureAndPulse(
                             pressureData = PressureData,
                             pulseData = PulseData
                         )
@@ -253,8 +264,15 @@ fun BarChartForPressureAndPulse(
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
                             visible.value = true
-                            PressureData[itemID.value].colorFocus = Color.Red
-                            PulseData[itemID.value].colorFocus = Color.Red
+                            setRedColorInsideDataClassForPressureAndPulse(
+                                pressureData = PressureData,
+                                pulseData = PulseData,
+                                itemID = itemID,
+                                visible = visible
+                            )
+//                            PressureData[itemID.value].colorFocus = Color.Red
+//                            PulseData[itemID.value].colorFocus = Color.Red
+
                         }
                     }
                 )
@@ -268,13 +286,6 @@ fun BarChartForPressureAndPulse(
         }
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(x = 0f, y = height.dp.toPx()),
-                end = Offset(x = 780f, y = height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
                 PulseData[listSize].positionOnX + 38.dp.toPx(),
@@ -349,7 +360,7 @@ private fun identifyClickItemForPressureAndPulse(
     return -1
 }
 
-private fun ResetColorInsideDataClassForPressureAndPusle(
+private fun ResetColorInsideDataClassForPressureAndPulse(
     pressureData: List<PressureData>,
     pulseData: List<PulseData>
 ) {
@@ -359,6 +370,22 @@ private fun ResetColorInsideDataClassForPressureAndPusle(
 
     for (i in pulseData) {
         i.colorFocus = Blue4285
+    }
+}
+
+private fun setRedColorInsideDataClassForPressureAndPulse(
+    pressureData: List<PressureData>,
+    pulseData: List<PulseData>,
+    itemID: MutableState<Int>,
+    visible: MutableState<Boolean>
+) {
+    if (itemID.value != -1 && visible.value) {
+        ResetColorInsideDataClassForPressureAndPulse(
+            pressureData = pressureData,
+            pulseData = pulseData
+        )
+        pressureData[itemID.value].colorFocus = Color.Red
+        pulseData[itemID.value].colorFocus = Color.Red
     }
 }
 
@@ -397,7 +424,7 @@ fun InfoDialogForBarChartOfPressureAndPulse(
                                 .align(alignment = Alignment.Center)
                                 .clickable {
                                     visible.value = false
-                                    ResetColorInsideDataClassForPressureAndPusle(
+                                    ResetColorInsideDataClassForPressureAndPulse(
                                         pressureData = PressureData,
                                         pulseData = PulseData
                                     )

@@ -6,8 +6,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
@@ -266,8 +264,11 @@ fun BarChartForGlucose(
         }
     }
 
-    setRedColorInsideDataClassForGlucose(GlucoseData = glucoseData, itemID = itemID, visible = visible)
-//    ResetColorInsideDataClassForGlucose(GlucoseData = glucoseData)
+    setRedColorInsideDataClassForGlucose(
+        GlucoseData = glucoseData,
+        itemID = itemID,
+        visible = visible
+    )
 
     Canvas(
         modifier = Modifier
@@ -281,11 +282,12 @@ fun BarChartForGlucose(
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
                         if (itemID.value != -1) {
-
-//                            glucoseData[itemID.value].colorFocusBeforeFood = Color.Red
-//                            glucoseData[itemID.value].colorFocusAfterFood = Color.Red
                             visible.value = true
-                            setRedColorInsideDataClassForGlucose(GlucoseData = glucoseData, itemID = itemID, visible = visible)
+                            setRedColorInsideDataClassForGlucose(
+                                GlucoseData = glucoseData,
+                                itemID = itemID,
+                                visible = visible
+                            )
                         }
                     }
                 )
@@ -391,7 +393,11 @@ private fun ResetColorInsideDataClassForGlucose(GlucoseData: List<GlucoseData>) 
     }
 }
 
-private fun setRedColorInsideDataClassForGlucose(GlucoseData: List<GlucoseData>, itemID: MutableState<Int>, visible: MutableState<Boolean>) {
+private fun setRedColorInsideDataClassForGlucose(
+    GlucoseData: List<GlucoseData>,
+    itemID: MutableState<Int>,
+    visible: MutableState<Boolean>
+) {
     if (itemID.value != -1 && visible.value) {
         ResetColorInsideDataClassForGlucose(GlucoseData = GlucoseData)
         GlucoseData[itemID.value].colorFocusBeforeFood = Color.Red
