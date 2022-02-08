@@ -18,16 +18,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
+import com.example.sauexpert.bracelet_indicator.CustomTextRadioGroup
+import com.example.sauexpert.bracelet_indicator.RangeCustomizeSection
 import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.StepsData
+import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun StepsScreen() {
@@ -38,6 +43,8 @@ fun StepsScreen() {
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
         StepswithBarChart()
+        Spacer(modifier = Modifier.height(16.dp))
+        RangeCustomizeSection()
     }
 }
 
@@ -57,16 +64,15 @@ fun StepswithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSteps(
             StepsData = listOf(
-                StepsData(positionOnX = 9f, stepsPerDay = 200f, dateName = "16.12"),
-                StepsData(positionOnX = 108f, stepsPerDay = 30f, dateName = "17.12"),
-                StepsData(positionOnX = 208f, stepsPerDay = 190f, dateName = "18.12"),
-                StepsData(positionOnX = 308f, stepsPerDay = 180f, dateName = "19.12"),
-                StepsData(positionOnX = 408f, stepsPerDay = 220f, dateName = "20.12"),
-                StepsData(positionOnX = 508f, stepsPerDay = 240f, dateName = "21.12"),
-                StepsData(positionOnX = 608f, stepsPerDay = 30f, dateName = "22.12")
+                StepsData(positionOnX = 10f, stepsPerDay = 200f, dateName = "16"),
+                StepsData(positionOnX = 110f, stepsPerDay = 30f, dateName = "17"),
+                StepsData(positionOnX = 210f, stepsPerDay = 190f, dateName = "18"),
+                StepsData(positionOnX = 310f, stepsPerDay = 180f, dateName = "19"),
+                StepsData(positionOnX = 410f, stepsPerDay = 220f, dateName = "20"),
+                StepsData(positionOnX = 510f, stepsPerDay = 240f, dateName = "21"),
+                StepsData(positionOnX = 610f, stepsPerDay = 30f, dateName = "22")
             ),
             ListNumberData = listOf(
-                ListNumberOfYForTableData("5 000"),
                 ListNumberOfYForTableData("4 500"),
                 ListNumberOfYForTableData("4 000"),
                 ListNumberOfYForTableData("3 500"),
@@ -82,14 +88,42 @@ fun StepswithBarChart(
 fun StepsTitle(
     modifier: Modifier = Modifier
 ) {
+    var selectedTabIndex by remember {
+        mutableStateOf(1)
+    }
+
+    var textDate = "18-20 ноября 2021"
+
+
     Column(
         modifier = modifier
             .fillMaxWidth()
     ) {
-        Text(
-            text = stringResource(id = R.string.steps),
-            style = MaterialTheme.typography.caption
-        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = stringResource(id = R.string.steps),
+                style = MaterialTheme.typography.caption
+            )
+
+
+            CustomTextRadioGroup(
+                TextOfTab = listOf(
+                    TextOfTabData(stringResource(R.string.week)),
+                    TextOfTabData(stringResource(R.string.month)),
+                )
+            ) {
+                selectedTabIndex = it
+            }
+            when (selectedTabIndex) {
+                0 -> textDate = "18-20 ноября 2021"
+                1 -> textDate = "Ноября 2021"
+
+            }
+        }
 
         TextWithBigValueAndDateForGraph(
             textValue = 3320,
@@ -111,6 +145,9 @@ fun BarChartForSteps(
         animationSpec = FloatTweenSpec(duration = 1000)
     )
 
+    val listSize = StepsData.size - 1
+    val heightForGraph = (ListNumberData.size * 35).dp
+
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
@@ -127,7 +164,7 @@ fun BarChartForSteps(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(240.dp)
+            .height(heightForGraph)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
@@ -144,7 +181,6 @@ fun BarChartForSteps(
             }
     ) {
         var height = 0
-        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -152,17 +188,10 @@ fun BarChartForSteps(
         }
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(x = 0f, y = height.dp.toPx()),
-                end = Offset(x = 780f, y = height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
-                320.dp.toPx(),
-                (10 + height).dp.toPx(),
+                StepsData[listSize].positionOnX + 38.dp.toPx(),
+                height.dp.toPx(),
                 paint
             )
 
@@ -171,22 +200,15 @@ fun BarChartForSteps(
 
         start = true
         for (p in StepsData) {
-            drawLine(
-                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-                end = Offset(wight.dp.toPx(), 0f),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawRect(
-                color = Color(251, 241, 243),
+                color = Gray30,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 85f) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 75f) * heightPre
                 ),
                 size = Size(
-                    width = 32.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - 85f) * heightPre
+                    width = 8.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - 75f) * heightPre
                 )
             )
 
@@ -197,26 +219,27 @@ fun BarChartForSteps(
                     y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
                 ),
                 size = Size(
-                    width = 32.dp.toPx(),
+                    width = 8.dp.toPx(),
                     height = ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
                 )
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 38,
+                p.positionOnX + 8,
                 (height - 15).dp.toPx(),
                 paint
             )
-
-            wight += 38
         }
     }
 }
 
 private fun identifyClickItemForSteps(dataList: List<StepsData>, x: Float, y: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX && x < dataList.positionOnX + 80 && y > dataList.stepsPerDay) {
+        if (x > dataList.positionOnX
+            && x < dataList.positionOnX + 20
+            && y > dataList.stepsPerDay
+        ) {
             return index
         }
     }
@@ -225,7 +248,7 @@ private fun identifyClickItemForSteps(dataList: List<StepsData>, x: Float, y: Fl
 
 private fun ResetColorInsideDataClassForSteps(StepsData: List<StepsData>) {
     for (p in StepsData) {
-        p.colorFocus = Color(250, 218, 221)
+        p.colorFocus = Gray50
     }
 }
 
