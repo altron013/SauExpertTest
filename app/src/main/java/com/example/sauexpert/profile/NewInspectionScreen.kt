@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
@@ -84,7 +85,7 @@ fun FillInfoStatFiled(
                 text = stringResource(id = R.string.next),
                 onClick = { /*TODO*/ },
                 enableState = stateBoolean,
-                backgroundColor = Color(255, 205, 211),
+                backgroundColor = Pink42949,
                 textColor = textColorOfButton
 //                modifier = modifier.background(color = Color.Red.copy(alpha = 0.19f))
             )

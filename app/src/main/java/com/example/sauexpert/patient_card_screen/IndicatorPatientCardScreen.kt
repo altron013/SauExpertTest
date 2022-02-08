@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Orange4294
+import com.example.sauexpert.ui.theme.Pink20p
+import com.example.sauexpert.ui.theme.Pink4294
 
 @Composable
 fun IndicatorPatientCardScreen() {
@@ -646,7 +648,7 @@ fun CriticalCaseStat(
 
 
 fun Modifier.drawPinkBar(width: Int) = this.drawBehind {
-    val colorOfLine = Color(250, 218, 221)
+    val colorOfLine = Color.Red.copy(alpha = 0.1f)
 
     drawRect(
         color = colorOfLine,

@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.IntOffset
@@ -28,11 +29,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.chargemap.compose.numberpicker.ListItemPicker
 import com.example.sauexpert.R
+import com.example.sauexpert.bracelet_indicator.CustomTextRadioGroup
 import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.model.GlucoseData
 import com.example.sauexpert.model.ListNumberOfYForTableData
-import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.model.TextOfTabData
+import com.example.sauexpert.ui.theme.*
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -123,59 +126,57 @@ fun GlucosewithBarChart(
                     positionOnX = 15f,
                     glucoseBeforeFood = 200f,
                     glucoseAfterFood = 200f,
-                    dateName = "16.12"
+                    dateName = "16"
                 ),
                 GlucoseData(
                     positionOnX = 115f,
                     glucoseBeforeFood = 30f,
                     glucoseAfterFood = 200f,
-                    dateName = "17.12"
+                    dateName = "17"
                 ),
                 GlucoseData(
                     positionOnX = 215f,
                     glucoseBeforeFood = 190f,
                     glucoseAfterFood = 60f,
-                    dateName = "18.12"
+                    dateName = "18"
                 ),
                 GlucoseData(
                     positionOnX = 315f,
                     glucoseBeforeFood = 180f,
                     glucoseAfterFood = 200f,
-                    dateName = "19.12",
+                    dateName = "19",
                 ),
                 GlucoseData(
                     positionOnX = 415f,
                     glucoseBeforeFood = 220f,
                     glucoseAfterFood = 200f,
-                    dateName = "20.12",
+                    dateName = "20",
                 ),
                 GlucoseData(
                     positionOnX = 515f,
                     glucoseBeforeFood = 240f,
                     glucoseAfterFood = 200f,
-                    dateName = "21.12"
+                    dateName = "21"
                 ),
                 GlucoseData(
                     positionOnX = 615f,
                     glucoseBeforeFood = 30f,
                     glucoseAfterFood = 200f,
-                    dateName = "22.12"
+                    dateName = "22"
                 )
             ),
             ListNumberData = listOf(
-                ListNumberOfYForTableData("8.5"),
-                ListNumberOfYForTableData("8.0"),
-                ListNumberOfYForTableData("7.5"),
-                ListNumberOfYForTableData("7.0"),
-                ListNumberOfYForTableData("6.5"),
-                ListNumberOfYForTableData("6.0"),
-                ListNumberOfYForTableData("5.5"),
+                ListNumberOfYForTableData("8"),
+                ListNumberOfYForTableData("6"),
+                ListNumberOfYForTableData("4"),
+                ListNumberOfYForTableData("2"),
+                ListNumberOfYForTableData("0"),
             ),
             state = state,
             visible = visible
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         MeasurementChangeForGlucose(
             onClick = onClick,
@@ -185,14 +186,14 @@ fun GlucosewithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
 
         TextWithIconForGraph(
-            color = Color(232, 171, 178),
+            color = Pink4294,
             text = stringResource(id = R.string.level_of_glucose_before_food)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextWithIconForGraph(
-            color = Color.Red,
+            color = Blue4289,
             text = stringResource(id = R.string.level_of_glucose_after_food)
         )
     }
@@ -202,20 +203,51 @@ fun GlucosewithBarChart(
 fun GlucoseTitle(
     modifier: Modifier = Modifier
 ) {
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
+
+    var textDate = "18-20 ноября 2021"
+
     Column(
         modifier = modifier
             .fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.glucose),
+            text = stringResource(id = R.string.blood_glucose),
             style = MaterialTheme.typography.caption
         )
 
-        TextWithBigValueAndDateForGraph(
-            textValue = 6,
-            text = stringResource(R.string.millimoles_per_liter_average),
-            textDate = "18-20 ноября 2021"
+        Spacer(modifier = Modifier.height(12.dp))
+
+        CustomTextRadioGroup(
+            TextOfTab = listOf(
+                TextOfTabData(stringResource(R.string.week)),
+                TextOfTabData(stringResource(R.string.month)),
+                TextOfTabData(
+                    stringResource(R.string.choose),
+                    painter = painterResource(R.drawable.ic_calendar_icon)
+                )
+            )
+        ) {
+            selectedTabIndex = it
+        }
+        when (selectedTabIndex) {
+            0 -> textDate = "18-20 ноября 2021"
+            1 -> textDate = "Ноября 2021"
+
+        }
+
+        Spacer(modifier = Modifier.height(2.dp))
+
+        Text(
+            text = textDate,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
+            color = Gray30
         )
+
+
     }
 }
 
@@ -233,19 +265,12 @@ fun BarChartForGlucose(
         animationSpec = FloatTweenSpec(duration = 1000)
     )
 
+    val listSize = glucoseData.size - 1
+    val heightForGraph = (ListNumberData.size * 35).dp
 
     val itemID = remember { mutableStateOf(-1) }
     val positionOfX = remember { mutableStateOf(1) }
     val positionOfY = remember { mutableStateOf(1) }
-
-    InfoDialogForBarChartOfGlucose(
-        visible = visible,
-        itemID = itemID,
-        xPosition = positionOfX,
-        yPosition = positionOfY,
-        GlucoseData = glucoseData
-    )
-
     val hideBarBeforeFood: Boolean
     val hideBarAfterFood: Boolean
 
@@ -264,6 +289,14 @@ fun BarChartForGlucose(
         }
     }
 
+    InfoDialogForBarChartOfGlucose(
+        visible = visible,
+        itemID = itemID,
+        xPosition = positionOfX,
+        yPosition = positionOfY,
+        GlucoseData = glucoseData
+    )
+
     setRedColorInsideDataClassForGlucose(
         GlucoseData = glucoseData,
         itemID = itemID,
@@ -273,7 +306,7 @@ fun BarChartForGlucose(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(240.dp)
+            .height(heightForGraph)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
@@ -294,7 +327,6 @@ fun BarChartForGlucose(
             }
     ) {
         var height = 0
-        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -302,17 +334,10 @@ fun BarChartForGlucose(
         }
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(x = 0f, y = height.dp.toPx()),
-                end = Offset(x = 780f, y = height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
                 i.number,
-                320.dp.toPx(),
-                (10 + height).dp.toPx(),
+                glucoseData[listSize].positionOnX + 48.dp.toPx(),
+                height.dp.toPx(),
                 paint
             )
 
@@ -321,13 +346,6 @@ fun BarChartForGlucose(
 
         start = true
         for (p in glucoseData) {
-            drawLine(
-                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-                end = Offset(wight.dp.toPx(), 0f),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             if (!hideBarBeforeFood) {
                 drawRect(
                     color = p.colorFocusBeforeFood,
@@ -336,7 +354,7 @@ fun BarChartForGlucose(
                         y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
                     ),
                     size = Size(
-                        width = 10.dp.toPx(),
+                        width = 8.dp.toPx(),
                         height = ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
                     )
                 )
@@ -346,11 +364,11 @@ fun BarChartForGlucose(
                 drawRect(
                     color = p.colorFocusAfterFood,
                     topLeft = Offset(
-                        x = p.positionOnX + 35,
+                        x = p.positionOnX + 12.dp.toPx(),
                         y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
                     ),
                     size = Size(
-                        width = 10.dp.toPx(),
+                        width = 8.dp.toPx(),
                         height = ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
                     )
                 )
@@ -359,12 +377,10 @@ fun BarChartForGlucose(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 38,
+                p.positionOnX + 10.dp.toPx(),
                 (height - 15).dp.toPx(),
                 paint
             )
-
-            wight += 38
         }
     }
 }
@@ -388,8 +404,8 @@ private fun identifyClickItemForGlucose(dataList: List<GlucoseData>, x: Float, y
 
 private fun ResetColorInsideDataClassForGlucose(GlucoseData: List<GlucoseData>) {
     for (p in GlucoseData) {
-        p.colorFocusBeforeFood = Color(250, 218, 221)
-        p.colorFocusAfterFood = Color(242, 181, 188)
+        p.colorFocusBeforeFood = Pink4294
+        p.colorFocusAfterFood = Blue4289
     }
 }
 
@@ -467,7 +483,7 @@ fun MeasurementChangeForGlucose(
             .padding(16.dp)
     ) {
         Text(
-            text = stringResource(R.string.show_measurements),
+            text = stringResource(R.string.measurements),
             style = MaterialTheme.typography.button,
             fontSize = 15.sp,
         )

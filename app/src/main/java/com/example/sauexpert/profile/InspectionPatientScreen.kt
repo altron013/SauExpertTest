@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.*
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
+import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
@@ -55,7 +56,7 @@ fun InspectionPatientScreen() {
             onClick = { /*TODO*/ },
             enableState = true,
             icon = R.drawable.ic_plus_circle,
-            backgroundColor = Color(255, 205, 211),
+            backgroundColor = Pink42949,
             textColor = Color.Red
         )
     }
@@ -145,7 +146,7 @@ fun PreviousInspectionsStat(
                 enableState = true,
                 icon = R.drawable.ic_square_and_pencil,
                 buttonHeight = 35.dp,
-                backgroundColor = Color(255, 205, 211),
+                backgroundColor = Pink42949,
                 textColor = Color.Red
             )
         }
