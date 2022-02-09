@@ -1,6 +1,7 @@
 package com.example.sauexpert.indicator_with_chart
 
 import android.graphics.Paint
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -208,7 +210,8 @@ fun GlucoseTitle(
         mutableStateOf(0)
     }
 
-    var textDate = "18-20 ноября 2021"
+    val date = remember { mutableStateOf("") }
+    val activity = LocalContext.current as AppCompatActivity
 
     Column(
         modifier = modifier
@@ -229,20 +232,22 @@ fun GlucoseTitle(
                     stringResource(R.string.choose),
                     painter = painterResource(R.drawable.ic_calendar_icon)
                 )
-            )
+            ),
+            activity = activity,
+            dateText = date
         ) {
             selectedTabIndex = it
         }
         when (selectedTabIndex) {
-            0 -> textDate = "18-20 ноября 2021"
-            1 -> textDate = "Ноября 2021"
+            0 -> date.value = "18-20 ноября 2021"
+            1 -> date.value = "Ноября 2021"
 
         }
 
         Spacer(modifier = Modifier.height(2.dp))
 
         Text(
-            text = textDate,
+            text = date.value,
             style = MaterialTheme.typography.h6,
             fontSize = 15.sp,
             color = Gray30

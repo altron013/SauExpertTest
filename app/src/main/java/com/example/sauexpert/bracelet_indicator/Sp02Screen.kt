@@ -194,14 +194,16 @@ fun SP02Title(
                         stringResource(R.string.choose),
                         painter = painterResource(R.drawable.ic_calendar_icon)
                     )
-                )
+                ),
+                activity = activity,
+                dateText = date
             ) {
                 selectedTabIndex = it
             }
             when (selectedTabIndex) {
                 0 -> date.value = "18-20 ноября 2021"
                 1 -> date.value = "Ноября 2021"
-                2 -> showDatePicker(activity, date)
+//                2 -> showDatePicker(activity, date)
 
             }
         }

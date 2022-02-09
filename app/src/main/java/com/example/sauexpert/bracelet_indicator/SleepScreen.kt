@@ -112,7 +112,7 @@ fun SleepTitle(
         mutableStateOf(0)
     }
 
-    var textDate = "18-20 ноября 2021"
+    val date = remember { mutableStateOf("") }
 
     Column(
         modifier = modifier
@@ -134,13 +134,14 @@ fun SleepTitle(
                 TextOfTab = listOf(
                     TextOfTabData(stringResource(R.string.week)),
                     TextOfTabData(stringResource(R.string.month)),
-                )
+                ),
+                dateText = date
             ) {
                 selectedTabIndex = it
             }
             when (selectedTabIndex) {
-                0 -> textDate = "18-20 ноября 2021"
-                1 -> textDate = "Ноября 2021"
+                0 -> date.value = "18-20 ноября 2021"
+                1 ->  date.value = "Ноября 2021"
 
             }
         }
@@ -149,7 +150,7 @@ fun SleepTitle(
 
 
         Text(
-            text = textDate,
+            text = date.value,
             style = MaterialTheme.typography.h6,
             fontSize = 15.sp,
             color = Gray30

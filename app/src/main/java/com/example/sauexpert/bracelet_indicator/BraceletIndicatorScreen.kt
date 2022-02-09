@@ -276,6 +276,8 @@ fun CustomTextRadioGroup(
     TextOfTab: List<TextOfTabData>,
     backgroundColor: Color = Gray4292,
     textColor: Color = Color.Black,
+    activity: AppCompatActivity? = null,
+    dateText: MutableState<String>? = null,
     onTabSelected: (selectedIndex: Int) -> Unit
 ) {
 
@@ -300,6 +302,11 @@ fun CustomTextRadioGroup(
                     .clickable {
                         selectedTabIndex = index
                         onTabSelected(index)
+                        if(index == 2) {
+                            activity?.let {
+                                dateText?.let { it1 -> showDatePicker(it, it1) }
+                            }
+                        }
                     }
                     .background(
                         if (selectedTabIndex == index) backgroundColor else Color.White
@@ -330,6 +337,32 @@ fun CustomTextRadioGroup(
             }
         }
     }
+}
+
+fun showDatePicker(
+    activity: AppCompatActivity,
+    dateText: MutableState<String>
+){
+    val picker = MaterialDatePicker.Builder.dateRangePicker().build()
+    activity?.let {
+        picker.show(it.supportFragmentManager, picker.toString())
+        picker.addOnPositiveButtonClickListener { dateSelected ->
+            val startDate  = dateSelected.first
+            val endDate  = dateSelected.second
+
+            if (startDate != null && endDate != null) {
+                dateText.value = "${convertLongToTime(startDate)} - ${convertLongToTime(endDate)}"
+            }
+        }
+    }
+}
+
+private fun convertLongToTime(time: Long): String {
+    val date = Date(time)
+    val format = SimpleDateFormat(
+        "dd.MM.yyyy",
+        Locale.getDefault())
+    return format.format(date)
 }
 
 
@@ -543,31 +576,7 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
 }
 
 
-fun showDatePicker(
-    activity: AppCompatActivity,
-    dateText: MutableState<String>
-){
-    val picker = MaterialDatePicker.Builder.dateRangePicker().build()
-    activity?.let {
-        picker.show(it.supportFragmentManager, picker.toString())
-        picker.addOnPositiveButtonClickListener { dateSelected ->
-            val startDate  = dateSelected.first
-            val endDate  = dateSelected.second
 
-            if (startDate != null && endDate != null) {
-                dateText.value = "${convertLongToTime(startDate)} - ${convertLongToTime(endDate)}"
-            }
-        }
-    }
-}
-
-private fun convertLongToTime(time: Long): String {
-    val date = Date(time)
-    val format = SimpleDateFormat(
-        "dd.MM.yyyy",
-        Locale.getDefault())
-    return format.format(date)
-}
 
 
 
