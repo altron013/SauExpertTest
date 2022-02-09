@@ -140,17 +140,12 @@ fun WellBeingTextField(
 
 @Composable
 fun WellBeingCheck() {
-    val options = listOf(
-        "Да",
-        "Нет"
-    )
     var selectedOption by remember {
         mutableStateOf("")
     }
     val onSelectionChange = { text: String ->
         selectedOption = text
     }
-    val selectedRole = remember { mutableStateOf("") }
     Text(text = "Хорошо ли Вы себя чувствуете?", fontSize = 17.sp)
     Spacer(Modifier.padding(12.dp))
     Row(
@@ -159,7 +154,6 @@ fun WellBeingCheck() {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-
         OutlinedMainButton(
             text = "Да",
             onClick = {
@@ -280,9 +274,6 @@ fun DefineWellBeing() {
                 onClick = { onSelectionChange(it) },
                 enableState = true,
                 modifier = Modifier
-                    .clickable {
-                        onSelectionChange(it)
-                    }
                     .border(
                         border = BorderStroke(
                             width = 1.dp,
