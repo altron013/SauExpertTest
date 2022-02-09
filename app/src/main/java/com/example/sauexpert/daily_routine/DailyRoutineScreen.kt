@@ -1,6 +1,5 @@
 package com.example.sauexpert.daily_routine
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,7 +15,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -162,7 +160,6 @@ fun MainDailyRoutineSection(
 
         for (i in listActivity) {
             if (i.meal) {
-//                index.value = listActivity.indexOf(i)
                 CardForMainDailyRoutine(
                     title = i.activity,
                     text = i.time,
@@ -185,7 +182,6 @@ fun MainDailyRoutineSection(
 
         for (i in listActivity) {
             if (!i.meal) {
-//                index.value = listActivity.indexOf(i)
                 CardForMainDailyRoutine(
                     title = i.activity,
                     text = i.time,
@@ -220,8 +216,6 @@ fun CardForMainDailyRoutine(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -235,11 +229,6 @@ fun CardForMainDailyRoutine(
         Text(
             text = title,
             style = MaterialTheme.typography.body1,
-            modifier = modifier.clickable {
-                index.value = id
-                Toast.makeText(context, "${index.value}", Toast.LENGTH_SHORT).show()
-
-            }
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -263,8 +252,10 @@ fun CardForMainDailyRoutine(
         Spacer(modifier = Modifier.width(22.dp))
 
         IconButton(
-            onClick = onClick,
-
+            onClick = {
+                onClick()
+                index.value = id
+            },
         ) {
             Icon(
                 imageVector = Icons.Default.MoreHoriz,
