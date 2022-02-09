@@ -26,6 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
@@ -153,7 +155,7 @@ fun SP02withLineGraph(
 
         TextWithIconForGraph(
             color = Color.Red,
-            text = stringResource(id = R.string.sleep_apnea)
+            text = stringResource(id = R.string.sleep_apnea).toUpperCase(Locale.current)
         )
 //        SP02Indicator()
 
