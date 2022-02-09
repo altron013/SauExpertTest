@@ -68,9 +68,7 @@ fun MyPatients() {
                     )
                 }
             }
-            Button(onClick = {
-
-            }
+            Button(onClick = {}
             ) {
             }
             Spacer(modifier = Modifier.padding(8.dp))

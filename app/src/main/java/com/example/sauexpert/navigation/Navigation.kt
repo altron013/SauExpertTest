@@ -19,7 +19,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.sauexpert.my_patients.MyPatients2
 import com.example.sauexpert.my_patients.MyPatientsNewGroup
+import com.example.sauexpert.profile.SupplementData
 import com.example.sauexpert.signup_patient.GetAccessScreen
 import com.example.sauexpert.survey.HadsScreen
 import com.example.sauexpert.survey.PhysicalActivityScreen
@@ -52,19 +54,21 @@ fun Navigation(
 ) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-            PhysicalActivityScreen()
+           // PhysicalActivityScreen()
+            SupplementData()
         }
         composable("myPatients") {
-            HadsScreen()
+           // HadsScreen()
+            MyPatients2()
         }
         composable("settings") {
-            GetAccessScreen()
+            //GetAccessScreen()
         }
         composable("notification") {
-            GlucoseLevelScreen()
+           // GlucoseLevelScreen()
         }
         composable("profile") {
-            WellBeingScreen()
+           // WellBeingScreen()
         }
     }
 

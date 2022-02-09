@@ -272,4 +272,6 @@
     <string name="complete_hads_survey">Заполните анкету шкалы тревоги и депрессии (HADS)</string>
     <string name="hads_scale">Шкала тревоги
 и депрессии (HADS)</string>
+    <string name="filled">Заполнено</string>
+
 </resources>
