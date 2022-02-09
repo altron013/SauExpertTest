@@ -92,7 +92,7 @@ fun StepsTitle(
         mutableStateOf(1)
     }
 
-    var textDate = "18-20 ноября 2021"
+    val date = remember { mutableStateOf("") }
 
 
     Column(
@@ -119,8 +119,8 @@ fun StepsTitle(
                 selectedTabIndex = it
             }
             when (selectedTabIndex) {
-                0 -> textDate = "18-20 ноября 2021"
-                1 -> textDate = "Ноября 2021"
+                0 -> date.value = "18-20 ноября 2021"
+                1 -> date.value = "Ноября 2021"
 
             }
         }
@@ -128,7 +128,7 @@ fun StepsTitle(
         TextWithBigValueAndDateForGraph(
             textValue = 3320,
             text = stringResource(R.string.steps_per_day),
-            textDate = "18-20 ноября 2021"
+            textDate = date.value
         )
     }
 }
