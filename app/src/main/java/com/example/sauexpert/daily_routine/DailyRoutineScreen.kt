@@ -58,7 +58,7 @@ fun DailyRoutineScreen() {
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
 
-    val index = rememberSaveable{ mutableStateOf(0) }
+    val index = remember { mutableStateOf(0) }
 
 
     val coroutineScope = rememberCoroutineScope()
@@ -104,6 +104,7 @@ fun DailyRoutineScreen() {
                             coroutineScope.launch {
                                 bottomSheetScaffoldState.bottomSheetState.expand()
                             }
+
                         },
                         listActivity = listActivity,
                         index = index
@@ -262,7 +263,8 @@ fun CardForMainDailyRoutine(
         Spacer(modifier = Modifier.width(22.dp))
 
         IconButton(
-            onClick = onClick
+            onClick = onClick,
+
         ) {
             Icon(
                 imageVector = Icons.Default.MoreHoriz,
@@ -284,7 +286,7 @@ fun BottomSheetContentForDailyRoutine(
     onClick: () -> Unit,
 ) {
 
-    var stateForRename by rememberSaveable { mutableStateOf(listActivity[indexFromList.value].activity) }
+    var stateForRename by rememberSaveable { mutableStateOf("") }
 
     val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
 
@@ -307,6 +309,7 @@ fun BottomSheetContentForDailyRoutine(
                 text = stringResource(R.string.rename),
                 onClick = {
                     visible.value = true
+                    stateForRename = listActivity[indexFromList.value].activity
                 },
                 enableState = true,
                 shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
