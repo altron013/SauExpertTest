@@ -27,7 +27,6 @@ fun OutlinedMainButton(
     colors: ButtonColors = ButtonDefaults.buttonColors(
         backgroundColor = MaterialTheme.colors.onPrimary,
         contentColor =
-        //if (selected.value) Color.Red else
         Color.Gray
     ),
     textColor: Color = Color.Gray
@@ -67,9 +66,9 @@ fun OutlinedMainButton(
                     contentDescription = null,
                 )
             }
-
-            if (icon != null && text != null) {Spacer(modifier = Modifier.width(16.dp))}
-
+            if (icon != null && text != null) {
+                Spacer(modifier = Modifier.width(16.dp))
+            }
             text?.let {
                 Text(
                     text = text,

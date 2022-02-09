@@ -26,17 +26,15 @@ val SurfaceF9 = Color(0xFFF9F9F9)
 val Surface1F7 = Color(0x1F767680)
 val SurfaceE5E5E5 = Color(0xE5E5E5)
 val Red4294 = Color(0xFFFF4F4F)
-
 val Red435B = Color(0xFFFF435B)
 val Red4141 = Color(0xFFFF4141)
 val Pink20p = Color(0x33FF4141)
-
 val Green34C759 = Color(0xFF34C759)
 val Green15B83D = Color(0xFF15B83D)
 val Green57C3A7 = Color(0xFF57C3A7)
 val Green57C3A740p = Color(0x6657C3A7)
 val Green117259 = Color(0xFF117259)
 val Black333333 = Color(0xFF333333)
-
 val Blue007AFF = Color(0xFF007AFF)
 val Blue4285 = Color(0xFF75A6D3)
+val Orange1=Color(0xFFFF9F0A)

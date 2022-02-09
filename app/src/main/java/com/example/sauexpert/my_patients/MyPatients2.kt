@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.profile.RoundImage
+import com.example.sauexpert.ui.theme.Blue007AFF
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.widgets.compose.MainButtonM
@@ -44,7 +45,7 @@ fun MyPatients2() {
             sheetPeekHeight = 0.dp,
             sheetShape = RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp),
             sheetContent = {
-                //ButtonActionView()
+                ButtonActionView()
                 //ChoosePriority()
             },
         ) {
@@ -130,44 +131,44 @@ fun ButtonWithTextColorChange(
     }
 }
 
-//@Composable
-//fun ButtonActionView() {
-//    Box {
-//        Column(
-//            modifier = Modifier
-//            // .align(Alignment.BottomCenter)
-//        ) {
-//            ButtonWithTextColorChange(
-//                text = "Осмотреть пациента",
-//                onClick = {},
-//                enableState = true,
-//                shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
-//                contentColor = Blue007AFF
-//            )
-//            ButtonWithTextColorChange(
-//                text = "Перейти к карточке",
-//                onClick = {},
-//                enableState = true,
-//                shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp),
-//                contentColor = Blue007AFF
-//            )
-//            ButtonWithTextColorChange(
-//                text = "Поставить приоритет",
-//                onClick = {},
-//                enableState = true,
-//                shape = RoundedCornerShape(0.dp, 0.dp, 12.dp, 12.dp),
-//                contentColor = Blue007AFF
-//            )
-//            Spacer(modifier = Modifier.padding(bottom = 9.dp))
-//            ButtonWithTextColorChange(
-//                text = "Отменить",
-//                onClick = {},
-//                enableState = true,
-//                contentColor = Blue007AFF
-//            )
-//        }
-//    }
-//}
+@Composable
+fun ButtonActionView() {
+    Box {
+        Column(
+            modifier = Modifier
+            // .align(Alignment.BottomCenter)
+        ) {
+            ButtonWithTextColorChange(
+                text = "Осмотреть пациента",
+                onClick = {},
+                enableState = true,
+                shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
+                contentColor = Blue007AFF
+            )
+            ButtonWithTextColorChange(
+                text = "Перейти к карточке",
+                onClick = {},
+                enableState = true,
+                shape = RoundedCornerShape(0.dp, 0.dp, 0.dp, 0.dp),
+                contentColor = Blue007AFF
+            )
+            ButtonWithTextColorChange(
+                text = "Поставить приоритет",
+                onClick = {},
+                enableState = true,
+                shape = RoundedCornerShape(0.dp, 0.dp, 12.dp, 12.dp),
+                contentColor = Blue007AFF
+            )
+            Spacer(modifier = Modifier.padding(bottom = 9.dp))
+            ButtonWithTextColorChange(
+                text = "Отменить",
+                onClick = {},
+                enableState = true,
+                contentColor = Blue007AFF
+            )
+        }
+    }
+}
 
 @Composable
 fun ChoosePriority() {
