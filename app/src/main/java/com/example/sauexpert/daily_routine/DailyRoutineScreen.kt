@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.sauexpert.R
+import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.my_patients.ButtonWithTextColorChange
 import com.example.sauexpert.profile.OutlinedTextFieldWithBackground
 import com.example.sauexpert.profile.ProfileForInspection
@@ -33,23 +34,16 @@ import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton
 import kotlinx.coroutines.launch
 
 
-data class TimeActivity(
-    var activity: String,
-    var time: String,
-    val meal: Boolean = true
-)
-
-
 @ExperimentalMaterialApi
 @Composable
 fun DailyRoutineScreen() {
 
     val listActivity = mutableListOf(
-        TimeActivity(activity = "Завтрак", time = "09:00"),
-        TimeActivity(activity = "Обед", time = "09:00"),
-        TimeActivity(activity = "Ужин", time = "10:00"),
-        TimeActivity(activity = "Подъём", time = "10:00", meal = false),
-        TimeActivity(activity = "Сон", time = "10:00", meal = false),
+        TimeActivityData(activity = "Завтрак", time = "09:00"),
+        TimeActivityData(activity = "Обед", time = "09:00"),
+        TimeActivityData(activity = "Ужин", time = "10:00"),
+        TimeActivityData(activity = "Подъём", time = "10:00", meal = false),
+        TimeActivityData(activity = "Сон", time = "10:00", meal = false),
     )
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -118,7 +112,7 @@ fun DailyRoutineScreen() {
 @Composable
 fun MainDailyRoutineSection(
     modifier: Modifier = Modifier,
-    listActivity: MutableList<TimeActivity>,
+    listActivity: MutableList<TimeActivityData>,
     index: MutableState<Int>,
     onClick: () -> Unit,
 ) {
@@ -272,7 +266,7 @@ fun CardForMainDailyRoutine(
 @Composable
 fun BottomSheetContentForDailyRoutine(
     modifier: Modifier = Modifier,
-    listActivity: MutableList<TimeActivity>,
+    listActivity: MutableList<TimeActivityData>,
     indexFromList: MutableState<Int>,
     onClick: () -> Unit,
 ) {

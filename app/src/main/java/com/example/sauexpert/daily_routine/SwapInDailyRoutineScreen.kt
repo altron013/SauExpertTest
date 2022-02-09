@@ -12,13 +12,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.RemoveCircle
 import androidx.compose.material.icons.filled.Reorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
+import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.drag_drop.DragDropList
+import com.example.sauexpert.widgets.compose.drag_drop.move
 
 @Composable
 fun SwapDailyRoutineScreen() {
@@ -51,29 +55,36 @@ fun SwapDailyRoutineScreen() {
 @Composable
 fun MainSectionForSwap() {
 
-    val listActivity = mutableListOf(
-        TimeActivity(activity = "Завтрак", time = "09:00"),
-        TimeActivity(activity = "Обед", time = "09:00"),
-        TimeActivity(activity = "Ужин", time = "10:00"),
-    )
+    val listActivity = listOf(
+        TimeActivityData(activity = "Завтрак", time = "09:00"),
+        TimeActivityData(activity = "Обед", time = "09:00"),
+        TimeActivityData(activity = "Ужин", time = "10:00"),
+    ).toMutableStateList()
 
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-            .background(
-                color = Color.White,
-                shape = RoundedCornerShape(10.dp)
-            )
+//            .background(
+//                color = Color.White,
+//                shape = RoundedCornerShape(10.dp)
+//            )
     ) {
-        for (i in listActivity) {
-            ItemForList(
-                title = i.activity,
-                time = i.time
-            )
-            Spacer(modifier = Modifier.height(5.dp))
+//        for (i in listActivity) {
+//            ItemForList(
+//                title = i.activity,
+//                time = i.time
+//            )
+//            Spacer(modifier = Modifier.height(5.dp))
+//
+//        }
 
-        }
+        DragDropList(
+            items = listActivity,
+            onMove = { fromIndex, toIndex -> listActivity.move(fromIndex, toIndex) }
+        )
     }
 }
 
@@ -119,10 +130,31 @@ fun ItemForList(
             imageVector = Icons.Default.Reorder,
             contentDescription = null,
             tint = Color.Black,
-            modifier = modifier.size(18.dp).clickable {
-
-            }
+            modifier = modifier.size(18.dp)
         )
     }
 }
+
+val ReorderItem = listOf(
+    "Item 1",
+    "Item 2",
+    "Item 3",
+    "Item 4",
+    "Item 5",
+    "Item 6",
+    "Item 7",
+    "Item 8",
+    "Item 9",
+    "Item 10",
+    "Item 11",
+    "Item 12",
+    "Item 13",
+    "Item 14",
+    "Item 15",
+    "Item 16",
+    "Item 17",
+    "Item 18",
+    "Item 19",
+    "Item 20"
+).toMutableStateList()
 
