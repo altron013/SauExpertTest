@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -17,6 +18,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.daily_routine.ItemForList
 import com.example.sauexpert.model.TimeActivityData
+import com.example.sauexpert.ui.theme.Gray30
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -29,6 +31,8 @@ fun DragDropList(
     val scope = rememberCoroutineScope()
     var overScrollJob by remember { mutableStateOf<Job?>(null) }
     val dragDropListState = rememberDragDropListState(onMove = onMove)
+
+    val listSize = items.size - 1
 
     LazyColumn(
         modifier = modifier
@@ -55,8 +59,8 @@ fun DragDropList(
                     onDragCancel = { dragDropListState.onDragInterrupted() }
                 )
             }
-            .fillMaxSize()
-            .padding(top = 10.dp, start = 10.dp, end = 10.dp),
+            .fillMaxWidth()
+            .background(Color.White, shape = RoundedCornerShape(10.dp)),
         state = dragDropListState.lazyListState
     ) {
         itemsIndexed(items) { index, item ->
@@ -70,9 +74,7 @@ fun DragDropList(
                             translationY = offsetOrNull ?: 0f
                         }
                     }
-                    .background(Color.White, shape = RoundedCornerShape(8.dp))
                     .fillMaxWidth()
-                    .padding(20.dp)
             ) {
                 ItemForList(
                     title = item.activity,
@@ -80,7 +82,19 @@ fun DragDropList(
                 )
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            if (index < listSize) {
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Divider(
+                    color = Gray30.copy(alpha = 0.29f),
+                    thickness = 1.dp,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+            }
+
         }
     }
 }
