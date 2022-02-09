@@ -59,7 +59,7 @@ fun Navigation(
         }
         composable("myPatients") {
            // HadsScreen()
-            //MyPatients2()
+            MyPatients2()
         }
         composable("settings") {
             //GetAccessScreen()
