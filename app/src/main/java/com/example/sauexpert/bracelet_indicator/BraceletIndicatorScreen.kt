@@ -1,5 +1,6 @@
 package com.example.sauexpert.bracelet_indicator
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +32,9 @@ import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray4292
 import com.example.sauexpert.widgets.compose.MainButton
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @ExperimentalMaterialApi
@@ -536,6 +540,33 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
 
         }
     }
+}
+
+
+fun showDatePicker(
+    activity: AppCompatActivity,
+    dateText: MutableState<String>
+){
+    val picker = MaterialDatePicker.Builder.dateRangePicker().build()
+    activity?.let {
+        picker.show(it.supportFragmentManager, picker.toString())
+        picker.addOnPositiveButtonClickListener { dateSelected ->
+            val startDate  = dateSelected.first
+            val endDate  = dateSelected.second
+
+            if (startDate != null && endDate != null) {
+                dateText.value = "${convertLongToTime(startDate)} - ${convertLongToTime(endDate)}"
+            }
+        }
+    }
+}
+
+private fun convertLongToTime(time: Long): String {
+    val date = Date(time)
+    val format = SimpleDateFormat(
+        "dd.MM.yyyy",
+        Locale.getDefault())
+    return format.format(date)
 }
 
 

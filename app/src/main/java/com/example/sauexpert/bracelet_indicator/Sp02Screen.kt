@@ -1,6 +1,7 @@
 package com.example.sauexpert.bracelet_indicator
 
 import android.graphics.Paint
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,6 +22,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -166,7 +168,8 @@ fun SP02Title(
         mutableStateOf(0)
     }
 
-    var textDate = "18-20 ноября 2021"
+    val date = remember { mutableStateOf("") }
+    val activity = LocalContext.current as AppCompatActivity
 
     Column(
         modifier = modifier
@@ -196,8 +199,9 @@ fun SP02Title(
                 selectedTabIndex = it
             }
             when (selectedTabIndex) {
-                0 -> textDate = "18-20 ноября 2021"
-                1 -> textDate = "Ноября 2021"
+                0 -> date.value = "18-20 ноября 2021"
+                1 -> date.value = "Ноября 2021"
+                2 -> showDatePicker(activity, date)
 
             }
         }
@@ -206,7 +210,7 @@ fun SP02Title(
 
 
         Text(
-            text = textDate,
+            text = "${date.value}",
             style = MaterialTheme.typography.h6,
             fontSize = 15.sp,
             color = Gray30
