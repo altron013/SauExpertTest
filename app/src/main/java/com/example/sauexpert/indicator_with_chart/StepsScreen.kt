@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -52,6 +53,9 @@ fun StepsScreen() {
 fun StepswithBarChart(
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp - 300
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -64,13 +68,37 @@ fun StepswithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSteps(
             StepsData = listOf(
-                StepsData(positionOnX = 10f, stepsPerDay = 200f, dateName = "16"),
-                StepsData(positionOnX = 110f, stepsPerDay = 30f, dateName = "17"),
-                StepsData(positionOnX = 210f, stepsPerDay = 190f, dateName = "18"),
-                StepsData(positionOnX = 310f, stepsPerDay = 180f, dateName = "19"),
-                StepsData(positionOnX = 410f, stepsPerDay = 220f, dateName = "20"),
-                StepsData(positionOnX = 510f, stepsPerDay = 240f, dateName = "21"),
-                StepsData(positionOnX = 610f, stepsPerDay = 30f, dateName = "22")
+                StepsData(positionOnX = 0f, stepsPerDay = 200f, dateName = "16"),
+                StepsData(
+                    positionOnX = (screenWidth).toFloat(),
+                    stepsPerDay = 30f,
+                    dateName = "17"
+                ),
+                StepsData(
+                    positionOnX = (screenWidth * 2).toFloat(),
+                    stepsPerDay = 190f,
+                    dateName = "18"
+                ),
+                StepsData(
+                    positionOnX = (screenWidth * 3).toFloat(),
+                    stepsPerDay = 180f,
+                    dateName = "19"
+                ),
+                StepsData(
+                    positionOnX = (screenWidth * 4).toFloat(),
+                    stepsPerDay = 220f,
+                    dateName = "20"
+                ),
+                StepsData(
+                    positionOnX = (screenWidth * 5).toFloat(),
+                    stepsPerDay = 240f,
+                    dateName = "21"
+                ),
+                StepsData(
+                    positionOnX = (screenWidth * 6).toFloat(),
+                    stepsPerDay = 30f,
+                    dateName = "22"
+                )
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("4 500"),

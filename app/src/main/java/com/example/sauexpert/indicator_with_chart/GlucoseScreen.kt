@@ -113,6 +113,10 @@ fun GlucosewithBarChart(
     state: String,
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth =   configuration.screenWidthDp - 300
+
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -126,43 +130,43 @@ fun GlucosewithBarChart(
         BarChartForGlucose(
             glucoseData = listOf(
                 GlucoseData(
-                    positionOnX = 15f,
+                    positionOnX = 0f,
                     glucoseBeforeFood = 200f,
                     glucoseAfterFood = 200f,
                     dateName = "16"
                 ),
                 GlucoseData(
-                    positionOnX = 115f,
+                    positionOnX = (screenWidth).toFloat(),
                     glucoseBeforeFood = 30f,
                     glucoseAfterFood = 200f,
                     dateName = "17"
                 ),
                 GlucoseData(
-                    positionOnX = 215f,
+                    positionOnX = (screenWidth * 2).toFloat(),
                     glucoseBeforeFood = 190f,
                     glucoseAfterFood = 60f,
                     dateName = "18"
                 ),
                 GlucoseData(
-                    positionOnX = 315f,
+                    positionOnX = (screenWidth * 3).toFloat(),
                     glucoseBeforeFood = 180f,
                     glucoseAfterFood = 200f,
                     dateName = "19",
                 ),
                 GlucoseData(
-                    positionOnX = 415f,
+                    positionOnX = (screenWidth * 4).toFloat(),
                     glucoseBeforeFood = 220f,
                     glucoseAfterFood = 200f,
                     dateName = "20",
                 ),
                 GlucoseData(
-                    positionOnX = 515f,
+                    positionOnX = (screenWidth * 5).toFloat(),
                     glucoseBeforeFood = 240f,
                     glucoseAfterFood = 200f,
                     dateName = "21"
                 ),
                 GlucoseData(
-                    positionOnX = 615f,
+                    positionOnX = (screenWidth * 6).toFloat(),
                     glucoseBeforeFood = 30f,
                     glucoseAfterFood = 200f,
                     dateName = "22"

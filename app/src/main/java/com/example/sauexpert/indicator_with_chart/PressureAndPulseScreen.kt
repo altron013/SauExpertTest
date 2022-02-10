@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
@@ -58,6 +59,9 @@ fun PressureAndPulsewithBarChart(
 ) {
     val visible = remember { mutableStateOf(false) }
 
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp - 300
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -71,43 +75,43 @@ fun PressureAndPulsewithBarChart(
         BarChartForPressureAndPulse(
             PressureData = listOf(
                 PressureData(
-                    positionOnX = 10f,
+                    positionOnX = 0f,
                     pressureInAverage = 150f,
                     dateName = "16",
                     startPoint = 200f
                 ),
                 PressureData(
-                    positionOnX = 110f,
+                    positionOnX = (screenWidth).toFloat(),
                     pressureInAverage = 230f,
                     dateName = "17",
                     startPoint = 170f
                 ),
                 PressureData(
-                    positionOnX = 210f,
+                    positionOnX = (screenWidth * 2).toFloat(),
                     pressureInAverage = 190f,
                     dateName = "18",
                     startPoint = 190f
                 ),
                 PressureData(
-                    positionOnX = 310f,
+                    positionOnX = (screenWidth * 3).toFloat(),
                     pressureInAverage = 180f,
                     dateName = "19",
                     startPoint = 150f
                 ),
                 PressureData(
-                    positionOnX = 410f,
+                    positionOnX = (screenWidth * 4).toFloat(),
                     pressureInAverage = 220f,
                     dateName = "20",
                     startPoint = 130f
                 ),
                 PressureData(
-                    positionOnX = 510f,
+                    positionOnX = (screenWidth * 5).toFloat(),
                     pressureInAverage = 240f,
                     dateName = "21",
                     startPoint = 150f
                 ),
                 PressureData(
-                    positionOnX = 610f,
+                    positionOnX = (screenWidth * 6).toFloat(),
                     pressureInAverage = 50f,
                     dateName = "22",
                     startPoint = 280f
@@ -115,13 +119,28 @@ fun PressureAndPulsewithBarChart(
             ),
 
             PulseData = listOf(
-                PulseData(positionOnX = 20f, pulseInMinuteAverage = 350f),
-                PulseData(positionOnX = 120f, pulseInMinuteAverage = 370f),
-                PulseData(positionOnX = 220f, pulseInMinuteAverage = 350f),
-                PulseData(positionOnX = 320f, pulseInMinuteAverage = 370f),
-                PulseData(positionOnX = 420f, pulseInMinuteAverage = 250f),
-                PulseData(positionOnX = 520f, pulseInMinuteAverage = 290f),
-                PulseData(positionOnX = 620f, pulseInMinuteAverage = 300f),
+                PulseData(positionOnX = 10f, pulseInMinuteAverage = 350f),
+                PulseData(positionOnX = (screenWidth + 10).toFloat(), pulseInMinuteAverage = 370f),
+                PulseData(
+                    positionOnX = (screenWidth * 2 + 10).toFloat(),
+                    pulseInMinuteAverage = 350f
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 3 + 10).toFloat(),
+                    pulseInMinuteAverage = 370f
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 4 + 10).toFloat(),
+                    pulseInMinuteAverage = 250f
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 5 + 10).toFloat(),
+                    pulseInMinuteAverage = 290f
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 6 + 10).toFloat(),
+                    pulseInMinuteAverage = 300f
+                ),
             ),
 
             ListNumberData = listOf(
