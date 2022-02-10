@@ -249,7 +249,7 @@ fun ActionToolBar(
 }
 
 @Composable
-fun ActionToolBarColumn(
+fun MainActionToolBar(
     iconBackClick: ImageVector? = null,
     textBackClick: String? = null,
     titleText: String? = null,

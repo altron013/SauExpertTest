@@ -1,7 +1,10 @@
 package com.example.sauexpert.signup_patient
 
 import android.widget.Toast
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -13,7 +16,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -23,8 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.ui.theme.GrayF0F
-import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarColumn
+import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
 
 @Composable
 fun CustomKeyboardOTPScreen() {
@@ -74,7 +75,7 @@ fun CustomKeyboard(
 //            .verticalScroll(rememberScrollState())
             .padding(8.dp)
     ) {
-        ActionToolBarColumn(
+        MainActionToolBar(
             textBackClick = stringResource(R.string.skip),
             onBackClick = {},
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)

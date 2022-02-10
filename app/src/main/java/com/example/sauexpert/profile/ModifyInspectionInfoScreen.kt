@@ -8,8 +8,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -17,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
-import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarColumn
+import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
 
 @Composable
 fun ModifyInspectionInfoScreen() {
@@ -26,7 +29,7 @@ fun ModifyInspectionInfoScreen() {
             .fillMaxSize()
             .background(color = Gray30.copy(alpha = 0.19f))
     ) {
-        ActionToolBarColumn(
+        MainActionToolBar(
             titleText = stringResource(R.string.general_inspection),
             iconBackClick = Icons.Default.ArrowBack,
             onBackClick = {},

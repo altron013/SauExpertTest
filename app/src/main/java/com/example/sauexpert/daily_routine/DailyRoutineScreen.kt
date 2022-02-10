@@ -30,7 +30,7 @@ import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.widgets.compose.MainButton
-import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarColumn
+import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
 import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton
 import kotlinx.coroutines.launch
 
@@ -88,7 +88,7 @@ fun DailyRoutineScreen() {
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                 ) {
-                    ActionToolBarColumn(
+                    MainActionToolBar(
                         titleText = stringResource(R.string.daily_routine),
                         iconBackClick = Icons.Default.ArrowBack,
                         onBackClick = {},
