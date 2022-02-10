@@ -1,7 +1,6 @@
 package com.example.sauexpert.bracelet_indicator
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -31,8 +30,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray4292
-import com.example.sauexpert.widgets.compose.MainButton
-import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,7 +52,7 @@ fun BraceletIndicatorScreen() {
 //            .padding(16.dp)
     ) {
         Spacer(modifier = Modifier.height(5.dp))
-        ActionToolBarRow(
+        ActionToolBar(
             titleText = stringResource(id = R.string.bracelet),
             iconBackClick = Icons.Default.ArrowBack,
             iconRightClick = painterResource(R.drawable.ic_calendar),

@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +23,7 @@ import com.example.sauexpert.profile.OutlinedTextFieldWithBackground
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
-import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 
 @Composable
 fun AddNewMealScreen() {
@@ -36,7 +38,7 @@ fun AddNewMealScreen() {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            ActionToolBarRow(
+            ActionToolBar(
                 titleText = stringResource(id = R.string.new_meal_time),
                 textBackClick = stringResource(id = R.string.close),
                 colorBackClick = Color.Red,

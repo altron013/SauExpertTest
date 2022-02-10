@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 import com.example.sauexpert.widgets.compose.drag_drop.DragDropList
 import com.example.sauexpert.widgets.compose.drag_drop.move
 
@@ -37,7 +37,7 @@ fun SwapDailyRoutineScreen() {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            ActionToolBarRow(
+            ActionToolBar(
                 titleText = stringResource(id = R.string.meal_time),
                 textBackClick = stringResource(id = R.string.cancellation),
                 textRightClick = stringResource(id = R.string.done),

@@ -30,7 +30,7 @@ import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
 import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
-import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 
 @Composable
 fun InspectionPatientScreen() {
@@ -41,7 +41,7 @@ fun InspectionPatientScreen() {
             .background(color = Gray30.copy(alpha = 0.19f))
             .padding(16.dp)
     ) {
-        ActionToolBarRow(
+        ActionToolBar(
             titleText = "Zhanna Akhmetova",
             iconBackClick = Icons.Default.ArrowBack,
             onBackClick = {},

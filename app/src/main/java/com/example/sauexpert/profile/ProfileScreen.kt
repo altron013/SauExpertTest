@@ -8,8 +8,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +26,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.model.CardListItemData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
-import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 
 @Composable
 fun ProfileScreen() {
@@ -41,7 +39,7 @@ fun ProfileScreen() {
             .background(color = Gray30.copy(alpha = 0.19f))
             .padding(16.dp)
     ) {
-        ActionToolBarRow(
+        ActionToolBar(
             titleText = stringResource(id = R.string.profile),
             textBackClick = stringResource(id = R.string.close),
             colorBackClick = Color.Red,

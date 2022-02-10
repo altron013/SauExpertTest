@@ -157,7 +157,7 @@ fun SubscriptionToolBar(
 }
 
 @Composable
-fun ActionToolBarRow(
+fun ActionToolBar(
     iconBackClick: ImageVector? = null,
     textBackClick: String? = null,
     onBackClick: () -> Unit,
@@ -305,7 +305,7 @@ fun ToolbarPrev() {
     SauExpertTheme() {
 //        SubscriptionToolBar(onBackClick = { /*TODO*/ }, text = "Подписка")
 //        MainToolbar(onBackClick = {}, text = " test")
-        ActionToolBarRow(
+        ActionToolBar(
             titleText = stringResource(id = R.string.profile),
             iconBackClick = Icons.Filled.ArrowBack,
             textBackClick = stringResource(R.string.cancel),
