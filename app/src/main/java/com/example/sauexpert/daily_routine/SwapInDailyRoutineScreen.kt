@@ -3,7 +3,6 @@ package com.example.sauexpert.daily_routine
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
 import com.example.sauexpert.widgets.compose.drag_drop.DragDropList
 import com.example.sauexpert.widgets.compose.drag_drop.move
 
@@ -32,11 +32,21 @@ fun SwapDailyRoutineScreen() {
             .background(color = Gray30.copy(alpha = 0.19f))
 
     ) {
-        TopBarForAddNewMeal(
-            closeText = stringResource(id = R.string.cancellation),
-            titleText = stringResource(id = R.string.meal_time),
-            showDoneButton = true
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            ActionToolBarRow(
+                titleText = stringResource(id = R.string.meal_time),
+                textBackClick = stringResource(id = R.string.cancellation),
+                textRightClick = stringResource(id = R.string.done),
+                colorBackClick = Color.Red,
+                colorRightClick = Color.Red,
+                onBackClick = {},
+                onRightClick = {}
+            )
+        }
 
         Divider(
             color = Gray30.copy(alpha = 0.19f),

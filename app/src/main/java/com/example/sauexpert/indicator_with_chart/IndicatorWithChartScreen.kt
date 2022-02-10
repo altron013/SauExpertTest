@@ -3,9 +3,13 @@ package com.example.sauexpert.indicator_with_chart
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
@@ -13,6 +17,7 @@ import com.example.sauexpert.bracelet_indicator.*
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
 
 @ExperimentalMaterialApi
 @Composable
@@ -27,7 +32,13 @@ fun IndicatorWithChartScreen() {
                 color = Gray30.copy(alpha = 0.19f)
             )
     ) {
-        TopBarForBraceletAndIndicator()
+        Spacer(modifier = Modifier.height(5.dp))
+        ActionToolBarRow(
+            titleText = stringResource(id = R.string.bracelet),
+            iconBackClick = Icons.Default.ArrowBack,
+            onBackClick = {},
+            onRightClick = {}
+        )
         Spacer(modifier = Modifier.height(28.dp))
         TabViewWithRoundBorder(
             TextOfTab = listOf(

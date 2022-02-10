@@ -21,6 +21,7 @@ import com.example.sauexpert.profile.OutlinedTextFieldWithBackground
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
 
 @Composable
 fun AddNewMealScreen() {
@@ -30,9 +31,19 @@ fun AddNewMealScreen() {
             .background(color = Gray30.copy(alpha = 0.19f))
 
     ) {
-        TopBarForAddNewMeal(
-            titleText = stringResource(id = R.string.new_meal_time),
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            ActionToolBarRow(
+                titleText = stringResource(id = R.string.new_meal_time),
+                textBackClick = stringResource(id = R.string.close),
+                colorBackClick = Color.Red,
+                onBackClick = {},
+                onRightClick = {}
+            )
+        }
 
         Divider(
             color = Gray30.copy(alpha = 0.19f),
@@ -46,47 +57,6 @@ fun AddNewMealScreen() {
 
     }
 }
-
-@Composable
-fun TopBarForAddNewMeal(
-    titleText: String,
-    closeText: String = stringResource(id = R.string.close),
-    showDoneButton: Boolean = false,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Text(
-            text = closeText,
-            style = MaterialTheme.typography.body1,
-            color = Color.Red,
-            modifier = modifier.align(Alignment.CenterStart)
-                .clickable {
-                }
-        )
-
-        Text(
-            text = titleText,
-            style = MaterialTheme.typography.subtitle2,
-            modifier = modifier.align(Alignment.Center)
-        )
-
-        if (showDoneButton) {
-            Text(
-                text = stringResource(id = R.string.done),
-                style = MaterialTheme.typography.subtitle2,
-                color = Color.Red,
-                modifier = modifier.align(Alignment.CenterEnd)
-                    .clickable {
-                    }
-            )
-        }
-    }
-}
-
 
 @Composable
 fun MainSectionForAddNewMeal(
@@ -162,7 +132,7 @@ fun TimePickerForAddNewMeal(
                 text = timeText,
                 style = MaterialTheme.typography.body1,
                 fontSize = 22.sp,
-                modifier = modifier.clickable {  }
+                modifier = modifier.clickable { }
             )
         }
 

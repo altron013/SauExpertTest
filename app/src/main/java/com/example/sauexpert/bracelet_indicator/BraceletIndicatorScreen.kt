@@ -32,6 +32,7 @@ import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray4292
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.*
@@ -52,7 +53,16 @@ fun BraceletIndicatorScreen() {
             )
 //            .padding(16.dp)
     ) {
-        TopBarForBraceletAndIndicator()
+        Spacer(modifier = Modifier.height(5.dp))
+        ActionToolBarRow(
+            titleText = stringResource(id = R.string.bracelet),
+            iconBackClick = Icons.Default.ArrowBack,
+            iconRightClick = painterResource(R.drawable.ic_calendar),
+            colorRightClick = Color.Red,
+            onBackClick = {},
+            onRightClick = {}
+        )
+
         Spacer(modifier = Modifier.height(28.dp))
         TabViewWithRoundBorder(
             TextOfTab = listOf(
@@ -106,38 +116,6 @@ fun BraceletIndicatorScreen() {
                 PulseScreen()
             }
         }
-    }
-}
-
-
-@Composable
-fun TopBarForBraceletAndIndicator(
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.Black,
-            modifier = modifier.align(Alignment.CenterStart)
-                .clickable {
-                }
-        )
-
-        Text(
-            text = stringResource(id = R.string.bracelet),
-            style = MaterialTheme.typography.subtitle2,
-            modifier = modifier.align(Alignment.Center)
-        )
-
-        Image(
-            painter = painterResource(id = R.drawable.ic_calendar_icon),
-            contentDescription = null,
-            modifier = modifier.align(Alignment.CenterEnd)
-        )
-
-
     }
 }
 
