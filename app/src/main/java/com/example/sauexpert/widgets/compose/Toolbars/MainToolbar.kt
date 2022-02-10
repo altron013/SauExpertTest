@@ -255,6 +255,7 @@ fun ActionToolBarRow(
 @Composable
 fun ActionToolBarColumn(
     iconBackClick: ImageVector? = null,
+    textBackClick: String? = null,
     titleText: String? = null,
     colorBackClick: Color = Color.Black,
     onBackClick: () -> Unit,
@@ -272,6 +273,18 @@ fun ActionToolBarColumn(
                 modifier = Modifier.clickable {
                     onBackClick()
                 }
+            )
+        }
+
+        textBackClick?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.body1,
+                color = colorBackClick,
+                modifier = Modifier
+                    .clickable {
+                        onBackClick()
+                    }
             )
         }
 

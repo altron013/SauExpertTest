@@ -262,7 +262,7 @@ fun DailyReportInfromation(
                 icon = Icons.Filled.ThumbUp,
                 textValue = "Отлично",
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth).height(240.dp)
+                modifier = modifier.width(screenWidth).height(253.dp)
             )
 
 
@@ -273,7 +273,7 @@ fun DailyReportInfromation(
                     title = stringResource(R.string.fulfillment_prescription),
                     subtitle = "",
                     textValue = "70%",
-                    modifier = modifier.width(screenWidth).height(112.dp)
+                    modifier = modifier.width(screenWidth).height(120.dp)
                 )
 
                 Spacer(modifier = Modifier.height(13.dp))
@@ -285,7 +285,7 @@ fun DailyReportInfromation(
                     textValue2 = "+2.3",
                     ListNumberData = listOf(10f, 15f, 13f, 25f, 30f),
                     dateText = "15 Октября 15:00",
-                    modifier = modifier.width(screenWidth).height(112.dp)
+                    modifier = modifier.width(screenWidth).height(120.dp)
 
                 )
             }
@@ -319,7 +319,7 @@ fun CardItemForPatientCard(
                     color = Gray30.copy(alpha = 0.35f),
                     shape = RoundedCornerShape(10.dp)
                 )
-                .height(160.dp)
+                .height(170.dp)
                 .padding(16.dp)
         ) {
             Text(
@@ -437,15 +437,16 @@ fun CardItemWithGraphForPatientCard(
     modifier: Modifier = Modifier
 ) {
     val scale by remember { mutableStateOf(1f) }
-    var wight = 0f
+    var width = 0f
     val path = Path()
+    val widthScreen = (ListNumberData.size * 6).dp
     for ((index, item) in ListNumberData.withIndex()) {
         if (index == 0) {
-            path.moveTo(0f * scale, 70f - item)
-            wight += 20f
+            path.moveTo(0f * scale, 50f - item)
+            width += 15f
         } else {
-            path.lineTo(wight * scale, 70f - item)
-            wight += 20f
+            path.lineTo(width * scale, 50f - item)
+            width += 15f
         }
     }
 
@@ -495,7 +496,7 @@ fun CardItemWithGraphForPatientCard(
 
                 Canvas(
                     modifier = Modifier
-                        .width(36.dp)
+                        .width(widthScreen)
                         .height(36.dp)
                         .background(Color.White)
                 ) {

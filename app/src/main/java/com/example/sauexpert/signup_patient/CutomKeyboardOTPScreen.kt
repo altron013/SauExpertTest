@@ -1,10 +1,7 @@
 package com.example.sauexpert.signup_patient
 
 import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -27,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.GrayF0F
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarColumn
 
 @Composable
 fun CustomKeyboardOTPScreen() {
@@ -50,13 +48,17 @@ fun CustomKeyboardOTPScreen() {
     )
 }
 
-fun<T> isEqual(first: List<T>, second: List<T>): Boolean {
+fun <T> isEqual(first: List<T>, second: List<T>): Boolean {
 
     if (first.size != second.size) {
         return false
     }
 
-    first.forEachIndexed { index, value -> if (second[index] != value) { return false} }
+    first.forEachIndexed { index, value ->
+        if (second[index] != value) {
+            return false
+        }
+    }
     return true
 }
 
@@ -69,9 +71,14 @@ fun CustomKeyboard(
     Column(
         modifier = Modifier
             .fillMaxSize()
+//            .verticalScroll(rememberScrollState())
             .padding(8.dp)
     ) {
-        TopBarForOTP()
+        ActionToolBarColumn(
+            textBackClick = stringResource(R.string.skip),
+            onBackClick = {},
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)
+        )
 
         PasscodeScreenDescription()
 
@@ -199,25 +206,6 @@ fun DeleteLeftIcon(
     )
 }
 
-@Composable
-fun TopBarForOTP(
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(id = R.string.skip),
-            style = MaterialTheme.typography.body1,
-            modifier = modifier.padding(horizontal = 16.dp, vertical = 20.dp)
-                .clickable {
-                }
-        )
-    }
-}
-
 
 @Composable
 fun PasscodeScreenDescription(
@@ -237,6 +225,7 @@ fun PasscodeScreenDescription(
         Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(id = R.string.install_password_code),
+            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.caption,
             fontSize = 20.sp
         )
@@ -250,8 +239,6 @@ fun PasscodeScreenDescription(
         )
     }
 }
-
-
 
 
 @Composable

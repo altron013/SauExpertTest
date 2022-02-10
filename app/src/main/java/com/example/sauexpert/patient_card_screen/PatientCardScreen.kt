@@ -30,6 +30,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.profile.RoundImage
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarColumn
 import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRow
 
 @Composable
@@ -44,7 +45,11 @@ fun PatientCardScreen() {
             .fillMaxSize()
             .background(color = Gray30.copy(alpha = 0.19f))
     ) {
-        TopBarForPatientCardScreen()
+        ActionToolBarColumn(
+            iconBackClick = Icons.Default.ArrowBack,
+            onBackClick = {},
+            modifier = Modifier.padding(16.dp)
+        )
         Spacer(modifier = Modifier.height(24.dp))
         ProfileForPatientCard(
             userName = "Жанна Ахметова",
@@ -111,26 +116,6 @@ fun PatientCardScreen() {
                 BeginInspectionScreen()
             }
         }
-    }
-}
-
-@Composable
-fun TopBarForPatientCardScreen(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.Black,
-            modifier = modifier
-                .clickable {
-                }
-        )
     }
 }
 
