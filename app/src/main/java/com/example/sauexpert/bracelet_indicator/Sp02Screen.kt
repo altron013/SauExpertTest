@@ -2,16 +2,14 @@ package com.example.sauexpert.bracelet_indicator
 
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -19,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -49,7 +46,7 @@ fun Sp02Screen() {
     val coroutineScope = rememberCoroutineScope()
 
     BottomSheetScaffold(
-        sheetShape = RoundedCornerShape(10.dp, 10.dp, 0.dp, 0.dp),
+        sheetShape = RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp),
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
 
@@ -456,25 +453,35 @@ fun BottomSheetContentForSoas(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
-    val configuration = LocalConfiguration.current
-    val screenHeight = configuration.screenHeightDp.dp
-
-
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(screenHeight / 2)
-            .background(
-                color = Color.White
-            )
+            .padding(horizontal = 17.dp, vertical = 32.dp)
     ) {
         Column(
-            modifier = modifier.fillMaxSize().padding(16.dp)
+            modifier = Modifier
         ) {
-            Text(
-                text = stringResource(R.string.soas_analysis),
-                style = MaterialTheme.typography.caption
-            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(R.string.soas_analysis),
+                    style = MaterialTheme.typography.caption
+                )
+
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                    tint = Color.Black,
+                    modifier = modifier
+                        .size(24.dp)
+                        .clickable { onClick() }
+                )
+            }
+
 
             Spacer(modifier = Modifier.height(16.dp))
 

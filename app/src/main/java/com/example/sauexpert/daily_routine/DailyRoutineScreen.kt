@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.sauexpert.R
 import com.example.sauexpert.model.TimeActivityData
-import com.example.sauexpert.my_patients.ButtonWithTextColorChange
 import com.example.sauexpert.profile.OutlinedTextFieldWithBackground
 import com.example.sauexpert.profile.ProfileForInspection
 import com.example.sauexpert.ui.theme.Blue007AFF
@@ -59,7 +58,7 @@ fun DailyRoutineScreen() {
 
     SauExpertTheme() {
         BottomSheetScaffold(
-            sheetBackgroundColor = Color.Transparent,
+//            sheetBackgroundColor = Gray30.copy(alpha = 0.19f),
             drawerScrimColor = MaterialTheme.colors.onSurface.copy(alpha = 0.40f),
             scaffoldState = bottomSheetScaffoldState,
             sheetContent = {
@@ -290,49 +289,80 @@ fun BottomSheetContentForDailyRoutine(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(28.dp)
 
     ) {
         Column(
             modifier = Modifier
         ) {
-            ButtonWithTextColorChange(
+
+            Text(
                 text = stringResource(R.string.rename),
-                onClick = {
-                    visible.value = true
-                    stateForRename = listActivity[indexFromList.value].activity
-                },
-                enableState = true,
-                shape = RoundedCornerShape(12.dp, 12.dp, 0.dp, 0.dp),
-                contentColor = Blue007AFF
+                style = MaterialTheme.typography.button,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        visible.value = true
+                        stateForRename = listActivity[indexFromList.value].activity
+                    }
             )
-            ButtonWithTextColorChange(
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
                 text = stringResource(R.string.swap),
-                onClick = {},
-                enableState = true,
-                shape = RoundedCornerShape(0.dp),
-                contentColor = Blue007AFF
+                style = MaterialTheme.typography.button,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                    }
             )
-            ButtonWithTextColorChange(
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
                 text = stringResource(R.string.delete),
-                onClick = {
-//                    if (listActivity.size == 0) {
-//                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-//                    } else {
-//                        listActivity.removeAt(0)
-//                    }
-                },
-                enableState = true,
-                shape = RoundedCornerShape(0.dp, 0.dp, 12.dp, 12.dp),
-                contentColor = Color.Red
+                style = MaterialTheme.typography.button,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                    }
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            ButtonWithTextColorChange(
-                text = stringResource(R.string.cancel),
-                onClick = onClick,
-                enableState = true,
-                contentColor = Blue007AFF
-            )
+
+//                        ButtonWithTextColorChange(
+//                text = stringResource(R.string.rename),
+//                onClick = {
+//                    visible.value = true
+//                    stateForRename = listActivity[indexFromList.value].activity
+//                },
+//                enableState = true,
+//                contentColor = Blue007AFF
+//            )
+//                        ButtonWithTextColorChange(
+//                text = stringResource(R.string.swap),
+//                onClick = {},
+//                enableState = true,
+//                contentColor = Blue007AFF
+//            )
+//                        ButtonWithTextColorChange(
+//                text = stringResource(R.string.delete),
+//                onClick = {
+////                    if (listActivity.size == 0) {
+////                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+////                    } else {
+////                        listActivity.removeAt(0)
+////                    }
+//                },
+//                enableState = true,
+//                contentColor = Color.Red
+//            )
+//            Spacer(modifier = Modifier.height(8.dp))
+//                        ButtonWithTextColorChange(
+//                text = stringResource(R.string.cancel),
+//                onClick = onClick,
+//                enableState = true,
+//                contentColor = Blue007AFF
+//            )
         }
     }
 }
