@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
-import com.example.sauexpert.daily_routine.ItemForList
+import com.example.sauexpert.daily_routine.ItemForSwapInDailyRoutine
 import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.ui.theme.Gray30
 import kotlinx.coroutines.Job
@@ -76,9 +76,9 @@ fun DragDropList(
                     }
                     .fillMaxWidth()
             ) {
-                ItemForList(
-                    title = item.activity,
-                    time = item.time
+                ItemForSwapInDailyRoutine(
+                    items = items,
+                    index = index
                 )
             }
 

@@ -90,9 +90,9 @@ fun MainSectionForSwap() {
 
 
 @Composable
-fun ItemForList(
-    title: String,
-    time: String,
+fun ItemForSwapInDailyRoutine(
+    items: List<TimeActivityData>,
+    index: Int,
     modifier: Modifier = Modifier
 ) {
 
@@ -113,14 +113,14 @@ fun ItemForList(
         Spacer(modifier = Modifier.width(12.dp))
 
         Text(
-            text = title,
+            text = items[index].activity,
             style = MaterialTheme.typography.body1,
         )
 
         Spacer(modifier = Modifier.weight(1f))
 
         Text(
-            text = time,
+            text = items[index].time,
             style = MaterialTheme.typography.body1,
         )
 
