@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +28,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.model.CardListItemData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
 
 @Composable
 fun ProfileScreen() {
@@ -38,7 +41,13 @@ fun ProfileScreen() {
             .background(color = Gray30.copy(alpha = 0.19f))
             .padding(16.dp)
     ) {
-        TopBarForProfile()
+        ActionToolBarRow(
+            titleText = stringResource(id = R.string.profile),
+            textBackClick = stringResource(id = R.string.close),
+            colorBackClick = Color.Red,
+            onBackClick = {},
+            onRightClick = {}
+        )
 
         Spacer(modifier = Modifier.height(40.dp))
 
@@ -110,33 +119,6 @@ fun ProfileScreen() {
                 text = "29 Ноября 2021"
             )
         }
-    }
-}
-
-
-@Composable
-fun TopBarForProfile(
-    modifier: Modifier = Modifier
-) {
-
-    Box(modifier = modifier.fillMaxWidth()) {
-        Text(
-            text = stringResource(id = R.string.close),
-            style = MaterialTheme.typography.body1,
-            fontSize = 16.sp,
-            color = Color.Red,
-            modifier = modifier
-                .align(Alignment.CenterStart)
-                .clickable {
-                }
-        )
-
-        Text(
-            text = stringResource(id = R.string.profile),
-            style = MaterialTheme.typography.subtitle2,
-            fontSize = 16.sp,
-            modifier = modifier.align(Alignment.Center)
-        )
     }
 }
 

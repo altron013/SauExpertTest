@@ -6,6 +6,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -15,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarColumn
 
 @Composable
 fun ModifyInspectionInfoScreen() {
@@ -23,7 +26,13 @@ fun ModifyInspectionInfoScreen() {
             .fillMaxSize()
             .background(color = Gray30.copy(alpha = 0.19f))
     ) {
-        TopBarForInspectionScreen()
+        ActionToolBarColumn(
+            titleText = stringResource(R.string.general_inspection),
+            iconBackClick = Icons.Default.ArrowBack,
+            onBackClick = {},
+            modifier = Modifier.padding(16.dp)
+        )
+
         Spacer(modifier = Modifier.height(20.dp))
         ProfileForInspection(content = "user", text= 0.4f)
         Spacer(modifier = Modifier.height(32.dp))

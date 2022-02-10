@@ -2,10 +2,7 @@ package com.example.sauexpert.profile
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -33,16 +30,24 @@ import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
 import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarRow
 
 @Composable
 fun InspectionPatientScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(color = Gray30.copy(alpha = 0.19f))
             .padding(16.dp)
     ) {
-        TopBarForInspectionPatientScreen(userName = "User")
+        ActionToolBarRow(
+            titleText = "Zhanna Akhmetova",
+            iconBackClick = Icons.Default.ArrowBack,
+            onBackClick = {},
+            onRightClick = {}
+        )
+
         Spacer(modifier = Modifier.height(44.dp))
         PreviousInspectionsSection()
         Spacer(modifier = Modifier.height(12.dp))
@@ -58,33 +63,6 @@ fun InspectionPatientScreen() {
             icon = R.drawable.ic_plus_circle,
             backgroundColor = Pink42949,
             textColor = Color.Red
-        )
-    }
-}
-
-@Composable
-fun TopBarForInspectionPatientScreen(
-    userName: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.Black,
-            modifier = modifier
-                .align(Alignment.CenterStart)
-                .clickable {
-                }
-        )
-
-        Text(
-            text = userName,
-            style = MaterialTheme.typography.subtitle2,
-            modifier = modifier.align(Alignment.Center)
         )
     }
 }
@@ -217,36 +195,6 @@ fun AnalysisInspectionsDateField(
             style = MaterialTheme.typography.subtitle1,
         )
 
-    }
-}
-
-
-@Composable
-fun TopBarForInspectionScreen(
-    titleString: String = stringResource(R.string.general_inspection),
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.Black,
-            modifier = modifier
-                .clickable {
-                }
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = titleString,
-            style = MaterialTheme.typography.h4,
-            fontSize = 28.sp
-        )
     }
 }
 

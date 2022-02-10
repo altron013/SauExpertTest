@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -24,12 +25,12 @@ import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.my_patients.ButtonWithTextColorChange
 import com.example.sauexpert.profile.OutlinedTextFieldWithBackground
 import com.example.sauexpert.profile.ProfileForInspection
-import com.example.sauexpert.profile.TopBarForInspectionScreen
 import com.example.sauexpert.ui.theme.Blue007AFF
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarColumn
 import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton
 import kotlinx.coroutines.launch
 
@@ -87,7 +88,12 @@ fun DailyRoutineScreen() {
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                 ) {
-                    TopBarForInspectionScreen(titleString = stringResource(R.string.daily_routine))
+                    ActionToolBarColumn(
+                        titleText = stringResource(R.string.daily_routine),
+                        iconBackClick = Icons.Default.ArrowBack,
+                        onBackClick = {},
+                        modifier = Modifier.padding(16.dp)
+                    )
                     Spacer(modifier = Modifier.height(4.dp))
                     ProfileForInspection(content = "user", text = 0.4f)
                     Spacer(modifier = Modifier.height(32.dp))
