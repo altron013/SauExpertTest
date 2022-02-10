@@ -189,7 +189,7 @@ fun TabViewWithRoundBorder(
                     text = item.text,
                     style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier.padding(4.dp)
 
                 )
             }

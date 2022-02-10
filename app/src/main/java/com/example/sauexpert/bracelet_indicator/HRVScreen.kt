@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -56,6 +57,10 @@ fun HRVScreen() {
 fun HRVwithBarChart(
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth =   configuration.screenWidthDp - 300
+
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -68,13 +73,13 @@ fun HRVwithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForHRV(
             HRVData = listOf(
-                HRVData(positionOnX = 10f, hourOfHRV = 200f, dateName = "16"),
-                HRVData(positionOnX = 110f, hourOfHRV = 30f, dateName = "17"),
-                HRVData(positionOnX = 210f, hourOfHRV = 190f, dateName = "18"),
-                HRVData(positionOnX = 310f, hourOfHRV = 180f, dateName = "19"),
-                HRVData(positionOnX = 410f, hourOfHRV = 220f, dateName = "20"),
-                HRVData(positionOnX = 510f, hourOfHRV = 240f, dateName = "21"),
-                HRVData(positionOnX = 610f, hourOfHRV = 30f, dateName = "22")
+                HRVData(positionOnX = 0f, hourOfHRV = 200f, dateName = "16"),
+                HRVData(positionOnX = (screenWidth).toFloat(), hourOfHRV = 30f, dateName = "17"),
+                HRVData(positionOnX = (screenWidth * 2).toFloat(), hourOfHRV = 190f, dateName = "18"),
+                HRVData(positionOnX = (screenWidth * 3).toFloat(), hourOfHRV = 180f, dateName = "19"),
+                HRVData(positionOnX = (screenWidth * 4).toFloat(), hourOfHRV = 220f, dateName = "20"),
+                HRVData(positionOnX = (screenWidth * 5).toFloat(), hourOfHRV = 240f, dateName = "21"),
+                HRVData(positionOnX = (screenWidth * 6).toFloat(), hourOfHRV = 30f, dateName = "22")
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("100"),

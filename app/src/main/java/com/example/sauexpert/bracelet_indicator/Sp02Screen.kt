@@ -105,6 +105,9 @@ fun Sp02Screen() {
 fun SP02withLineGraph(
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp - 300
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -117,30 +120,51 @@ fun SP02withLineGraph(
         Spacer(modifier = Modifier.height(40.dp))
         LineChartForSp02(
             Sp02Data = listOf(
-                Sp02Data(positionOnX = 0f, positionOnY = 0f, dateName = "16"),
                 Sp02Data(
-                    positionOnX = 110f,
+                    positionOnX = 0f,
+                    positionOnY = 0f,
+                    dateName = "16"
+                ),
+                Sp02Data(
+                    positionOnX = (screenWidth).toFloat(),
                     positionOnY = 100f,
                     dateName = "17",
                     sleepApnea = true
                 ),
-                Sp02Data(positionOnX = 210f, positionOnY = 30f, dateName = "18"),
                 Sp02Data(
-                    positionOnX = 310f,
+                    positionOnX = (screenWidth * 2).toFloat(),
+                    positionOnY = 30f,
+                    dateName = "18"
+                ),
+                Sp02Data(
+                    positionOnX = (screenWidth * 3).toFloat(),
                     positionOnY = 200f,
                     dateName = "19",
                     sleepApnea = true
                 ),
-                Sp02Data(positionOnX = 410f, positionOnY = 120f, dateName = "20"),
-                Sp02Data(positionOnX = 510f, positionOnY = 30f, dateName = "21"),
-                Sp02Data(positionOnX = 610f, positionOnY = 280f, dateName = "22"),
+                Sp02Data(
+                    positionOnX = (screenWidth * 4).toFloat(),
+                    positionOnY = 120f,
+                    dateName = "20"
+                ),
+                Sp02Data(
+                    positionOnX = (screenWidth * 5).toFloat(),
+                    positionOnY = 30f,
+                    dateName = "21"
+                ),
+                Sp02Data(
+                    positionOnX = (screenWidth * 6).toFloat(),
+                    positionOnY = 280f,
+                    dateName = "22"
+                ),
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("100"),
+                ListNumberOfYForTableData("98"),
+                ListNumberOfYForTableData("96"),
+                ListNumberOfYForTableData("94"),
+                ListNumberOfYForTableData("92"),
                 ListNumberOfYForTableData("90"),
-                ListNumberOfYForTableData("80"),
-                ListNumberOfYForTableData("70"),
-                ListNumberOfYForTableData("60")
             )
 
         )
@@ -267,13 +291,6 @@ fun LineChartForSp02(
         }
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(0f, height.dp.toPx()),
-                end = Offset(780f, height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
                 "${i.number}",
                 Sp02Data[listSize].positionOnX + 38.dp.toPx(),

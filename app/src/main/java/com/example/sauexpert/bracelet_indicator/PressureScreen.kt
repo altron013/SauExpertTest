@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -59,6 +60,9 @@ fun PressureScreen() {
 fun PressurewithBarChart(
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp - 300
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -72,46 +76,46 @@ fun PressurewithBarChart(
         BarChartForPressure(
             PressureData = listOf(
                 PressureData(
-                    positionOnX = 10f,
+                    positionOnX = 0f,
                     pressureInAverage = 150f,
                     dateName = "16",
-                    startPoint = 200f
+                    startPoint = 20f
                 ),
                 PressureData(
-                    positionOnX = 110f,
+                    positionOnX = (screenWidth).toFloat(),
                     pressureInAverage = 230f,
                     dateName = "17",
-                    startPoint = 170f
+                    startPoint = 10f
                 ),
                 PressureData(
-                    positionOnX = 210f,
+                    positionOnX = (screenWidth * 2).toFloat(),
                     pressureInAverage = 190f,
                     dateName = "18",
-                    startPoint = 190f
+                    startPoint = 90f
                 ),
                 PressureData(
-                    positionOnX = 310f,
+                    positionOnX = (screenWidth * 3).toFloat(),
                     pressureInAverage = 180f,
                     dateName = "19",
-                    startPoint = 150f
+                    startPoint = 50f
                 ),
                 PressureData(
-                    positionOnX = 410f,
+                    positionOnX = (screenWidth * 4).toFloat(),
                     pressureInAverage = 220f,
                     dateName = "20",
-                    startPoint = 130f
+                    startPoint = 30f
                 ),
                 PressureData(
-                    positionOnX = 510f,
+                    positionOnX = (screenWidth * 5).toFloat(),
                     pressureInAverage = 240f,
                     dateName = "21",
-                    startPoint = 150f
+                    startPoint = 50f
                 ),
                 PressureData(
-                    positionOnX = 610f,
+                    positionOnX = (screenWidth * 6).toFloat(),
                     pressureInAverage = 50f,
                     dateName = "22",
-                    startPoint = 280f
+                    startPoint = 140f
                 )
             ),
             ListNumberData = listOf(
@@ -255,7 +259,7 @@ fun BarChartForPressure(
                 y = 70.dp.toPx()
             ),
             size = Size(
-                width = PressureData[listSize].positionOnX + 20.dp.toPx(),
+                width = PressureData[listSize].positionOnX + 8.dp.toPx(),
                 height = 35.dp.toPx()
             )
         )

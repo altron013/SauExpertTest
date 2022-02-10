@@ -69,6 +69,9 @@ fun SleepwithBarChart(
     visible: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth =   configuration.screenWidthDp - 300
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -82,13 +85,37 @@ fun SleepwithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSleep(
             SleepData = listOf(
-                SleepData(positionOnX = 10f, hourOfSleep = 140f, dateName = "16"),
-                SleepData(positionOnX = 110f, hourOfSleep = 200f, dateName = "17"),
-                SleepData(positionOnX = 210f, hourOfSleep = 190f, dateName = "18"),
-                SleepData(positionOnX = 310f, hourOfSleep = 180f, dateName = "19"),
-                SleepData(positionOnX = 410f, hourOfSleep = 220f, dateName = "20"),
-                SleepData(positionOnX = 510f, hourOfSleep = 400f, dateName = "21"),
-                SleepData(positionOnX = 610f, hourOfSleep = 370f, dateName = "22")
+                SleepData(positionOnX = 0f, hourOfSleep = 140f, dateName = "16"),
+                SleepData(
+                    positionOnX = (screenWidth).toFloat(),
+                    hourOfSleep = 200f,
+                    dateName = "17"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 2).toFloat(),
+                    hourOfSleep = 190f,
+                    dateName = "18"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 3).toFloat(),
+                    hourOfSleep = 180f,
+                    dateName = "19"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 4).toFloat(),
+                    hourOfSleep = 220f,
+                    dateName = "20"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 5).toFloat(),
+                    hourOfSleep = 240f,
+                    dateName = "21"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 6).toFloat(),
+                    hourOfSleep = 300f,
+                    dateName = "22"
+                )
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("10"),
@@ -141,7 +168,7 @@ fun SleepTitle(
             }
             when (selectedTabIndex) {
                 0 -> date.value = "18-20 ноября 2021"
-                1 ->  date.value = "Ноября 2021"
+                1 -> date.value = "Ноября 2021"
 
             }
         }
@@ -299,6 +326,8 @@ private fun setRedColorInsideDataClassForSleep(
     if (itemID.value != -1 && visible.value) {
         ResetColorInsideDataClassForSleep(dataList = sleepData)
         sleepData[itemID.value].colorFocus = Color.Red
+    } else {
+        ResetColorInsideDataClassForSleep(dataList = sleepData)
     }
 }
 
