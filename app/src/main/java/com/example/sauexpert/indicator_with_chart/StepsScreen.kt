@@ -29,6 +29,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.CustomTextRadioGroup
 import com.example.sauexpert.bracelet_indicator.RangeCustomizeSection
 import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
+import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.StepsData
 import com.example.sauexpert.model.TextOfTabData
@@ -54,7 +55,7 @@ fun StepswithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp - 300
+    val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
     Column(
         modifier = modifier
@@ -68,35 +69,39 @@ fun StepswithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSteps(
             StepsData = listOf(
-                StepsData(positionOnX = 0f, stepsPerDay = 200f, dateName = "16"),
                 StepsData(
-                    positionOnX = (screenWidth).toFloat(),
-                    stepsPerDay = 30f,
+                    positionOnX = 0f,
+                    stepsPerDay = dpToPxValue(150.dp),
+                    dateName = "16"
+                ),
+                StepsData(
+                    positionOnX = (screenWidth),
+                    stepsPerDay = dpToPxValue(30.dp),
                     dateName = "17"
                 ),
                 StepsData(
-                    positionOnX = (screenWidth * 2).toFloat(),
-                    stepsPerDay = 190f,
+                    positionOnX = (screenWidth * 2),
+                    stepsPerDay = dpToPxValue(120.dp),
                     dateName = "18"
                 ),
                 StepsData(
-                    positionOnX = (screenWidth * 3).toFloat(),
-                    stepsPerDay = 180f,
+                    positionOnX = (screenWidth * 3),
+                    stepsPerDay = dpToPxValue(180.dp),
                     dateName = "19"
                 ),
                 StepsData(
-                    positionOnX = (screenWidth * 4).toFloat(),
-                    stepsPerDay = 220f,
+                    positionOnX = (screenWidth * 4),
+                    stepsPerDay = dpToPxValue(120.dp),
                     dateName = "20"
                 ),
                 StepsData(
-                    positionOnX = (screenWidth * 5).toFloat(),
-                    stepsPerDay = 240f,
+                    positionOnX = (screenWidth * 5),
+                    stepsPerDay = dpToPxValue(130.dp),
                     dateName = "21"
                 ),
                 StepsData(
-                    positionOnX = (screenWidth * 6).toFloat(),
-                    stepsPerDay = 30f,
+                    positionOnX = (screenWidth * 6),
+                    stepsPerDay = dpToPxValue(70.dp),
                     dateName = "22"
                 )
             ),
@@ -232,11 +237,11 @@ fun BarChartForSteps(
                 color = Gray30,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 75f) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() -  30.dp.toPx()) * heightPre
                 ),
                 size = Size(
                     width = 8.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - 75f) * heightPre
+                    height = ((height - 35).dp.toPx() -  30.dp.toPx()) * heightPre
                 )
             )
 
@@ -254,7 +259,7 @@ fun BarChartForSteps(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 8,
+                p.positionOnX + 3.2.dp.toPx(),
                 (height - 15).dp.toPx(),
                 paint
             )

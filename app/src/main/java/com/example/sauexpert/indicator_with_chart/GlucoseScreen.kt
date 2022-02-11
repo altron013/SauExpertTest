@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -33,6 +34,7 @@ import com.chargemap.compose.numberpicker.ListItemPicker
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.CustomTextRadioGroup
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
+import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.model.GlucoseData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
@@ -114,7 +116,7 @@ fun GlucosewithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth =   configuration.screenWidthDp - 300
+    val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
 
     Column(
@@ -131,44 +133,44 @@ fun GlucosewithBarChart(
             glucoseData = listOf(
                 GlucoseData(
                     positionOnX = 0f,
-                    glucoseBeforeFood = 200f,
-                    glucoseAfterFood = 200f,
+                    glucoseBeforeFood = dpToPxValue(80.dp),
+                    glucoseAfterFood = dpToPxValue(80.dp),
                     dateName = "16"
                 ),
                 GlucoseData(
-                    positionOnX = (screenWidth).toFloat(),
-                    glucoseBeforeFood = 30f,
-                    glucoseAfterFood = 200f,
+                    positionOnX = screenWidth,
+                    glucoseBeforeFood = dpToPxValue(30.dp),
+                    glucoseAfterFood = dpToPxValue(100.dp),
                     dateName = "17"
                 ),
                 GlucoseData(
-                    positionOnX = (screenWidth * 2).toFloat(),
-                    glucoseBeforeFood = 190f,
-                    glucoseAfterFood = 60f,
+                    positionOnX = (screenWidth * 2),
+                    glucoseBeforeFood = dpToPxValue(140.dp),
+                    glucoseAfterFood = dpToPxValue(60.dp),
                     dateName = "18"
                 ),
                 GlucoseData(
-                    positionOnX = (screenWidth * 3).toFloat(),
-                    glucoseBeforeFood = 180f,
-                    glucoseAfterFood = 200f,
+                    positionOnX = (screenWidth * 3),
+                    glucoseBeforeFood = dpToPxValue(10.dp),
+                    glucoseAfterFood = dpToPxValue(130.dp),
                     dateName = "19",
                 ),
                 GlucoseData(
-                    positionOnX = (screenWidth * 4).toFloat(),
-                    glucoseBeforeFood = 220f,
-                    glucoseAfterFood = 200f,
+                    positionOnX = (screenWidth * 4),
+                    glucoseBeforeFood = dpToPxValue(130.dp),
+                    glucoseAfterFood = dpToPxValue(40.dp),
                     dateName = "20",
                 ),
                 GlucoseData(
-                    positionOnX = (screenWidth * 5).toFloat(),
-                    glucoseBeforeFood = 240f,
-                    glucoseAfterFood = 200f,
+                    positionOnX = (screenWidth * 5),
+                    glucoseBeforeFood = dpToPxValue(50.dp),
+                    glucoseAfterFood = dpToPxValue(90.dp),
                     dateName = "21"
                 ),
                 GlucoseData(
-                    positionOnX = (screenWidth * 6).toFloat(),
-                    glucoseBeforeFood = 30f,
-                    glucoseAfterFood = 200f,
+                    positionOnX = (screenWidth * 6),
+                    glucoseBeforeFood = dpToPxValue(30.dp),
+                    glucoseAfterFood = dpToPxValue(100.dp),
                     dateName = "22"
                 )
             ),

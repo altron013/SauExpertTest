@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
@@ -34,7 +33,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.*
-import com.example.sauexpert.model.*
+import com.example.sauexpert.model.ListNumberOfYForTableData
+import com.example.sauexpert.model.PressureData
+import com.example.sauexpert.model.PulseData
+import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Blue4285
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray50
@@ -60,7 +62,7 @@ fun PressureAndPulsewithBarChart(
     val visible = remember { mutableStateOf(false) }
 
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp - 300
+    val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
     Column(
         modifier = modifier
@@ -76,70 +78,76 @@ fun PressureAndPulsewithBarChart(
             PressureData = listOf(
                 PressureData(
                     positionOnX = 0f,
-                    pressureInAverage = 150f,
+                    pressureInAverage = dpToPxValue(120.dp),
                     dateName = "16",
-                    startPoint = 200f
+                    startPoint = dpToPxValue(10.dp)
                 ),
                 PressureData(
-                    positionOnX = (screenWidth).toFloat(),
-                    pressureInAverage = 230f,
+                    positionOnX = screenWidth,
+                    pressureInAverage = dpToPxValue(100.dp),
                     dateName = "17",
-                    startPoint = 170f
+                    startPoint = dpToPxValue(10.dp)
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 2).toFloat(),
-                    pressureInAverage = 190f,
+                    positionOnX = (screenWidth * 2),
+                    pressureInAverage = dpToPxValue(100.dp),
                     dateName = "18",
-                    startPoint = 190f
+                    startPoint = dpToPxValue(20.dp)
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 3).toFloat(),
-                    pressureInAverage = 180f,
+                    positionOnX = (screenWidth * 3),
+                    pressureInAverage = dpToPxValue(110.dp),
                     dateName = "19",
-                    startPoint = 150f
+                    startPoint = dpToPxValue(40.dp)
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 4).toFloat(),
-                    pressureInAverage = 220f,
+                    positionOnX = (screenWidth * 4),
+                    pressureInAverage = dpToPxValue(130.dp),
                     dateName = "20",
-                    startPoint = 130f
+                    startPoint = dpToPxValue(10.dp)
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 5).toFloat(),
-                    pressureInAverage = 240f,
+                    positionOnX = (screenWidth * 5),
+                    pressureInAverage = dpToPxValue(100.dp),
                     dateName = "21",
-                    startPoint = 150f
+                    startPoint = dpToPxValue(60.dp)
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 6).toFloat(),
-                    pressureInAverage = 50f,
+                    positionOnX = (screenWidth * 6),
+                    pressureInAverage = dpToPxValue(10.dp),
                     dateName = "22",
-                    startPoint = 280f
+                    startPoint = dpToPxValue(150.dp)
                 )
             ),
 
             PulseData = listOf(
-                PulseData(positionOnX = 10f, pulseInMinuteAverage = 350f),
-                PulseData(positionOnX = (screenWidth + 10).toFloat(), pulseInMinuteAverage = 370f),
                 PulseData(
-                    positionOnX = (screenWidth * 2 + 10).toFloat(),
-                    pulseInMinuteAverage = 350f
+                    positionOnX = 10f,
+                    pulseInMinuteAverage = dpToPxValue(20.dp)
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 3 + 10).toFloat(),
-                    pulseInMinuteAverage = 370f
+                    positionOnX = (screenWidth + 10f),
+                    pulseInMinuteAverage = dpToPxValue(120.dp)
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 4 + 10).toFloat(),
-                    pulseInMinuteAverage = 250f
+                    positionOnX = (screenWidth * 2 + 10f),
+                    pulseInMinuteAverage = dpToPxValue(100.dp)
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 5 + 10).toFloat(),
-                    pulseInMinuteAverage = 290f
+                    positionOnX = (screenWidth * 3 + 10f),
+                    pulseInMinuteAverage = dpToPxValue(70.dp)
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 6 + 10).toFloat(),
-                    pulseInMinuteAverage = 300f
+                    positionOnX = (screenWidth * 4 + 10f),
+                    pulseInMinuteAverage = dpToPxValue(100.dp)
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 5 + 10f),
+                    pulseInMinuteAverage = dpToPxValue(120.dp)
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 6 + 10f),
+                    pulseInMinuteAverage = dpToPxValue(50.dp)
                 ),
             ),
 
@@ -362,7 +370,7 @@ fun BarChartForPressureAndPulse(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 8,
+                p.positionOnX + 3.2.dp.toPx(),
                 (height - 35).dp.toPx(),
                 paint
             )
