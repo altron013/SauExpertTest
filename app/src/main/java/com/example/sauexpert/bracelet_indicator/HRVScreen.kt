@@ -1,8 +1,6 @@
 package com.example.sauexpert.bracelet_indicator
 
-import android.app.DatePickerDialog
 import android.graphics.Paint
-import android.widget.DatePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
@@ -23,7 +21,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -36,9 +33,6 @@ import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray50
-import com.google.android.material.datepicker.MaterialDatePicker
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 @Composable
@@ -59,8 +53,7 @@ fun HRVwithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth = (configuration.screenWidthDp.dp - 70.dp) / 7
-    val pxValue = LocalDensity.current.run { screenWidth.toPx() }
+    val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
 
     Column(
@@ -75,13 +68,41 @@ fun HRVwithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForHRV(
             HRVData = listOf(
-                HRVData(positionOnX = 0f, hourOfHRV = 200f, dateName = "16"),
-                HRVData(positionOnX = pxValue, hourOfHRV = 30f, dateName = "17"),
-                HRVData(positionOnX = (pxValue * 2), hourOfHRV = 190f, dateName = "18"),
-                HRVData(positionOnX = (pxValue * 3), hourOfHRV = 180f, dateName = "19"),
-                HRVData(positionOnX = (pxValue * 4), hourOfHRV = 220f, dateName = "20"),
-                HRVData(positionOnX = (pxValue * 5), hourOfHRV = 240f, dateName = "21"),
-                HRVData(positionOnX = (pxValue * 6), hourOfHRV = 30f, dateName = "22")
+                HRVData(
+                    positionOnX = 0f,
+                    hourOfHRV = dpToPxValue(20.dp),
+                    dateName = "16"
+                ),
+                HRVData(
+                    positionOnX = screenWidth,
+                    hourOfHRV = dpToPxValue(120.dp),
+                    dateName = "17"
+                ),
+                HRVData(
+                    positionOnX = (screenWidth * 2),
+                    hourOfHRV = dpToPxValue(100.dp),
+                    dateName = "18"
+                ),
+                HRVData(
+                    positionOnX = (screenWidth * 3),
+                    hourOfHRV = dpToPxValue(80.dp),
+                    dateName = "19"
+                ),
+                HRVData(
+                    positionOnX = (screenWidth * 4),
+                    hourOfHRV = dpToPxValue(120.dp),
+                    dateName = "20"
+                ),
+                HRVData(
+                    positionOnX = (screenWidth * 5),
+                    hourOfHRV = dpToPxValue(140.dp),
+                    dateName = "21"
+                ),
+                HRVData(
+                    positionOnX = (screenWidth * 6),
+                    hourOfHRV = dpToPxValue(50.dp),
+                    dateName = "22"
+                )
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("100"),
@@ -122,8 +143,6 @@ fun HRVTitle(
 //            date.value = "$dayOfMonth/${month}/$year"
 //        }, year, month, day
 //    )
-
-
 
 
     Column(
@@ -257,7 +276,7 @@ fun BarChartForHRV(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 8,
+                p.positionOnX + 3.2.dp.toPx(),
                 (height - 15).dp.toPx(),
                 paint
             )

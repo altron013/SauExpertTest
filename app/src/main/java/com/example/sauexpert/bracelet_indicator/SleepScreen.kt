@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -71,8 +70,9 @@ fun SleepwithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth = (configuration.screenWidthDp.dp - 70.dp) / 7
-    val pxValue = LocalDensity.current.run { screenWidth.toPx() }
+    val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
+
+
 
     Column(
         modifier = modifier
@@ -87,35 +87,39 @@ fun SleepwithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSleep(
             SleepData = listOf(
-                SleepData(positionOnX = 0f, hourOfSleep = 140f, dateName = "16"),
                 SleepData(
-                    positionOnX = pxValue,
-                    hourOfSleep = 200f,
+                    positionOnX = 0f,
+                    hourOfSleep = dpToPxValue(100.dp),
+                    dateName = "16"
+                ),
+                SleepData(
+                    positionOnX = screenWidth,
+                    hourOfSleep = dpToPxValue(30.dp),
                     dateName = "17"
                 ),
                 SleepData(
-                    positionOnX = (pxValue * 2),
-                    hourOfSleep = 190f,
+                    positionOnX = (screenWidth * 2),
+                    hourOfSleep = dpToPxValue(40.dp),
                     dateName = "18"
                 ),
                 SleepData(
-                    positionOnX = (pxValue * 3),
-                    hourOfSleep = 180f,
+                    positionOnX = (screenWidth * 3),
+                    hourOfSleep = dpToPxValue(30.dp),
                     dateName = "19"
                 ),
                 SleepData(
-                    positionOnX = (pxValue * 4),
-                    hourOfSleep = 220f,
+                    positionOnX = (screenWidth * 4),
+                    hourOfSleep = dpToPxValue(140.dp),
                     dateName = "20"
                 ),
                 SleepData(
-                    positionOnX = (pxValue * 5),
-                    hourOfSleep = 240f,
+                    positionOnX = (screenWidth * 5),
+                    hourOfSleep = dpToPxValue(160.dp),
                     dateName = "21"
                 ),
                 SleepData(
-                    positionOnX = (pxValue * 6),
-                    hourOfSleep = 250f,
+                    positionOnX = (screenWidth * 6),
+                    hourOfSleep = dpToPxValue(180.dp),
                     dateName = "22"
                 )
             ),
@@ -132,6 +136,7 @@ fun SleepwithBarChart(
         )
     }
 }
+
 
 @Composable
 fun SleepTitle(
@@ -268,11 +273,11 @@ fun BarChartForSleep(
                 color = Gray30,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 75f) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 30.dp.toPx()) * heightPre
                 ),
                 size = Size(
                     width = 8.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - 75f) * heightPre
+                    height = ((height - 35).dp.toPx() - 30.dp.toPx()) * heightPre
                 )
             )
 
@@ -290,7 +295,7 @@ fun BarChartForSleep(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 8,
+                p.positionOnX + 3.2.dp.toPx(),
                 (height - 15).dp.toPx(),
                 paint
             )

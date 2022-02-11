@@ -9,12 +9,10 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FlashOn
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +24,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -62,8 +59,7 @@ fun PressurewithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth = (configuration.screenWidthDp.dp - 70.dp) / 7
-    val pxValue = LocalDensity.current.run { screenWidth.toPx() }
+    val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
     Column(
         modifier = modifier
@@ -79,45 +75,45 @@ fun PressurewithBarChart(
             PressureData = listOf(
                 PressureData(
                     positionOnX = 0f,
-                    pressureInAverage = 150f,
+                    pressureInAverage = dpToPxValue(120.dp),
                     dateName = "16",
-                    startPoint = 20f
+                    startPoint = dpToPxValue(10.dp)
                 ),
                 PressureData(
-                    positionOnX = pxValue,
-                    pressureInAverage = 230f,
+                    positionOnX = screenWidth,
+                    pressureInAverage = dpToPxValue(100.dp),
                     dateName = "17",
-                    startPoint = 10f
+                    startPoint = dpToPxValue(10.dp)
                 ),
                 PressureData(
-                    positionOnX = (pxValue * 2),
-                    pressureInAverage = 190f,
+                    positionOnX = (screenWidth * 2),
+                    pressureInAverage = dpToPxValue(100.dp),
                     dateName = "18",
-                    startPoint = 90f
+                    startPoint = dpToPxValue(20.dp)
                 ),
                 PressureData(
-                    positionOnX = (pxValue * 3),
-                    pressureInAverage = 180f,
+                    positionOnX = (screenWidth * 3),
+                    pressureInAverage = dpToPxValue(110.dp),
                     dateName = "19",
-                    startPoint = 50f
+                    startPoint = dpToPxValue(40.dp)
                 ),
                 PressureData(
-                    positionOnX = (pxValue * 4),
-                    pressureInAverage = 220f,
+                    positionOnX = (screenWidth * 4),
+                    pressureInAverage = dpToPxValue(130.dp),
                     dateName = "20",
-                    startPoint = 30f
+                    startPoint = dpToPxValue(10.dp)
                 ),
                 PressureData(
-                    positionOnX = (pxValue * 5),
-                    pressureInAverage = 240f,
+                    positionOnX = (screenWidth * 5),
+                    pressureInAverage = dpToPxValue(100.dp),
                     dateName = "21",
-                    startPoint = 50f
+                    startPoint = dpToPxValue(60.dp)
                 ),
                 PressureData(
-                    positionOnX = (pxValue * 6),
-                    pressureInAverage = 50f,
+                    positionOnX = (screenWidth * 6),
+                    pressureInAverage = dpToPxValue(10.dp),
                     dateName = "22",
-                    startPoint = 140f
+                    startPoint = dpToPxValue(150.dp)
                 )
             ),
             ListNumberData = listOf(
@@ -300,7 +296,7 @@ fun BarChartForPressure(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 8,
+                p.positionOnX + 3.2.dp.toPx(),
                 (height - 35).dp.toPx(),
                 paint
             )
