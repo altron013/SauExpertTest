@@ -51,9 +51,9 @@ fun InspectionPatientScreen() {
         Spacer(modifier = Modifier.height(44.dp))
         PreviousInspectionsSection()
         Spacer(modifier = Modifier.height(12.dp))
-        PreviousInspectionsStat(
-            doctorName = "Ларионов Игорь Викторович",
-            dateOfInspection = "15 Февраля 2021", yourInspection = true
+        PreviousInspectionsSection(
+            doctorName = "Келимбетов Аскар Ахметович",
+            dateOfInspection = "22 Мая 2021", yourInspection = true
         )
         Spacer(modifier = Modifier.height(24.dp))
         MainButton(
@@ -77,7 +77,7 @@ fun PreviousInspectionsSection(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        PreviousInspectionsStat(
+        PreviousInspectionsSection(
             doctorName = "Ларионов Игорь Викторович",
             dateOfInspection = "15 Февраля 2021"
         )
@@ -86,7 +86,7 @@ fun PreviousInspectionsSection(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun PreviousInspectionsStat(
+fun PreviousInspectionsSection(
     yourInspection: Boolean = false,
     doctorName: String,
     dateOfInspection: String,
@@ -106,7 +106,7 @@ fun PreviousInspectionsStat(
             )
             .padding(24.dp)
     ) {
-        AnalysisInspectionsStatField(doctorName)
+        AnalysisInspectionsField(doctorName)
 
         Divider(
             color = Gray30.copy(alpha = 0.35f),
@@ -132,7 +132,7 @@ fun PreviousInspectionsStat(
 }
 
 @Composable
-fun AnalysisInspectionsStatField(
+fun AnalysisInspectionsField(
     doctorName: String,
     modifier: Modifier = Modifier
 ) {
@@ -148,16 +148,25 @@ fun AnalysisInspectionsStatField(
         ) {
             Text(
                 text = doctorName,
-                style = MaterialTheme.typography.subtitle2
+                style = MaterialTheme.typography.subtitle2,
+                modifier = Modifier.weight(0.8f)
             )
 
-
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                contentDescription = "",
-                tint = Color.Black,
-                modifier = modifier.size(20.dp)
-            )
+            Row(
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .weight(0.2f),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowRight,
+                    contentDescription = "",
+                    tint = Color.Black,
+                    modifier = modifier
+                        .size(20.dp)
+                        .clickable { }
+                )
+            }
 
         }
 
@@ -166,7 +175,7 @@ fun AnalysisInspectionsStatField(
         Text(
             text = stringResource(R.string.conducted_inspection),
             style = MaterialTheme.typography.h5,
-            color = Gray30
+            color = Gray30,
         )
 
     }
