@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -103,7 +104,8 @@ fun SP02withLineGraph(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp - 300
+    val screenWidth = (configuration.screenWidthDp.dp - 70.dp) / 7
+    val pxValue = LocalDensity.current.run { screenWidth.toPx() }
 
     Column(
         modifier = modifier
@@ -123,34 +125,34 @@ fun SP02withLineGraph(
                     dateName = "16"
                 ),
                 Sp02Data(
-                    positionOnX = (screenWidth).toFloat(),
+                    positionOnX = pxValue,
                     positionOnY = 100f,
                     dateName = "17",
                     sleepApnea = true
                 ),
                 Sp02Data(
-                    positionOnX = (screenWidth * 2).toFloat(),
+                    positionOnX = (pxValue * 2),
                     positionOnY = 30f,
                     dateName = "18"
                 ),
                 Sp02Data(
-                    positionOnX = (screenWidth * 3).toFloat(),
+                    positionOnX = (pxValue * 3),
                     positionOnY = 200f,
                     dateName = "19",
                     sleepApnea = true
                 ),
                 Sp02Data(
-                    positionOnX = (screenWidth * 4).toFloat(),
+                    positionOnX = (pxValue * 4),
                     positionOnY = 120f,
                     dateName = "20"
                 ),
                 Sp02Data(
-                    positionOnX = (screenWidth * 5).toFloat(),
+                    positionOnX = (pxValue * 5),
                     positionOnY = 30f,
                     dateName = "21"
                 ),
                 Sp02Data(
-                    positionOnX = (screenWidth * 6).toFloat(),
+                    positionOnX = (pxValue * 6),
                     positionOnY = 280f,
                     dateName = "22"
                 ),

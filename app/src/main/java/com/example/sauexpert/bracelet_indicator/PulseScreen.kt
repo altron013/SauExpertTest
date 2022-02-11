@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -58,7 +59,9 @@ fun PulsewithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp - 300
+    val screenWidth = (configuration.screenWidthDp.dp - 70.dp) / 7
+    val pxValue = LocalDensity.current.run { screenWidth.toPx() }
+
 
     Column(
         modifier = modifier
@@ -74,32 +77,32 @@ fun PulsewithBarChart(
             PulseData = listOf(
                 PulseData(positionOnX = 10f, pulseInMinuteAverage = 200f, dateName = "16"),
                 PulseData(
-                    positionOnX = (screenWidth).toFloat(),
+                    positionOnX = pxValue,
                     pulseInMinuteAverage = 370f,
                     dateName = "17"
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 2).toFloat(),
+                    positionOnX = (pxValue * 2),
                     pulseInMinuteAverage = 190f,
                     dateName = "18"
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 3).toFloat(),
+                    positionOnX = (pxValue * 3),
                     pulseInMinuteAverage = 180f,
                     dateName = "19"
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 4).toFloat(),
+                    positionOnX = (pxValue * 4),
                     pulseInMinuteAverage = 220f,
                     dateName = "20"
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 5).toFloat(),
+                    positionOnX = (pxValue * 5),
                     pulseInMinuteAverage = 240f,
                     dateName = "21"
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 6).toFloat(),
+                    positionOnX = (pxValue * 6),
                     pulseInMinuteAverage = 270f,
                     dateName = "22"
                 ),

@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -58,7 +59,8 @@ fun HRVwithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth =   configuration.screenWidthDp - 300
+    val screenWidth = (configuration.screenWidthDp.dp - 70.dp) / 7
+    val pxValue = LocalDensity.current.run { screenWidth.toPx() }
 
 
     Column(
@@ -74,12 +76,12 @@ fun HRVwithBarChart(
         BarChartForHRV(
             HRVData = listOf(
                 HRVData(positionOnX = 0f, hourOfHRV = 200f, dateName = "16"),
-                HRVData(positionOnX = (screenWidth).toFloat(), hourOfHRV = 30f, dateName = "17"),
-                HRVData(positionOnX = (screenWidth * 2).toFloat(), hourOfHRV = 190f, dateName = "18"),
-                HRVData(positionOnX = (screenWidth * 3).toFloat(), hourOfHRV = 180f, dateName = "19"),
-                HRVData(positionOnX = (screenWidth * 4).toFloat(), hourOfHRV = 220f, dateName = "20"),
-                HRVData(positionOnX = (screenWidth * 5).toFloat(), hourOfHRV = 240f, dateName = "21"),
-                HRVData(positionOnX = (screenWidth * 6).toFloat(), hourOfHRV = 30f, dateName = "22")
+                HRVData(positionOnX = pxValue, hourOfHRV = 30f, dateName = "17"),
+                HRVData(positionOnX = (pxValue * 2), hourOfHRV = 190f, dateName = "18"),
+                HRVData(positionOnX = (pxValue * 3), hourOfHRV = 180f, dateName = "19"),
+                HRVData(positionOnX = (pxValue * 4), hourOfHRV = 220f, dateName = "20"),
+                HRVData(positionOnX = (pxValue * 5), hourOfHRV = 240f, dateName = "21"),
+                HRVData(positionOnX = (pxValue * 6), hourOfHRV = 30f, dateName = "22")
             ),
             ListNumberData = listOf(
                 ListNumberOfYForTableData("100"),

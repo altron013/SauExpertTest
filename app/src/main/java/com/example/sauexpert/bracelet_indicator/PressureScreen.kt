@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -61,7 +62,8 @@ fun PressurewithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp - 300
+    val screenWidth = (configuration.screenWidthDp.dp - 70.dp) / 7
+    val pxValue = LocalDensity.current.run { screenWidth.toPx() }
 
     Column(
         modifier = modifier
@@ -82,37 +84,37 @@ fun PressurewithBarChart(
                     startPoint = 20f
                 ),
                 PressureData(
-                    positionOnX = (screenWidth).toFloat(),
+                    positionOnX = pxValue,
                     pressureInAverage = 230f,
                     dateName = "17",
                     startPoint = 10f
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 2).toFloat(),
+                    positionOnX = (pxValue * 2),
                     pressureInAverage = 190f,
                     dateName = "18",
                     startPoint = 90f
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 3).toFloat(),
+                    positionOnX = (pxValue * 3),
                     pressureInAverage = 180f,
                     dateName = "19",
                     startPoint = 50f
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 4).toFloat(),
+                    positionOnX = (pxValue * 4),
                     pressureInAverage = 220f,
                     dateName = "20",
                     startPoint = 30f
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 5).toFloat(),
+                    positionOnX = (pxValue * 5),
                     pressureInAverage = 240f,
                     dateName = "21",
                     startPoint = 50f
                 ),
                 PressureData(
-                    positionOnX = (screenWidth * 6).toFloat(),
+                    positionOnX = (pxValue * 6),
                     pressureInAverage = 50f,
                     dateName = "22",
                     startPoint = 140f

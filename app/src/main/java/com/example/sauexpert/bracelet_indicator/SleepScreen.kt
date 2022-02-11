@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -70,7 +71,8 @@ fun SleepwithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
-    val screenWidth =   configuration.screenWidthDp - 300
+    val screenWidth = (configuration.screenWidthDp.dp - 70.dp) / 7
+    val pxValue = LocalDensity.current.run { screenWidth.toPx() }
 
     Column(
         modifier = modifier
@@ -87,33 +89,33 @@ fun SleepwithBarChart(
             SleepData = listOf(
                 SleepData(positionOnX = 0f, hourOfSleep = 140f, dateName = "16"),
                 SleepData(
-                    positionOnX = (screenWidth).toFloat(),
+                    positionOnX = pxValue,
                     hourOfSleep = 200f,
                     dateName = "17"
                 ),
                 SleepData(
-                    positionOnX = (screenWidth * 2).toFloat(),
+                    positionOnX = (pxValue * 2),
                     hourOfSleep = 190f,
                     dateName = "18"
                 ),
                 SleepData(
-                    positionOnX = (screenWidth * 3).toFloat(),
+                    positionOnX = (pxValue * 3),
                     hourOfSleep = 180f,
                     dateName = "19"
                 ),
                 SleepData(
-                    positionOnX = (screenWidth * 4).toFloat(),
+                    positionOnX = (pxValue * 4),
                     hourOfSleep = 220f,
                     dateName = "20"
                 ),
                 SleepData(
-                    positionOnX = (screenWidth * 5).toFloat(),
+                    positionOnX = (pxValue * 5),
                     hourOfSleep = 240f,
                     dateName = "21"
                 ),
                 SleepData(
-                    positionOnX = (screenWidth * 6).toFloat(),
-                    hourOfSleep = 300f,
+                    positionOnX = (pxValue * 6),
+                    hourOfSleep = 250f,
                     dateName = "22"
                 )
             ),
