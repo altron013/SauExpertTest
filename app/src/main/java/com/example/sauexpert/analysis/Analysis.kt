@@ -14,13 +14,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.analyzes_diagnostics.FilledAnalysis
 import com.example.sauexpert.diagnosis.DiagnosisDateWithPadding
 import com.example.sauexpert.diagnosis.SubHeaderText
 import com.example.sauexpert.ui.theme.*
@@ -76,7 +74,7 @@ fun AnalysisCard() {
 }
 
 @Composable
-fun AnylisisContent() {
+fun AnalysisContent() {
     Column {
         AnalysisCard()
         AnalysisCard()
@@ -184,7 +182,7 @@ fun Analysis() {
 
 
 @Composable
-fun BottomSheetHeader(title: String, onClick: () -> Unit) {
+fun BottomSheetHeader(title: String, closeText: String = "Закрыть", onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -198,7 +196,7 @@ fun BottomSheetHeader(title: String, onClick: () -> Unit) {
         ) {
 
             Text(
-                text = "Закрыть",
+                text = closeText,
                 style = SauExpertTypography.body1,
                 modifier = Modifier.padding(start = 5.dp),
                 color = Red435B
@@ -228,7 +226,7 @@ fun AnalysisChosenItem() {
             modifier = Modifier.padding(start = 16.dp)
         )
         Spacer(modifier = Modifier.height(30.dp))
-        AnalysisPeriod(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
+        DatePeriod(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
     }
 }
 
@@ -244,7 +242,7 @@ fun NewAnalysisItem() {
             modifier = Modifier.padding(start = 30.dp, end = 30.dp)
         )
         Spacer(modifier = Modifier.height(30.dp))
-        AnalysisPeriod(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
+        DatePeriod(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
     }
 }
 
@@ -271,7 +269,7 @@ fun DropDownSelection(text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun AnalysisPeriod(modifier: Modifier = Modifier) {
+fun DatePeriod(modifier: Modifier = Modifier) {
     Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier) {
         Column(modifier = Modifier.weight(1f)) {
             SubHeaderText(text = "ДАТА НАЧАЛА")
@@ -327,7 +325,8 @@ fun HeaderChevronRight(text: String, modifier: Modifier = Modifier) {
         Text(
             text = text,
             style = SauExpertTypography.body1,
-            color = BlackAccent
+            color = BlackAccent,
+            fontWeight = FontWeight.W600
         )
 
         Image(
@@ -341,6 +340,6 @@ fun HeaderChevronRight(text: String, modifier: Modifier = Modifier) {
 @Composable
 fun Prev() {
     SauExpertTheme {
-        NewAnalysis()
+        AnalysisContent()
     }
 }

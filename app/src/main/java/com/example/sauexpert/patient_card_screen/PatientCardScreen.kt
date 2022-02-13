@@ -27,6 +27,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.analysis.AnalysisContent
+import com.example.sauexpert.diagnosis.DiagnosisContent
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.profile.RoundImage
 import com.example.sauexpert.ui.theme.Gray30
@@ -109,6 +111,22 @@ fun PatientCardScreen() {
                     .background(color = Color.White)
             ) {
                 BeginInspectionScreen()
+            }
+
+            2 -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.White)
+            ) {
+                AnalysisContent()
+            }
+
+            3 -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.White)
+            ) {
+                DiagnosisContent()
             }
         }
     }

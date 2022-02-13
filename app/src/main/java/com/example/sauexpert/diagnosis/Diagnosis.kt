@@ -325,12 +325,14 @@ fun HeaderText(text: String) {
 }
 
 @Composable
-fun SubHeaderText(text: String) {
+fun SubHeaderText(
+    text: String,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = text,
         style = SauExpertTypography.body2,
-        modifier = Modifier
-            .padding(start = 16.dp),
+        modifier = modifier.padding(start = 16.dp),
         color = DarkGray
     )
 }
