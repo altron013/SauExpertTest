@@ -1,14 +1,13 @@
 package com.example.sauexpert.signup_patient
 
 import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +15,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -72,7 +73,7 @@ fun CustomKeyboard(
     Column(
         modifier = Modifier
             .fillMaxSize()
-//            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState())
             .padding(8.dp)
     ) {
         MainActionToolBar(
@@ -93,95 +94,92 @@ fun CustomKeyboard(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        PhoneButtons(
-            data = listOf(
-                "1", "2", "3", "4", "5", "6", "7", "8", "9"
-            ),
-            onClick = onClick
-        )
+//        PhoneButtons(
+//            data = listOf(
+//                "1", "2", "3", "4", "5", "6", "7", "8", "9"
+//            ),
+//            onClick = onClick
+//        )
+
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 95.dp)
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            NumberButton(number = 1, onClick = onClick)
+            NumberButton(number = 2, onClick = onClick)
+            NumberButton(number = 3, onClick = onClick)
+
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            NumberButton(number = 4, onClick = onClick)
+            NumberButton(number = 5, onClick = onClick)
+            NumberButton(number = 6, onClick = onClick)
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            NumberButton(number = 7, onClick = onClick)
+            NumberButton(number = 8, onClick = onClick)
+            NumberButton(number = 9, onClick = onClick)
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
         ) {
             Spacer(modifier = Modifier.weight(1f))
-            PhoneButtonZero(
-                onClick = onClick
-            )
-            Spacer(modifier = Modifier.width(20.dp))
-
+            NumberButton(number = 0, onClick = onClick, modifier = Modifier.weight(1f))
             DeleteLeftIcon(
                 list = list,
-                list2 = list2
+                list2 = list2,
+                modifier = Modifier.weight(1f)
             )
         }
     }
 }
 
-
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PhoneButtons(
-    data: List<String>,
-    onClick: (digit: Char) -> Unit,
-    modifier: Modifier = Modifier
-
-) {
-    LazyVerticalGrid(
-        cells = GridCells.Fixed(3),
-        contentPadding = PaddingValues(horizontal = 60.dp)
-    ) {
-        items(data.size) {
-            var number = data[it].toInt()
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = modifier
-                    .padding(10.dp)
-                    .background(color = Gray30.copy(alpha = 0.19f), shape = CircleShape)
-                    .size(72.dp)
-                    .clickable {
-                        onClick(number.digitToChar())
-                    }
-            ) {
-                Text(
-                    text = data[it],
-                    fontSize = 36.sp,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.overline
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun PhoneButtonZero(
+private fun NumberButton(
+    number: Int,
     onClick: (digit: Char) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val number: Int = 0
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .padding(10.dp)
-            .background(color = Gray30.copy(alpha = 0.19f), shape = CircleShape)
-            .size(72.dp)
-            .clickable {
-                onClick(number.digitToChar())
-            }
     ) {
-        Text(
-            text = number.toString(),
-            fontSize = 36.sp,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.overline
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .padding(10.dp)
+                .background(color = Gray30.copy(alpha = 0.19f), shape = CircleShape)
+                .clip(shape = CircleShape)
+                .size(72.dp)
+                .clickable {
+                    onClick(number.digitToChar())
+                }
+        ) {
+            Text(
+                text = number.toString(),
+                fontSize = 36.sp,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.overline
 
-        )
+            )
+        }
     }
 }
+
 
 @Composable
 fun DeleteLeftIcon(
@@ -190,12 +188,13 @@ fun DeleteLeftIcon(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    Image(
-        painter = painterResource(id = R.drawable.ic_delete_left),
-        contentDescription = null,
-        modifier = modifier
-            .size(38.dp)
-            .clickable {
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier.padding(start = 5.dp)
+    ) {
+        IconButton(
+            onClick = {
                 if (list2.size > 0) {
                     list2.remove(list2.last())
                 } else if (list2.size == 0 && list.size > 0) {
@@ -203,8 +202,20 @@ fun DeleteLeftIcon(
                 } else {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
                 }
-            }
-    )
+            },
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_delete_left),
+                contentDescription = null,
+                tint = Color.Black,
+                modifier = Modifier
+                    .size(38.dp)
+
+            )
+        }
+    }
 }
 
 
@@ -321,3 +332,38 @@ fun doteImage(
             .size(13.dp)
     )
 }
+
+//@OptIn(ExperimentalFoundationApi::class)
+//@Composable
+//fun PhoneButtons(
+//    data: List<String>,
+//    onClick: (digit: Char) -> Unit,
+//    modifier: Modifier = Modifier
+//
+//) {
+//    LazyVerticalGrid(
+//        cells = GridCells.Fixed(3),
+//        contentPadding = PaddingValues(horizontal = 60.dp)
+//    ) {
+//        items(data.size) {
+//            var number = data[it].toInt()
+//            Box(
+//                contentAlignment = Alignment.Center,
+//                modifier = modifier
+//                    .padding(10.dp)
+//                    .background(color = Gray30.copy(alpha = 0.19f), shape = CircleShape)
+//                    .size(72.dp)
+//                    .clickable {
+//                        onClick(number.digitToChar())
+//                    }
+//            ) {
+//                Text(
+//                    text = data[it],
+//                    fontSize = 36.sp,
+//                    textAlign = TextAlign.Center,
+//                    style = MaterialTheme.typography.overline
+//                )
+//            }
+//        }
+//    }
+//}
