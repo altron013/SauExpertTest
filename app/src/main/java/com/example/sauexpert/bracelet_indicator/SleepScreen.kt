@@ -15,7 +15,6 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -126,7 +125,7 @@ fun SleepwithBarChart(
                 ),
                 SleepData(
                     positionOnX = (screenWidth * 6),
-                    hourOfSleep = dpToPxValue(180.dp),
+                    hourOfSleep = dpToPxValue(170.dp),
                     dateName = "22"
                 )
             ),
@@ -178,7 +177,12 @@ fun BarChartForSleep(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForSleep(SleepData, it.x, it.y)
+                        itemID.value = identifyClickItemForSleep(
+                            dataList = SleepData,
+                            x = it.x,
+                            y = it.y,
+                            size = 8.dp.toPx()
+                        )
                         visible.value = false
                         ResetColorInsideDataClassForSleep(dataList = SleepData)
                         positionOfX.value = it.x.toInt()
@@ -258,10 +262,16 @@ fun BarChartForSleep(
 }
 
 
-private fun identifyClickItemForSleep(dataList: List<SleepData>, x: Float, y: Float): Int {
+private fun identifyClickItemForSleep(
+    dataList: List<SleepData>,
+    x: Float,
+    y: Float,
+    size: Float
+): Int {
+
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX
-            && x < dataList.positionOnX + 20
+            && x < dataList.positionOnX + size
             && y > dataList.hourOfSleep
         ) {
             return index

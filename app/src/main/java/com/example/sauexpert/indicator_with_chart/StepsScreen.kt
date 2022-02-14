@@ -201,7 +201,12 @@ fun BarChartForSteps(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForSteps(StepsData, it.x, it.y)
+                        itemID.value = identifyClickItemForSteps(
+                            dataList = StepsData,
+                            x = it.x,
+                            y = it.y,
+                            size = 8.dp.toPx()
+                        )
                         ResetColorInsideDataClassForSteps(StepsData = StepsData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
@@ -237,11 +242,11 @@ fun BarChartForSteps(
                 color = Gray30,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() -  30.dp.toPx()) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 30.dp.toPx()) * heightPre
                 ),
                 size = Size(
                     width = 8.dp.toPx(),
-                    height = ((height - 35).dp.toPx() -  30.dp.toPx()) * heightPre
+                    height = ((height - 35).dp.toPx() - 30.dp.toPx()) * heightPre
                 )
             )
 
@@ -267,10 +272,15 @@ fun BarChartForSteps(
     }
 }
 
-private fun identifyClickItemForSteps(dataList: List<StepsData>, x: Float, y: Float): Int {
+private fun identifyClickItemForSteps(
+    dataList: List<StepsData>,
+    x: Float,
+    y: Float,
+    size: Float
+): Int {
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX
-            && x < dataList.positionOnX + 20
+            && x < dataList.positionOnX + size
             && y > dataList.stepsPerDay
         ) {
             return index

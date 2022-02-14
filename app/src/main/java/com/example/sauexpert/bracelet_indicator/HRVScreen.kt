@@ -161,7 +161,12 @@ fun BarChartForHRV(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItem(HRVData, it.x, it.y)
+                        itemID.value = identifyClickItem(
+                            dataList = HRVData,
+                            x = it.x,
+                            y = it.y,
+                            size = 8.dp.toPx()
+                        )
                         ResetColorInsideDataClass(HRVData = HRVData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
@@ -217,10 +222,10 @@ fun BarChartForHRV(
     }
 }
 
-private fun identifyClickItem(dataList: List<HRVData>, x: Float, y: Float): Int {
+private fun identifyClickItem(dataList: List<HRVData>, x: Float, y: Float, size: Float): Int {
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX
-            && x < dataList.positionOnX + 20
+            && x < dataList.positionOnX + size
             && y > dataList.hourOfHRV
         ) {
             return index

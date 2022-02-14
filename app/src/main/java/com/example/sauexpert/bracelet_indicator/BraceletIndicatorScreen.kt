@@ -668,8 +668,6 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun dpToPxValue(number: Dp): Float {
-    val pxValue = LocalDensity.current.run { number.toPx() }
-
-    return pxValue
+fun dpToPxValue(number: Dp) = LocalDensity.current.run {
+    number.toPx()
 }

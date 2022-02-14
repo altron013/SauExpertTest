@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -322,7 +321,12 @@ fun BarChartForGlucose(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForGlucose(glucoseData, it.x, it.y)
+                        itemID.value = identifyClickItemForGlucose(
+                            dataList = glucoseData,
+                            x = it.x,
+                            y = it.y,
+                            size = 20.dp.toPx()
+                        )
                         ResetColorInsideDataClassForGlucose(GlucoseData = glucoseData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
@@ -426,7 +430,12 @@ fun BarChartForGlucose(
     }
 }
 
-private fun identifyClickItemForGlucose(dataList: List<GlucoseData>, x: Float, y: Float): Int {
+private fun identifyClickItemForGlucose(
+    dataList: List<GlucoseData>,
+    x: Float,
+    y: Float,
+    size: Float
+): Int {
     var itemY: Float
     for ((index, dataList) in dataList.withIndex()) {
         itemY = if (dataList.glucoseBeforeFood > dataList.glucoseAfterFood) {
@@ -436,7 +445,7 @@ private fun identifyClickItemForGlucose(dataList: List<GlucoseData>, x: Float, y
         }
 
 
-        if (x > dataList.positionOnX && x < dataList.positionOnX + 60 && y > itemY) {
+        if (x > dataList.positionOnX && x < dataList.positionOnX + size && y > itemY) {
             return index
         }
     }
@@ -599,25 +608,5 @@ fun BottomSheetContentForGlucose(
             modifier = modifier
                 .align(alignment = Alignment.Center)
         )
-
-
-//        LazyColumn(
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .background(
-//                    color = Gray30.copy(alpha = 0.19f)
-//                )
-//                .align(alignment = Alignment.Center)
-//        ) {
-//            itemsIndexed(
-//                list
-//            ) { index, item ->
-//                Text(
-//                    text = item,
-//                    style = MaterialTheme.typography.overline
-//                )
-//            }
-//        }
     }
 }

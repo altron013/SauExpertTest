@@ -1,7 +1,6 @@
 package com.example.sauexpert.bracelet_indicator
 
 import android.graphics.Paint
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -22,7 +21,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -175,7 +173,11 @@ fun LineChartForPulse(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForPulse(PulseData, it.x, it.y)
+                        itemID.value = identifyClickItemForPulse(
+                            dataList = PulseData,
+                            x = it.x,
+                            y = it.y,
+                        )
                         ResetColorInsideDataClassForPulse(dataList = PulseData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
