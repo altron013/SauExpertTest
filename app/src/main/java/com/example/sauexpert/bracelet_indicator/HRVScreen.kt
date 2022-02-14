@@ -123,26 +123,8 @@ fun HRVTitle(
         mutableStateOf(0)
     }
 
-//    val context = LocalContext.current
-//
-//    val year: Int
-//    val month: Int
-//    val day: Int
-//
-//    val calendar = Calendar.getInstance()
-//    year = calendar.get(Calendar.YEAR)
-//    month = calendar.get(Calendar.MONTH) + 1
-//    day = calendar.get(Calendar.DAY_OF_MONTH)
-//    calendar.time = Date()
-
     val date = remember { mutableStateOf("") }
     val activity = LocalContext.current as AppCompatActivity
-//    val datePickerDialog = DatePickerDialog(
-//        context,
-//        { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-//            date.value = "$dayOfMonth/${month}/$year"
-//        }, year, month, day
-//    )
 
 
     Column(
@@ -159,6 +141,8 @@ fun HRVTitle(
                 text = stringResource(id = R.string.hrv),
                 style = MaterialTheme.typography.caption
             )
+
+            Spacer(modifier = Modifier.width(15.dp))
 
 
             CustomTextRadioGroup(
@@ -178,9 +162,6 @@ fun HRVTitle(
             when (selectedTabIndex) {
                 0 -> date.value = "18-20 ноября 2021"
                 1 -> date.value = "Ноября 2021"
-//                2 -> showDatePicker(activity, date)
-//                    datePickerDialog.show()
-
             }
         }
 

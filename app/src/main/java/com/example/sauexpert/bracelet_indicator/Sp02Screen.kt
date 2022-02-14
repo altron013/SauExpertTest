@@ -178,8 +178,6 @@ fun SP02withLineGraph(
             color = Color.Red,
             text = stringResource(id = R.string.sleep_apnea).toUpperCase(Locale.current)
         )
-//        SP02Indicator()
-
     }
 }
 
@@ -208,6 +206,7 @@ fun SP02Title(
                 style = MaterialTheme.typography.caption
             )
 
+            Spacer(modifier = Modifier.width(15.dp))
 
             CustomTextRadioGroup(
                 TextOfTab = listOf(
@@ -226,7 +225,6 @@ fun SP02Title(
             when (selectedTabIndex) {
                 0 -> date.value = "18-20 ноября 2021"
                 1 -> date.value = "Ноября 2021"
-//                2 -> showDatePicker(activity, date)
 
             }
         }
@@ -268,8 +266,6 @@ fun LineChartForSp02(
             }
             else -> {
                 path.lineTo(item.positionOnX * scale, item.positionOnY)
-                //            path.relativeLineTo(30f, -30F)
-
             }
         }
     }
@@ -303,13 +299,6 @@ fun LineChartForSp02(
             path = path,
             clipOp = ClipOp.Difference
         ) {
-
-//            drawPath(
-//                path = path,
-//                color = Color.Green,
-//                style = Stroke(width = 6f)
-//            )
-
             drawRect(
                 color = Color.Green.copy(alpha = 0.1f),
                 size = Size(

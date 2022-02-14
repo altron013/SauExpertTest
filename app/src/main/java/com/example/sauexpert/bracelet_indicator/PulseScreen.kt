@@ -76,7 +76,8 @@ fun PulsewithBarChart(
                 PulseData(
                     positionOnX = 10f,
                     pulseInMinuteAverage = dpToPxValue(30.dp),
-                    dateName = "16"),
+                    dateName = "16"
+                ),
                 PulseData(
                     positionOnX = screenWidth,
                     pulseInMinuteAverage = dpToPxValue(130.dp),
@@ -147,6 +148,7 @@ fun PulseTitle(
                 style = MaterialTheme.typography.caption
             )
 
+            Spacer(modifier = Modifier.width(15.dp))
 
             CustomTextRadioGroup(
                 TextOfTab = listOf(
@@ -165,7 +167,6 @@ fun PulseTitle(
             when (selectedTabIndex) {
                 0 -> date.value = "18-20 ноября 2021"
                 1 -> date.value = "Ноября 2021"
-//                2 -> showDatePicker(activity, date)
 
             }
         }

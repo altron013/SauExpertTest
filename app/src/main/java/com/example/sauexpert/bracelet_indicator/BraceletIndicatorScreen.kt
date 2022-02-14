@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
@@ -131,6 +132,9 @@ fun TabViewWithRoundBorder(
 
     val shape = RoundedCornerShape(10.dp)
     val backgroundColor = Gray4292
+    val textStyleh5 = MaterialTheme.typography.h5
+    var scaledTextStyle by remember { mutableStateOf(textStyleh5) }
+    var readyToDraw by remember { mutableStateOf(false) }
 
     TabRow(
         selectedTabIndex = selectedTabIndex,
@@ -163,11 +167,28 @@ fun TabViewWithRoundBorder(
                         shape = shape,
                     )
             ) {
+
                 Text(
                     text = item.text,
-                    style = MaterialTheme.typography.h5,
+                    style = scaledTextStyle,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(4.dp)
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .drawWithContent {
+                            if (readyToDraw) {
+                                drawContent()
+                            }
+                        },
+                    softWrap = false,
+                    onTextLayout = { textLayoutResult ->
+                        if (textLayoutResult.didOverflowWidth) {
+                            scaledTextStyle =
+                                scaledTextStyle.copy(fontSize = scaledTextStyle.fontSize * 0.9)
+                        } else {
+                            readyToDraw = true
+                        }
+                    }
+
 
                 )
             }
@@ -263,6 +284,12 @@ fun CustomTextRadioGroup(
         mutableStateOf(0)
     }
 
+    val textStyleh5 = MaterialTheme.typography.h5
+    var scaledTextStyle by remember { mutableStateOf(textStyleh5) }
+    var readyToDraw by remember { mutableStateOf(false) }
+
+    val listSize = TextOfTab.size - 1
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -270,7 +297,6 @@ fun CustomTextRadioGroup(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(end = 8.dp)
                     .border(width = 1.dp, color = Gray4292, shape = RoundedCornerShape(10.dp))
                     .clip(
                         shape = RoundedCornerShape(
@@ -280,7 +306,7 @@ fun CustomTextRadioGroup(
                     .clickable {
                         selectedTabIndex = index
                         onTabSelected(index)
-                        if(index == 2) {
+                        if (index == 2) {
                             activity?.let {
                                 dateText?.let { it1 -> showDatePicker(it, it1) }
                             }
@@ -308,11 +334,30 @@ fun CustomTextRadioGroup(
 
                 Text(
                     text = item.text,
-                    style = MaterialTheme.typography.h6,
+                    style = scaledTextStyle,
                     color = if (selectedTabIndex == index) textColor else Color.Black,
-                    fontSize = 13.sp,
+                    modifier = Modifier
+                        .drawWithContent {
+                            if (readyToDraw) {
+                                drawContent()
+                            }
+                        },
+                    softWrap = false,
+                    onTextLayout = { textLayoutResult ->
+                        if (textLayoutResult.didOverflowWidth) {
+                            scaledTextStyle =
+                                scaledTextStyle.copy(fontSize = scaledTextStyle.fontSize * 0.98)
+                        } else {
+                            readyToDraw = true
+                        }
+                    }
                 )
             }
+
+            if (index < listSize) {
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+
         }
     }
 }
@@ -320,13 +365,13 @@ fun CustomTextRadioGroup(
 fun showDatePicker(
     activity: AppCompatActivity,
     dateText: MutableState<String>
-){
+) {
     val picker = MaterialDatePicker.Builder.dateRangePicker().build()
     activity?.let {
         picker.show(it.supportFragmentManager, picker.toString())
         picker.addOnPositiveButtonClickListener { dateSelected ->
-            val startDate  = dateSelected.first
-            val endDate  = dateSelected.second
+            val startDate = dateSelected.first
+            val endDate = dateSelected.second
 
             if (startDate != null && endDate != null) {
                 dateText.value = "${convertLongToTime(startDate)} - ${convertLongToTime(endDate)}"
@@ -339,7 +384,8 @@ private fun convertLongToTime(time: Long): String {
     val date = Date(time)
     val format = SimpleDateFormat(
         "dd.MM.yyyy",
-        Locale.getDefault())
+        Locale.getDefault()
+    )
     return format.format(date)
 }
 

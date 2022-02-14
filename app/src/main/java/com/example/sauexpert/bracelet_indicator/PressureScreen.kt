@@ -136,7 +136,7 @@ fun PressureTitle(
         mutableStateOf(1)
     }
 
-//    var textDate = "18-20 ноября 2021"
+
     val date = remember { mutableStateOf("") }
     val activity = LocalContext.current as AppCompatActivity
 
@@ -178,7 +178,6 @@ fun PressureTitle(
         when (selectedTabIndex) {
             0 -> date.value = "18-20 ноября 2021"
             1 -> date.value = "Ноября 2021"
-//            2 -> showDatePicker(activity, date)
 
         }
     }
