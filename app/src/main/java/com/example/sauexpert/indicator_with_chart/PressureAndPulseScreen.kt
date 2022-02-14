@@ -72,7 +72,13 @@ fun PressureAndPulsewithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        PressureAndPulseTitle()
+        TitleForGraph(
+            textTitle = stringResource(id = R.string.pressure_pulse),
+            TextOfTab = listOf(
+                TextOfTabData(stringResource(R.string.week)),
+                TextOfTabData(stringResource(R.string.month)),
+            )
+        )
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForPressureAndPulse(
             PressureData = listOf(
@@ -167,60 +173,11 @@ fun PressureAndPulsewithBarChart(
         TextWithIconForGraph(
             color =
             if (visible.value) Color.Red else Gray50,
-            text = stringResource(id = R.string.pressure)
+            text = stringResource(id = R.string.pressure).toUpperCase(Locale.current)
         )
-        TextWithIconForGraph(color = Blue4285, text = stringResource(id = R.string.pulse))
-    }
-}
-
-@Composable
-fun PressureAndPulseTitle(
-    modifier: Modifier = Modifier
-) {
-    var selectedTabIndex by remember {
-        mutableStateOf(1)
-    }
-
-    val date = remember { mutableStateOf("") }
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(id = R.string.pressure_pulse),
-                style = MaterialTheme.typography.caption
-            )
-
-
-            CustomTextRadioGroup(
-                TextOfTab = listOf(
-                    TextOfTabData(stringResource(R.string.week)),
-                    TextOfTabData(stringResource(R.string.month)),
-                )
-            ) {
-                selectedTabIndex = it
-            }
-            when (selectedTabIndex) {
-                0 -> date.value = "18-20 ноября 2021"
-                1 -> date.value = "Ноября 2021"
-
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-        Text(
-            text = date.value,
-            style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
-            color = Gray30
+        TextWithIconForGraph(
+            color = Blue4285,
+            text = stringResource(id = R.string.pulse).toUpperCase(Locale.current)
         )
     }
 }

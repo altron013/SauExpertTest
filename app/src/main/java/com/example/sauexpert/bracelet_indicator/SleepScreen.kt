@@ -83,7 +83,14 @@ fun SleepwithBarChart(
             )
             .padding(16.dp)
     ) {
-        SleepTitle()
+        TitleForGraph(
+            textTitle = stringResource(id = R.string.sleep),
+            TextOfTab = listOf(
+                TextOfTabData(stringResource(R.string.week)),
+                TextOfTabData(stringResource(R.string.month)),
+            ),
+            weight = 0.3f
+        )
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSleep(
             SleepData = listOf(
@@ -135,62 +142,6 @@ fun SleepwithBarChart(
 
         )
     }
-}
-
-
-@Composable
-fun SleepTitle(
-    modifier: Modifier = Modifier
-) {
-    var selectedTabIndex by remember {
-        mutableStateOf(0)
-    }
-
-    val date = remember { mutableStateOf("") }
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(id = R.string.sleep),
-                style = MaterialTheme.typography.caption
-            )
-
-
-            CustomTextRadioGroup(
-                TextOfTab = listOf(
-                    TextOfTabData(stringResource(R.string.week)),
-                    TextOfTabData(stringResource(R.string.month)),
-                ),
-                dateText = date
-            ) {
-                selectedTabIndex = it
-            }
-            when (selectedTabIndex) {
-                0 -> date.value = "18-20 ноября 2021"
-                1 -> date.value = "Ноября 2021"
-
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-        Text(
-            text = date.value,
-            style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
-            color = Gray30
-        )
-    }
-
 }
 
 

@@ -277,7 +277,7 @@ fun CustomTextRadioGroup(
     textColor: Color = Color.Black,
     activity: AppCompatActivity? = null,
     dateText: MutableState<String>? = null,
-    onTabSelected: (selectedIndex: Int) -> Unit
+    onTabSelected: (selectedIndex: Int) -> Unit,
 ) {
 
     var selectedTabIndex by remember {
@@ -387,6 +387,73 @@ private fun convertLongToTime(time: Long): String {
         Locale.getDefault()
     )
     return format.format(date)
+}
+
+@Composable
+fun TitleForGraph(
+    textTitle: String,
+    TextOfTab: List<TextOfTabData>,
+    weight: Float = 0.5f,
+    modifier: Modifier = Modifier
+) {
+    var selectedTabIndex by remember {
+        mutableStateOf(1)
+    }
+
+    val date = remember { mutableStateOf("") }
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .weight(weight)
+            ) {
+                Text(
+                    text = textTitle,
+                    style = MaterialTheme.typography.caption,
+                )
+            }
+
+
+            Row(
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .weight(1f - weight)
+            ) {
+
+                CustomTextRadioGroup(
+                    TextOfTab = TextOfTab,
+                ) {
+                    selectedTabIndex = it
+                }
+                when (selectedTabIndex) {
+                    0 -> date.value = "18-20 ноября 2021"
+                    1 -> date.value = "Ноября 2021"
+
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Text(
+            text = date.value,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
+            color = Gray30
+        )
+    }
 }
 
 

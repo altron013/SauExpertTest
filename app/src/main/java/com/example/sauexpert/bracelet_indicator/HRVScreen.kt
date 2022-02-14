@@ -64,7 +64,19 @@ fun HRVwithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        HRVTitle()
+        TitleForGraph(
+            textTitle = stringResource(id = R.string.hrv),
+            TextOfTab = listOf(
+                TextOfTabData(stringResource(R.string.week)),
+                TextOfTabData(stringResource(R.string.month)),
+                TextOfTabData(
+                    stringResource(R.string.choose),
+                    painter = painterResource(R.drawable.ic_calendar_icon)
+                )
+            ),
+            weight = 0.3f
+        )
+
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForHRV(
             HRVData = listOf(
@@ -111,68 +123,6 @@ fun HRVwithBarChart(
                 ListNumberOfYForTableData("25"),
                 ListNumberOfYForTableData("0"),
             )
-        )
-    }
-}
-
-@Composable
-fun HRVTitle(
-    modifier: Modifier = Modifier
-) {
-    var selectedTabIndex by remember {
-        mutableStateOf(0)
-    }
-
-    val date = remember { mutableStateOf("") }
-    val activity = LocalContext.current as AppCompatActivity
-
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(id = R.string.hrv),
-                style = MaterialTheme.typography.caption
-            )
-
-            Spacer(modifier = Modifier.width(15.dp))
-
-
-            CustomTextRadioGroup(
-                TextOfTab = listOf(
-                    TextOfTabData(stringResource(R.string.week)),
-                    TextOfTabData(stringResource(R.string.month)),
-                    TextOfTabData(
-                        stringResource(R.string.choose),
-                        painter = painterResource(R.drawable.ic_calendar_icon)
-                    )
-                ),
-                activity = activity,
-                dateText = date
-            ) {
-                selectedTabIndex = it
-            }
-            when (selectedTabIndex) {
-                0 -> date.value = "18-20 ноября 2021"
-                1 -> date.value = "Ноября 2021"
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-        Text(
-            text = "${date.value}",
-            style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
-            color = Gray30
         )
     }
 }

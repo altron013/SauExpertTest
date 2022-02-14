@@ -113,7 +113,19 @@ fun SP02withLineGraph(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        SP02Title()
+        TitleForGraph(
+            textTitle = stringResource(id = R.string.sp02),
+            TextOfTab = listOf(
+                TextOfTabData(stringResource(R.string.week)),
+                TextOfTabData(stringResource(R.string.month)),
+                TextOfTabData(
+                    stringResource(R.string.choose),
+                    painter = painterResource(R.drawable.ic_calendar_icon)
+                )
+            ),
+            weight = 0.3f
+        )
+
         Spacer(modifier = Modifier.height(40.dp))
         LineChartForSp02(
             Sp02Data = listOf(
@@ -180,67 +192,6 @@ fun SP02withLineGraph(
         )
     }
 }
-
-@Composable
-fun SP02Title(
-    modifier: Modifier = Modifier
-) {
-    var selectedTabIndex by remember {
-        mutableStateOf(0)
-    }
-
-    val date = remember { mutableStateOf("") }
-    val activity = LocalContext.current as AppCompatActivity
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = stringResource(id = R.string.sp02),
-                style = MaterialTheme.typography.caption
-            )
-
-            Spacer(modifier = Modifier.width(15.dp))
-
-            CustomTextRadioGroup(
-                TextOfTab = listOf(
-                    TextOfTabData(stringResource(R.string.week)),
-                    TextOfTabData(stringResource(R.string.month)),
-                    TextOfTabData(
-                        stringResource(R.string.choose),
-                        painter = painterResource(R.drawable.ic_calendar_icon)
-                    )
-                ),
-                activity = activity,
-                dateText = date
-            ) {
-                selectedTabIndex = it
-            }
-            when (selectedTabIndex) {
-                0 -> date.value = "18-20 ноября 2021"
-                1 -> date.value = "Ноября 2021"
-
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-
-        Text(
-            text = "${date.value}",
-            style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
-            color = Gray30
-        )
-    }
-}
-
 
 @Composable
 fun LineChartForSp02(
