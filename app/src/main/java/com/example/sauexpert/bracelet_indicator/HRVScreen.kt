@@ -23,6 +23,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,10 +69,10 @@ fun HRVwithBarChart(
         TitleForGraph(
             textTitle = stringResource(id = R.string.hrv),
             TextOfTab = listOf(
-                TextOfTabData(stringResource(R.string.week)),
-                TextOfTabData(stringResource(R.string.month)),
+                TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
+                TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
                 TextOfTabData(
-                    stringResource(R.string.choose),
+                    stringResource(R.string.choose).toUpperCase(Locale.current),
                     painter = painterResource(R.drawable.ic_calendar_icon)
                 )
             ),

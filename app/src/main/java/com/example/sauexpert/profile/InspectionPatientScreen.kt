@@ -24,6 +24,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.*
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
@@ -31,6 +33,7 @@ import com.example.sauexpert.ui.theme.Green117259
 import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
+import java.util.*
 
 @Composable
 fun InspectionPatientScreen() {
@@ -49,12 +52,9 @@ fun InspectionPatientScreen() {
         )
 
         Spacer(modifier = Modifier.height(44.dp))
+
         PreviousInspectionsSection()
-        Spacer(modifier = Modifier.height(12.dp))
-        PreviousInspectionsSection(
-            doctorName = "Келимбетов Аскар Ахметович",
-            dateOfInspection = "22 Мая 2021", yourInspection = true
-        )
+
         Spacer(modifier = Modifier.height(24.dp))
         MainButton(
             text = stringResource(id = R.string.new_inspections),
@@ -71,7 +71,7 @@ fun InspectionPatientScreen() {
 fun PreviousInspectionsSection(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = stringResource(R.string.previous_inspections),
+            text = stringResource(R.string.previous_inspections).toUpperCase(Locale.current),
             style = MaterialTheme.typography.body2,
         )
 
@@ -80,6 +80,13 @@ fun PreviousInspectionsSection(modifier: Modifier = Modifier) {
         PreviousInspectionsSection(
             doctorName = "Ларионов Игорь Викторович",
             dateOfInspection = "15 Февраля 2021"
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        PreviousInspectionsSection(
+            doctorName = "Келимбетов Аскар Ахметович",
+            dateOfInspection = "22 Мая 2021", yourInspection = true
         )
     }
 }

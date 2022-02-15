@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
@@ -85,8 +87,8 @@ fun SleepwithBarChart(
         TitleForGraph(
             textTitle = stringResource(id = R.string.sleep),
             TextOfTab = listOf(
-                TextOfTabData(stringResource(R.string.week)),
-                TextOfTabData(stringResource(R.string.month)),
+                TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
+                TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
             ),
             weight = 0.3f
         )

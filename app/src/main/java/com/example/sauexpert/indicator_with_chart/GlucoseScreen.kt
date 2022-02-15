@@ -25,6 +25,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -195,14 +197,14 @@ fun GlucosewithBarChart(
 
         TextWithIconForGraph(
             color = Pink4294,
-            text = stringResource(id = R.string.level_of_glucose_before_food)
+            text = stringResource(id = R.string.level_of_glucose_before_food).toUpperCase(Locale.current)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextWithIconForGraph(
             color = Blue4289,
-            text = stringResource(id = R.string.level_of_glucose_after_food)
+            text = stringResource(id = R.string.level_of_glucose_after_food).toUpperCase(Locale.current)
         )
     }
 }
@@ -231,10 +233,10 @@ fun GlucoseTitle(
 
         CustomTextRadioGroup(
             TextOfTab = listOf(
-                TextOfTabData(stringResource(R.string.week)),
-                TextOfTabData(stringResource(R.string.month)),
+                TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
+                TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
                 TextOfTabData(
-                    stringResource(R.string.choose),
+                    stringResource(R.string.choose).toUpperCase(Locale.current),
                     painter = painterResource(R.drawable.ic_calendar_icon)
                 )
             ),

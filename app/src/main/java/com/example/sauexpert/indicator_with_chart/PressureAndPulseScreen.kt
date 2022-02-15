@@ -75,8 +75,8 @@ fun PressureAndPulsewithBarChart(
         TitleForGraph(
             textTitle = stringResource(id = R.string.pressure_pulse),
             TextOfTab = listOf(
-                TextOfTabData(stringResource(R.string.week)),
-                TextOfTabData(stringResource(R.string.month)),
+                TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
+                TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
             )
         )
         Spacer(modifier = Modifier.height(12.dp))

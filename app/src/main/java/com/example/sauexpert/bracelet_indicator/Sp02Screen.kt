@@ -114,10 +114,10 @@ fun SP02withLineGraph(
         TitleForGraph(
             textTitle = stringResource(id = R.string.sp02),
             TextOfTab = listOf(
-                TextOfTabData(stringResource(R.string.week)),
-                TextOfTabData(stringResource(R.string.month)),
+                TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
+                TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
                 TextOfTabData(
-                    stringResource(R.string.choose),
+                    stringResource(R.string.choose).toUpperCase(Locale.current),
                     painter = painterResource(R.drawable.ic_calendar_icon)
                 )
             ),
@@ -179,7 +179,7 @@ fun SP02withLineGraph(
 
         TextWithIconForGraph(
             color = Color.Green.copy(alpha = 0.25f),
-            text = stringResource(id = R.string.oxygen_level)
+            text = stringResource(id = R.string.oxygen_level).toUpperCase(Locale.current)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
