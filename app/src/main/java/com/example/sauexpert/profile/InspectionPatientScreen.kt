@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -343,15 +341,14 @@ fun OutlinedTextFieldWithBackground(
     modifier: Modifier = Modifier
 
 ) {
-//    var textStateField by remember { mutableStateOf(textStateField) }
     val colorOfTextField = TextFieldDefaults.textFieldColors(
-//                    textColor = Color.Gray,
         disabledTextColor = Color.Transparent,
         backgroundColor = colorBackground,
         focusedIndicatorColor = Color.Transparent,
         unfocusedIndicatorColor = Color.Transparent,
         disabledIndicatorColor = Color.Transparent
     )
+
     TextField(
         modifier = modifier
             .fillMaxWidth()
@@ -360,12 +357,64 @@ fun OutlinedTextFieldWithBackground(
         value = textState,
         onValueChange = onTextChange,
         placeholder = {
-            if (textForHint != null) {
+            textForHint?.let {
                 Text(
-                    text = textForHint,
+                    text = it,
                     style = MaterialTheme.typography.body1,
                 )
             }
+
+        },
+        textStyle = TextStyle(fontSize = textSize),
+        colors = colorOfTextField,
+        shape = RoundedCornerShape(10.dp)
+    )
+}
+
+@Composable
+fun OutlinedTextWithIconFieldWithBackground(
+    textForHint: String? = null,
+    icon: ImageVector,
+    enableStatus: Boolean = true,
+    textState: String,
+    colorBackground: Color = Gray30.copy(alpha = 0.19f),
+    onTextChange: (String) -> Unit,
+    textSize: TextUnit = 17.sp,
+    modifier: Modifier = Modifier
+
+) {
+    val colorOfTextField = TextFieldDefaults.textFieldColors(
+        disabledTextColor = Color.Transparent,
+        backgroundColor = colorBackground,
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+        disabledIndicatorColor = Color.Transparent
+    )
+
+    TextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height = 55.dp),
+        enabled = enableStatus,
+        leadingIcon = {
+            Icon(
+                imageVector = icon,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(11.dp)
+                    .size(19.dp)
+            )
+        },
+        value = textState,
+        onValueChange = onTextChange,
+        placeholder = {
+            textForHint?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.body1,
+                )
+            }
+
         },
         textStyle = TextStyle(fontSize = textSize),
         colors = colorOfTextField,

@@ -1,25 +1,39 @@
 package com.example.sauexpert.profile
 
+import android.graphics.Paint
+import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Start
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement.Start
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.model.HistoryOfTreatmentData
+import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.ui.theme.Surface1F7
+import com.example.sauexpert.ui.theme.Pink4294
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 
 
@@ -28,7 +42,9 @@ fun HistoryOfTreatmentScreen() {
     var historyState by rememberSaveable { mutableStateOf("") }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(
                 color = Gray30.copy(alpha = 0.19f)
             )
@@ -42,76 +58,127 @@ fun HistoryOfTreatmentScreen() {
             onRightClick = {}
         )
 
-        Spacer(modifier = Modifier.width(18.dp))
+        Spacer(modifier = Modifier.height(18.dp))
 
-        OutlinedTextFieldWithBackground(
+        OutlinedTextWithIconFieldWithBackground(
             textForHint = stringResource(R.string.search_history),
+            icon = Icons.Default.Search,
             textState = historyState,
             onTextChange = { historyState = it }
         )
 
+        Spacer(modifier = Modifier.height(30.dp))
+
+        HistoryTreatmentSection(
+//            HistoryOfTreatment = listOf(
+//                HistoryOfTreatmentData(
+//                    historyOfActivity = "Изменение замеров",
+//                    date = "24 Января 2021"
+//                ),
+//                HistoryOfTreatmentData(
+//                    historyOfActivity = "Новое назначение",
+//                    date = "22 Января 2021"
+//                ),
+//                HistoryOfTreatmentData(
+//                    historyOfActivity = "Первый осмотр",
+//                    date = "23 Января 2021"
+//                ),
+//            )
+        )
+
 
     }
-
 }
 
-
 @Composable
-fun SearchViewForHistory(state: MutableState<TextFieldValue>) {
-    TextField(
-        value = state.value,
-        onValueChange = { value ->
-            state.value = value
-        },
-        textStyle = TextStyle(color = Color.Black, fontSize = 18.sp),
-        leadingIcon = {
-            Icon(
-                Icons.Default.Search,
-                contentDescription = "",
+fun HistoryTreatmentSection(
+    HistoryOfTreatment: List<HistoryOfTreatmentData>? = null,
+    modifier: Modifier = Modifier
+) {
+
+    if (HistoryOfTreatment != null) {
+        val listSize = HistoryOfTreatment.size
+        val heightForGraph = ((listSize - 1) * 84).dp
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        ) {
+            Canvas(
                 modifier = Modifier
-                    .padding(11.dp)
-                    .size(19.dp)
-            )
-        },
-        trailingIcon = {
-            if (state.value != TextFieldValue("")) {
-                IconButton(
-                    onClick = {
-                        state.value =
-                            TextFieldValue("")
-                    }
-                ) {
-                    Icon(
-                        Icons.Default.Close,
-                        contentDescription = "",
-                        modifier = Modifier
-                            // .padding(15.dp)
-                            .size(17.dp)
+                    .fillMaxWidth()
+                    .height(heightForGraph)
+            ) {
+                var height = 0
+                val paint = Paint().apply {
+                    textAlign = Paint.Align.LEFT
+                    textSize = 17.sp.toPx()
+                    color = Color.Black.toArgb()
+                }
+
+                val paintGray = Paint().apply {
+                    textAlign = Paint.Align.LEFT
+                    textSize = 12.sp.toPx()
+                    color = Gray30.toArgb()
+                }
+
+                for (i in 0 until listSize) {
+                    drawContext.canvas.nativeCanvas.drawText(
+                        HistoryOfTreatment[i].date,
+                        12.dp.toPx(),
+                        height.dp.toPx(),
+                        paintGray
                     )
+
+                    drawContext.canvas.nativeCanvas.drawText(
+                        HistoryOfTreatment[i].historyOfActivity,
+                        12.dp.toPx(),
+                        (height + 16).dp.toPx(),
+                        paint
+                    )
+
+                    if (i < listSize - 1) {
+                        drawLine(
+                            start = Offset(0f, (height + 10).dp.toPx()),
+                            end = Offset(0f, (height + 84).dp.toPx()),
+                            color = Gray30,
+                            strokeWidth = 5f
+                        )
+                    }
+
+                    drawCircle(
+                        color = Pink4294,
+                        radius = 15f,
+                        center = Offset(0f, (height + 10).dp.toPx())
+                    )
+
+                    drawCircle(
+                        color = Color.Red,
+                        radius = 10f,
+                        center = Offset(0f, (height + 10).dp.toPx())
+                    )
+
+                    height += 74
                 }
             }
-        },
-        singleLine = true,
-        shape = RoundedCornerShape(10.dp),
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.DarkGray,
-            cursorColor = Color.DarkGray,
-            leadingIconColor = Color.DarkGray,
-            trailingIconColor = Color.DarkGray,
-            backgroundColor = Surface1F7,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
-        ),
-        placeholder = {
+        }
+    } else {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = modifier
+                .fillMaxSize()
+        ) {
             Text(
-                "Поиск по ФИО пациента",
-                fontSize = 17.sp,
-                modifier = Modifier.padding(4.dp)
+                text = stringResource(R.string.patient_has_no_treatment_history),
+                style = MaterialTheme.typography.overline,
+                color = Gray30,
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(40.dp)
             )
-        },
-        modifier = Modifier
-            .height(46.dp)
-            .padding(4.dp),
-    )
+
+        }
+    }
+
 }
