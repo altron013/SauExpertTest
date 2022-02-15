@@ -70,20 +70,20 @@ fun HistoryOfTreatmentScreen() {
         Spacer(modifier = Modifier.height(30.dp))
 
         HistoryTreatmentSection(
-//            HistoryOfTreatment = listOf(
-//                HistoryOfTreatmentData(
-//                    historyOfActivity = "Изменение замеров",
-//                    date = "24 Января 2021"
-//                ),
-//                HistoryOfTreatmentData(
-//                    historyOfActivity = "Новое назначение",
-//                    date = "22 Января 2021"
-//                ),
-//                HistoryOfTreatmentData(
-//                    historyOfActivity = "Первый осмотр",
-//                    date = "23 Января 2021"
-//                ),
-//            )
+            HistoryOfTreatment = listOf(
+                HistoryOfTreatmentData(
+                    historyOfActivity = "Изменение замеров",
+                    date = "24 Января 2021"
+                ),
+                HistoryOfTreatmentData(
+                    historyOfActivity = "Новое назначение",
+                    date = "22 Января 2021"
+                ),
+                HistoryOfTreatmentData(
+                    historyOfActivity = "Первый осмотр",
+                    date = "23 Января 2021"
+                ),
+            )
         )
 
 
@@ -102,7 +102,7 @@ fun HistoryTreatmentSection(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 1.dp)
         ) {
             Canvas(
                 modifier = Modifier
@@ -139,23 +139,23 @@ fun HistoryTreatmentSection(
 
                     if (i < listSize - 1) {
                         drawLine(
-                            start = Offset(0f, (height + 10).dp.toPx()),
-                            end = Offset(0f, (height + 84).dp.toPx()),
+                            start = Offset(0.dp.toPx(), (height + 10).dp.toPx()),
+                            end = Offset(0.dp.toPx(), (height + 84).dp.toPx()),
                             color = Gray30,
-                            strokeWidth = 5f
+                            strokeWidth = 1.dp.toPx()
                         )
                     }
 
                     drawCircle(
                         color = Pink4294,
-                        radius = 15f,
-                        center = Offset(0f, (height + 10).dp.toPx())
+                        radius = 6.dp.toPx(),
+                        center = Offset(0.dp.toPx(), (height + 10).dp.toPx())
                     )
 
                     drawCircle(
                         color = Color.Red,
-                        radius = 10f,
-                        center = Offset(0f, (height + 10).dp.toPx())
+                        radius = 3.5.dp.toPx(),
+                        center = Offset(0.dp.toPx(), (height + 10).dp.toPx())
                     )
 
                     height += 74

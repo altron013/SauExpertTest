@@ -341,19 +341,19 @@ fun BarChartForPressureAndPulse(
         drawPath(
             path = path,
             color = Blue4285,
-            style = Stroke(width = 5f)
+            style = Stroke(width = 2.dp.toPx())
         )
 
         for (i in PulseData) {
             drawCircle(
                 color = Color.White,
-                radius = 13f,
+                radius = 4.dp.toPx(),
                 center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
             )
 
             drawCircle(
                 color = i.colorFocus,
-                radius = 10f,
+                radius = 3.dp.toPx(),
                 center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
             )
         }

@@ -263,19 +263,19 @@ fun LineChartForSp02(
                 start = Offset(Sp02Data[i].positionOnX, Sp02Data[i].positionOnY),
                 end = Offset(Sp02Data[i + 1].positionOnX, Sp02Data[i + 1].positionOnY),
                 color = Color.Green,
-                strokeWidth = 5f
+                strokeWidth = 2.dp.toPx()
             )
 
             if (Sp02Data[i].sleepApnea) {
                 drawCircle(
                     color = Color.White,
-                    radius = 13f,
+                    radius = 4.dp.toPx(),
                     center = Offset(Sp02Data[i].positionOnX, Sp02Data[i].positionOnY - 1f)
                 )
 
                 drawCircle(
                     color = Color.Red,
-                    radius = 10f,
+                    radius = 3.dp.toPx(),
                     center = Offset(Sp02Data[i].positionOnX, Sp02Data[i].positionOnY - 1f)
                 )
 

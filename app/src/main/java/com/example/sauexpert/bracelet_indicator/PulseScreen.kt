@@ -179,6 +179,7 @@ fun LineChartForPulse(
                             dataList = PulseData,
                             x = it.x,
                             y = it.y,
+                            size = 3.dp.toPx()
                         )
                         ResetColorInsideDataClassForPulse(dataList = PulseData)
                         positionOfX.value = it.x.toInt()
@@ -213,20 +214,20 @@ fun LineChartForPulse(
         drawPath(
             path = path,
             color = Blue4285,
-            style = Stroke(width = 5f)
+            style = Stroke(width = 2.dp.toPx())
         )
 
 
         for (i in PulseData) {
             drawCircle(
                 color = Color.White,
-                radius = 13f,
+                radius = 4.dp.toPx(),
                 center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
             )
 
             drawCircle(
                 color = i.colorFocus,
-                radius = 10f,
+                radius = 3.dp.toPx(),
                 center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
             )
 
@@ -240,12 +241,17 @@ fun LineChartForPulse(
     }
 }
 
-private fun identifyClickItemForPulse(dataList: List<PulseData>, x: Float, y: Float): Int {
+private fun identifyClickItemForPulse(
+    dataList: List<PulseData>,
+    x: Float,
+    y: Float,
+    size: Float
+): Int {
     for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX - 10
-            && x < dataList.positionOnX + 10
-            && y > dataList.pulseInMinuteAverage - 10
-            && y < dataList.pulseInMinuteAverage + 10
+        if (x > dataList.positionOnX - size
+            && x < dataList.positionOnX + size
+            && y > dataList.pulseInMinuteAverage - size
+            && y < dataList.pulseInMinuteAverage + size
         ) {
             return index
         }
