@@ -18,7 +18,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -84,14 +86,14 @@ fun ProfileScreen() {
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
-                title = stringResource(id = R.string.city),
+                title = stringResource(id = R.string.city).toUpperCase(Locale.current),
                 text = "Тараз"
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
-                title = stringResource(id = R.string.phone),
+                title = stringResource(id = R.string.phone).toUpperCase(Locale.current),
                 text = "+7 (777) 380-99-17",
                 textIsLink = true
             )
@@ -99,21 +101,21 @@ fun ProfileScreen() {
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
-                title = stringResource(id = R.string.organization),
+                title = stringResource(id = R.string.organization).toUpperCase(Locale.current),
                 text = "АО “Центргарант”"
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
-                title = stringResource(id = R.string.last_doctor_who_inspect),
+                title = stringResource(id = R.string.last_doctor_who_inspect).toUpperCase(Locale.current),
                 text = "Келимбетов А.С. (вы)"
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
-                title = stringResource(id = R.string.last_day_of_check_up),
+                title = stringResource(id = R.string.last_day_of_check_up).toUpperCase(Locale.current),
                 text = "29 Ноября 2021"
             )
         }
@@ -241,13 +243,13 @@ fun ProfileStatSectionGroup(
 
     ) {
         ProfileStatSection(
-            title = stringResource(id = R.string.gender),
+            title = stringResource(id = R.string.gender).toUpperCase(Locale.current),
             text = textForGender,
             modifier = Modifier.width(screenWidth)
         )
 
         ProfileStatSection(
-            title = stringResource(id = R.string.age),
+            title = stringResource(id = R.string.age).toUpperCase(Locale.current),
             text = textForAge,
             modifier = Modifier.width(screenWidth)
         )

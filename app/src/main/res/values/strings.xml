@@ -66,10 +66,10 @@
     <string name="no_diagnosis">Нет диагноза</string>
     <string name="indicators">Показатели</string>
     <string name="analysis">Анализы</string>
-    <string name="age">ВОЗРАСТ</string>
-    <string name="city">ГОРОД</string>
-    <string name="phone">ТЕЛЕФОН</string>
-    <string name="organization">ОРГАНИЗАЦИЯ</string>
+    <string name="age">Возраст</string>
+    <string name="city">Город</string>
+    <string name="phone">Телефон</string>
+    <string name="organization">Организация</string>
     <string name="begin_diagnostic">Начать осмотр</string>
     <string name="skip">Пропустить</string>
     <string name="next">Далее</string>
@@ -82,8 +82,8 @@
     <string name="inspections_description">Осматривайте пациентов у себя или в офисе клиента</string>
     <string name="install_password_code">Установите код быстрого доступа</string>
     <string name="install_password_code_description">С помощью него Вы можете заходить в Sau Expert 24</string>
-    <string name="last_day_of_check_up">ДАТА ОСМОТРА</string>
-    <string name="last_doctor_who_inspect">ОСМАТРИВАЛ В ПОСЛЕДНИЙ РАЗ:</string>
+    <string name="last_day_of_check_up">Дата осмотра</string>
+    <string name="last_doctor_who_inspect">Осматривал в последний раз:</string>
     <string name="profile">Профиль</string>
     <string name="monthly_report">Отчёт за месяц</string>
     <string name="treatment_history">История лечения</string>
