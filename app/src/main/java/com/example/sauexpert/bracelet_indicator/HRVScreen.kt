@@ -231,18 +231,6 @@ fun BarChartForHRV(
     }
 }
 
-private fun identifyClickItem(dataList: List<HRVData>, x: Float, y: Float, size: Float): Int {
-    for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX
-            && x < dataList.positionOnX + size
-            && y > dataList.positionOnY
-        ) {
-            return index
-        }
-    }
-    return -1
-}
-
 private fun ResetColorInsideDataClass(HRVData: List<HRVData>) {
     for (p in HRVData) {
         p.colorFocus = Gray50

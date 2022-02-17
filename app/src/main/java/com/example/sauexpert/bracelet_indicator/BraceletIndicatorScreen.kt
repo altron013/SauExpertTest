@@ -30,8 +30,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.model.ListNumberOfYForTableData
-import com.example.sauexpert.model.TextOfTabData
+import com.example.sauexpert.model.*
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray4292
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
@@ -285,8 +284,8 @@ fun CustomTextRadioGroup(
         mutableStateOf(0)
     }
 
-    val textStyleh5 = MaterialTheme.typography.h5
-    var scaledTextStyle by remember { mutableStateOf(textStyleh5) }
+    val textStyle5 = MaterialTheme.typography.h5
+    var scaledTextStyle by remember { mutableStateOf(textStyle5) }
     var readyToDraw by remember { mutableStateOf(false) }
 
     val listSize = TextOfTab.size - 1
@@ -690,3 +689,78 @@ fun identifyHeightForYPoint(
     }
     return dpToPxValue(((dataList.size - 1) * 35).dp)
 }
+
+
+fun identifyClickItem(dataList: List<Any>, x: Float, y: Float, size: Float): Int {
+    dataList.forEachIndexed { index, any ->
+        when (any) {
+            is SleepData -> {
+                if (positionCorrectForBarChart(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        positionOnY = any.hourOfSleep,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
+            is HRVData -> {
+                if (positionCorrectForBarChart(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        positionOnY = any.positionOnY,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
+            is PressureData -> {
+                if (positionCorrect(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        startPoint = any.startPoint,
+                        endPoint = any.endPoint,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
+            is PulseData -> {
+                if (positionCorrectForLineChart(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        positionOnY = any.positionOnY,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
+        }
+    }
+    return -1
+}
+
+fun positionCorrectForBarChart(
+    size: Float,
+    positionOnX: Float,
+    positionOnY: Float,
+    x: Float,
+    y: Float
+) = x > positionOnX && x < positionOnX + size && y > positionOnY
+
+fun positionCorrect(
+    size: Float,
+    positionOnX: Float,
+    startPoint: Float,
+    endPoint: Float,
+    x: Float,
+    y: Float
+) = x > positionOnX && x < positionOnX + size && y > startPoint - size && y < endPoint + size
+
+fun positionCorrectForLineChart(
+    size: Float,
+    positionOnX: Float,
+    positionOnY: Float,
+    x: Float,
+    y: Float
+) = x > positionOnX && x < positionOnX + size && y > positionOnY - size && y < positionOnY + size

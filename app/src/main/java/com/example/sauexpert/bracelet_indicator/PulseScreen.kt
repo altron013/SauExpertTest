@@ -183,7 +183,7 @@ fun LineChartForPulse(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForPulse(
+                        itemID.value = identifyClickItem(
                             dataList = PulseData,
                             x = it.x,
                             y = it.y,
@@ -247,24 +247,6 @@ fun LineChartForPulse(
             )
         }
     }
-}
-
-private fun identifyClickItemForPulse(
-    dataList: List<PulseData>,
-    x: Float,
-    y: Float,
-    size: Float
-): Int {
-    for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX - size
-            && x < dataList.positionOnX + size
-            && y > dataList.positionOnY - size
-            && y < dataList.positionOnY + size
-        ) {
-            return index
-        }
-    }
-    return -1
 }
 
 private fun ResetColorInsideDataClassForPulse(dataList: List<PulseData>) {

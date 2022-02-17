@@ -182,7 +182,7 @@ fun BarChartForSleep(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForSleep(
+                        itemID.value = identifyClickItem(
                             dataList = SleepData,
                             x = it.x,
                             y = it.y,
@@ -266,24 +266,6 @@ fun BarChartForSleep(
     }
 }
 
-
-private fun identifyClickItemForSleep(
-    dataList: List<SleepData>,
-    x: Float,
-    y: Float,
-    size: Float
-): Int {
-
-    for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX
-            && x < dataList.positionOnX + size
-            && y > dataList.hourOfSleep
-        ) {
-            return index
-        }
-    }
-    return -1
-}
 
 private fun ResetColorInsideDataClassForSleep(dataList: List<SleepData>) {
     for (p in dataList) {

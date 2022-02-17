@@ -412,13 +412,6 @@ fun BarChartForGlucose(
         }
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(0.dp.toPx(), height.dp.toPx()),
-                end = Offset(glucoseData[listSize].positionOnX + 38.dp.toPx(), height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 1.dp.toPx()
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
                 i.number.toString(),
                 glucoseData[listSize].positionOnX + 40.dp.toPx(),
