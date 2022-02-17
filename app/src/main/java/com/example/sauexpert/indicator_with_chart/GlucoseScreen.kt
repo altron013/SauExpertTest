@@ -36,6 +36,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.CustomTextRadioGroup
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
+import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
 import com.example.sauexpert.model.GlucoseData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
@@ -119,6 +120,14 @@ fun GlucosewithBarChart(
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(8),
+        ListNumberOfYForTableData(6),
+        ListNumberOfYForTableData(4),
+        ListNumberOfYForTableData(2),
+        ListNumberOfYForTableData(0),
+    )
+
 
     Column(
         modifier = modifier
@@ -134,54 +143,90 @@ fun GlucosewithBarChart(
             glucoseData = listOf(
                 GlucoseData(
                     positionOnX = 0f,
-                    glucoseBeforeFood = dpToPxValue(80.dp),
-                    glucoseAfterFood = dpToPxValue(80.dp),
+                    glucoseBeforeFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 8
+                    ),
+                    glucoseAfterFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 6
+                    ),
                     dateName = "16"
                 ),
                 GlucoseData(
                     positionOnX = screenWidth,
-                    glucoseBeforeFood = dpToPxValue(30.dp),
-                    glucoseAfterFood = dpToPxValue(100.dp),
+                    glucoseBeforeFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 5
+                    ),
+                    glucoseAfterFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 6
+                    ),
                     dateName = "17"
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 2),
-                    glucoseBeforeFood = dpToPxValue(140.dp),
-                    glucoseAfterFood = dpToPxValue(60.dp),
+                    glucoseBeforeFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 4
+                    ),
+                    glucoseAfterFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 7
+                    ),
                     dateName = "18"
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 3),
-                    glucoseBeforeFood = dpToPxValue(10.dp),
-                    glucoseAfterFood = dpToPxValue(130.dp),
+                    glucoseBeforeFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 9
+                    ),
+                    glucoseAfterFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 4
+                    ),
                     dateName = "19",
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 4),
-                    glucoseBeforeFood = dpToPxValue(130.dp),
-                    glucoseAfterFood = dpToPxValue(40.dp),
+                    glucoseBeforeFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 8
+                    ),
+                    glucoseAfterFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 8
+                    ),
                     dateName = "20",
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 5),
-                    glucoseBeforeFood = dpToPxValue(50.dp),
-                    glucoseAfterFood = dpToPxValue(90.dp),
+                    glucoseBeforeFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 8
+                    ),
+                    glucoseAfterFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 8
+                    ),
                     dateName = "21"
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 6),
-                    glucoseBeforeFood = dpToPxValue(30.dp),
-                    glucoseAfterFood = dpToPxValue(100.dp),
+                    glucoseBeforeFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 5
+                    ),
+                    glucoseAfterFood = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 5
+                    ),
                     dateName = "22"
                 )
             ),
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("8"),
-                ListNumberOfYForTableData("6"),
-                ListNumberOfYForTableData("4"),
-                ListNumberOfYForTableData("2"),
-                ListNumberOfYForTableData("0"),
-            ),
+            ListNumberData = listNumberData,
             state = state,
             visible = visible
         )
@@ -353,10 +398,17 @@ fun BarChartForGlucose(
         }
 
         for (i in ListNumberData) {
+            drawLine(
+                start = Offset(0.dp.toPx(), height.dp.toPx()),
+                end = Offset(glucoseData[listSize].positionOnX + 38.dp.toPx(), height.dp.toPx()),
+                color = Gray30,
+                strokeWidth = 1.dp.toPx()
+            )
+
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
-                glucoseData[listSize].positionOnX + 48.dp.toPx(),
-                height.dp.toPx(),
+                i.number.toString(),
+                glucoseData[listSize].positionOnX + 40.dp.toPx(),
+                (height + 4).dp.toPx(),
                 paint
             )
 

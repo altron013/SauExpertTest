@@ -19,7 +19,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
@@ -28,10 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
-import com.example.sauexpert.bracelet_indicator.CustomTextRadioGroup
-import com.example.sauexpert.bracelet_indicator.RangeCustomizeSection
-import com.example.sauexpert.bracelet_indicator.TextWithBigValueAndDateForGraph
-import com.example.sauexpert.bracelet_indicator.dpToPxValue
+import com.example.sauexpert.bracelet_indicator.*
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.StepsData
 import com.example.sauexpert.model.TextOfTabData
@@ -59,6 +55,15 @@ fun StepswithBarChart(
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(4500),
+        ListNumberOfYForTableData(4000),
+        ListNumberOfYForTableData(3500),
+        ListNumberOfYForTableData(3000),
+        ListNumberOfYForTableData(2500),
+        ListNumberOfYForTableData(2000),
+    )
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -72,49 +77,42 @@ fun StepswithBarChart(
         BarChartForSteps(
             StepsData = listOf(
                 StepsData(
-                    positionOnX = 0f,
-                    stepsPerDay = dpToPxValue(150.dp),
+                    positionOnX = (screenWidth * 0),
+                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 4500),
                     dateName = "16"
                 ),
                 StepsData(
-                    positionOnX = (screenWidth),
-                    stepsPerDay = dpToPxValue(30.dp),
+                    positionOnX = (screenWidth * 1),
+                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 4100),
                     dateName = "17"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 2),
-                    stepsPerDay = dpToPxValue(120.dp),
+                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 5000),
                     dateName = "18"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 3),
-                    stepsPerDay = dpToPxValue(180.dp),
+                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 2500),
                     dateName = "19"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 4),
-                    stepsPerDay = dpToPxValue(120.dp),
+                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 2000),
                     dateName = "20"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 5),
-                    stepsPerDay = dpToPxValue(130.dp),
+                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 3700),
                     dateName = "21"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 6),
-                    stepsPerDay = dpToPxValue(70.dp),
+                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 3000),
                     dateName = "22"
                 )
             ),
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("4 500"),
-                ListNumberOfYForTableData("4 000"),
-                ListNumberOfYForTableData("3 500"),
-                ListNumberOfYForTableData("3 000"),
-                ListNumberOfYForTableData("2 500"),
-                ListNumberOfYForTableData("2 000"),
-            )
+            ListNumberData = listNumberData
         )
     }
 }
@@ -229,9 +227,9 @@ fun BarChartForSteps(
 
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
+                i.number.toString(),
                 StepsData[listSize].positionOnX + 38.dp.toPx(),
-                height.dp.toPx(),
+                (height + 4).dp.toPx(),
                 paint
             )
 
@@ -244,11 +242,11 @@ fun BarChartForSteps(
                 color = Gray30,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 30.dp.toPx()) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 35.dp.toPx()) * heightPre
                 ),
                 size = Size(
                     width = 8.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - 30.dp.toPx()) * heightPre
+                    height = ((height - 35).dp.toPx() - 35.dp.toPx()) * heightPre
                 )
             )
 
