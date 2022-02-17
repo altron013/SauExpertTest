@@ -103,6 +103,15 @@ fun SP02withLineGraph(
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(100),
+        ListNumberOfYForTableData(98),
+        ListNumberOfYForTableData(96),
+        ListNumberOfYForTableData(94),
+        ListNumberOfYForTableData(92),
+        ListNumberOfYForTableData(90),
+    )
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -128,51 +137,44 @@ fun SP02withLineGraph(
         LineChartForSp02(
             Sp02Data = listOf(
                 Sp02Data(
-                    positionOnX = 0f,
-                    positionOnY = 0f,
+                    positionOnX = (screenWidth * 0),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 90),
                     dateName = "16"
                 ),
                 Sp02Data(
-                    positionOnX = screenWidth,
-                    positionOnY = dpToPxValue(100.dp),
+                    positionOnX = (screenWidth * 1),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 100),
                     dateName = "17",
                     sleepApnea = true
                 ),
                 Sp02Data(
                     positionOnX = (screenWidth * 2),
-                    positionOnY = dpToPxValue(140.dp),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 99),
                     dateName = "18"
                 ),
                 Sp02Data(
                     positionOnX = (screenWidth * 3),
-                    positionOnY = dpToPxValue(90.dp),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 98),
                     dateName = "19",
                     sleepApnea = true
                 ),
                 Sp02Data(
                     positionOnX = (screenWidth * 4),
-                    positionOnY = dpToPxValue(70.dp),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 97),
                     dateName = "20"
                 ),
                 Sp02Data(
                     positionOnX = (screenWidth * 5),
-                    positionOnY = dpToPxValue(100.dp),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 94),
                     dateName = "21"
                 ),
                 Sp02Data(
                     positionOnX = (screenWidth * 6),
-                    positionOnY = dpToPxValue(160.dp),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 89),
                     dateName = "22"
                 ),
             ),
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("100"),
-                ListNumberOfYForTableData("98"),
-                ListNumberOfYForTableData("96"),
-                ListNumberOfYForTableData("94"),
-                ListNumberOfYForTableData("92"),
-                ListNumberOfYForTableData("90"),
-            )
+            ListNumberData = listNumberData
 
         )
         Spacer(modifier = Modifier.height(20.dp))

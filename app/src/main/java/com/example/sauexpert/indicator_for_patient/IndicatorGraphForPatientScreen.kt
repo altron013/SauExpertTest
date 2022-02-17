@@ -54,7 +54,6 @@ fun IndicatorGraphForPatientScreen() {
 }
 
 
-
 @Composable
 fun TitleForIndicatorGraphForPatient(
     modifier: Modifier = Modifier
@@ -151,11 +150,11 @@ fun GlucoseWithBarChartForIndicatorGraph(
                 ),
 
                 ListNumberData = listOf(
-                    ListNumberOfYForTableData("7.6"),
-                    ListNumberOfYForTableData("6.6"),
-                    ListNumberOfYForTableData("5.6"),
-                    ListNumberOfYForTableData("4.6"),
-                    ListNumberOfYForTableData("0"),
+                    ListNumberOfYForTableData(7),
+                    ListNumberOfYForTableData(6),
+                    ListNumberOfYForTableData(5),
+                    ListNumberOfYForTableData(4),
+                    ListNumberOfYForTableData(0),
                 ),
                 checkedStateBeforeFood = checkedStateBeforeFood,
                 checkedStateAfterFood = checkedStateAfterFood
@@ -264,7 +263,7 @@ fun BarChartForGlucoseForIndicatorGraph(
 
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
+                i.number.toString(),
                 0f,
                 (5 + height).dp.toPx(),
                 paint
@@ -397,11 +396,11 @@ fun BloodPressureAndPulseWithBarChart(
                 ),
 
                 ListNumberData = listOf(
-                    ListNumberOfYForTableData("140"),
-                    ListNumberOfYForTableData("120"),
-                    ListNumberOfYForTableData("80"),
-                    ListNumberOfYForTableData("50"),
-                    ListNumberOfYForTableData("30"),
+                    ListNumberOfYForTableData(140),
+                    ListNumberOfYForTableData(120),
+                    ListNumberOfYForTableData(80),
+                    ListNumberOfYForTableData(50),
+                    ListNumberOfYForTableData(30),
                 )
             )
         }
@@ -451,7 +450,7 @@ fun BarChartForBloodPressureAndPulse(
 
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
+                i.number.toString(),
                 0f,
                 (5 + height).dp.toPx(),
                 paint
@@ -534,11 +533,11 @@ fun StepsTakenWithBarChart(
                 ),
 
                 ListNumberData = listOf(
-                    ListNumberOfYForTableData("12000"),
-                    ListNumberOfYForTableData("10000"),
-                    ListNumberOfYForTableData("8000"),
-                    ListNumberOfYForTableData("6000"),
-                    ListNumberOfYForTableData("0"),
+                    ListNumberOfYForTableData(12000),
+                    ListNumberOfYForTableData(10000),
+                    ListNumberOfYForTableData(8000),
+                    ListNumberOfYForTableData(6000),
+                    ListNumberOfYForTableData(0),
                 )
             )
         }
@@ -576,7 +575,7 @@ fun BarChartForStepsTaken(
         for (i in ListNumberData) {
 
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
+                i.number.toString(),
                 0f,
                 (5 + height).dp.toPx(),
                 paint

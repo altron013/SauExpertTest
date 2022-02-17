@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray4292
@@ -670,4 +671,22 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
 @Composable
 fun dpToPxValue(number: Dp) = LocalDensity.current.run {
     number.toPx()
+}
+
+@Composable
+fun identifyHeightForYPoint(
+    dataList: List<ListNumberOfYForTableData>,
+    number: Int,
+): Float {
+    for ((index, dataList) in dataList.withIndex()) {
+        when {
+            number == dataList.number -> {
+                return dpToPxValue((index * 35).dp)
+            }
+            number > dataList.number -> {
+                return dpToPxValue((index * 30).dp)
+            }
+        }
+    }
+    return dpToPxValue(175.dp)
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
@@ -73,6 +74,14 @@ fun SleepwithBarChart(
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(10),
+        ListNumberOfYForTableData(8),
+        ListNumberOfYForTableData(6),
+        ListNumberOfYForTableData(4),
+        ListNumberOfYForTableData(2),
+        ListNumberOfYForTableData(0),
+    )
 
 
     Column(
@@ -94,51 +103,46 @@ fun SleepwithBarChart(
         )
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSleep(
+            ListNumberData = listNumberData,
+
             SleepData = listOf(
                 SleepData(
-                    positionOnX = 0f,
-                    hourOfSleep = dpToPxValue(100.dp),
+                    positionOnX = (screenWidth * 0),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 7),
                     dateName = "16"
                 ),
                 SleepData(
-                    positionOnX = screenWidth,
-                    hourOfSleep = dpToPxValue(30.dp),
+                    positionOnX = (screenWidth * 1),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 4),
                     dateName = "17"
                 ),
                 SleepData(
                     positionOnX = (screenWidth * 2),
-                    hourOfSleep = dpToPxValue(40.dp),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 5),
                     dateName = "18"
                 ),
                 SleepData(
                     positionOnX = (screenWidth * 3),
-                    hourOfSleep = dpToPxValue(30.dp),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 6),
                     dateName = "19"
                 ),
                 SleepData(
                     positionOnX = (screenWidth * 4),
-                    hourOfSleep = dpToPxValue(140.dp),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 2),
                     dateName = "20"
                 ),
                 SleepData(
                     positionOnX = (screenWidth * 5),
-                    hourOfSleep = dpToPxValue(160.dp),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 3),
                     dateName = "21"
                 ),
                 SleepData(
                     positionOnX = (screenWidth * 6),
-                    hourOfSleep = dpToPxValue(170.dp),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 10),
                     dateName = "22"
                 )
             ),
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("10"),
-                ListNumberOfYForTableData("8"),
-                ListNumberOfYForTableData("6"),
-                ListNumberOfYForTableData("4"),
-                ListNumberOfYForTableData("2"),
-                ListNumberOfYForTableData("0"),
-            ),
+
             visible = visible
 
         )
@@ -215,9 +219,9 @@ fun BarChartForSleep(
 
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
+                i.number.toString(),
                 SleepData[listSize].positionOnX + 38.dp.toPx(),
-                height.dp.toPx(),
+                (height + 4).dp.toPx(),
                 paint
             )
 
@@ -230,11 +234,11 @@ fun BarChartForSleep(
                 color = Gray30,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 30.dp.toPx()) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 35.dp.toPx()) * heightPre
                 ),
                 size = Size(
                     width = 8.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - 30.dp.toPx()) * heightPre
+                    height = ((height - 35).dp.toPx() - 35.dp.toPx()) * heightPre
                 )
             )
 
@@ -252,7 +256,7 @@ fun BarChartForSleep(
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                p.positionOnX + 3.2.dp.toPx(),
+                p.positionOnX + 3.5.dp.toPx(),
                 (height - 15).dp.toPx(),
                 paint
             )
