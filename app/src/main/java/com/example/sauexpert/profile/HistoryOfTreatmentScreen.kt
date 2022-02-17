@@ -1,13 +1,10 @@
 package com.example.sauexpert.profile
 
 import android.graphics.Paint
-import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.Start
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement.Start
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -31,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.HistoryOfTreatmentData
-import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Pink4294
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
@@ -44,10 +40,10 @@ fun HistoryOfTreatmentScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
             .background(
                 color = Gray30.copy(alpha = 0.19f)
             )
+            .verticalScroll(rememberScrollState())
             .padding(16.dp)
 
     ) {
@@ -133,7 +129,7 @@ fun HistoryTreatmentSection(
                     drawContext.canvas.nativeCanvas.drawText(
                         HistoryOfTreatment[i].historyOfActivity,
                         12.dp.toPx(),
-                        (height + 16).dp.toPx(),
+                        (height + 20).dp.toPx(),
                         paint
                     )
 
@@ -149,13 +145,13 @@ fun HistoryTreatmentSection(
                     drawCircle(
                         color = Pink4294,
                         radius = 6.dp.toPx(),
-                        center = Offset(0.dp.toPx(), (height + 10).dp.toPx())
+                        center = Offset(0.dp.toPx(), (height + 14).dp.toPx())
                     )
 
                     drawCircle(
                         color = Color.Red,
                         radius = 3.5.dp.toPx(),
-                        center = Offset(0.dp.toPx(), (height + 10).dp.toPx())
+                        center = Offset(0.dp.toPx(), (height + 14).dp.toPx())
                     )
 
                     height += 74
