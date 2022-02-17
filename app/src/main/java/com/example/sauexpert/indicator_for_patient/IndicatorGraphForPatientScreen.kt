@@ -110,41 +110,41 @@ fun GlucoseWithBarChartForIndicatorGraph(
                 glucoseData = listOf(
                     GlucoseData(
                         positionOnX = 50f,
-                        glucoseBeforeFood = 200f,
-                        glucoseAfterFood = 200f,
+                        positionOnYBeforeFood = 200f,
+                        positionOnYAfterFood = 200f,
                         dateName = "16.12"
                     ),
                     GlucoseData(
                         positionOnX = 150f,
-                        glucoseBeforeFood = 30f,
-                        glucoseAfterFood = 200f,
+                        positionOnYBeforeFood = 200f,
+                        positionOnYAfterFood = 200f,
                     ),
                     GlucoseData(
                         positionOnX = 250f,
-                        glucoseBeforeFood = 190f,
-                        glucoseAfterFood = 60f,
+                        positionOnYBeforeFood = 200f,
+                        positionOnYAfterFood = 200f,
                         dateName = "18.12"
                     ),
                     GlucoseData(
                         positionOnX = 350f,
-                        glucoseBeforeFood = 180f,
-                        glucoseAfterFood = 200f
+                        positionOnYBeforeFood = 200f,
+                        positionOnYAfterFood = 200f,
                     ),
                     GlucoseData(
                         positionOnX = 450f,
-                        glucoseBeforeFood = 220f,
-                        glucoseAfterFood = 200f,
+                        positionOnYBeforeFood = 200f,
+                        positionOnYAfterFood = 200f,
                         dateName = "20.12",
                     ),
                     GlucoseData(
                         positionOnX = 550f,
-                        glucoseBeforeFood = 240f,
-                        glucoseAfterFood = 200f
+                        positionOnYBeforeFood = 200f,
+                        positionOnYAfterFood = 200f,
                     ),
                     GlucoseData(
                         positionOnX = 650f,
-                        glucoseBeforeFood = 30f,
-                        glucoseAfterFood = 200f,
+                        positionOnYBeforeFood = 200f,
+                        positionOnYAfterFood = 200f,
                         dateName = "22.12"
                     )
                 ),
@@ -523,13 +523,13 @@ fun StepsTakenWithBarChart(
         ) {
             BarChartForStepsTaken(
                 StepsData = listOf(
-                    StepsData(positionOnX = 70f, stepsPerDay = 200f, dateName = "16.12"),
-                    StepsData(positionOnX = 170f, stepsPerDay = 30f, dateName = "17.12"),
-                    StepsData(positionOnX = 270f, stepsPerDay = 190f, dateName = "18.12"),
-                    StepsData(positionOnX = 370f, stepsPerDay = 180f, dateName = "19.12"),
-                    StepsData(positionOnX = 470f, stepsPerDay = 220f, dateName = "20.12"),
-                    StepsData(positionOnX = 570f, stepsPerDay = 240f, dateName = "21.12"),
-                    StepsData(positionOnX = 670f, stepsPerDay = 30f, dateName = "22.12")
+                    StepsData(positionOnX = 70f, positionOnY = 200f, dateName = "16.12"),
+                    StepsData(positionOnX = 170f, positionOnY = 30f, dateName = "17.12"),
+                    StepsData(positionOnX = 270f, positionOnY = 190f, dateName = "18.12"),
+                    StepsData(positionOnX = 370f, positionOnY = 180f, dateName = "19.12"),
+                    StepsData(positionOnX = 470f, positionOnY = 220f, dateName = "20.12"),
+                    StepsData(positionOnX = 570f, positionOnY = 240f, dateName = "21.12"),
+                    StepsData(positionOnX = 670f, positionOnY = 30f, dateName = "22.12")
                 ),
 
                 ListNumberData = listOf(

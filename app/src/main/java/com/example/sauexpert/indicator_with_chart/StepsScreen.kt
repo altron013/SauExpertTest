@@ -78,37 +78,44 @@ fun StepswithBarChart(
             StepsData = listOf(
                 StepsData(
                     positionOnX = (screenWidth * 0),
-                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 4500),
+                    stepsPerDay = 4500,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 4500),
                     dateName = "16"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 1),
-                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 4100),
+                    stepsPerDay = 4100,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 4100),
                     dateName = "17"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 2),
-                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 5000),
+                    stepsPerDay = 5000,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 5000),
                     dateName = "18"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 3),
-                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 2500),
+                    stepsPerDay = 2500,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 2500),
                     dateName = "19"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 4),
-                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 2000),
+                    stepsPerDay = 2000,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 2000),
                     dateName = "20"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 5),
-                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 3700),
+                    stepsPerDay = 3700,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 3700),
                     dateName = "21"
                 ),
                 StepsData(
                     positionOnX = (screenWidth * 6),
-                    stepsPerDay = identifyHeightForYPoint(dataList = listNumberData, number = 3000),
+                    stepsPerDay = 3000,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 3000),
                     dateName = "22"
                 )
             ),
@@ -254,11 +261,11 @@ fun BarChartForSteps(
                 color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.positionOnY) * heightPre
                 ),
                 size = Size(
                     width = 8.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - p.stepsPerDay) * heightPre
+                    height = ((height - 35).dp.toPx() - p.positionOnY) * heightPre
                 )
             )
 
@@ -281,7 +288,7 @@ private fun identifyClickItemForSteps(
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX
             && x < dataList.positionOnX + size
-            && y > dataList.stepsPerDay
+            && y > dataList.positionOnY
         ) {
             return index
         }

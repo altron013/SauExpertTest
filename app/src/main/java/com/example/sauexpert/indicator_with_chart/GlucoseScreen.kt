@@ -143,11 +143,13 @@ fun GlucosewithBarChart(
             glucoseData = listOf(
                 GlucoseData(
                     positionOnX = 0f,
-                    glucoseBeforeFood = identifyHeightForYPoint(
+                    glucoseBeforeFood = 8,
+                    positionOnYBeforeFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 8
                     ),
-                    glucoseAfterFood = identifyHeightForYPoint(
+                    glucoseAfterFood = 6,
+                    positionOnYAfterFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 6
                     ),
@@ -155,11 +157,13 @@ fun GlucosewithBarChart(
                 ),
                 GlucoseData(
                     positionOnX = screenWidth,
-                    glucoseBeforeFood = identifyHeightForYPoint(
+                    glucoseBeforeFood = 5,
+                    positionOnYBeforeFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 5
                     ),
-                    glucoseAfterFood = identifyHeightForYPoint(
+                    glucoseAfterFood = 6,
+                    positionOnYAfterFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 6
                     ),
@@ -167,11 +171,13 @@ fun GlucosewithBarChart(
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 2),
-                    glucoseBeforeFood = identifyHeightForYPoint(
+                    glucoseBeforeFood = 4,
+                    positionOnYBeforeFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 4
                     ),
-                    glucoseAfterFood = identifyHeightForYPoint(
+                    glucoseAfterFood = 7,
+                    positionOnYAfterFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 7
                     ),
@@ -179,11 +185,13 @@ fun GlucosewithBarChart(
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 3),
-                    glucoseBeforeFood = identifyHeightForYPoint(
+                    glucoseBeforeFood = 9,
+                    positionOnYBeforeFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 9
                     ),
-                    glucoseAfterFood = identifyHeightForYPoint(
+                    glucoseAfterFood = 4,
+                    positionOnYAfterFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 4
                     ),
@@ -191,11 +199,13 @@ fun GlucosewithBarChart(
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 4),
-                    glucoseBeforeFood = identifyHeightForYPoint(
+                    glucoseBeforeFood = 8,
+                    positionOnYBeforeFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 8
                     ),
-                    glucoseAfterFood = identifyHeightForYPoint(
+                    glucoseAfterFood = 8,
+                    positionOnYAfterFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 8
                     ),
@@ -203,11 +213,13 @@ fun GlucosewithBarChart(
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 5),
-                    glucoseBeforeFood = identifyHeightForYPoint(
+                    glucoseBeforeFood = 8,
+                    positionOnYBeforeFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 8
                     ),
-                    glucoseAfterFood = identifyHeightForYPoint(
+                    glucoseAfterFood = 8,
+                    positionOnYAfterFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 8
                     ),
@@ -215,11 +227,13 @@ fun GlucosewithBarChart(
                 ),
                 GlucoseData(
                     positionOnX = (screenWidth * 6),
-                    glucoseBeforeFood = identifyHeightForYPoint(
+                    glucoseBeforeFood = 5,
+                    positionOnYBeforeFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 5
                     ),
-                    glucoseAfterFood = identifyHeightForYPoint(
+                    glucoseAfterFood = 5,
+                    positionOnYAfterFood = identifyHeightForYPoint(
                         dataList = listNumberData,
                         number = 5
                     ),
@@ -450,11 +464,11 @@ fun BarChartForGlucose(
                     color = p.colorFocusBeforeFood,
                     topLeft = Offset(
                         x = p.positionOnX,
-                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
+                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.positionOnYBeforeFood) * heightPre
                     ),
                     size = Size(
                         width = 8.dp.toPx(),
-                        height = ((height - 35).dp.toPx() - p.glucoseBeforeFood) * heightPre
+                        height = ((height - 35).dp.toPx() - p.positionOnYBeforeFood) * heightPre
                     )
                 )
             }
@@ -464,11 +478,11 @@ fun BarChartForGlucose(
                     color = p.colorFocusAfterFood,
                     topLeft = Offset(
                         x = p.positionOnX + 12.dp.toPx(),
-                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
+                        y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.positionOnYAfterFood) * heightPre
                     ),
                     size = Size(
                         width = 8.dp.toPx(),
-                        height = ((height - 35).dp.toPx() - p.glucoseAfterFood) * heightPre
+                        height = ((height - 35).dp.toPx() - p.positionOnYAfterFood) * heightPre
                     )
                 )
             }
@@ -492,10 +506,10 @@ private fun identifyClickItemForGlucose(
 ): Int {
     var itemY: Float
     for ((index, dataList) in dataList.withIndex()) {
-        itemY = if (dataList.glucoseBeforeFood > dataList.glucoseAfterFood) {
-            dataList.glucoseAfterFood
+        itemY = if (dataList.positionOnYBeforeFood > dataList.positionOnYAfterFood) {
+            dataList.positionOnYAfterFood
         } else {
-            dataList.glucoseBeforeFood
+            dataList.positionOnYBeforeFood
         }
 
 
