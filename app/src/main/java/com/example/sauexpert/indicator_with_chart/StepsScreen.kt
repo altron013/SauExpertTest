@@ -208,7 +208,7 @@ fun BarChartForSteps(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForSteps(
+                        itemID.value = identifyClickItem(
                             dataList = StepsData,
                             x = it.x,
                             y = it.y,
@@ -279,22 +279,6 @@ fun BarChartForSteps(
     }
 }
 
-private fun identifyClickItemForSteps(
-    dataList: List<StepsData>,
-    x: Float,
-    y: Float,
-    size: Float
-): Int {
-    for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX
-            && x < dataList.positionOnX + size
-            && y > dataList.positionOnY
-        ) {
-            return index
-        }
-    }
-    return -1
-}
 
 private fun ResetColorInsideDataClassForSteps(StepsData: List<StepsData>) {
     for (p in StepsData) {

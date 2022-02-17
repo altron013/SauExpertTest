@@ -714,8 +714,18 @@ fun identifyClickItem(dataList: List<Any>, x: Float, y: Float, size: Float): Int
                     )
                 ) return index
             }
+            is StepsData -> {
+                if (positionCorrectForBarChart(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        positionOnY = any.positionOnY,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
             is PressureData -> {
-                if (positionCorrect(
+                if (positionCorrectWithStartPoint(
                         size = size,
                         positionOnX = any.positionOnX,
                         startPoint = any.startPoint,
@@ -748,7 +758,7 @@ fun positionCorrectForBarChart(
     y: Float
 ) = x > positionOnX && x < positionOnX + size && y > positionOnY
 
-fun positionCorrect(
+fun positionCorrectWithStartPoint(
     size: Float,
     positionOnX: Float,
     startPoint: Float,

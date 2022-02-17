@@ -255,7 +255,7 @@ fun BarChartForPressureAndPulse(
                 detectTapGestures(
                     onTap = {
                         itemID.value =
-                            identifyClickItemForPressureAndPulse(
+                            identifyClickItem(
                                 dataList = PressureData,
                                 x = it.x,
                                 y = it.y,
@@ -375,24 +375,6 @@ fun BarChartForPressureAndPulse(
         }
 
     }
-}
-
-private fun identifyClickItemForPressureAndPulse(
-    dataList: List<PressureData>,
-    x: Float,
-    y: Float,
-    size: Float,
-): Int {
-    for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX
-            && x < dataList.positionOnX + size
-            && y > dataList.startPoint
-            && y < dataList.endPoint + dataList.startPoint
-        ) {
-            return index
-        }
-    }
-    return -1
 }
 
 private fun ResetColorInsideDataClassForPressureAndPulse(
