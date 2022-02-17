@@ -90,37 +90,44 @@ fun HRVwithBarChart(
             HRVData = listOf(
                 HRVData(
                     positionOnX = (screenWidth * 0),
-                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 90),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 90),
+                    hourOfHRV = 90,
                     dateName = "16"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 1),
-                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 100),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 100),
+                    hourOfHRV = 100,
                     dateName = "17"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 2),
-                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 75),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 75),
+                    hourOfHRV = 75,
                     dateName = "18"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 3),
-                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 50),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 50),
+                    hourOfHRV = 50,
                     dateName = "19"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 4),
-                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 60),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 60),
+                    hourOfHRV = 60,
                     dateName = "20"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 5),
-                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 25),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 25),
+                    hourOfHRV = 25,
                     dateName = "21"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 6),
-                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 80),
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 80),
+                    hourOfHRV = 80,
                     dateName = "22"
                 )
             ),
@@ -204,11 +211,11 @@ fun BarChartForHRV(
                 color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.hourOfHRV) * heightPre
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.positionOnY) * heightPre
                 ),
                 size = Size(
                     width = 8.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - p.hourOfHRV) * heightPre
+                    height = ((height - 35).dp.toPx() - p.positionOnY) * heightPre
                 )
             )
 
@@ -228,7 +235,7 @@ private fun identifyClickItem(dataList: List<HRVData>, x: Float, y: Float, size:
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX
             && x < dataList.positionOnX + size
-            && y > dataList.hourOfHRV
+            && y > dataList.positionOnY
         ) {
             return index
         }
