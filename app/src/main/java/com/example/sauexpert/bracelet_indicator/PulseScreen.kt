@@ -60,6 +60,16 @@ fun PulsewithBarChart(
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(240),
+        ListNumberOfYForTableData(200),
+        ListNumberOfYForTableData(160),
+        ListNumberOfYForTableData(120),
+        ListNumberOfYForTableData(80),
+        ListNumberOfYForTableData(40),
+        ListNumberOfYForTableData(0),
+    )
+
 
     Column(
         modifier = modifier
@@ -86,50 +96,63 @@ fun PulsewithBarChart(
             PulseData = listOf(
                 PulseData(
                     positionOnX = 10f,
-                    pulseInMinuteAverage = dpToPxValue(30.dp),
+                    pulseInMinuteAverage = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 200
+                    ),
                     dateName = "16"
                 ),
                 PulseData(
                     positionOnX = screenWidth,
-                    pulseInMinuteAverage = dpToPxValue(130.dp),
+                    pulseInMinuteAverage = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 240
+                    ),
                     dateName = "17"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 2),
-                    pulseInMinuteAverage = dpToPxValue(120.dp),
+                    pulseInMinuteAverage = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 170
+                    ),
                     dateName = "18"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 3),
-                    pulseInMinuteAverage = dpToPxValue(140.dp),
+                    pulseInMinuteAverage = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 160
+                    ),
                     dateName = "19"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 4),
-                    pulseInMinuteAverage = dpToPxValue(90.dp),
+                    pulseInMinuteAverage = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 120
+                    ),
                     dateName = "20"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 5),
-                    pulseInMinuteAverage = dpToPxValue(100.dp),
+                    pulseInMinuteAverage = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 90
+                    ),
                     dateName = "21"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 6),
-                    pulseInMinuteAverage = dpToPxValue(160.dp),
+                    pulseInMinuteAverage = identifyHeightForYPoint(
+                        dataList = listNumberData,
+                        number = 10
+                    ),
                     dateName = "22"
                 ),
 
                 ),
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("240"),
-                ListNumberOfYForTableData("200"),
-                ListNumberOfYForTableData("160"),
-                ListNumberOfYForTableData("120"),
-                ListNumberOfYForTableData("80"),
-                ListNumberOfYForTableData("40"),
-                ListNumberOfYForTableData("0"),
-            )
+            ListNumberData = listNumberData
         )
     }
 }
@@ -202,7 +225,7 @@ fun LineChartForPulse(
 
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
+                i.number.toString(),
                 PulseData[listSize].positionOnX + 38.dp.toPx(),
                 height.dp.toPx(),
                 paint

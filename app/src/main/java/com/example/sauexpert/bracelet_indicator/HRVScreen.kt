@@ -1,7 +1,6 @@
 package com.example.sauexpert.bracelet_indicator
 
 import android.graphics.Paint
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -20,7 +19,6 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
@@ -57,6 +55,14 @@ fun HRVwithBarChart(
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(100),
+        ListNumberOfYForTableData(75),
+        ListNumberOfYForTableData(50),
+        ListNumberOfYForTableData(25),
+        ListNumberOfYForTableData(0),
+    )
+
 
     Column(
         modifier = modifier
@@ -83,48 +89,42 @@ fun HRVwithBarChart(
         BarChartForHRV(
             HRVData = listOf(
                 HRVData(
-                    positionOnX = 0f,
-                    hourOfHRV = dpToPxValue(20.dp),
+                    positionOnX = (screenWidth * 0),
+                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 90),
                     dateName = "16"
                 ),
                 HRVData(
-                    positionOnX = screenWidth,
-                    hourOfHRV = dpToPxValue(120.dp),
+                    positionOnX = (screenWidth * 1),
+                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 100),
                     dateName = "17"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 2),
-                    hourOfHRV = dpToPxValue(100.dp),
+                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 75),
                     dateName = "18"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 3),
-                    hourOfHRV = dpToPxValue(80.dp),
+                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 50),
                     dateName = "19"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 4),
-                    hourOfHRV = dpToPxValue(120.dp),
+                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 60),
                     dateName = "20"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 5),
-                    hourOfHRV = dpToPxValue(140.dp),
+                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 25),
                     dateName = "21"
                 ),
                 HRVData(
                     positionOnX = (screenWidth * 6),
-                    hourOfHRV = dpToPxValue(50.dp),
+                    hourOfHRV = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                     dateName = "22"
                 )
             ),
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("100"),
-                ListNumberOfYForTableData("75"),
-                ListNumberOfYForTableData("50"),
-                ListNumberOfYForTableData("25"),
-                ListNumberOfYForTableData("0"),
-            )
+            ListNumberData = listNumberData
         )
     }
 }
@@ -189,9 +189,9 @@ fun BarChartForHRV(
 
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
+                i.number.toString(),
                 HRVData[listSize].positionOnX + 38.dp.toPx(),
-                height.dp.toPx(),
+                (height + 4).dp.toPx(),
                 paint
             )
 

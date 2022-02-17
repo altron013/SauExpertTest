@@ -63,6 +63,15 @@ fun PressurewithBarChart(
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(200),
+        ListNumberOfYForTableData(160),
+        ListNumberOfYForTableData(120),
+        ListNumberOfYForTableData(80),
+        ListNumberOfYForTableData(40),
+        ListNumberOfYForTableData(0),
+    )
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -118,14 +127,7 @@ fun PressurewithBarChart(
                     startPoint = dpToPxValue(150.dp)
                 )
             ),
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("200"),
-                ListNumberOfYForTableData("160"),
-                ListNumberOfYForTableData("120"),
-                ListNumberOfYForTableData("80"),
-                ListNumberOfYForTableData("40"),
-                ListNumberOfYForTableData("0"),
-            )
+            ListNumberData = listNumberData
         )
     }
 }
@@ -246,8 +248,15 @@ fun BarChartForPressure(
         }
 
         for (i in ListNumberData) {
+            drawLine(
+                start = Offset(0.dp.toPx(), height.dp.toPx()),
+                end = Offset(PressureData[listSize].positionOnX + 38.dp.toPx(), height.dp.toPx()),
+                color = Gray30,
+                strokeWidth = 1.dp.toPx()
+            )
+
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
+                i.number.toString(),
                 PressureData[listSize].positionOnX + 38.dp.toPx(),
                 height.dp.toPx(),
                 paint

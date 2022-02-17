@@ -26,7 +26,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
@@ -138,7 +137,7 @@ fun SleepwithBarChart(
                 ),
                 SleepData(
                     positionOnX = (screenWidth * 6),
-                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 10),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 1),
                     dateName = "22"
                 )
             ),
