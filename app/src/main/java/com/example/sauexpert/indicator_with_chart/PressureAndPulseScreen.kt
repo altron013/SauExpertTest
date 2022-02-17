@@ -64,6 +64,15 @@ fun PressureAndPulsewithBarChart(
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(200),
+        ListNumberOfYForTableData(160),
+        ListNumberOfYForTableData(120),
+        ListNumberOfYForTableData(80),
+        ListNumberOfYForTableData(40),
+        ListNumberOfYForTableData(0),
+    )
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -83,88 +92,95 @@ fun PressureAndPulsewithBarChart(
         BarChartForPressureAndPulse(
             PressureData = listOf(
                 PressureData(
-                    positionOnX = 0f,
-                    pressureInAverage = dpToPxValue(120.dp),
+                    positionOnX = (screenWidth * 0),
+                    pressureInAverage = "120/80",
                     dateName = "16",
-                    startPoint = dpToPxValue(10.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 ),
                 PressureData(
-                    positionOnX = screenWidth,
-                    pressureInAverage = dpToPxValue(100.dp),
+                    positionOnX = (screenWidth * 1),
+                    pressureInAverage = "120/80",
                     dateName = "17",
-                    startPoint = dpToPxValue(10.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 2),
-                    pressureInAverage = dpToPxValue(100.dp),
+                    pressureInAverage = "120/80",
                     dateName = "18",
-                    startPoint = dpToPxValue(20.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 3),
-                    pressureInAverage = dpToPxValue(110.dp),
+                    pressureInAverage = "120/80",
                     dateName = "19",
-                    startPoint = dpToPxValue(40.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 4),
-                    pressureInAverage = dpToPxValue(130.dp),
+                    pressureInAverage = "120/80",
                     dateName = "20",
-                    startPoint = dpToPxValue(10.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 5),
-                    pressureInAverage = dpToPxValue(100.dp),
+                    pressureInAverage = "120/80",
                     dateName = "21",
-                    startPoint = dpToPxValue(60.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 6),
-                    pressureInAverage = dpToPxValue(10.dp),
+                    pressureInAverage = "120/80",
                     dateName = "22",
-                    startPoint = dpToPxValue(150.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 )
             ),
 
             PulseData = listOf(
                 PulseData(
                     positionOnX = 10f,
-                    pulseInMinuteAverage = dpToPxValue(20.dp)
+                    pulseInMinuteAverage = 200,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 200),
                 ),
                 PulseData(
-                    positionOnX = (screenWidth + 10f),
-                    pulseInMinuteAverage = dpToPxValue(120.dp)
+                    positionOnX = (screenWidth * 1 + 5f),
+                    pulseInMinuteAverage = 240,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 240),
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 2 + 10f),
-                    pulseInMinuteAverage = dpToPxValue(100.dp)
+                    positionOnX = (screenWidth * 2 + 5f),
+                    pulseInMinuteAverage = 170,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 170),
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 3 + 10f),
-                    pulseInMinuteAverage = dpToPxValue(70.dp)
+                    positionOnX = (screenWidth * 3 + 5f),
+                    pulseInMinuteAverage = 160,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 160),
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 4 + 10f),
-                    pulseInMinuteAverage = dpToPxValue(100.dp)
+                    positionOnX = (screenWidth * 4 + 5f),
+                    pulseInMinuteAverage = 120,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 120),
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 5 + 10f),
-                    pulseInMinuteAverage = dpToPxValue(120.dp)
+                    positionOnX = (screenWidth * 5 + 5f),
+                    pulseInMinuteAverage = 90,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 90),
                 ),
                 PulseData(
-                    positionOnX = (screenWidth * 6 + 10f),
-                    pulseInMinuteAverage = dpToPxValue(50.dp)
+                    positionOnX = (screenWidth * 6 + 5f),
+                    pulseInMinuteAverage = 10,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 10),
                 ),
             ),
 
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("200"),
-                ListNumberOfYForTableData("160"),
-                ListNumberOfYForTableData("120"),
-                ListNumberOfYForTableData("80"),
-                ListNumberOfYForTableData("40"),
-                ListNumberOfYForTableData("0"),
-            ),
+            ListNumberData = listNumberData,
             visible = visible
 
 
@@ -215,10 +231,10 @@ fun BarChartForPressureAndPulse(
 
     for ((index, item) in PulseData.withIndex()) {
         if (index == 0) {
-            path.moveTo(0f * scale, item.pulseInMinuteAverage)
-            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+            path.moveTo(0f * scale, item.positionOnY)
+            path.lineTo(item.positionOnX * scale, item.positionOnY)
         } else {
-            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+            path.lineTo(item.positionOnX * scale, item.positionOnY)
         }
     }
 
@@ -277,7 +293,7 @@ fun BarChartForPressureAndPulse(
 
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
+                i.number.toString(),
                 PulseData[listSize].positionOnX + 38.dp.toPx(),
                 height.dp.toPx(),
                 paint
@@ -321,11 +337,11 @@ fun BarChartForPressureAndPulse(
                 color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = p.startPoint * heightPre
+                    y = p.startPoint - 5.dp.toPx() * heightPre
                 ),
                 size = Size(
                     width = 8.dp.toPx(),
-                    height = p.pressureInAverage * heightPre
+                    height = p.endPoint - p.startPoint + 8.dp.toPx() * heightPre
                 )
 
             )
@@ -348,13 +364,13 @@ fun BarChartForPressureAndPulse(
             drawCircle(
                 color = Color.White,
                 radius = 4.dp.toPx(),
-                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+                center = Offset(i.positionOnX, i.positionOnY - 1f)
             )
 
             drawCircle(
                 color = i.colorFocus,
                 radius = 3.dp.toPx(),
-                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+                center = Offset(i.positionOnX, i.positionOnY - 1f)
             )
         }
 
@@ -371,7 +387,7 @@ private fun identifyClickItemForPressureAndPulse(
         if (x > dataList.positionOnX
             && x < dataList.positionOnX + size
             && y > dataList.startPoint
-            && y < dataList.pressureInAverage + dataList.startPoint
+            && y < dataList.endPoint + dataList.startPoint
         ) {
             return index
         }

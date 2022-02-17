@@ -96,62 +96,47 @@ fun PulsewithBarChart(
             PulseData = listOf(
                 PulseData(
                     positionOnX = 10f,
-                    pulseInMinuteAverage = identifyHeightForYPoint(
-                        dataList = listNumberData,
-                        number = 200
-                    ),
+                    pulseInMinuteAverage = 200,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 200),
                     dateName = "16"
                 ),
                 PulseData(
-                    positionOnX = screenWidth,
-                    pulseInMinuteAverage = identifyHeightForYPoint(
-                        dataList = listNumberData,
-                        number = 240
-                    ),
+                    positionOnX = (screenWidth * 1),
+                    pulseInMinuteAverage = 240,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 240),
                     dateName = "17"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 2),
-                    pulseInMinuteAverage = identifyHeightForYPoint(
-                        dataList = listNumberData,
-                        number = 170
-                    ),
+                    pulseInMinuteAverage = 170,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 170),
                     dateName = "18"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 3),
-                    pulseInMinuteAverage = identifyHeightForYPoint(
-                        dataList = listNumberData,
-                        number = 160
-                    ),
+                    pulseInMinuteAverage = 160,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 160),
                     dateName = "19"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 4),
-                    pulseInMinuteAverage = identifyHeightForYPoint(
-                        dataList = listNumberData,
-                        number = 120
-                    ),
+                    pulseInMinuteAverage = 120,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 120),
                     dateName = "20"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 5),
-                    pulseInMinuteAverage = identifyHeightForYPoint(
-                        dataList = listNumberData,
-                        number = 90
-                    ),
+                    pulseInMinuteAverage = 90,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 90),
                     dateName = "21"
                 ),
                 PulseData(
                     positionOnX = (screenWidth * 6),
-                    pulseInMinuteAverage = identifyHeightForYPoint(
-                        dataList = listNumberData,
-                        number = 10
-                    ),
+                    pulseInMinuteAverage = 10,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 10),
                     dateName = "22"
                 ),
-
-                ),
+            ),
             ListNumberData = listNumberData
         )
     }
@@ -183,10 +168,10 @@ fun LineChartForPulse(
 
     for ((index, item) in PulseData.withIndex()) {
         if (index == 0) {
-            path.moveTo(0f * scale, item.pulseInMinuteAverage)
-            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+            path.moveTo(0f * scale, item.positionOnY)
+            path.lineTo(item.positionOnX * scale, item.positionOnY)
         } else {
-            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+            path.lineTo(item.positionOnX * scale, item.positionOnY)
         }
     }
 
@@ -245,13 +230,13 @@ fun LineChartForPulse(
             drawCircle(
                 color = Color.White,
                 radius = 4.dp.toPx(),
-                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+                center = Offset(i.positionOnX, i.positionOnY - 1f)
             )
 
             drawCircle(
                 color = i.colorFocus,
                 radius = 3.dp.toPx(),
-                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+                center = Offset(i.positionOnX, i.positionOnY - 1f)
             )
 
             drawContext.canvas.nativeCanvas.drawText(
@@ -273,8 +258,8 @@ private fun identifyClickItemForPulse(
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX - size
             && x < dataList.positionOnX + size
-            && y > dataList.pulseInMinuteAverage - size
-            && y < dataList.pulseInMinuteAverage + size
+            && y > dataList.positionOnY - size
+            && y < dataList.positionOnY + size
         ) {
             return index
         }

@@ -688,5 +688,5 @@ fun identifyHeightForYPoint(
             }
         }
     }
-    return dpToPxValue(175.dp)
+    return dpToPxValue(((dataList.size - 1) * 35).dp)
 }

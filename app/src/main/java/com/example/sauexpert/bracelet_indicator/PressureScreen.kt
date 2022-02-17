@@ -85,46 +85,53 @@ fun PressurewithBarChart(
         BarChartForPressure(
             PressureData = listOf(
                 PressureData(
-                    positionOnX = 0f,
-                    pressureInAverage = dpToPxValue(120.dp),
+                    positionOnX = (screenWidth * 0),
+                    pressureInAverage = "100/90",
                     dateName = "16",
-                    startPoint = dpToPxValue(10.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 100),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 90),
                 ),
                 PressureData(
-                    positionOnX = screenWidth,
-                    pressureInAverage = dpToPxValue(100.dp),
+                    positionOnX = (screenWidth * 1),
+                    pressureInAverage = "120/80",
                     dateName = "17",
-                    startPoint = dpToPxValue(10.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 2),
-                    pressureInAverage = dpToPxValue(100.dp),
+                    pressureInAverage = "160/70",
                     dateName = "18",
-                    startPoint = dpToPxValue(20.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 160),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 70),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 3),
-                    pressureInAverage = dpToPxValue(110.dp),
+                    pressureInAverage = "140/90",
                     dateName = "19",
-                    startPoint = dpToPxValue(40.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 140),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 90),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 4),
-                    pressureInAverage = dpToPxValue(130.dp),
+                    pressureInAverage = "120/60",
                     dateName = "20",
-                    startPoint = dpToPxValue(10.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 60),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 5),
-                    pressureInAverage = dpToPxValue(100.dp),
+                    pressureInAverage = "110/80",
                     dateName = "21",
-                    startPoint = dpToPxValue(60.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 110),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 ),
                 PressureData(
                     positionOnX = (screenWidth * 6),
-                    pressureInAverage = dpToPxValue(10.dp),
+                    pressureInAverage = "120/80",
                     dateName = "22",
-                    startPoint = dpToPxValue(150.dp)
+                    startPoint = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 )
             ),
             ListNumberData = listNumberData
@@ -248,13 +255,6 @@ fun BarChartForPressure(
         }
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(0.dp.toPx(), height.dp.toPx()),
-                end = Offset(PressureData[listSize].positionOnX + 38.dp.toPx(), height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 1.dp.toPx()
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
                 i.number.toString(),
                 PressureData[listSize].positionOnX + 38.dp.toPx(),
@@ -300,11 +300,11 @@ fun BarChartForPressure(
                 color = p.colorFocus,
                 topLeft = Offset(
                     x = p.positionOnX,
-                    y = p.startPoint * heightPre
+                    y = p.startPoint - 5.dp.toPx() * heightPre
                 ),
                 size = Size(
                     width = 8.dp.toPx(),
-                    height = p.pressureInAverage * heightPre
+                    height = p.endPoint - p.startPoint + 8.dp.toPx() * heightPre
                 )
 
             )
@@ -328,8 +328,8 @@ private fun identifyClickItemForPressure(
     for ((index, dataList) in dataList.withIndex()) {
         if (x > dataList.positionOnX
             && x < dataList.positionOnX + size
-            && y > dataList.startPoint
-            && y < dataList.pressureInAverage + dataList.startPoint
+            && y > dataList.startPoint - size
+            && y < dataList.endPoint + size
         ) {
             return index
         }

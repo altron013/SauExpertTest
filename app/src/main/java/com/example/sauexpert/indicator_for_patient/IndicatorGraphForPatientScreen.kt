@@ -346,53 +346,53 @@ fun BloodPressureAndPulseWithBarChart(
                 PressureData = listOf(
                     PressureData(
                         positionOnX = 50f,
-                        pressureInAverage = 80f,
+                        endPoint = 80f,
                         dateName = "16.12",
                         startPoint = 20f
                     ),
                     PressureData(
                         positionOnX = 150f,
-                        pressureInAverage = 100f,
+                        endPoint = 100f,
                         startPoint = 100f
                     ),
                     PressureData(
                         positionOnX = 250f,
-                        pressureInAverage = 190f,
+                        endPoint = 190f,
                         dateName = "18.12",
                         startPoint = 10f
                     ),
                     PressureData(
                         positionOnX = 350f,
-                        pressureInAverage = 150f,
+                        endPoint = 150f,
                         startPoint = 110f
                     ),
                     PressureData(
                         positionOnX = 450f,
-                        pressureInAverage = 220f,
+                        endPoint = 220f,
                         dateName = "20.12",
                         startPoint = 30f
                     ),
                     PressureData(
                         positionOnX = 550f,
-                        pressureInAverage = 140f,
+                        endPoint = 140f,
                         startPoint = 50f
                     ),
                     PressureData(
                         positionOnX = 650f,
-                        pressureInAverage = 50f,
+                        endPoint = 50f,
                         dateName = "22.12",
                         startPoint = 190f
                     )
                 ),
 
                 PulseData = listOf(
-                    PulseData(positionOnX = 150f, pulseInMinuteAverage = 100f),
-                    PulseData(positionOnX = 250f, pulseInMinuteAverage = 30f),
-                    PulseData(positionOnX = 350f, pulseInMinuteAverage = 50f),
-                    PulseData(positionOnX = 450f, pulseInMinuteAverage = 70f),
-                    PulseData(positionOnX = 550f, pulseInMinuteAverage = 50f),
-                    PulseData(positionOnX = 650f, pulseInMinuteAverage = 90f),
-                    PulseData(positionOnX = 750f, pulseInMinuteAverage = 90f),
+                    PulseData(positionOnX = 150f, positionOnY = 100f),
+                    PulseData(positionOnX = 250f, positionOnY = 30f),
+                    PulseData(positionOnX = 350f, positionOnY = 50f),
+                    PulseData(positionOnX = 450f, positionOnY = 70f),
+                    PulseData(positionOnX = 550f, positionOnY = 50f),
+                    PulseData(positionOnX = 650f, positionOnY = 90f),
+                    PulseData(positionOnX = 750f, positionOnY = 90f),
                 ),
 
                 ListNumberData = listOf(
@@ -427,10 +427,10 @@ fun BarChartForBloodPressureAndPulse(
 
     for ((index, item) in PulseData.withIndex()) {
         if (index == 0) {
-            path.moveTo(50f, item.pulseInMinuteAverage)
-            path.lineTo(item.positionOnX, item.pulseInMinuteAverage)
+            path.moveTo(50f, item.positionOnY)
+            path.lineTo(item.positionOnX, item.positionOnY)
         } else {
-            path.lineTo(item.positionOnX, item.pulseInMinuteAverage)
+            path.lineTo(item.positionOnX, item.positionOnY)
         }
     }
 
@@ -477,7 +477,7 @@ fun BarChartForBloodPressureAndPulse(
                 ),
                 size = Size(
                     width = 12.dp.toPx(),
-                    height = p.pressureInAverage * heightPre
+                    height = p.endPoint * heightPre
                 )
 
             )
