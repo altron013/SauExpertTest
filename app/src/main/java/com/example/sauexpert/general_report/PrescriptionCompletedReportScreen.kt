@@ -22,21 +22,19 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
 import com.example.sauexpert.model.ListNumberOfYForTableData
-import com.example.sauexpert.model.WeightData
+import com.example.sauexpert.model.PrescriptionData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Green15B83D
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
-fun WeightReportScreen() {
+fun PrescriptionCompletedReportScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -51,7 +49,7 @@ fun WeightReportScreen() {
                 .padding(16.dp)
         ) {
             ActionToolBarWithSubtitle(
-                titleText = stringResource(R.string.weight),
+                titleText = stringResource(R.string.fulfillment_prescription),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
                 onBackClick = {},
@@ -60,26 +58,25 @@ fun WeightReportScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            WeightReportWithBarChart()
+            PrescriptionReportWithBarChart()
 
         }
     }
 }
 
-
 @Composable
-fun WeightReportWithBarChart(
+fun PrescriptionReportWithBarChart(
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
 
     val listNumberData = listOf(
+        ListNumberOfYForTableData(100),
         ListNumberOfYForTableData(80),
-        ListNumberOfYForTableData(78),
-        ListNumberOfYForTableData(77),
-        ListNumberOfYForTableData(76),
-        ListNumberOfYForTableData(75),
+        ListNumberOfYForTableData(40),
+        ListNumberOfYForTableData(20),
+        ListNumberOfYForTableData(0),
     )
 
     Column(
@@ -91,67 +88,62 @@ fun WeightReportWithBarChart(
             ).padding(16.dp)
     ) {
         Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Black,
-                        fontSize = 22.sp
-                    )
-                ) {
-                    append(stringResource(R.string.weight))
-                }
+            text = stringResource(id = R.string.prescription_completed),
+            style = MaterialTheme.typography.caption
+        )
 
-                append(", ${stringResource(R.string.kg)}")
-            },
-            style = MaterialTheme.typography.overline,
-            color = Gray30
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = "75%",
+            style = MaterialTheme.typography.h4,
+            color = Green15B83D
         )
 
         Spacer(modifier = Modifier.height(12.dp))
-        BarChartForWeight(
-            WeightData = listOf(
-                WeightData(
+
+        BarChartForPrescription(
+            PrescriptionData = listOf(
+                PrescriptionData(
                     positionOnX = (screenWidth * 0),
-                    weight = 80,
+                    prescriptionPer = 80,
                     positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                     dateName = "16"
                 ),
-                WeightData(
+                PrescriptionData(
                     positionOnX = (screenWidth * 1),
-                    weight = 78,
+                    prescriptionPer = 78,
                     positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 78),
                     dateName = "17"
                 ),
-                WeightData(
+                PrescriptionData(
                     positionOnX = (screenWidth * 2),
-                    weight = 79,
-                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 79),
-                    dateName = "18",
-                    colorFocus = Gray30
+                    prescriptionPer = 90,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 90),
+                    dateName = "18"
                 ),
-                WeightData(
+                PrescriptionData(
                     positionOnX = (screenWidth * 3),
-                    weight = 76,
-                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 76),
-                    dateName = "19",
-                    colorFocus = Color.Red
+                    prescriptionPer = 50,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 50),
+                    dateName = "19"
                 ),
-                WeightData(
+                PrescriptionData(
                     positionOnX = (screenWidth * 4),
-                    weight = 77,
-                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 77),
+                    prescriptionPer = 40,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 40),
                     dateName = "20"
                 ),
-                WeightData(
+                PrescriptionData(
                     positionOnX = (screenWidth * 5),
-                    weight = 78,
-                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 78),
+                    prescriptionPer = 60,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 60),
                     dateName = "21"
                 ),
-                WeightData(
+                PrescriptionData(
                     positionOnX = (screenWidth * 6),
-                    weight = 76,
-                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 76),
+                    prescriptionPer = 70,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 70),
                     dateName = "22"
                 )
             ),
@@ -162,8 +154,8 @@ fun WeightReportWithBarChart(
 
 
 @Composable
-fun BarChartForWeight(
-    WeightData: List<WeightData>,
+fun BarChartForPrescription(
+    PrescriptionData: List<PrescriptionData>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
@@ -172,7 +164,7 @@ fun BarChartForWeight(
         animationSpec = FloatTweenSpec(duration = 1000)
     )
 
-    val listSize = WeightData.size - 1
+    val listSize = PrescriptionData.size - 1
     val heightForGraph = (ListNumberData.size * 35).dp
 
 
@@ -191,7 +183,7 @@ fun BarChartForWeight(
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
                 i.number.toString(),
-                WeightData[listSize].positionOnX + 38.dp.toPx(),
+                PrescriptionData[listSize].positionOnX + 38.dp.toPx(),
                 (height + 4).dp.toPx(),
                 paint
             )
@@ -200,7 +192,19 @@ fun BarChartForWeight(
         }
 
         start = true
-        for (p in WeightData) {
+        for (p in PrescriptionData) {
+            drawRect(
+                color = Gray30,
+                topLeft = Offset(
+                    x = p.positionOnX,
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx()) * heightPre
+                ),
+                size = Size(
+                    width = 8.dp.toPx(),
+                    height = ((height - 35).dp.toPx()) * heightPre
+                )
+            )
+
             drawRect(
                 color = p.colorFocus,
                 topLeft = Offset(

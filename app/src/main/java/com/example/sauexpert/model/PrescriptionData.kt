@@ -1,12 +1,12 @@
 package com.example.sauexpert.model
 
 import androidx.compose.ui.graphics.Color
-import com.example.sauexpert.ui.theme.Green15B83D
+import com.example.sauexpert.ui.theme.Gray50
 
-data class WeightData(
+data class PrescriptionData(
     val positionOnX: Float = 0f,
-    val weight: Int = 0,
+    val prescriptionPer: Int = 0,
     val positionOnY: Float = 0f,
     val dateName: String = "",
-    var colorFocus: Color = Green15B83D
+    var colorFocus: Color = Gray50
 )

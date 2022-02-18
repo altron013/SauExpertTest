@@ -212,6 +212,7 @@
     <string name="above_general">Выше нормы</string>
     <string name="below_general">Ниже нормы</string>
     <string name="references_value">Референсное значение</string>
+    <string name="prescription_completed">Назначений выполнено</string>
 
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
