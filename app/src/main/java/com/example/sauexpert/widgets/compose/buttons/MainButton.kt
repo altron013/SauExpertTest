@@ -21,6 +21,7 @@ fun MainButton(
     icon: Int? = null,
     onClick: () -> Unit,
     enableState: Boolean,
+    sizeText: Int = 16,
     buttonHeight: Dp = 50.dp,
     backgroundColor: Color = MaterialTheme.colors.secondary,
     textColor: Color = Color.White
@@ -59,6 +60,7 @@ fun MainButton(
                     Text(
                         text = text,
                         fontWeight = FontWeight.W600,
+                        fontSize = sizeText.sp,
                         letterSpacing = 0.sp,
                         color = textColor
                     )

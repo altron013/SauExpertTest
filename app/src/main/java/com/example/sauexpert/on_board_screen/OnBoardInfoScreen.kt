@@ -31,10 +31,13 @@ import com.google.accompanist.pager.rememberPagerState
 @ExperimentalPagerApi
 @Composable
 fun OnBoardInfoScreen() {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         Spacer(modifier = Modifier.height(40.dp))
         LogoSection()
-        Spacer(modifier = Modifier.height(25.dp))
+        Spacer(modifier = Modifier.height(9.dp))
         OnBoardingUI(
             onBoardScreenData = listOf(
                 OnBoardScreenData(
@@ -92,25 +95,29 @@ fun OnBoardingUI(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp)
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
         ) {
             HorizontalPager(
                 state = pagerState,
                 modifier = modifier
                     .fillMaxWidth()
             ) { page ->
-                PageUI(page = onBoardScreenData[page])
+                PageUI(
+                    page = onBoardScreenData[page],
+                    modifier = modifier.align(Alignment.Center)
+                )
             }
 
             HorizontalPagerIndicator(
                 pagerState = pagerState,
                 modifier = modifier
-                    .padding(top = 180.dp)
+                    .padding(top = 140.dp)
                     .align(Alignment.Center),
                 activeColor = colorResource(R.color.black)
             )
@@ -134,19 +141,19 @@ fun PageUI(page: OnBoardScreenData, modifier: Modifier = Modifier) {
             painter = painterResource(page.image),
             contentDescription = null,
             modifier = modifier
-                .size(width = 365.dp, height = 276.dp)
         )
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = page.title,
+            textAlign = TextAlign.Center,
             style = MaterialTheme.typography.caption
         )
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = page.description,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.body1,
-            modifier = modifier.padding(horizontal = 20.dp)
+            modifier = modifier.padding(horizontal = 10.dp)
         )
     }
 }
@@ -154,7 +161,6 @@ fun PageUI(page: OnBoardScreenData, modifier: Modifier = Modifier) {
 @ExperimentalAnimationApi
 @Composable
 fun ButtonForBottomForInfoPage(
-    modifier: Modifier = Modifier,
     statePage: Int
 ) {
     AnimatedVisibility(
@@ -165,6 +171,7 @@ fun ButtonForBottomForInfoPage(
         MainButtonsInRow(
             textForOutlineBtn = stringResource(id = R.string.skip),
             textForMainBtn = stringResource(id = R.string.next),
+            weightOfFirstButton = 0.45f,
             onClickForOutlineBtn = { /*TODO*/ },
             onClickForMainBtn = { /*TODO*/ },
             enableStateForOutlineBtn = true,
