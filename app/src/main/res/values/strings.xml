@@ -215,6 +215,7 @@
     <string name="prescription_completed">Назначений выполнено</string>
     <string name="days">Дней</string>
     <string name="day">дня</string>
+    <string name="full_well">Очень хорошо</string>
 
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>

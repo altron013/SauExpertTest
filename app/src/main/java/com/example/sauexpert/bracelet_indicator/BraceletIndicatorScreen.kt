@@ -694,6 +694,20 @@ fun identifyHeightForYPoint(
 }
 
 
+@Composable
+fun identifyHeightForYPointForString(
+    dataList: List<ListStringOfYForTableData>,
+    text: String,
+): Float {
+    for ((index, dataList) in dataList.withIndex()) {
+        if (text == dataList.text) {
+            return dpToPxValue((index * 35).dp)
+        }
+    }
+    return dpToPxValue(((dataList.size - 1) * 35).dp)
+}
+
+
 fun identifyClickItem(dataList: List<Any>, x: Float, y: Float, size: Float): Int {
     dataList.forEachIndexed { index, any ->
         when (any) {
