@@ -73,7 +73,7 @@ fun GeneralReportScreen() {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-
+                PrescriptionReportScreen()
             }
             2 -> Box(
                 modifier = Modifier
