@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.ui.theme.SauExpertTypography
@@ -294,6 +295,113 @@ fun MainActionToolBar(
                 style = MaterialTheme.typography.h4,
                 fontSize = 28.sp
             )
+        }
+    }
+}
+
+
+@Composable
+fun ActionToolBarWithSubtitle(
+    iconBackClick: ImageVector? = null,
+    textBackClick: String? = null,
+    onBackClick: () -> Unit,
+    iconRightClick: Painter? = null,
+    textRightClick: String? = null,
+    onRightClick: () -> Unit,
+    titleText: String,
+    subtitleText: String,
+    colorBackClick: Color = Color.Black,
+    colorRightClick: Color = Color.Black,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .weight(0.5f),
+        ) {
+            iconBackClick?.let {
+                IconButton(onClick = { onBackClick() }) {
+                    Icon(
+                        imageVector = it,
+                        contentDescription = "Back",
+                        tint = colorBackClick,
+                    )
+                }
+            }
+
+            if (iconBackClick != null && textBackClick != null) {
+                Spacer(modifier = Modifier.width(5.dp))
+            }
+
+
+            textBackClick?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.body1,
+                    color = colorBackClick,
+                    modifier = modifier
+                        .clickable {
+                            onBackClick()
+                        }
+                )
+            }
+        }
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = titleText,
+                style = MaterialTheme.typography.subtitle2,
+            )
+
+            Text(
+                text = subtitleText,
+                style = MaterialTheme.typography.body2,
+                color = Gray30
+            )
+
+        }
+
+
+
+        Row(
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .weight(0.5f),
+        ) {
+            textRightClick?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.body1,
+                    color = colorRightClick,
+                    modifier = modifier
+                        .clickable {
+                            onRightClick()
+                        }
+                )
+            }
+
+            if (iconRightClick != null && textRightClick != null) {
+                Spacer(modifier = Modifier.width(10.dp))
+            }
+
+            iconRightClick?.let {
+                IconButton(onClick = { onRightClick() }) {
+                    Icon(
+                        painter = it,
+                        contentDescription = null,
+                        tint = colorRightClick,
+                    )
+                }
+            }
         }
     }
 }

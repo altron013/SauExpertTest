@@ -193,6 +193,9 @@
     <string name="choose">Выбрать</string>
     <string name="search_history">Поиск в истории</string>
     <string name="patient_has_no_treatment_history">У пациента ещё нет истории лечения</string>
+    <string name="general">Общее</string>
+    <string name="severely_case">Критические случаи</string>
+    <string name="risk_factor">Факторы риска</string>
 
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>

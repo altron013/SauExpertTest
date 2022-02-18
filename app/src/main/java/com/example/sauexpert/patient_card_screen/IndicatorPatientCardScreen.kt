@@ -19,6 +19,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -55,6 +56,9 @@ fun IndicatorPatientCardScreen() {
 
 @Composable
 fun BraceletIndicatorCell(
+    icon: Painter = painterResource(R.drawable.ic_applewatch),
+    text: String = stringResource(R.string.bracelet_indicator),
+    backgroundColor: Color = Gray30.copy(alpha = 0.19f),
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -64,14 +68,14 @@ fun BraceletIndicatorCell(
             .fillMaxWidth()
             .clickable { }
             .background(
-                color = Gray30.copy(alpha = 0.19f),
+                color = backgroundColor,
                 shape = RoundedCornerShape(10.dp)
             )
             .padding(horizontal = 24.dp, vertical = 27.dp)
 
     ) {
         Icon(
-            painter = painterResource(R.drawable.ic_applewatch),
+            painter = icon,
             contentDescription = "",
             tint = Color.Black,
             modifier = modifier.size(20.dp)
@@ -81,7 +85,7 @@ fun BraceletIndicatorCell(
 
 
         Text(
-            text = stringResource(R.string.bracelet_indicator),
+            text = text,
             style = MaterialTheme.typography.subtitle2
         )
 
@@ -293,7 +297,13 @@ fun DailyReportInfromation(
 
         Spacer(modifier = Modifier.height(13.dp))
 
-        CriticalCaseCell(month = "сентябрь")
+        CriticalCaseCell(
+            month = "сентябрь",
+            hypoglycemiaValue = 5,
+            hyperglycemiaValue = 4,
+            hypertensionValue = 8,
+            hypotensionValue = 3
+        )
 
     }
 }
@@ -537,7 +547,11 @@ fun CardItemWithGraphForPatientCard(
 
 @Composable
 fun CriticalCaseCell(
-    month: String,
+    month: String? = null,
+    hypoglycemiaValue: Int,
+    hyperglycemiaValue: Int,
+    hypertensionValue: Int,
+    hypotensionValue: Int,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -563,55 +577,57 @@ fun CriticalCaseCell(
 
             CriticalCaseStat(
                 text = stringResource(R.string.hypoglycemia),
-                textValue = 5
+                textValue = hypoglycemiaValue
             )
 
             Spacer(modifier = Modifier.height(14.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hyperglycemia),
-                textValue = 4
+                textValue = hyperglycemiaValue
             )
 
             Spacer(modifier = Modifier.height(14.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hypertension),
-                textValue = 8
+                textValue = hypertensionValue
             )
 
             Spacer(modifier = Modifier.height(14.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hypotension),
-                textValue = 3
+                textValue = hypotensionValue
             )
 
-            Spacer(modifier = Modifier.height(19.dp))
+
+            month?.let {
+                Spacer(modifier = Modifier.height(19.dp))
 
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = modifier
-                    .fillMaxWidth()
-                    .background(
-                        color = Gray30.copy(alpha = 0.19f),
-                        shape = RoundedCornerShape(10.dp)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = Gray30.copy(alpha = 0.19f),
+                            shape = RoundedCornerShape(10.dp)
+                        )
+                        .padding(horizontal = 15.dp, vertical = 11.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.data_for),
+                        style = MaterialTheme.typography.body1
                     )
-                    .padding(horizontal = 15.dp, vertical = 11.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.data_for),
-                    style = MaterialTheme.typography.body1
-                )
 
-
-                Text(
-                    text = month,
-                    style = MaterialTheme.typography.body1,
-                    color = Gray30
-                )
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.body1,
+                        color = Gray30
+                    )
+                }
             }
 
         }
