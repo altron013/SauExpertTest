@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -18,10 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.bracelet_indicator.BarChartForSleep
-import com.example.sauexpert.bracelet_indicator.dpToPxValue
-import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.bracelet_indicator.*
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.SleepData
 import com.example.sauexpert.ui.theme.Gray30
@@ -55,6 +55,12 @@ fun SleepReportScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             SleepReportWithBarChart(
+                visible = visible
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            SleepStatisticsReportSection(
                 visible = visible
             )
 
@@ -142,4 +148,33 @@ fun SleepReportWithBarChart(
 
         )
     }
+}
+
+
+@Composable
+fun SleepStatisticsReportSection(
+    visible: MutableState<Boolean>,
+    modifier: Modifier = Modifier
+) {
+
+    if (visible.value) {
+
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(10.dp)
+                )
+        ) {
+
+            ProgressBarForSleep(
+                deepSleepPercent = 40,
+                lightSleepPercent = 35,
+                remSleepPercent = 25,
+            )
+
+        }
+    }
+
 }
