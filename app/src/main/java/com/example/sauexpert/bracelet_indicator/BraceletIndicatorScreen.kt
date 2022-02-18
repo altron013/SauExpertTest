@@ -462,6 +462,7 @@ fun AnalysisField(
     title: String,
     value: String,
     dateData: String? = null,
+    color: Color = Color.Black,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -477,11 +478,13 @@ fun AnalysisField(
             Text(
                 text = title,
                 style = MaterialTheme.typography.body1,
+                color = color
             )
 
             Text(
                 text = value,
                 style = MaterialTheme.typography.body1,
+                color = color
             )
 
         }

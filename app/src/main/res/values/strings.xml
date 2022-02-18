@@ -202,6 +202,16 @@
     <string name="cases">Случаев</string>
     <string name="milliseconds">мс</string>
     <string name="oxygen">кислорода в крови</string>
+    <string name="total_measurements">Всего замеров</string>
+    <string name="case_before_food">Из них до еды</string>
+    <string name="case_after_food">После еды</string>
+    <string name="missed_measurements">Пропущено замеров</string>
+    <string name="total_case">Всего случаев</string>
+    <string name="significantly_above_general">Значительно выше нормы</string>
+    <string name="significantly_below_general">Значительно ниже нормы</string>
+    <string name="above_general">Выше нормы</string>
+    <string name="below_general">Ниже нормы</string>
+    <string name="references_value">Референсное значение</string>
 
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
