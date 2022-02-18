@@ -44,8 +44,18 @@ fun MyPatients2() {
             sheetPeekHeight = 0.dp,
             sheetShape = RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp),
             sheetContent = {
-                ButtonActionView()
+                //ButtonActionView()
                 //ChoosePriority()
+                InspectionFailure(onClick = {
+                    coroutineScope.launch {
+                        if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        } else {
+                            bottomSheetScaffoldState.bottomSheetState.collapse()
+                        }
+                    }
+                }
+                )
             }
         ) {
             Column(
@@ -222,6 +232,53 @@ fun ChoosePriority() {
         Spacer(modifier = Modifier.padding(10.dp))
         MainButtonM(text = "Сохранить", onClick = { /*TODO*/ }, enableState = true)
         Spacer(modifier = Modifier.padding(10.dp))
+    }
+}
+
+@Composable
+fun InspectionFailure(onClick: () -> Unit) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(text = "Поставить приоритет", fontWeight = FontWeight.Bold, fontSize = 22.sp)
+        Spacer(modifier = Modifier.padding(14.dp))
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(7.dp)
+                )
+        ) {
+            RoundImage(
+                image = painterResource(id = R.drawable.avatar),
+                modifier = Modifier
+                    .size(48.dp)
+            )
+            Column(modifier = Modifier.padding(start = 12.dp)) {
+                Text(
+                    text = "Jabe",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 17.sp
+                )
+                Text(
+                    text = "Description",
+                    fontSize = 12.sp
+                )
+            }
+        }
+        Spacer(modifier = Modifier.padding(8.dp))
+        Text(text = "Вы продолжите заполнять данные  осмотра с этапа, где Вы остановились.")
+        Spacer(modifier = Modifier.padding(10.dp))
+        MainButtonM(text = "Продолжить осмотр", onClick = { /*TODO*/ }, enableState = true)
+        Spacer(modifier = Modifier.padding(10.dp))
+        Text(
+            text = "Закрыть",
+            color = Color.Red,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .align(alignment = Alignment.CenterHorizontally)
+                .clickable { onClick() }
+        )
     }
 }
 
