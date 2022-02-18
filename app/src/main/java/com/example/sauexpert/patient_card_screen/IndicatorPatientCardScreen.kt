@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -175,7 +176,11 @@ fun IndicatorInfromationSection(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ProgressBarForSteps(stepPercent = 0.5f, stepValue = 2000)
+        ProgressBarForSteps(
+            stepPercent = 0.5f,
+            stepValue = 2000,
+            subtitle = stringResource(R.string.goal_for_today)
+        )
 
     }
 }
@@ -185,10 +190,17 @@ fun IndicatorInfromationSection(
 fun ProgressBarForSteps(
     modifier: Modifier = Modifier,
     stepValue: Int = 0,
+    goalStepValue: Int = 10000,
     stepPercent: Float = 0f,
+    subtitle: String? = null
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(10.dp))
+            .clickable {
+
+            }
     ) {
         Column(
             modifier = modifier.fillMaxWidth()
@@ -209,7 +221,7 @@ fun ProgressBarForSteps(
 
 
             Text(
-                text = "$stepValue из 10 000",
+                text = "$stepValue из $goalStepValue",
                 style = MaterialTheme.typography.subtitle2,
                 fontSize = 22.sp,
             )
@@ -225,14 +237,16 @@ fun ProgressBarForSteps(
                     .height(height = 6.dp)
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            subtitle?.let {
+                Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = stringResource(R.string.goal_for_today),
-                style = MaterialTheme.typography.h5,
-                fontSize = 13.sp,
-                color = Gray30
-            )
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.h5,
+                    fontSize = 13.sp,
+                    color = Gray30
+                )
+            }
         }
     }
 }

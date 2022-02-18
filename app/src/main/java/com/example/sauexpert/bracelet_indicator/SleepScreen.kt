@@ -343,8 +343,7 @@ fun ProgressBarForSleep(
     deepSleepPercent: Int = 0,
     lightSleepPercent: Int = 0,
     remSleepPercent: Int = 0,
-
-    ) {
+) {
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -360,7 +359,7 @@ fun ProgressBarForSleep(
             LinearProgressIndicator(
                 progress = 1f,
                 color = Color.Blue,
-                modifier = modifier
+                modifier = Modifier
                     .size(
                         height = 6.dp,
                         width = (deepSleepPercent.dp * widthForProgressBar)
@@ -388,7 +387,7 @@ fun ProgressBarForSleep(
             LinearProgressIndicator(
                 progress = 1f,
                 color = Color.Cyan,
-                modifier = modifier
+                modifier = Modifier
                     .size(
                         height = 6.dp,
                         width = (lightSleepPercent.dp * widthForProgressBar)
@@ -416,7 +415,7 @@ fun ProgressBarForSleep(
             LinearProgressIndicator(
                 progress = 1f,
                 color = Color.Gray,
-                modifier = modifier
+                modifier = Modifier
                     .size(
                         height = 6.dp,
                         width = (remSleepPercent.dp * widthForProgressBar)

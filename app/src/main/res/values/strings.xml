@@ -143,6 +143,7 @@
     <string name="steps">Шаги</string>
     <string name="goal_for_today">Цель на день</string>
     <string name="patient_indicator">Показатели пациента</string>
+    <string name="patient_indicator_for_month">Показатели пациента за месяц</string>
     <string name="daily_reports">Отчёты за день</string>
     <string name="fulfillment_prescription">Выполнение назначений</string>
     <string name="weight">Вес</string>
@@ -196,6 +197,11 @@
     <string name="general">Общее</string>
     <string name="severely_case">Критические случаи</string>
     <string name="risk_factor">Факторы риска</string>
+    <string name="measurement">Замера</string>
+    <string name="deviations_from_general">Отклонения от нормы</string>
+    <string name="cases">Случаев</string>
+    <string name="milliseconds">мс</string>
+    <string name="oxygen">кислорода в крови</string>
 
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
