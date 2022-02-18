@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -26,14 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
-import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPointForString
-import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.ListStringOfYForTableData
-import com.example.sauexpert.model.PrescriptionData
 import com.example.sauexpert.model.WellBeingData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green15B83D
+import com.example.sauexpert.ui.theme.Orange4294
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
@@ -65,7 +66,7 @@ fun WellBeingReportScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            PrescriptionStatisticsReportSection()
+            WellBeingStatisticsReportSection()
 
         }
     }
@@ -233,5 +234,125 @@ fun BarChartForWellBeing(
                 paint
             )
         }
+    }
+}
+
+
+@Composable
+fun WellBeingStatisticsReportSection(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(10.dp)
+            )
+    ) {
+        ProgressBarForWellBeing()
+
+        Divider(
+            color = Gray30.copy(alpha = 0.19f),
+            thickness = 1.dp,
+            modifier = modifier
+                .padding(horizontal = 16.dp)
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.missed_measurements),
+                style = MaterialTheme.typography.body1,
+                color = Color.Red
+            )
+
+            Text(
+                text = "4 ${stringResource(R.string.day)}",
+                style = MaterialTheme.typography.body1,
+                color = Color.Red
+            )
+
+        }
+
+    }
+}
+
+
+@Composable
+fun ProgressBarForWellBeing(
+    modifier: Modifier = Modifier,
+) {
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+
+        LinearProgressIndicator(
+            progress = 1f,
+            color = Green15B83D,
+            modifier = Modifier
+                .size(
+                    height = 6.dp,
+                    width = 20.dp
+                )
+        )
+
+        Spacer(modifier = Modifier.width(1.dp))
+
+        LinearProgressIndicator(
+            progress = 1f,
+            color = Color.Green,
+            modifier = Modifier
+                .size(
+                    height = 6.dp,
+                    width = 30.dp
+                )
+        )
+
+        Spacer(modifier = Modifier.width(1.dp))
+
+        LinearProgressIndicator(
+            progress = 1f,
+            color = Gray30,
+            modifier = Modifier
+                .size(
+                    height = 6.dp,
+                    width = 40.dp
+                )
+        )
+
+        Spacer(modifier = Modifier.width(1.dp))
+
+        LinearProgressIndicator(
+            progress = 1f,
+            color = Orange4294,
+            modifier = Modifier
+                .size(
+                    height = 6.dp,
+                    width = 40.dp
+                )
+        )
+
+        Spacer(modifier = Modifier.width(1.dp))
+
+        LinearProgressIndicator(
+            progress = 1f,
+            color = Color.Red,
+            modifier = Modifier
+                .size(
+                    height = 6.dp,
+                    width = 40.dp
+                )
+        )
+
+
     }
 }
