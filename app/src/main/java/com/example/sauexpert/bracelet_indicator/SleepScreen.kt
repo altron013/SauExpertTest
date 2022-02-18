@@ -5,164 +5,209 @@ import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
+import androidx.compose.material.Divider
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.SleepData
+import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Gray50
 
 
 @Composable
 fun SleepScreen() {
+    val visible = remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
-            .fillMaxWidth().verticalScroll(rememberScrollState())
-            .padding(bottom = 70.dp, top = 24.dp)
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+            .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .padding(16.dp)
-        ) {
-            SleepTitle()
-            Spacer(modifier = Modifier.height(12.dp))
-            BarChartForSleep(
-                SleepData = listOf(
-                    SleepData(positionOnX = 27f, hourOfSleep = 140f, dateName = "16.12"),
-                    SleepData(positionOnX = 127f, hourOfSleep = 200f, dateName = "17.12"),
-                    SleepData(positionOnX = 227f, hourOfSleep = 190f, dateName = "18.12"),
-                    SleepData(positionOnX = 327f, hourOfSleep = 180f, dateName = "19.12"),
-                    SleepData(positionOnX = 427f, hourOfSleep = 220f, dateName = "20.12"),
-                    SleepData(positionOnX = 527f, hourOfSleep = 510f, dateName = "21.12"),
-                    SleepData(positionOnX = 627f, hourOfSleep = 370f, dateName = "22.12")
-                ),
-                ListNumberData = listOf(
-                    ListNumberOfYForTableData("12"),
-                    ListNumberOfYForTableData("10"),
-                    ListNumberOfYForTableData("8"),
-                    ListNumberOfYForTableData("6"),
-                    ListNumberOfYForTableData("4"),
-                    ListNumberOfYForTableData("2"),
-                    ListNumberOfYForTableData("0"),
-                )
 
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            SleepWakeUpStatistics(textValue = 3)
-            Spacer(modifier = Modifier.height(16.dp))
-            ProgressBarForSleep(
-                deepSleepValue = 120,
-                deepSleepPercent = 40,
-                lightSleepValue = 115,
-                lightSleepPercent = 30
-            )
+        SleepwithBarChart(
+            visible = visible
+        )
 
-        }
+        Spacer(modifier = Modifier.height(20.dp))
+
+        SleepStatisticsSection(wakeUpStatistics = 3, visible = visible)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        RangeCustomizeSection()
 
     }
+
+
 }
 
+
 @Composable
-fun SleepTitle(
+fun SleepwithBarChart(
+    visible: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
+
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(10),
+        ListNumberOfYForTableData(8),
+        ListNumberOfYForTableData(6),
+        ListNumberOfYForTableData(4),
+        ListNumberOfYForTableData(2),
+        ListNumberOfYForTableData(0),
+    )
+
+
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .padding(16.dp)
     ) {
-        Text(
-            text = stringResource(id = R.string.sleep),
-            style = MaterialTheme.typography.caption
+        TitleForGraph(
+            textTitle = stringResource(id = R.string.sleep),
+            TextOfTab = listOf(
+                TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
+                TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
+            ),
+            weight = 0.3f
         )
-
         Spacer(modifier = Modifier.height(12.dp))
+        BarChartForSleep(
+            ListNumberData = listNumberData,
 
-        TextWithIconForGraph(color = Color.Red, text = stringResource(id = R.string.sleep_duration))
+            SleepData = listOf(
+                SleepData(
+                    positionOnX = (screenWidth * 0),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 7),
+                    dateName = "16"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 1),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 4),
+                    dateName = "17"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 2),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 5),
+                    dateName = "18"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 3),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 6),
+                    dateName = "19"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 4),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 2),
+                    dateName = "20"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 5),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 3),
+                    dateName = "21"
+                ),
+                SleepData(
+                    positionOnX = (screenWidth * 6),
+                    hourOfSleep = identifyHeightForYPoint(dataList = listNumberData, number = 1),
+                    dateName = "22"
+                )
+            ),
 
-        Text(
-            text = buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Black,
-                        fontSize = 34.sp
-                    )
-                ) {
-                    append("6")
-                }
-                append("ч ")
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Black,
-                        fontSize = 34.sp
-                    )
-                ) {
-                    append("36")
-                }
-                append("мин")
-            },
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Bold,
-            color = Gray30
+            visible = visible
+
         )
-
-        Text(
-            text = "18-20 ноября 2021",
-            style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
-            color = Gray30
-        )
-
     }
-
 }
 
 
 @Composable
 fun BarChartForSleep(
     SleepData: List<SleepData>,
+    visible: MutableState<Boolean>,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
+    val listSize = SleepData.size - 1
+    val heightForGraph = (ListNumberData.size * 35).dp
+
     val heightPre by animateFloatAsState(
         targetValue = if (start) 1f else 0f,
         animationSpec = FloatTweenSpec(duration = 1000)
     )
 
+    val itemID = remember { mutableStateOf(1) }
+    val positionOfX = remember { mutableStateOf(1) }
+    val positionOfY = remember { mutableStateOf(1) }
+
+    setRedColorInsideDataClassForSleep(
+        sleepData = SleepData,
+        itemID = itemID,
+        visible = visible
+    )
+
+
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(250.dp)
+            .height(heightForGraph)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = {
+                        itemID.value = identifyClickItem(
+                            dataList = SleepData,
+                            x = it.x,
+                            y = it.y,
+                            size = 8.dp.toPx()
+                        )
+                        visible.value = false
+                        ResetColorInsideDataClassForSleep(dataList = SleepData)
+                        positionOfX.value = it.x.toInt()
+                        positionOfY.value = it.y.toInt()
+                        if (itemID.value != -1) {
+                            visible.value = true
+                            setRedColorInsideDataClassForSleep(
+                                sleepData = SleepData,
+                                itemID = itemID,
+                                visible = visible
+                            )
+                            SleepData[itemID.value].colorFocus = Color.Red
+                        } else {
+                            visible.value = false
+                        }
+                    }
+                )
+            }
     ) {
         var height = 0
-        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -172,124 +217,154 @@ fun BarChartForSleep(
 
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(0f, height.dp.toPx()),
-                end = Offset(780f, height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
-                "${i.number}",
-                320.dp.toPx(),
-                (10 + height).dp.toPx(),
+                i.number.toString(),
+                SleepData[listSize].positionOnX + 38.dp.toPx(),
+                (height + 4).dp.toPx(),
                 paint
             )
 
-            height += 34
+            height += 35
         }
 
         start = true
         for (p in SleepData) {
-            drawLine(
-                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-                end = Offset(wight.dp.toPx(), 0f),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
-
             drawRect(
-                color = Color(250, 218, 221),
+                color = Gray30,
                 topLeft = Offset(
-                    x = (wight + 10).dp.toPx(),
-                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 180f) * heightPre
+                    x = p.positionOnX,
+                    y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - 35.dp.toPx()) * heightPre
                 ),
                 size = Size(
-                    width = 17.dp.toPx(),
-                    height = ((height - 35).dp.toPx() - 180f) * heightPre
+                    width = 8.dp.toPx(),
+                    height = ((height - 35).dp.toPx() - 35.dp.toPx()) * heightPre
                 )
             )
 
             drawRect(
-                color = Color.Red,
+                color = p.colorFocus,
                 topLeft = Offset(
-                    x = (wight + 10).dp.toPx(),
+                    x = p.positionOnX,
                     y = (height - 35).dp.toPx() - ((height - 35).dp.toPx() - p.hourOfSleep) * heightPre
                 ),
                 size = Size(
-                    width = 17.dp.toPx(),
+                    width = 8.dp.toPx(),
                     height = ((height - 35).dp.toPx() - p.hourOfSleep) * heightPre
                 )
             )
 
             drawContext.canvas.nativeCanvas.drawText(
                 "${p.dateName}",
-                (wight + 15).dp.toPx(),
-                (height - 14).dp.toPx(),
+                p.positionOnX + 3.5.dp.toPx(),
+                (height - 15).dp.toPx(),
                 paint
             )
-            wight += 38
+
         }
 
-        drawLine(
-            start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-            end = Offset(wight.dp.toPx(), 0f),
-            color = Gray30,
-            strokeWidth = 2f
-        )
 
     }
 }
 
+
+private fun ResetColorInsideDataClassForSleep(dataList: List<SleepData>) {
+    for (p in dataList) {
+        p.colorFocus = Gray50
+    }
+}
+
+private fun setRedColorInsideDataClassForSleep(
+    sleepData: List<SleepData>,
+    itemID: MutableState<Int>,
+    visible: MutableState<Boolean>
+) {
+    if (itemID.value != -1 && visible.value) {
+        ResetColorInsideDataClassForSleep(dataList = sleepData)
+        sleepData[itemID.value].colorFocus = Color.Red
+    } else {
+        ResetColorInsideDataClassForSleep(dataList = sleepData)
+    }
+}
+
+
 @Composable
-fun SleepWakeUpStatistics(
-    textValue: Int,
+fun SleepStatisticsSection(
+    wakeUpStatistics: Int,
+    visible: MutableState<Boolean>,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = Gray30.copy(alpha = 0.19f),
-                shape = RoundedCornerShape(10.dp)
-            )
-            .padding(16.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.woke_up_in_middle),
-            style = MaterialTheme.typography.button,
-            fontSize = 15.sp,
-        )
 
-        Text(
-            text = "$textValue раза",
-            style = MaterialTheme.typography.subtitle2,
-            fontSize = 15.sp,
-        )
+    if (visible.value) {
+        Column {
+
+            Text(
+                text = "Показатели за 21 декабря 2021",
+                style = MaterialTheme.typography.h6,
+                fontSize = 15.sp,
+                color = Gray30
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+
+            Column(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(10.dp)
+                    )
+            ) {
+
+                AnalysisField(
+                    title = stringResource(R.string.woke_up_in_middle),
+                    value = "$wakeUpStatistics раза",
+                )
+                Divider(
+                    color = Gray30.copy(alpha = 0.19f),
+                    thickness = 1.dp,
+                    modifier = modifier
+                        .padding(horizontal = 16.dp)
+                )
+                ProgressBarForSleep(
+                    deepSleepPercent = 40,
+                    lightSleepPercent = 35,
+                    remSleepPercent = 25,
+                )
+
+            }
+        }
     }
 }
 
 @Composable
 fun ProgressBarForSleep(
     modifier: Modifier = Modifier,
-    deepSleepValue: Int = 0,
     deepSleepPercent: Int = 0,
-    lightSleepValue: Int = 0,
     lightSleepPercent: Int = 0,
+    remSleepPercent: Int = 0,
 
     ) {
 
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+
+    val widthForProgressBar = (screenWidth - 64.dp) / 100.dp
+
     Row(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         Column() {
             LinearProgressIndicator(
                 progress = 1f,
                 color = Color.Blue,
-                modifier = modifier.size(height = 6.dp, width = deepSleepValue.dp)
+                modifier = modifier
+                    .size(
+                        height = 6.dp,
+                        width = (deepSleepPercent.dp * widthForProgressBar)
+                    )
             )
 
             Spacer(modifier = Modifier.height(7.dp))
@@ -313,7 +388,11 @@ fun ProgressBarForSleep(
             LinearProgressIndicator(
                 progress = 1f,
                 color = Color.Cyan,
-                modifier = modifier.size(height = 6.dp, width = lightSleepValue.dp)
+                modifier = modifier
+                    .size(
+                        height = 6.dp,
+                        width = (lightSleepPercent.dp * widthForProgressBar)
+                    )
             )
 
             Spacer(modifier = Modifier.height(7.dp))
@@ -337,20 +416,24 @@ fun ProgressBarForSleep(
             LinearProgressIndicator(
                 progress = 1f,
                 color = Color.Gray,
-                modifier = modifier.size(height = 6.dp, width = 115.dp)
+                modifier = modifier
+                    .size(
+                        height = 6.dp,
+                        width = (remSleepPercent.dp * widthForProgressBar)
+                    )
             )
 
             Spacer(modifier = Modifier.height(7.dp))
 
             Text(
-                text = stringResource(R.string.light_sleep),
+                text = stringResource(R.string.rem_sleep),
                 style = MaterialTheme.typography.button,
                 fontSize = 15.sp,
                 color = Color.Gray
             )
 
             Text(
-                text = "30%",
+                text = "$remSleepPercent%",
                 style = MaterialTheme.typography.button,
                 fontSize = 15.sp,
             )

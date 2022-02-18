@@ -3,6 +3,7 @@ package com.example.sauexpert
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
@@ -32,7 +33,7 @@ import com.example.sauexpert.widgets.compose.snackbars.DefaultSnackbar
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     @ExperimentalAnimationApi
     @ExperimentalMaterialApi
     @ExperimentalFoundationApi

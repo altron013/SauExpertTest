@@ -1,6 +1,6 @@
 package com.example.sauexpert.bracelet_indicator
 
-import androidx.compose.foundation.Image
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,23 +12,31 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.model.TextOfTabData
+import com.example.sauexpert.model.*
 import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.ui.theme.Gray4292
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @ExperimentalMaterialApi
@@ -46,7 +54,16 @@ fun BraceletIndicatorScreen() {
             )
 //            .padding(16.dp)
     ) {
-        TopBarForBraceletAndIndicator()
+        Spacer(modifier = Modifier.height(5.dp))
+        ActionToolBar(
+            titleText = stringResource(id = R.string.bracelet),
+            iconBackClick = Icons.Default.ArrowBack,
+            iconRightClick = painterResource(R.drawable.ic_calendar),
+            colorRightClick = Color.Red,
+            onBackClick = {},
+            onRightClick = {}
+        )
+
         Spacer(modifier = Modifier.height(28.dp))
         TabViewWithRoundBorder(
             TextOfTab = listOf(
@@ -75,68 +92,31 @@ fun BraceletIndicatorScreen() {
             0 -> Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .padding(horizontal = 16.dp)
             ) {
                 SleepScreen()
-                MainButton(
-                    text = stringResource(id = R.string.range_customize),
-                    onClick = { /*TODO*/ },
-                    enableState = true,
-                    modifier = Modifier.fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                )
             }
             1 -> Sp02Screen()
             2 -> Box(
                 modifier = Modifier.fillMaxSize()
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+                    .padding(horizontal = 16.dp)
             ) {
                 HRVScreen()
             }
             3 -> Box(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
+                modifier = Modifier.fillMaxSize()
+                    .padding(horizontal = 16.dp)
 
             ) {
                 PressureScreen()
             }
             4 -> Box(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
+                modifier = Modifier.fillMaxSize()
+                    .padding(horizontal = 16.dp)
             ) {
                 PulseScreen()
             }
         }
-    }
-}
-
-
-@Composable
-fun TopBarForBraceletAndIndicator(
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.Black,
-            modifier = modifier.align(Alignment.CenterStart)
-                .clickable {
-                }
-        )
-
-        Text(
-            text = stringResource(id = R.string.bracelet),
-            style = MaterialTheme.typography.subtitle2,
-            modifier = modifier.align(Alignment.Center)
-        )
-
-        Image(
-            painter = painterResource(id = R.drawable.ic_calendar_icon),
-            contentDescription = null,
-            modifier = modifier.align(Alignment.CenterEnd)
-        )
-
-
     }
 }
 
@@ -151,7 +131,10 @@ fun TabViewWithRoundBorder(
     }
 
     val shape = RoundedCornerShape(10.dp)
-    val backgroundColor = Color(220, 220, 223)
+    val backgroundColor = Gray4292
+    val textStyleh5 = MaterialTheme.typography.h5
+    var scaledTextStyle by remember { mutableStateOf(textStyleh5) }
+    var readyToDraw by remember { mutableStateOf(false) }
 
     TabRow(
         selectedTabIndex = selectedTabIndex,
@@ -178,15 +161,34 @@ fun TabViewWithRoundBorder(
                 modifier = modifier
                     .background(
                         if (selectedTabIndex == index) Color.White else backgroundColor,
-//                        if (selectedTabIndex == index) RoundedCornerShape(10.dp) else RoundedCornerShape(0.dp),
-                        shape = RoundedCornerShape(10.dp)
+                        shape = shape
+                    )
+                    .clip(
+                        shape = shape,
                     )
             ) {
+
                 Text(
                     text = item.text,
-                    style = MaterialTheme.typography.h5,
+                    style = scaledTextStyle,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(5.dp)
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .drawWithContent {
+                            if (readyToDraw) {
+                                drawContent()
+                            }
+                        },
+                    softWrap = false,
+                    onTextLayout = { textLayoutResult ->
+                        if (textLayoutResult.didOverflowWidth) {
+                            scaledTextStyle =
+                                scaledTextStyle.copy(fontSize = scaledTextStyle.fontSize * 0.9)
+                        } else {
+                            readyToDraw = true
+                        }
+                    }
+
 
                 )
             }
@@ -211,7 +213,7 @@ fun TextWithIconForGraph(
         Icon(
             imageVector = Icons.Filled.Circle,
             contentDescription = "",
-            tint = color.copy(alpha = 0.25f),
+            tint = color,
             modifier = modifier.size(9.dp)
         )
 
@@ -269,73 +271,290 @@ fun TextWithBigValueAndDateForGraph(
 
 
 @Composable
-fun AnalysisStatField(
-    title: String,
-    value: String,
-    modifier: Modifier = Modifier
+fun CustomTextRadioGroup(
+    TextOfTab: List<TextOfTabData>,
+    backgroundColor: Color = Gray4292,
+    textColor: Color = Color.Black,
+    activity: AppCompatActivity? = null,
+    dateText: MutableState<String>? = null,
+    onTabSelected: (selectedIndex: Int) -> Unit,
 ) {
+
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
+
+    val textStyle5 = MaterialTheme.typography.h5
+    var scaledTextStyle by remember { mutableStateOf(textStyle5) }
+    var readyToDraw by remember { mutableStateOf(false) }
+
+    val listSize = TextOfTab.size - 1
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        TextOfTab.forEachIndexed { index, item ->
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .border(width = 1.dp, color = Gray4292, shape = RoundedCornerShape(10.dp))
+                    .clip(
+                        shape = RoundedCornerShape(
+                            size = 10.dp,
+                        ),
+                    )
+                    .clickable {
+                        selectedTabIndex = index
+                        onTabSelected(index)
+                        if (index == 2) {
+                            activity?.let {
+                                dateText?.let { it1 -> showDatePicker(it, it1) }
+                            }
+                        }
+                    }
+                    .background(
+                        if (selectedTabIndex == index) backgroundColor else Color.White
+                    )
+                    .padding(
+                        vertical = 4.dp,
+                        horizontal = 12.dp,
+                    )
+            ) {
+
+                item.painter?.let {
+                    Icon(
+                        painter = it,
+                        contentDescription = null,
+                        tint = Gray30,
+                        modifier = Modifier.size(14.dp)
+                    )
+
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
+
+                Text(
+                    text = item.text,
+                    style = scaledTextStyle,
+                    color = if (selectedTabIndex == index) textColor else Color.Black,
+                    modifier = Modifier
+                        .drawWithContent {
+                            if (readyToDraw) {
+                                drawContent()
+                            }
+                        },
+                    softWrap = false,
+                    onTextLayout = { textLayoutResult ->
+                        if (textLayoutResult.didOverflowWidth) {
+                            scaledTextStyle =
+                                scaledTextStyle.copy(fontSize = scaledTextStyle.fontSize * 0.98)
+                        } else {
+                            readyToDraw = true
+                        }
+                    }
+                )
+            }
+
+            if (index < listSize) {
+                Spacer(modifier = Modifier.width(8.dp))
+            }
+
+        }
+    }
+}
+
+fun showDatePicker(
+    activity: AppCompatActivity,
+    dateText: MutableState<String>
+) {
+    val picker = MaterialDatePicker.Builder.dateRangePicker().build()
+    activity?.let {
+        picker.show(it.supportFragmentManager, picker.toString())
+        picker.addOnPositiveButtonClickListener { dateSelected ->
+            val startDate = dateSelected.first
+            val endDate = dateSelected.second
+
+            if (startDate != null && endDate != null) {
+                dateText.value = "${convertLongToTime(startDate)} - ${convertLongToTime(endDate)}"
+            }
+        }
+    }
+}
+
+private fun convertLongToTime(time: Long): String {
+    val date = Date(time)
+    val format = SimpleDateFormat(
+        "dd.MM.yyyy",
+        Locale.getDefault()
+    )
+    return format.format(date)
+}
+
+@Composable
+fun TitleForGraph(
+    textTitle: String,
+    TextOfTab: List<TextOfTabData>,
+    weight: Float = 0.5f,
+    modifier: Modifier = Modifier
+) {
+    var selectedTabIndex by remember {
+        mutableStateOf(1)
+    }
+
+    val date = remember { mutableStateOf("") }
+
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(11.dp)
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.body1,
-        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .weight(weight)
+            ) {
+                Text(
+                    text = textTitle,
+                    style = MaterialTheme.typography.caption,
+                )
+            }
+
+
+            Row(
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .weight(1f - weight)
+            ) {
+
+                CustomTextRadioGroup(
+                    TextOfTab = TextOfTab,
+                ) {
+                    selectedTabIndex = it
+                }
+                when (selectedTabIndex) {
+                    0 -> date.value = "18-20 ноября 2021"
+                    1 -> date.value = "Ноября 2021"
+
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
 
         Text(
-            text = value,
-            style = MaterialTheme.typography.body1,
+            text = date.value,
+            style = MaterialTheme.typography.h6,
+            fontSize = 15.sp,
+            color = Gray30
         )
+    }
+}
 
+
+@Composable
+fun AnalysisField(
+    title: String,
+    value: String,
+    dateData: String? = null,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.padding(vertical = 11.dp, horizontal = 16.dp)
+    ) {
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.body1,
+            )
+
+            Text(
+                text = value,
+                style = MaterialTheme.typography.body1,
+            )
+
+        }
+
+        dateData?.let {
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = it,
+                style = MaterialTheme.typography.h5,
+                color = Gray30
+            )
+        }
     }
 }
 
 @Composable
-fun AnalysisStatFieldWithIconAtBeg(
+fun AnalysisFieldWithIconAtBeg(
     title: String,
     value: String,
+    dateData: String? = null,
     imageVector: ImageVector,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(11.dp)
+    Column(
+        modifier = modifier.padding(vertical = 11.dp, horizontal = 16.dp)
     ) {
-        Icon(
-            imageVector = imageVector,
-            contentDescription = "",
-            tint = Color.Red,
-            modifier = modifier.size(12.dp)
-        )
 
-        Spacer(modifier = Modifier.width(3.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
+            Icon(
+                imageVector = imageVector,
+                contentDescription = "",
+                tint = Color.Red,
+                modifier = modifier.size(12.dp)
+            )
 
-        Text(
-            text = title,
-            style = MaterialTheme.typography.body1,
-        )
+            Spacer(modifier = Modifier.width(3.dp))
 
-        Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = title,
+                style = MaterialTheme.typography.body1,
+            )
 
-        Text(
-            text = value,
-            style = MaterialTheme.typography.body1,
-        )
+            Spacer(modifier = Modifier.weight(1f))
 
+            Text(
+                text = value,
+                style = MaterialTheme.typography.body1,
+            )
+
+        }
+        dateData?.let {
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = it,
+                style = MaterialTheme.typography.h5,
+                color = Gray30
+            )
+        }
     }
 }
 
 @Composable
-fun AnalysisStatFieldWithIconAtEnd(
+fun AnalysisFieldWithIconAtEnd(
     title: String,
     value: String,
+    dateData: String? = null,
     imageVector: ImageVector,
     modifier: Modifier = Modifier
 ) {
@@ -361,28 +580,197 @@ fun AnalysisStatFieldWithIconAtEnd(
         )
     )
 
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(11.dp)
+    Column(
+        modifier = modifier.padding(vertical = 11.dp, horizontal = 16.dp)
     ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+        ) {
 
-        Text(
-            text = text,
-            style = MaterialTheme.typography.body1,
-            inlineContent = inlineContent
-        )
+            Text(
+                text = text,
+                style = MaterialTheme.typography.body1,
+                inlineContent = inlineContent
+            )
 
-        Text(
-            text = value,
-            style = MaterialTheme.typography.body1,
-        )
+            Text(
+                text = value,
+                style = MaterialTheme.typography.body1,
+            )
+
+        }
+
+        dateData?.let {
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = it,
+                style = MaterialTheme.typography.h5,
+                color = Gray30
+            )
+        }
 
     }
 }
 
 
+@Composable
+fun RangeCustomizeSection(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .clip(
+                shape = RoundedCornerShape(10.dp)
+            )
+            .clickable {}
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(19.dp)
 
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_gear),
+                contentDescription = "",
+                tint = Color.Black,
+                modifier = modifier.size(20.dp)
+            )
+
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Text(
+                text = stringResource(R.string.range_customize),
+                style = MaterialTheme.typography.body1,
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Icon(
+                imageVector = Icons.Filled.KeyboardArrowRight,
+                contentDescription = "",
+                tint = Color.Black,
+                modifier = modifier.size(20.dp)
+            )
+
+        }
+    }
+}
+
+
+@Composable
+fun dpToPxValue(number: Dp) = LocalDensity.current.run {
+    number.toPx()
+}
+
+@Composable
+fun identifyHeightForYPoint(
+    dataList: List<ListNumberOfYForTableData>,
+    number: Int,
+): Float {
+    for ((index, dataList) in dataList.withIndex()) {
+        when {
+            number == dataList.number -> {
+                return dpToPxValue((index * 35).dp)
+            }
+            number > dataList.number -> {
+                return dpToPxValue((index * 30).dp)
+            }
+        }
+    }
+    return dpToPxValue(((dataList.size - 1) * 35).dp)
+}
+
+
+fun identifyClickItem(dataList: List<Any>, x: Float, y: Float, size: Float): Int {
+    dataList.forEachIndexed { index, any ->
+        when (any) {
+            is SleepData -> {
+                if (positionCorrectForBarChart(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        positionOnY = any.hourOfSleep,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
+            is HRVData -> {
+                if (positionCorrectForBarChart(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        positionOnY = any.positionOnY,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
+            is StepsData -> {
+                if (positionCorrectForBarChart(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        positionOnY = any.positionOnY,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
+            is PressureData -> {
+                if (positionCorrectWithStartPoint(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        startPoint = any.startPoint,
+                        endPoint = any.endPoint,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
+            is PulseData -> {
+                if (positionCorrectForLineChart(
+                        size = size,
+                        positionOnX = any.positionOnX,
+                        positionOnY = any.positionOnY,
+                        x = x,
+                        y = y
+                    )
+                ) return index
+            }
+        }
+    }
+    return -1
+}
+
+fun positionCorrectForBarChart(
+    size: Float,
+    positionOnX: Float,
+    positionOnY: Float,
+    x: Float,
+    y: Float
+) = x > positionOnX && x < positionOnX + size && y > positionOnY
+
+fun positionCorrectWithStartPoint(
+    size: Float,
+    positionOnX: Float,
+    startPoint: Float,
+    endPoint: Float,
+    x: Float,
+    y: Float
+) = x > positionOnX && x < positionOnX + size && y > startPoint - size && y < endPoint + size
+
+fun positionCorrectForLineChart(
+    size: Float,
+    positionOnX: Float,
+    positionOnY: Float,
+    x: Float,
+    y: Float
+) = x > positionOnX && x < positionOnX + size && y > positionOnY - size && y < positionOnY + size
