@@ -19,15 +19,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.sauexpert.auth.LoginScreen
 import com.example.sauexpert.my_patients.MyPatients2
-import com.example.sauexpert.my_patients.MyPatientsNewGroup
+import com.example.sauexpert.profile.ProfileScreen
 import com.example.sauexpert.profile.SupplementData
-import com.example.sauexpert.signup_patient.GetAccessScreen
-import com.example.sauexpert.survey.HadsScreen
-import com.example.sauexpert.survey.PhysicalActivityScreen
+import com.example.sauexpert.signup_doctor.RegisterDoctorScreen
 import com.example.sauexpert.ui.theme.GrayF0F
-import com.example.sauexpert.well_being.GlucoseLevelScreen
-import com.example.sauexpert.well_being.WellBeingScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.Job
 
@@ -54,21 +51,22 @@ fun Navigation(
 ) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-           // PhysicalActivityScreen()
+            // PhysicalActivityScreen()
             SupplementData()
         }
         composable("myPatients") {
-           // HadsScreen()
+            // HadsScreen()
             MyPatients2()
         }
         composable("settings") {
             //GetAccessScreen()
+            RegisterDoctorScreen()
         }
         composable("notification") {
-           // GlucoseLevelScreen()
+            LoginScreen()
         }
         composable("profile") {
-           // WellBeingScreen()
+            ProfileScreen()
         }
     }
 
