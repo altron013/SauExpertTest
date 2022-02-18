@@ -7,6 +7,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -32,6 +34,7 @@ import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.ui.theme.Blue4289
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Pink4294
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -76,14 +79,23 @@ fun GlucoseReportScreen() {
                 .background(
                     color = Gray30.copy(alpha = 0.19f)
                 )
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
-                    .padding(top = 24.dp, bottom = 10.dp)
+                    .padding(16.dp)
             ) {
+                ActionToolBarWithSubtitle(
+                    titleText = stringResource(R.string.blood_glucose),
+                    subtitleText = "Декабрь 2021",
+                    iconBackClick = Icons.Default.ArrowBack,
+                    onBackClick = {},
+                    onRightClick = {}
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 GlucoseReportWithBarChart(
                     onClick = {
                         coroutineScope.launch {
@@ -97,11 +109,14 @@ fun GlucoseReportScreen() {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                ReferenceIndicatorSection()
+                ReferenceIndicatorSection(textValue = "3,5 — 4,1")
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                IndicatorForMonthSection()
+                IndicatorForMonthSection(
+                    glucoseValueAfterFood = 18,
+                    glucoseValueBeforeFood = 18,
+                )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -275,6 +290,7 @@ fun GlucoseReportWithBarChart(
 
 @Composable
 fun ReferenceIndicatorSection(
+    textValue: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -324,13 +340,16 @@ fun ReferenceIndicatorSection(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        AnalysisField(title = stringResource(R.string.references_value), value = "3,5 — 4,1")
+        AnalysisField(title = stringResource(R.string.references_value), value = textValue)
     }
 }
 
 
 @Composable
 fun IndicatorForMonthSection(
+    glucoseValueAfterFood: Int? = null,
+    glucoseValueBeforeFood: Int? = null,
+
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -359,20 +378,32 @@ fun IndicatorForMonthSection(
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.case_before_food), value = "18")
-            Divider(
-                color = Gray30.copy(alpha = 0.19f),
-                thickness = 1.dp,
-                modifier = modifier
-                    .padding(horizontal = 16.dp)
-            )
-            AnalysisField(title = stringResource(R.string.case_after_food), value = "18")
-            Divider(
-                color = Gray30.copy(alpha = 0.19f),
-                thickness = 1.dp,
-                modifier = modifier
-                    .padding(horizontal = 16.dp)
-            )
+            glucoseValueAfterFood?.let {
+                AnalysisField(
+                    title = stringResource(R.string.case_before_food),
+                    value = it.toString()
+                )
+                Divider(
+                    color = Gray30.copy(alpha = 0.19f),
+                    thickness = 1.dp,
+                    modifier = modifier
+                        .padding(horizontal = 16.dp)
+                )
+            }
+
+            glucoseValueBeforeFood?.let {
+                AnalysisField(
+                    title = stringResource(R.string.case_after_food),
+                    value = it.toString()
+                )
+                Divider(
+                    color = Gray30.copy(alpha = 0.19f),
+                    thickness = 1.dp,
+                    modifier = modifier
+                        .padding(horizontal = 16.dp)
+                )
+            }
+
             AnalysisField(
                 title = stringResource(R.string.missed_measurements),
                 value = "18",
