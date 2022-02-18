@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -31,6 +34,7 @@ import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PrescriptionData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green15B83D
+import com.example.sauexpert.ui.theme.Orange4294
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
@@ -59,6 +63,10 @@ fun PrescriptionCompletedReportScreen() {
             Spacer(modifier = Modifier.height(16.dp))
 
             PrescriptionReportWithBarChart()
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            PrescriptionStatisticsReportSection()
 
         }
     }
@@ -222,6 +230,167 @@ fun BarChartForPrescription(
                 p.positionOnX + 3.2.dp.toPx(),
                 (height - 15).dp.toPx(),
                 paint
+            )
+        }
+    }
+}
+
+
+@Composable
+fun PrescriptionStatisticsReportSection(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(10.dp)
+            )
+    ) {
+        ProgressBarForPrescription(
+            greenSector = 40,
+            orangeSector = 35,
+            redSector = 25,
+            greenSectorDay = 12,
+            orangeSectorDay = 10,
+            redSectorDay = 8
+        )
+
+        Divider(
+            color = Gray30.copy(alpha = 0.19f),
+            thickness = 1.dp,
+            modifier = modifier
+                .padding(horizontal = 16.dp)
+        )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.missed_measurements),
+                style = MaterialTheme.typography.body1,
+                color = Color.Red
+            )
+
+            Text(
+                text = "4 ${stringResource(R.string.day)}",
+                style = MaterialTheme.typography.body1,
+                color = Color.Red
+            )
+
+        }
+
+    }
+}
+
+
+@Composable
+fun ProgressBarForPrescription(
+    modifier: Modifier = Modifier,
+    greenSector: Int = 0,
+    orangeSector: Int = 0,
+    redSector: Int = 0,
+    greenSectorDay: Int,
+    orangeSectorDay: Int,
+    redSectorDay: Int,
+
+    ) {
+
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+
+    val widthForProgressBar = (screenWidth - 64.dp) / 100.dp
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        Column() {
+            LinearProgressIndicator(
+                progress = 1f,
+                color = Green15B83D,
+                modifier = Modifier
+                    .size(
+                        height = 6.dp,
+                        width = (greenSector.dp * widthForProgressBar)
+                    )
+            )
+
+            Spacer(modifier = Modifier.height(7.dp))
+
+            Text(
+                text = "$greenSectorDay ${stringResource(R.string.days)}",
+                style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
+            )
+
+            Text(
+                text = "75-100%",
+                style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
+                color = Green15B83D
+            )
+
+        }
+
+        Column() {
+            LinearProgressIndicator(
+                progress = 1f,
+                color = Orange4294,
+                modifier = Modifier
+                    .size(
+                        height = 6.dp,
+                        width = (orangeSector.dp * widthForProgressBar)
+                    )
+            )
+
+            Spacer(modifier = Modifier.height(7.dp))
+
+            Text(
+                text = "$orangeSectorDay ${stringResource(R.string.days)}",
+                style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
+            )
+
+            Text(
+                text = "50-75%",
+                style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
+                color = Orange4294
+            )
+
+        }
+
+        Column() {
+            LinearProgressIndicator(
+                progress = 1f,
+                color = Color.Red,
+                modifier = Modifier
+                    .size(
+                        height = 6.dp,
+                        width = (redSector.dp * widthForProgressBar)
+                    )
+            )
+
+            Spacer(modifier = Modifier.height(7.dp))
+
+            Text(
+                text = "$redSectorDay ${stringResource(R.string.days)}",
+                style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
+            )
+
+            Text(
+                text = "0-50%",
+                style = MaterialTheme.typography.button,
+                fontSize = 15.sp,
+                color = Color.Red
             )
         }
     }
