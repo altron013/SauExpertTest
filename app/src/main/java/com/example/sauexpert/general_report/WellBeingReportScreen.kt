@@ -1,14 +1,15 @@
 package com.example.sauexpert.general_report
 
 import android.graphics.Paint
-import android.view.View
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.compose.animation.core.FloatTweenSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -21,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +35,8 @@ import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green15B83D
 import com.example.sauexpert.ui.theme.Orange4294
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
+import com.example.sauexpert.widgets.compose.object_model.Emoji
+
 
 @Composable
 fun WellBeingReportScreen() {
@@ -340,7 +342,7 @@ fun ProgressBarForWellBeing(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
-    val widthForProgressBar = (screenWidth - 64.dp) / 100.dp
+    val widthForProgressBar = (screenWidth - 70.dp) / 28.dp
 
     Row(
         modifier = modifier
@@ -354,7 +356,7 @@ fun ProgressBarForWellBeing(
             modifier = Modifier
                 .size(
                     height = 6.dp,
-                    width = (veryGoodDay * 9).dp
+                    width = (veryGoodDay * widthForProgressBar).dp
                 )
         )
 
@@ -366,7 +368,7 @@ fun ProgressBarForWellBeing(
             modifier = Modifier
                 .size(
                     height = 6.dp,
-                    width = (goodDay * 9).dp
+                    width = (goodDay * widthForProgressBar).dp
                 )
         )
 
@@ -378,7 +380,7 @@ fun ProgressBarForWellBeing(
             modifier = Modifier
                 .size(
                     height = 6.dp,
-                    width = (fineDay * 9).dp
+                    width = (fineDay * widthForProgressBar).dp
                 )
         )
 
@@ -390,7 +392,7 @@ fun ProgressBarForWellBeing(
             modifier = Modifier
                 .size(
                     height = 6.dp,
-                    width = (badDay * 9).dp
+                    width = (badDay * widthForProgressBar).dp
                 )
         )
 
@@ -402,7 +404,7 @@ fun ProgressBarForWellBeing(
             modifier = Modifier
                 .size(
                     height = 6.dp,
-                    width = (veryBadDay * 9).dp
+                    width = (veryBadDay * widthForProgressBar).dp
                 )
         )
     }
@@ -444,19 +446,5 @@ fun CardItemForWellBeingReportScreen(
                 }
             }
         }
-    }
-}
-
-
-object Emoji {
-
-    val grinningFace = getEmojiByUnicode(0x1F600)
-    val smilingFace = getEmojiByUnicode(0x1F60A)
-    val slightlySmilingFace = getEmojiByUnicode(0x1F642)
-    val worriedFace = getEmojiByUnicode(0x1F61F)
-    val headBandageFace = getEmojiByUnicode(0x1F915)
-
-    fun getEmojiByUnicode(unicode: Int): String {
-        return String(Character.toChars(unicode))
     }
 }
