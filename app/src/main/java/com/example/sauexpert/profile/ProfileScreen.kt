@@ -208,11 +208,13 @@ fun CardItem(
                         )
                         .padding(top = 14.dp, bottom = 12.dp, start = 12.dp, end = 12.dp)
                 ) {
-                    Image(
-                        painter = cardList[it].image,
-                        contentDescription = null,
-                        modifier = modifier.size(16.dp)
-                    )
+                    cardList[it].image?.let { it1 ->
+                        Image(
+                            painter = it1,
+                            contentDescription = null,
+                            modifier = modifier.size(16.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = cardList[it].text,
