@@ -944,6 +944,6 @@ private fun calcFraction(a: Float, b: Float, pos: Float) =
 @Composable
 fun PreviewAppointment() {
     SauExpertTheme {
-        AssignMedicineWithPressure()
+        AssignMedicine()
     }
 }

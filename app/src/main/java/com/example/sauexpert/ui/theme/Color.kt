@@ -37,6 +37,7 @@ val Green57C3A7 = Color(0xFF57C3A7)
 val Green57C3A740p = Color(0x6657C3A7)
 val Green117259 = Color(0xFF117259)
 val Black333333 = Color(0xFF333333)
-
+val Tertiary = Color(0x1F767680)
+val Border = Color(0xFFEBEBF0)
 val Blue007AFF = Color(0xFF007AFF)
 val Blue4285 = Color(0xFF75A6D3)

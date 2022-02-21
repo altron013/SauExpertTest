@@ -1,8 +1,6 @@
 package com.example.sauexpert.diagnosis
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -257,7 +255,8 @@ fun SwitchWithText(text: String, modifier: Modifier = Modifier) {
             style = SauExpertTypography.body1,
             color = Color.Black
         )
-        Switch(checked = true, onCheckedChange = { /* TODO(Add onCheckedChange behaviour)*/ })
+        val state = remember { mutableStateOf(true)}
+        Switch(checked = state.value, onCheckedChange = { value -> state.value = value })
     }
 }
 
@@ -339,7 +338,8 @@ fun SubHeaderText(
 
 @Composable
 fun NewDiagnosis() {
-    Column {
+    val scrollState = rememberScrollState()
+    Column(modifier = Modifier.verticalScroll(scrollState)) {
         BottomSheetHeader(title = "Новый диагноз", onClick = {})
         Spacer(modifier = Modifier.height(24.dp))
         DiagnosisFill(text = stringResource(id = R.string.main_diagnosis))
@@ -361,7 +361,7 @@ fun NewDiagnosis() {
 @Composable
 fun DiagnosisPreview() {
     SauExpertTheme {
-        NewDiagnosis()
+        DiagnosisContent()
     }
 }
 

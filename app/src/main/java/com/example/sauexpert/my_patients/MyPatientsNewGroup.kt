@@ -23,12 +23,14 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.sauexpert.BottomSheetType
 import com.example.sauexpert.R
 import com.example.sauexpert.SheetLayout
+import com.example.sauexpert.diagnosis.SwitchWithText
 import com.example.sauexpert.navigation.BottomNavItem
 import com.example.sauexpert.navigation.BottomNavigationBar
 import com.example.sauexpert.navigation.Navigation
@@ -40,7 +42,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalPagerApi::class, androidx.compose.animation.ExperimentalAnimationApi::class,
+@OptIn(
+    ExperimentalPagerApi::class, androidx.compose.animation.ExperimentalAnimationApi::class,
     androidx.compose.animation.ExperimentalAnimationApi::class,
     androidx.compose.animation.ExperimentalAnimationApi::class,
     androidx.compose.ui.ExperimentalComposeUiApi::class,
@@ -49,7 +52,12 @@ import kotlinx.coroutines.launch
 )
 @ExperimentalMaterialApi
 @Composable
-fun MyPatientsNewGroup(scaffoldState: ScaffoldState, openSheet: () -> Job, toNewGroup: () -> Unit, toActionView: () -> Unit) {
+fun MyPatientsNewGroup(
+    scaffoldState: ScaffoldState,
+    openSheet: () -> Job,
+    toNewGroup: () -> Unit,
+    toActionView: () -> Unit
+) {
 
     val tabTitles = listOf("Новые", "Все", "Гипертония", "Новая группа")
 
@@ -128,7 +136,6 @@ fun MyPatientsNewGroup(scaffoldState: ScaffoldState, openSheet: () -> Job, toNew
 }
 
 
-
 @Composable
 fun AddGroup(onBackPressed: () -> Unit, showSnackBar: () -> Job) {
     Column {
@@ -205,10 +212,15 @@ fun AddGroup(onBackPressed: () -> Unit, showSnackBar: () -> Job) {
                     .fillMaxWidth()
                     .padding(start = 16.dp, end = 16.dp)
             )
-
+            Spacer(modifier = Modifier.height(25.dp))
+            SwitchWithText(
+                text = "Создать чат с пациентами",
+                modifier = Modifier.padding(horizontal = 32.dp)
+            )
+            Spacer(modifier = Modifier.height(40.dp))
             MainButton(
                 text = stringResource(R.string.create_group),
-                onClick = { showSnackBar()},
+                onClick = { showSnackBar() },
                 enableState = true,
                 modifier = Modifier
                     .padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 24.dp)
@@ -217,6 +229,14 @@ fun AddGroup(onBackPressed: () -> Unit, showSnackBar: () -> Job) {
 
             Spacer(modifier = Modifier.height(300.dp))
         }
+
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Prev() {
+    NewGroup(closeSheet = { /*TODO*/ }) {
 
     }
 }
@@ -230,28 +250,21 @@ fun NewGroup(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .defaultMinSize(minHeight = 40.dp),
+                .defaultMinSize(minHeight = 40.dp)
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Top
         ) {
-            Button(
-                onClick = { closeSheet() },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Transparent,
-                    contentColor = Red435B
-                ),
-                modifier = Modifier
-                    .padding(top = 16.dp, bottom = 16.dp, end = 16.dp)
-                    .weight(0.9f, false),
-                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
-            ) {
-                Text(text = stringResource(id = R.string.cancel), style = SauExpertTypography.body1)
-            }
+
+            Text(
+                text = stringResource(id = R.string.cancel),
+                style = SauExpertTypography.body1,
+                modifier = Modifier.clickable { closeSheet() },
+                color = Red435B
+            )
 
             Column(
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .weight(1f, false),
+                modifier = Modifier,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
@@ -267,22 +280,13 @@ fun NewGroup(
                 )
             }
 
-            Button(
-                onClick = { onNextPressed() },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Transparent,
-                    contentColor = Red435B
-                ),
-                modifier = Modifier
-                    .padding(top = 16.dp, bottom = 16.dp, start = 16.dp)
-                    .weight(0.9f, false),
-                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
-            ) {
-                Text(
-                    text = stringResource(id = R.string.next),
-                    style = SauExpertTypography.subtitle2
-                )
-            }
+            Text(
+                text = stringResource(id = R.string.next),
+                style = SauExpertTypography.subtitle2,
+                modifier = Modifier.clickable { onNextPressed() },
+                color = Red435B
+            )
+
         }
         Spacer(modifier = Modifier.padding(2.dp))
 
@@ -290,11 +294,13 @@ fun NewGroup(
         SearchViewNewGroup(
             state = textStateMain,
             modifier = Modifier
-                .background(color = Surface1F7)
+                .background(color = Tertiary)
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp),
         )
-        Spacer(modifier = Modifier.padding(1.dp))
+        Spacer(modifier = Modifier.padding(6.5.dp))
+        Divider(thickness = 1.dp, color = Separator)
+        Spacer(modifier = Modifier.padding(11.dp))
         Row() {
             PatientChip()
             PatientChip()
@@ -310,14 +316,24 @@ fun AllPatients() {
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         Spacer(modifier = Modifier.padding(bottom = 5.dp))
         AllPatientsCardNewGroup()
-        Spacer(modifier = Modifier.padding(bottom = 5.dp))
+        Spacer(modifier = Modifier.padding(bottom = 12.dp))
+        Divider(thickness = 1.dp, color = Border)
+        Spacer(modifier = Modifier.padding(bottom = 12.dp))
         AllPatientsCardNewGroup()
-        Spacer(modifier = Modifier.padding(bottom = 5.dp))
+        Spacer(modifier = Modifier.padding(bottom = 12.dp))
+        Divider(thickness = 1.dp, color = Border)
+        Spacer(modifier = Modifier.padding(bottom = 12.dp))
         AllPatientsCardNewGroup()
-        Spacer(modifier = Modifier.padding(bottom = 5.dp))
+        Spacer(modifier = Modifier.padding(bottom = 12.dp))
+        Divider(thickness = 1.dp, color = Border)
+        Spacer(modifier = Modifier.padding(bottom = 12.dp))
         AllPatientsCardNewGroup()
-        Spacer(modifier = Modifier.padding(bottom = 5.dp))
+        Spacer(modifier = Modifier.padding(bottom = 12.dp))
+        Divider(thickness = 1.dp, color = Border)
+        Spacer(modifier = Modifier.padding(bottom = 12.dp))
         AllPatientsCardNewGroup()
+        Spacer(modifier = Modifier.padding(bottom = 12.dp))
+        Divider(thickness = 1.dp, color = Border)
     }
 }
 
@@ -443,7 +459,7 @@ fun SearchViewNewGroup(
             )
         },
         modifier = modifier
-            .height(55.dp)
+            .height(54.dp)
             .padding(0.dp)
     )
 }
@@ -452,7 +468,7 @@ fun SearchViewNewGroup(
 fun PatientChip() {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp)
+        modifier = Modifier.padding(start = 16.dp, bottom = 10.dp)
     ) {
         Column {
             Image(
@@ -460,7 +476,7 @@ fun PatientChip() {
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop,            // crop the image if it's not a square
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(42.dp)
                     .clip(CircleShape)
             )
             Text(text = "Ерасыл", style = SauExpertTypography.body2, color = Color.Black)
@@ -471,6 +487,7 @@ fun PatientChip() {
             contentDescription = "",
             modifier = Modifier
                 .align(alignment = Alignment.TopEnd)
+                .size(16.dp)
                 .clickable { /*TODO()*/ }
         )
     }
@@ -478,21 +495,19 @@ fun PatientChip() {
 
 @Composable
 fun AllPatientsCardNewGroup() {
-    Card(
-        modifier = Modifier
+
+    Row(
+        Modifier
             .padding(16.dp)
             .fillMaxWidth(),
-        backgroundColor = GrayF0F
-    ) {
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    )
+    {
         Row(
-            Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
-        )
-        {
-            //Image(painter = painterResource(id = R.drawable.ic_patient),contentDescription = "")
+        ) {
             Image(
                 painter = painterResource(R.drawable.avatar),
                 contentDescription = "avatar",
@@ -502,20 +517,28 @@ fun AllPatientsCardNewGroup() {
                     .clip(CircleShape)
             )
             //Spacer(modifier = Modifier.padding(5.dp))
-            Column() {
-                Text(text = "Ерасыл Нурахметов", fontWeight = FontWeight.Bold)
+            Column(modifier = Modifier.padding(start = 12.dp)) {
+                Text(
+                    text = "Ерасыл Нурахметов",
+                    fontWeight = FontWeight.W600,
+                    style = SauExpertTypography.body1
+                )
                 Spacer(modifier = Modifier.padding(1.dp))
-                Text(text = "Ерасыл Нурахметов")
+                Text(
+                    text = "I11.9 Гипертоническая болезнь",
+                    color = Gray50,
+                    style = SauExpertTypography.h5
+                )
             }
-            // Spacer(modifier = Modifier.padding(10.dp))
-            RoundedCheckView()
         }
+        // Spacer(modifier = Modifier.padding(10.dp))
+        RoundedCheckView()
     }
 }
 
 
 @Composable
-fun RoundedCheckView(id : Int = R.drawable.ic_checkbox_checked) {
+fun RoundedCheckView(id: Int = R.drawable.ic_checked_pink) {
     val isChecked = remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -535,7 +558,7 @@ fun RoundedCheckView(id : Int = R.drawable.ic_checkbox_checked) {
         } else {
             Image(
                 painter = painterResource(id = R.drawable.ic_checkbox_unchecked),
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(20.dp),
                 contentDescription = ""
             )
         }
