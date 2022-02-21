@@ -2,18 +2,12 @@ package com.example.sauexpert.profile
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,71 +16,51 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toSize
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
+import androidx.compose.ui.unit.*
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
+import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
+import java.util.*
 
 @Composable
 fun InspectionPatientScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .background(color = Gray30.copy(alpha = 0.19f))
             .padding(16.dp)
     ) {
-        TopBarForInspectionPatientScreen(userName = "User")
-        Spacer(modifier = Modifier.height(44.dp))
-        PreviousInspectionsSection()
-        Spacer(modifier = Modifier.height(12.dp))
-        PreviousInspectionsStat(
-            doctorName = "Ларионов Игорь Викторович",
-            dateOfInspection = "15 Февраля 2021", yourInspection = true
+        ActionToolBar(
+            titleText = "Zhanna Akhmetova",
+            iconBackClick = Icons.Default.ArrowBack,
+            onBackClick = {},
+            onRightClick = {}
         )
+
+        Spacer(modifier = Modifier.height(44.dp))
+
+        PreviousInspectionsSection()
+
         Spacer(modifier = Modifier.height(24.dp))
         MainButton(
             text = stringResource(id = R.string.new_inspections),
             onClick = { /*TODO*/ },
             enableState = true,
             icon = R.drawable.ic_plus_circle,
-            backgroundColor = Color(255, 205, 211),
+            backgroundColor = Pink42949,
             textColor = Color.Red
-        )
-    }
-}
-
-@Composable
-fun TopBarForInspectionPatientScreen(
-    userName: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.Black,
-            modifier = modifier
-                .align(Alignment.CenterStart)
-                .clickable {
-                }
-        )
-
-        Text(
-            text = userName,
-            style = MaterialTheme.typography.subtitle2,
-            modifier = modifier.align(Alignment.Center)
         )
     }
 }
@@ -95,22 +69,29 @@ fun TopBarForInspectionPatientScreen(
 fun PreviousInspectionsSection(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = stringResource(R.string.previous_inspections),
+            text = stringResource(R.string.previous_inspections).toUpperCase(Locale.current),
             style = MaterialTheme.typography.body2,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        PreviousInspectionsStat(
+        PreviousInspectionsSection(
             doctorName = "Ларионов Игорь Викторович",
             dateOfInspection = "15 Февраля 2021"
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        PreviousInspectionsSection(
+            doctorName = "Келимбетов Аскар Ахметович",
+            dateOfInspection = "22 Мая 2021", yourInspection = true
         )
     }
 }
 
 
 @Composable
-fun PreviousInspectionsStat(
+fun PreviousInspectionsSection(
     yourInspection: Boolean = false,
     doctorName: String,
     dateOfInspection: String,
@@ -130,7 +111,7 @@ fun PreviousInspectionsStat(
             )
             .padding(24.dp)
     ) {
-        AnalysisInspectionsStatField(doctorName)
+        AnalysisInspectionsField(doctorName)
 
         Divider(
             color = Gray30.copy(alpha = 0.35f),
@@ -148,7 +129,7 @@ fun PreviousInspectionsStat(
                 enableState = true,
                 icon = R.drawable.ic_square_and_pencil,
                 buttonHeight = 35.dp,
-                backgroundColor = Color(255, 205, 211),
+                backgroundColor = Pink42949,
                 textColor = Color.Red
             )
         }
@@ -156,7 +137,7 @@ fun PreviousInspectionsStat(
 }
 
 @Composable
-fun AnalysisInspectionsStatField(
+fun AnalysisInspectionsField(
     doctorName: String,
     modifier: Modifier = Modifier
 ) {
@@ -172,16 +153,25 @@ fun AnalysisInspectionsStatField(
         ) {
             Text(
                 text = doctorName,
-                style = MaterialTheme.typography.subtitle2
+                style = MaterialTheme.typography.subtitle2,
+                modifier = Modifier.weight(0.8f)
             )
 
-
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                contentDescription = "",
-                tint = Color.Black,
-                modifier = modifier.size(20.dp)
-            )
+            Row(
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .weight(0.2f),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.KeyboardArrowRight,
+                    contentDescription = "",
+                    tint = Color.Black,
+                    modifier = modifier
+                        .size(20.dp)
+                        .clickable { }
+                )
+            }
 
         }
 
@@ -190,7 +180,7 @@ fun AnalysisInspectionsStatField(
         Text(
             text = stringResource(R.string.conducted_inspection),
             style = MaterialTheme.typography.h5,
-            color = Gray30
+            color = Gray30,
         )
 
     }
@@ -222,33 +212,6 @@ fun AnalysisInspectionsDateField(
     }
 }
 
-
-@Composable
-fun TopBarForInspectionScreen(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.Black,
-            modifier = modifier
-                .clickable {
-                }
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(
-            text = stringResource(R.string.general_inspection),
-            style = MaterialTheme.typography.h4,
-            fontSize = 28.sp
-        )
-    }
-}
-
 @Composable
 fun ProfileForInspection(
     content: String,
@@ -256,7 +219,8 @@ fun ProfileForInspection(
     showPercentage: Boolean = false,
     modifier: Modifier = Modifier,
     image: Painter = painterResource(id = R.drawable.avatar),
-    painter: Painter? = null
+    painter: Painter? = null,
+    color: Color = Color.Green
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -291,7 +255,8 @@ fun ProfileForInspection(
             CircularProgressBar(
                 percentage = text,
                 number = 100,
-                showPercentage = showPercentage
+                showPercentage = showPercentage,
+                color = color
             )
         } else {
             painter?.let {
@@ -364,36 +329,94 @@ fun CircularProgressBar(
     }
 }
 
+
 @Composable
-fun FillTextFiled(
-    textForHint: String,
+fun OutlinedTextFieldWithBackground(
+    textForHint: String? = null,
     enableStatus: Boolean = true,
     textState: String,
-    onTextChange: (String) -> Unit
+    colorBackground: Color = Gray30.copy(alpha = 0.19f),
+    onTextChange: (String) -> Unit,
+    textSize: TextUnit = 17.sp,
+    modifier: Modifier = Modifier
 
 ) {
-//    var textStateField by remember { mutableStateOf(textStateField) }
     val colorOfTextField = TextFieldDefaults.textFieldColors(
-//                    textColor = Color.Gray,
         disabledTextColor = Color.Transparent,
-        backgroundColor = Gray30.copy(alpha = 0.19f),
+        backgroundColor = colorBackground,
         focusedIndicatorColor = Color.Transparent,
         unfocusedIndicatorColor = Color.Transparent,
         disabledIndicatorColor = Color.Transparent
     )
+
     TextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(height = 55.dp),
         enabled = enableStatus,
         value = textState,
         onValueChange = onTextChange,
         placeholder = {
-            Text(
-                text = textForHint,
-                style = MaterialTheme.typography.body1,
+            textForHint?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.body1,
+                )
+            }
+
+        },
+        textStyle = TextStyle(fontSize = textSize),
+        colors = colorOfTextField,
+        shape = RoundedCornerShape(10.dp)
+    )
+}
+
+@Composable
+fun OutlinedTextWithIconFieldWithBackground(
+    textForHint: String? = null,
+    icon: ImageVector,
+    enableStatus: Boolean = true,
+    textState: String,
+    colorBackground: Color = Gray30.copy(alpha = 0.19f),
+    onTextChange: (String) -> Unit,
+    textSize: TextUnit = 17.sp,
+    modifier: Modifier = Modifier
+
+) {
+    val colorOfTextField = TextFieldDefaults.textFieldColors(
+        disabledTextColor = Color.Transparent,
+        backgroundColor = colorBackground,
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+        disabledIndicatorColor = Color.Transparent
+    )
+
+    TextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(height = 55.dp),
+        enabled = enableStatus,
+        leadingIcon = {
+            Icon(
+                imageVector = icon,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(11.dp)
+                    .size(19.dp)
             )
         },
+        value = textState,
+        onValueChange = onTextChange,
+        placeholder = {
+            textForHint?.let {
+                Text(
+                    text = it,
+                    style = MaterialTheme.typography.body1,
+                )
+            }
+
+        },
+        textStyle = TextStyle(fontSize = textSize),
         colors = colorOfTextField,
         shape = RoundedCornerShape(10.dp)
     )

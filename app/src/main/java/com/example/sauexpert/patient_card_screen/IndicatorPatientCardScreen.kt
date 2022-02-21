@@ -30,6 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.Orange4294
+import com.example.sauexpert.ui.theme.Pink20p
+import com.example.sauexpert.ui.theme.Pink4294
 
 @Composable
 fun IndicatorPatientCardScreen() {
@@ -41,7 +44,7 @@ fun IndicatorPatientCardScreen() {
     ) {
         BraceletIndicatorCell()
         Spacer(modifier = Modifier.height(24.dp))
-        IndicatorInfromationStat()
+        IndicatorInfromationSection()
         Spacer(modifier = Modifier.height(24.dp))
         DailyReportInfromation()
 
@@ -59,11 +62,13 @@ fun BraceletIndicatorCell(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
+            .clickable { }
             .background(
                 color = Gray30.copy(alpha = 0.19f),
                 shape = RoundedCornerShape(10.dp)
             )
             .padding(horizontal = 24.dp, vertical = 27.dp)
+
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_applewatch),
@@ -93,7 +98,7 @@ fun BraceletIndicatorCell(
 }
 
 @Composable
-fun IndicatorInfromationStat(
+fun IndicatorInfromationSection(
     modifier: Modifier = Modifier
 ) {
 
@@ -119,16 +124,20 @@ fun IndicatorInfromationStat(
                 title = stringResource(R.string.glucose_before_meal),
                 subtitle = stringResource(R.string.millimoles_per_liter),
                 textValue = "7.5",
+                textStatus = stringResource(R.string.fine),
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth)
-            )
+                modifier = modifier.width(screenWidth),
+
+                )
 
             CardItemForPatientCard(
                 title = stringResource(R.string.glucose_after_meal),
                 subtitle = stringResource(R.string.millimoles_per_liter),
                 textValue = "8.0",
+                textStatus = stringResource(R.string.low),
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth)
+                modifier = modifier.width(screenWidth),
+                color = Orange4294
             )
         }
 
@@ -143,22 +152,26 @@ fun IndicatorInfromationStat(
                 title = stringResource(R.string.pulse),
                 subtitle = stringResource(R.string.pulse_in_minute),
                 textValue = "7.5",
+                textStatus = stringResource(R.string.high),
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth)
+                modifier = modifier.width(screenWidth),
+                color = Orange4294
             )
 
             CardItemForPatientCard(
                 title = stringResource(R.string.arterial_pressure),
                 subtitle = stringResource(R.string.mmhg),
                 textValue = "8.0",
+                textStatus = stringResource(R.string.low),
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth)
+                modifier = modifier.width(screenWidth),
+                color = Orange4294
             )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        ProgressBarForSteps(stepPercent = 0.5f)
+        ProgressBarForSteps(stepPercent = 0.5f, stepValue = 2000)
 
     }
 }
@@ -249,7 +262,7 @@ fun DailyReportInfromation(
                 icon = Icons.Filled.ThumbUp,
                 textValue = "Отлично",
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth).height(240.dp)
+                modifier = modifier.width(screenWidth).height(253.dp)
             )
 
 
@@ -260,7 +273,7 @@ fun DailyReportInfromation(
                     title = stringResource(R.string.fulfillment_prescription),
                     subtitle = "",
                     textValue = "70%",
-                    modifier = modifier.width(screenWidth).height(112.dp)
+                    modifier = modifier.width(screenWidth).height(120.dp)
                 )
 
                 Spacer(modifier = Modifier.height(13.dp))
@@ -272,7 +285,7 @@ fun DailyReportInfromation(
                     textValue2 = "+2.3",
                     ListNumberData = listOf(10f, 15f, 13f, 25f, 30f),
                     dateText = "15 Октября 15:00",
-                    modifier = modifier.width(screenWidth).height(112.dp)
+                    modifier = modifier.width(screenWidth).height(120.dp)
 
                 )
             }
@@ -290,7 +303,9 @@ fun CardItemForPatientCard(
     title: String,
     subtitle: String,
     textValue: String,
+    textStatus: String? = null,
     dateText: String? = null,
+    color: Color = Color.Green,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -304,7 +319,7 @@ fun CardItemForPatientCard(
                     color = Gray30.copy(alpha = 0.35f),
                     shape = RoundedCornerShape(10.dp)
                 )
-                .height(160.dp)
+                .height(170.dp)
                 .padding(16.dp)
         ) {
             Text(
@@ -329,6 +344,15 @@ fun CardItemForPatientCard(
                 text = textValue,
                 style = MaterialTheme.typography.caption,
             )
+
+            textStatus?.let {
+                Text(
+                    text = textStatus,
+                    style = MaterialTheme.typography.body2,
+                    fontSize = 13.sp,
+                    color = color
+                )
+            }
 
             dateText?.let {
                 Text(
@@ -413,15 +437,16 @@ fun CardItemWithGraphForPatientCard(
     modifier: Modifier = Modifier
 ) {
     val scale by remember { mutableStateOf(1f) }
-    var wight = 0f
+    var width = 0f
     val path = Path()
+    val widthScreen = (ListNumberData.size * 6).dp
     for ((index, item) in ListNumberData.withIndex()) {
         if (index == 0) {
-            path.moveTo(0f * scale, 70f - item)
-            wight += 20f
+            path.moveTo(0f * scale, 50f - item)
+            width += 15f
         } else {
-            path.lineTo(wight * scale, 70f - item)
-            wight += 20f
+            path.lineTo(width * scale, 50f - item)
+            width += 15f
         }
     }
 
@@ -471,7 +496,7 @@ fun CardItemWithGraphForPatientCard(
 
                 Canvas(
                     modifier = Modifier
-                        .width(36.dp)
+                        .width(widthScreen)
                         .height(36.dp)
                         .background(Color.White)
                 ) {
@@ -624,7 +649,7 @@ fun CriticalCaseStat(
 
 
 fun Modifier.drawPinkBar(width: Int) = this.drawBehind {
-    val colorOfLine = Color(250, 218, 221)
+    val colorOfLine = Color.Red.copy(alpha = 0.1f)
 
     drawRect(
         color = colorOfLine,

@@ -20,7 +20,11 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,6 +32,8 @@ import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PulseData
+import com.example.sauexpert.model.TextOfTabData
+import com.example.sauexpert.ui.theme.Blue4285
 import com.example.sauexpert.ui.theme.Gray30
 
 @Composable
@@ -41,6 +47,8 @@ fun PulseScreen() {
         PulsewithBarChart()
         Spacer(modifier = Modifier.height(24.dp))
         AnalysisPulseSection()
+        Spacer(modifier = Modifier.height(16.dp))
+        RangeCustomizeSection()
     }
 }
 
@@ -49,6 +57,20 @@ fun PulseScreen() {
 fun PulsewithBarChart(
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
+
+    val listNumberData = listOf(
+        ListNumberOfYForTableData(240),
+        ListNumberOfYForTableData(200),
+        ListNumberOfYForTableData(160),
+        ListNumberOfYForTableData(120),
+        ListNumberOfYForTableData(80),
+        ListNumberOfYForTableData(40),
+        ListNumberOfYForTableData(0),
+    )
+
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -57,48 +79,65 @@ fun PulsewithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        PulseTitle()
+        TitleForGraph(
+            textTitle = stringResource(id = R.string.pulse),
+            TextOfTab = listOf(
+                TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
+                TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
+                TextOfTabData(
+                    stringResource(R.string.choose).toUpperCase(Locale.current),
+                    painter = painterResource(R.drawable.ic_calendar_icon)
+                )
+            ),
+            weight = 0.3f
+        )
         Spacer(modifier = Modifier.height(12.dp))
         LineChartForPulse(
             PulseData = listOf(
-                PulseData(positionOnX = 50f, pulseInMinuteAverage = 200f, time = "00:00"),
-                PulseData(positionOnX = 160f, pulseInMinuteAverage = 370f, time = "02:00"),
-                PulseData(positionOnX = 270f, pulseInMinuteAverage = 190f, time = "04:00"),
-                PulseData(positionOnX = 380f, pulseInMinuteAverage = 180f, time = "06:00"),
-                PulseData(positionOnX = 490f, pulseInMinuteAverage = 220f, time = "08:00"),
-                PulseData(positionOnX = 600f, pulseInMinuteAverage = 240f, time = "10:00"),
-//                PulseData(positionOnX = 590f, pulseInMinuteAverage = 240f, time = ""),
+                PulseData(
+                    positionOnX = 10f,
+                    pulseInMinuteAverage = 200,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 200),
+                    dateName = "16"
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 1),
+                    pulseInMinuteAverage = 240,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 240),
+                    dateName = "17"
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 2),
+                    pulseInMinuteAverage = 170,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 170),
+                    dateName = "18"
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 3),
+                    pulseInMinuteAverage = 160,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 160),
+                    dateName = "19"
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 4),
+                    pulseInMinuteAverage = 120,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 120),
+                    dateName = "20"
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 5),
+                    pulseInMinuteAverage = 90,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 90),
+                    dateName = "21"
+                ),
+                PulseData(
+                    positionOnX = (screenWidth * 6),
+                    pulseInMinuteAverage = 10,
+                    positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 10),
+                    dateName = "22"
+                ),
             ),
-            ListNumberData = listOf(
-                ListNumberOfYForTableData("280"),
-                ListNumberOfYForTableData("240"),
-                ListNumberOfYForTableData("200"),
-                ListNumberOfYForTableData("160"),
-                ListNumberOfYForTableData("120"),
-                ListNumberOfYForTableData("80"),
-                ListNumberOfYForTableData("60"),
-            )
-        )
-    }
-}
-
-@Composable
-fun PulseTitle(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(id = R.string.pulse),
-            style = MaterialTheme.typography.caption
-        )
-
-        TextWithBigValueAndDateForGraph(
-            textValue = 150,
-            text = stringResource(R.string.pulse_in_minute_average),
-            textDate = "18-20 ноября 2021"
+            ListNumberData = listNumberData
         )
     }
 }
@@ -111,9 +150,9 @@ fun LineChartForPulse(
 ) {
     val scale by remember { mutableStateOf(1f) }
     val path = Path()
+    val listSize = PulseData.size - 1
+    val heightForGraph = ((ListNumberData.size - 1) * 35).dp
 
-
-    var start by remember { mutableStateOf(false) }
     val visible = remember { mutableStateOf(false) }
     val itemID = remember { mutableStateOf(1) }
     val positionOfX = remember { mutableStateOf(1) }
@@ -129,10 +168,10 @@ fun LineChartForPulse(
 
     for ((index, item) in PulseData.withIndex()) {
         if (index == 0) {
-            path.moveTo(0f * scale, item.pulseInMinuteAverage)
-            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+            path.moveTo(0f * scale, item.positionOnY)
+            path.lineTo(item.positionOnX * scale, item.positionOnY)
         } else {
-            path.lineTo(item.positionOnX * scale, item.pulseInMinuteAverage)
+            path.lineTo(item.positionOnX * scale, item.positionOnY)
         }
     }
 
@@ -140,11 +179,16 @@ fun LineChartForPulse(
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(250.dp)
+            .height(heightForGraph)
             .pointerInput(Unit) {
                 detectTapGestures(
                     onTap = {
-                        itemID.value = identifyClickItemForPulse(PulseData, it.x, it.y)
+                        itemID.value = identifyClickItem(
+                            dataList = PulseData,
+                            x = it.x,
+                            y = it.y,
+                            size = 3.dp.toPx()
+                        )
                         ResetColorInsideDataClassForPulse(dataList = PulseData)
                         positionOfX.value = it.x.toInt()
                         positionOfY.value = it.y.toInt()
@@ -157,7 +201,6 @@ fun LineChartForPulse(
             }
     ) {
         var height = 0
-        var wight = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
             textSize = 13.sp.toPx()
@@ -166,80 +209,49 @@ fun LineChartForPulse(
 
 
         for (i in ListNumberData) {
-            drawLine(
-                start = Offset(x = 0f, y = height.dp.toPx()),
-                end = Offset(x = 780f, y = height.dp.toPx()),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawContext.canvas.nativeCanvas.drawText(
-                i.number,
-                320.dp.toPx(),
-                (10 + height).dp.toPx(),
+                i.number.toString(),
+                PulseData[listSize].positionOnX + 38.dp.toPx(),
+                height.dp.toPx(),
                 paint
             )
 
-            height += 34
+            height += 35
         }
-
-        start = true
 
         drawPath(
             path = path,
-            color = Color.Blue.copy(alpha = 0.3f),
-            style = Stroke(width = 5f)
+            color = Blue4285,
+            style = Stroke(width = 2.dp.toPx())
         )
 
 
         for (i in PulseData) {
-            drawLine(
-                start = Offset(wight.dp.toPx(), (height - 34).dp.toPx()),
-                end = Offset(wight.dp.toPx(), 0f),
-                color = Gray30,
-                strokeWidth = 2f
-            )
-
             drawCircle(
                 color = Color.White,
-                radius = 13f,
-                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+                radius = 4.dp.toPx(),
+                center = Offset(i.positionOnX, i.positionOnY - 1f)
             )
 
             drawCircle(
                 color = i.colorFocus,
-                radius = 10f,
-                center = Offset(i.positionOnX, i.pulseInMinuteAverage - 1f)
+                radius = 3.dp.toPx(),
+                center = Offset(i.positionOnX, i.positionOnY - 1f)
             )
 
             drawContext.canvas.nativeCanvas.drawText(
-                "${i.time}",
-                (wight + 20).dp.toPx(),
-                (height - 14).dp.toPx(),
+                "${i.dateName}",
+                i.positionOnX,
+                (height - 35).dp.toPx(),
                 paint
             )
-
-            wight += 40
         }
     }
-}
-
-private fun identifyClickItemForPulse(dataList: List<PulseData>, x: Float, y: Float): Int {
-    for ((index, dataList) in dataList.withIndex()) {
-        if (x > dataList.positionOnX - 10
-            && x < dataList.positionOnX + 10
-            && y > dataList.pulseInMinuteAverage - 10
-            && y < dataList.pulseInMinuteAverage + 10
-        ) {
-            return index
-        }
-    }
-    return -1
 }
 
 private fun ResetColorInsideDataClassForPulse(dataList: List<PulseData>) {
     for (p in dataList) {
-        p.colorFocus = Color.Blue
+        p.colorFocus = Blue4285
     }
 }
 
@@ -268,7 +280,7 @@ fun InfoDialogForBarChartOfPulse(
                     } else {
                         Text(
                             text = "${itemID.value} | ${dataList[itemID.value].pulseInMinuteAverage} | " +
-                                    "${dataList[itemID.value].time}",
+                                    "${dataList[itemID.value].dateName}",
                             style = MaterialTheme.typography.h5,
                             modifier = modifier
                                 .align(alignment = Alignment.Center)
@@ -295,9 +307,10 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
                 shape = RoundedCornerShape(10.dp)
             )
     ) {
-        AnalysisStatFieldWithIconAtEnd(
+        AnalysisFieldWithIconAtEnd(
             title = stringResource(R.string.highest_value),
             value = "18",
+            dateData = "19 Декабря в 23:13",
             imageVector = Icons.Filled.FlashOn
         )
         Divider(
@@ -306,9 +319,17 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.lowest_value),
-            value = "18"
+            value = "18",
+            dateData = "19 Декабря в 23:13",
+
+            )
+        Divider(
+            color = Gray30.copy(alpha = 0.19f),
+            thickness = 1.dp,
+            modifier = modifier
+                .padding(horizontal = 16.dp)
         )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
@@ -316,19 +337,10 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             modifier = modifier
                 .padding(horizontal = 16.dp)
         )
-        AnalysisStatField(
-            title = stringResource(R.string.average_value),
-            value = "18"
-        )
-        Divider(
-            color = Gray30.copy(alpha = 0.19f),
-            thickness = 1.dp,
-            modifier = modifier
-                .padding(horizontal = 16.dp)
-        )
-        AnalysisStatField(
+        AnalysisField(
             title = stringResource(R.string.last_value),
-            value = "18"
+            value = "18",
+            dateData = "20 Декабря в 23:13",
         )
     }
 }
