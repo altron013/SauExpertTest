@@ -86,7 +86,7 @@ fun StepsReportWithBarChart(
     ) {
 
         Text(
-            text = stringResource(id = R.string.sp02),
+            text = stringResource(id = R.string.steps),
             style = MaterialTheme.typography.caption
         )
 
