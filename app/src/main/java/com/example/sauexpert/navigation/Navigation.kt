@@ -12,6 +12,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,9 +22,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sauexpert.auth.LoginScreen
 import com.example.sauexpert.my_patients.MyPatients2
+import com.example.sauexpert.patients_bracelet_indicators.GraphicIndicators
+import com.example.sauexpert.patients_bracelet_indicators.IndicatorCard
 import com.example.sauexpert.profile.ProfileScreen
 import com.example.sauexpert.profile.SupplementData
 import com.example.sauexpert.signup_doctor.RegisterDoctorScreen
+import com.example.sauexpert.statistics.Statistics
 import com.example.sauexpert.ui.theme.GrayF0F
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.Job
@@ -52,11 +56,12 @@ fun Navigation(
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
             // PhysicalActivityScreen()
-            SupplementData()
+            //SupplementData()
+            Statistics()
         }
         composable("myPatients") {
             // HadsScreen()
-            MyPatients2()
+          GraphicIndicators()
         }
         composable("settings") {
             //GetAccessScreen()
@@ -107,7 +112,6 @@ fun BottomNavigationBar(
                                 backgroundColor = Color.Red,
                                 contentColor = Color.White
                             ) {
-
                                 Icon(item.icon, contentDescription = null)
 //                                Text(text=item.name,
 //                                    textAlign = TextAlign.Center,
@@ -116,7 +120,6 @@ fun BottomNavigationBar(
                         } else {
                             Icon(item.icon, contentDescription = null)
                         }
-
                         Text(
                             text = item.name,
                             textAlign = TextAlign.Center,

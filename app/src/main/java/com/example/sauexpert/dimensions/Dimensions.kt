@@ -1,4 +1,4 @@
-package dimensions
+package com.example.sauexpert.dimensions
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
