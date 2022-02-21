@@ -11,9 +11,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import dimensions.Dimensions
-import dimensions.smallDimensions
-import dimensions.sw360Dimensions
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 
 private val DarkColorPalette = darkColors(
 //    primary = Purple200,
