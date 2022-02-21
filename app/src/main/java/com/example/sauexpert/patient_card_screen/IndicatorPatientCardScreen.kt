@@ -8,9 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,8 +15,6 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
@@ -33,8 +28,6 @@ import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Orange4294
-import com.example.sauexpert.ui.theme.Pink20p
-import com.example.sauexpert.ui.theme.Pink4294
 
 @Composable
 fun IndicatorPatientCardScreen() {
@@ -296,12 +289,11 @@ fun DailyReportInfromation(
 
                 Spacer(modifier = Modifier.height(13.dp))
 
-                CardItemWithGraphForPatientCard(
+                CardItemForPatientCard(
                     title = stringResource(R.string.weight),
                     subtitle = stringResource(R.string.kg),
                     textValue = "75",
-                    textValue2 = "+2.3",
-                    ListNumberData = listOf(10f, 15f, 13f, 25f, 30f),
+                    additionalValue = "+2.3",
                     dateText = "15 Октября 15:00",
                     modifier = modifier.width(screenWidth).height(120.dp)
 
@@ -327,6 +319,7 @@ fun CardItemForPatientCard(
     title: String,
     subtitle: String,
     textValue: String,
+    additionalValue: String? = null,
     textStatus: String? = null,
     dateText: String? = null,
     color: Color = Color.Green,
@@ -364,10 +357,27 @@ fun CardItemForPatientCard(
                 color = Gray30
             )
 
-            Text(
-                text = textValue,
-                style = MaterialTheme.typography.caption,
-            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(
+                    text = textValue,
+                    style = MaterialTheme.typography.caption,
+                )
+
+                additionalValue?.let {
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.body2,
+                        fontSize = 13.sp,
+                        color = Gray30
+                    )
+                }
+
+            }
 
             textStatus?.let {
                 Text(
@@ -437,114 +447,6 @@ fun CardItemWithIconForPatientCard(
             )
 
             Spacer(modifier = Modifier.weight(1f))
-
-            dateText?.let {
-                Text(
-                    text = dateText,
-                    style = MaterialTheme.typography.button,
-                    fontSize = 13.sp,
-                    color = Gray30
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun CardItemWithGraphForPatientCard(
-    title: String,
-    subtitle: String,
-    textValue: String,
-    textValue2: String,
-    dateText: String? = null,
-    ListNumberData: List<Float>,
-    modifier: Modifier = Modifier
-) {
-    val scale by remember { mutableStateOf(1f) }
-    var width = 0f
-    val path = Path()
-    val widthScreen = (ListNumberData.size * 6).dp
-    for ((index, item) in ListNumberData.withIndex()) {
-        if (index == 0) {
-            path.moveTo(0f * scale, 50f - item)
-            width += 15f
-        } else {
-            path.lineTo(width * scale, 50f - item)
-            width += 15f
-        }
-    }
-
-
-    Card(
-        shape = RoundedCornerShape(10.dp),
-    ) {
-        Column(
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier
-                .border(
-                    width = 1.dp,
-                    color = Gray30.copy(alpha = 0.35f),
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .height(160.dp)
-                .padding(16.dp)
-        ) {
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Black,
-                            fontSize = 13.sp
-                        )
-                    ) {
-                        append(title)
-                    }
-
-                    append(" $subtitle")
-                },
-                style = MaterialTheme.typography.button,
-                fontSize = 13.sp,
-                color = Gray30
-            )
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.SpaceEvenly,
-            ) {
-                Text(
-                    text = textValue,
-                    style = MaterialTheme.typography.caption,
-                )
-
-                Spacer(modifier = Modifier.width(12.dp))
-
-                Canvas(
-                    modifier = Modifier
-                        .width(widthScreen)
-                        .height(36.dp)
-                        .background(Color.White)
-                ) {
-
-                    drawPath(
-                        path = path,
-                        color = Color.Red,
-                        style = Stroke(width = 2f)
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(4.dp))
-
-
-                Text(
-                    text = textValue2,
-                    style = MaterialTheme.typography.body2,
-                    fontSize = 13.sp,
-                    color = Gray30
-                )
-
-            }
-
-
 
             dateText?.let {
                 Text(
