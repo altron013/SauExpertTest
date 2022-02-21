@@ -1,20 +1,18 @@
 package com.example.sauexpert.my_patients
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -25,6 +23,7 @@ import com.example.sauexpert.R
 import com.example.sauexpert.profile.RoundImage
 import com.example.sauexpert.ui.theme.Blue007AFF
 import com.example.sauexpert.ui.theme.Gray15
+import com.example.sauexpert.ui.theme.Red435B
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.widgets.compose.MainButtonM
 import kotlinx.coroutines.launch
@@ -281,5 +280,62 @@ fun InspectionFailure(onClick: () -> Unit) {
                 .align(alignment = Alignment.CenterHorizontally)
                 .clickable { onClick() }
         )
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+fun Tabs(tabTitles: List<String>) {
+    var tabIndex by remember { mutableStateOf(0) }
+    Column(modifier = Modifier.fillMaxSize()) {
+        ScrollableTabRow(
+            selectedTabIndex = tabIndex, backgroundColor = Color.Transparent,
+            contentColor = Color.Black,
+            modifier = Modifier.fillMaxWidth(),
+            edgePadding = 0.dp,
+            indicator = {
+                TabRowDefaults.Indicator(
+                    color = Red435B,
+                    height = 2.dp,
+                    modifier = Modifier.tabIndicatorOffset(it[tabIndex])
+                )
+            }
+        ) {
+            tabTitles.forEachIndexed { index, title ->
+                if (title == "Новая группа") {
+                    LeadingIconTab(
+                        selected = tabIndex == index,
+                        onClick = { tabIndex = index },
+                        text = { Text(text = title, color = Red435B) },
+                        icon = {
+                            Image(
+                                painter = painterResource(R.drawable.ic_plus_circle_conflict),
+                                contentDescription = "tabIcon",
+                                contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                                modifier = Modifier
+                                    .size(13.dp)
+                                    .clip(CircleShape)
+                            )
+                        })
+                } else {
+                    Tab(
+                        selected = tabIndex == index,
+                        onClick = { tabIndex = index },
+                        text = { Text(text = title) },
+                    )
+                }
+            }
+        }
+        when (tabIndex){
+            0 -> Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(color = Color.White)
+            ) {
+                EmptyTabItem()
+            }
+            1 -> NewPatientContent()
+            2 -> AllPatientsContent()
+        }
     }
 }
