@@ -227,7 +227,7 @@ fun PasscodeScreenDescription(
         modifier = modifier.fillMaxWidth()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_locked_icon),
+            painter = painterResource(id = R.drawable.ic_locked),
             contentDescription = null,
             modifier = modifier
                 .size(36.dp)

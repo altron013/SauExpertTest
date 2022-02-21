@@ -296,7 +296,7 @@ fun GlucoseTitle(
                 TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
                 TextOfTabData(
                     stringResource(R.string.choose).toUpperCase(Locale.current),
-                    painter = painterResource(R.drawable.ic_calendar_icon)
+                    painter = painterResource(R.drawable.ic_calendar)
                 )
             ),
             activity = activity,

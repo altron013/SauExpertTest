@@ -62,11 +62,11 @@ fun ProfileScreen() {
                     text = stringResource(id = R.string.inspections)
                 ),
                 CardListItemData(
-                    image = painterResource(id = R.drawable.ic_folder_icon),
+                    image = painterResource(id = R.drawable.ic_folder),
                     text = stringResource(id = R.string.treatment_history)
                 ),
                 CardListItemData(
-                    image = painterResource(id = R.drawable.ic_clock_icon),
+                    image = painterResource(id = R.drawable.ic_clock),
                     text = stringResource(id = R.string.monthly_report)
                 )
             )
