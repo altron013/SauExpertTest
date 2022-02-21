@@ -348,7 +348,7 @@ fun ProgressBarForSleep(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
-    val widthForProgressBar = (screenWidth - 64.dp) / 100.dp
+    val widthForProgressBar = (screenWidth - 70.dp) / 100.dp
 
     Row(
         modifier = modifier
