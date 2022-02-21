@@ -198,9 +198,18 @@ fun AlertDialogPrev() {
 
     SauExpertTheme() {
         CustomeAlertDialog(
-            titleText = "Нет анализов",
-            descriptionText = "Загрузите анализы пациента",
+            titleText = stringResource(R.string.no_analysis),
+            descriptionText = stringResource(R.string.download_analysis),
             isDialogOpen = visible,
+            onCancelText = stringResource(R.string.close),
+            onProceedClick = {}
+        )
+
+        CustomeAlertDialog(
+            titleText = stringResource(R.string.stop_inspection),
+            descriptionText = stringResource(R.string.card_patient_save_des),
+            isDialogOpen = visible,
+            onProceedText = stringResource(R.string.yes_exit),
             onProceedClick = {}
         )
 

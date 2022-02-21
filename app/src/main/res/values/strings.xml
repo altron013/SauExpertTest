@@ -219,8 +219,10 @@
     <string name="no_analysis">Нет анализов</string>
     <string name="download_analysis">Загрузите анализы пациента</string>
     <string name="stop_inspection">Прекратить осмотр</string>
+    <string name="continue_inspection">Продолжить осмотр</string>
     <string name="card_patient_save_des">Карточка пациента сохранена. Вы действительно хотите выйти?</string>
     <string name="yes_exit">Да, выйти</string>
+    <string name="continue_inspection_des">Вы продолжите заполнять данные  осмотра с этапа, где Вы остановились.</string>
 
     <string name="home">Главная</string>
     <string name="my_patients">Мои пациенты</string>
