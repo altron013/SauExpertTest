@@ -1,5 +1,6 @@
 package com.example.sauexpert.widgets.compose.snackbars
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Green34C759
+import com.example.sauexpert.ui.theme.Green57C3A7
 import com.example.sauexpert.ui.theme.RedAccent
 import com.example.sauexpert.ui.theme.SauExpertTypography
 
@@ -79,12 +81,20 @@ fun DefaultSnackbar(
         hostState = snackbarHostState,
         snackbar = { data ->
             Snackbar(
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier
+                    .padding(16.dp),
+                shape = RoundedCornerShape(16.dp),
                 content = {
-                    Text(
-                        text = data.message,
-                        style = SauExpertTypography.body1
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth().height(54.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(
+                            text = data.message,
+                            style = SauExpertTypography.body1
+                        )
+                    }
                 },
                 action = {
                     data.actionLabel?.let { actionLabel ->
@@ -96,12 +106,14 @@ fun DefaultSnackbar(
                             )
                         }
                     }
-                }
+                },
+                backgroundColor = Green34C759,
+                contentColor = Color.White
             )
         },
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight(Alignment.Bottom)
+            .wrapContentHeight(align = Alignment.CenterVertically)
     )
 }
 

@@ -31,6 +31,7 @@ import com.example.sauexpert.navigation.Navigation
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.widgets.compose.snackbars.DefaultSnackbar
 import com.google.accompanist.pager.ExperimentalPagerApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -69,6 +70,12 @@ class MainActivity : AppCompatActivity() {
                     coroutineScope.launch { modalBottomSheetState.show() }
                 }
 
+                val showSnackText = {
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar("\uD83D\uDC4F Группа пациентов создана")
+                    }
+                }
+
                 ModalBottomSheetLayout(
                     modifier = Modifier.fillMaxSize(),
                     sheetState = modalBottomSheetState,
@@ -80,7 +87,8 @@ class MainActivity : AppCompatActivity() {
                                     bottomSheetType = it,
                                     closeSheet = { closeSheet() },
                                     onBackPressed = { currentBottomSheet = BottomSheetType.NEW_GROUP },
-                                    onNextPressed = { currentBottomSheet = BottomSheetType.ADD_GROUP }
+                                    onNextPressed = { currentBottomSheet = BottomSheetType.ADD_GROUP },
+                                    showSnackBar = { showSnackText()}
                                 )
                             }
                         }
@@ -154,7 +162,8 @@ fun SheetLayout(
     bottomSheetType: BottomSheetType,
     closeSheet: () -> Unit,
     onBackPressed: () -> Unit,
-    onNextPressed: () -> Unit
+    onNextPressed: () -> Unit,
+    showSnackBar: () -> Job
 ) {
     when (bottomSheetType) {
         BottomSheetType.ACTION_VIEW -> {
@@ -162,7 +171,7 @@ fun SheetLayout(
         }
         BottomSheetType.NEW_GROUP -> NewGroup(closeSheet, onNextPressed)
         BottomSheetType.INITIAL -> {}
-        BottomSheetType.ADD_GROUP -> AddGroup(onBackPressed)
+        BottomSheetType.ADD_GROUP -> AddGroup(onBackPressed, showSnackBar)
     }
 }
 

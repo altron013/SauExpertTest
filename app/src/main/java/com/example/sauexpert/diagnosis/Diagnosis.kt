@@ -1,8 +1,6 @@
 package com.example.sauexpert.diagnosis
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -21,7 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.analysis.BottomSheetHeader
 import com.example.sauexpert.ui.theme.*
+import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
 fun EmptyDiagnosis() {
@@ -144,7 +144,8 @@ fun DiagnosisCard() {
                     Text(
                         text = "E11.9 Сахарный диабет",
                         style = SauExpertTypography.body1,
-                        color = BlackAccent
+                        color = BlackAccent,
+                        fontWeight = FontWeight.W600
                     )
 
                     Image(
@@ -159,15 +160,14 @@ fun DiagnosisCard() {
 }
 
 
-
 @Composable
-fun DiagnosisFill() {
+fun DiagnosisFill(text: String) {
 
     Column(
         horizontalAlignment = Alignment.Start
     ) {
 
-        HeaderText(text = stringResource(R.string.main_diagnosis))
+        HeaderText(text = text)
 
         SubHeaderText(text = stringResource(R.string.caps_diagnosis))
 
@@ -255,7 +255,8 @@ fun SwitchWithText(text: String, modifier: Modifier = Modifier) {
             style = SauExpertTypography.body1,
             color = Color.Black
         )
-        Switch(checked = true, onCheckedChange = { /* TODO(Add onCheckedChange behaviour)*/ })
+        val state = remember { mutableStateOf(true)}
+        Switch(checked = state.value, onCheckedChange = { value -> state.value = value })
     }
 }
 
@@ -295,7 +296,7 @@ fun DescriptionTextField(placeHolderText: String) {
 }
 
 @Composable
-fun DiagnosisDateWithPadding( date: String) {
+fun DiagnosisDateWithPadding(date: String) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -323,21 +324,44 @@ fun HeaderText(text: String) {
 }
 
 @Composable
-fun SubHeaderText(text: String) {
+fun SubHeaderText(
+    text: String,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = text,
         style = SauExpertTypography.body2,
-        modifier = Modifier
-            .padding(start = 16.dp),
+        modifier = modifier.padding(start = 16.dp),
         color = DarkGray
     )
+}
+
+@Composable
+fun NewDiagnosis() {
+    val scrollState = rememberScrollState()
+    Column(modifier = Modifier.verticalScroll(scrollState)) {
+        BottomSheetHeader(title = "Новый диагноз", onClick = {})
+        Spacer(modifier = Modifier.height(24.dp))
+        DiagnosisFill(text = stringResource(id = R.string.main_diagnosis))
+        DiagnosisFill(text = "Сопутствующий диагноз")
+        DiagnosisCriticalCase()
+        DiagnosisMore()
+        Spacer(modifier = Modifier.height(24.dp))
+        MainButton(
+            onClick = { /*TODO*/ },
+            enableState = true,
+            text = "Готово",
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DiagnosisPreview() {
     SauExpertTheme {
-        DiagnosisMore()
+        DiagnosisContent()
     }
 }
 

@@ -411,6 +411,7 @@ fun ActionToolBarWithSubtitle(
 @Composable
 fun ToolbarPrev() {
     SauExpertTheme() {
+        //MainToolbar(onBackClick = { /*TODO*/ })
 //        SubscriptionToolBar(onBackClick = { /*TODO*/ }, text = "Подписка")
 //        MainToolbar(onBackClick = {}, text = " test")
         ActionToolBar(
