@@ -1,7 +1,6 @@
 package com.example.sauexpert
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -15,8 +14,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -58,8 +55,6 @@ class MainActivity : AppCompatActivity() {
                         BottomSheetType.INITIAL
                     )
                 }
-
-
                 val coroutineScope = rememberCoroutineScope()
 
                 val closeSheet = {
@@ -117,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                                         BottomNavItem(
                                             name = stringResource(id = R.string.notifications),
                                             route = "notification",
-                                            icon = painterResource(id = R.drawable.ic_notification)
+                                            icon = painterResource(id = R.drawable.ic_chart_line_uptrend_xyaxis)
                                         ),
                                         BottomNavItem(
                                             name = stringResource(id = R.string.profile),
@@ -151,7 +146,8 @@ class MainActivity : AppCompatActivity() {
                                 )
                             }
                         }
-                    })
+                    }
+                )
             }
         }
     }
