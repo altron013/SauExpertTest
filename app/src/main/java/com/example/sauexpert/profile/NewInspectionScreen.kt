@@ -14,9 +14,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.Gray30
+import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
 import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
@@ -103,6 +105,14 @@ fun FillInfoStatFiled(
             )
 
         }
+    }
+}
+
+@Preview
+@Composable
+fun PrevIns() {
+    SauExpertTheme() {
+        ViewInspectionInfoScreen()
     }
 }
 

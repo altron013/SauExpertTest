@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.ui.theme.SauExpertTheme
+import com.example.sauexpert.ui.theme.SauExpertTypography
 
 @Composable
 fun MainButton(
@@ -60,7 +61,7 @@ fun MainButton(
                     Text(
                         text = text,
                         fontWeight = FontWeight.W600,
-                        fontSize = sizeText.sp,
+                        style = SauExpertTypography.body1,
                         letterSpacing = 0.sp,
                         color = textColor
                     )
