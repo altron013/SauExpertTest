@@ -29,6 +29,7 @@ class Dimensions(
     val imageWidth_1: Dp,
     val imageHeight_0: Dp,
     val imageHeight_1: Dp,
+    val buttonHeight: Dp,
     val fontSizeSubtitle_2: TextUnit,
     val fontSizeBody_1: TextUnit,
     val fontSizeCaption: TextUnit,
@@ -59,6 +60,7 @@ val smallDimensions = Dimensions(
     imageWidth_1 = 110.dp,
     imageHeight_0 = 40.dp,
     imageHeight_1 = 210.dp,
+    buttonHeight = 38.dp,
     fontSizeSubtitle_2 = 14.sp,
     fontSizeBody_1 = 14.sp,
     fontSizeCaption = 19.sp
@@ -88,6 +90,7 @@ val sw360Dimensions = Dimensions(
     imageWidth_1 = 130.dp,
     imageHeight_0 = 50.dp,
     imageHeight_1 = 275.dp,
+    buttonHeight = 50.dp,
     fontSizeSubtitle_2 = 17.sp,
     fontSizeBody_1 = 17.sp,
     fontSizeCaption = 22.sp

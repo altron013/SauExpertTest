@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -22,7 +23,7 @@ fun OutlinedMainButton(
     icon: Int? = null,
     onClick: () -> Unit,
     enableState: Boolean,
-    sizeText: Int = 16,
+    sizeText: TextUnit = 16.sp,
     buttonHeight: Dp = 50.dp,
     backgroundColor: Color = MaterialTheme.colors.onPrimary,
     textColor: Color = Color.Gray,
@@ -72,7 +73,7 @@ fun OutlinedMainButton(
             text?.let {
                 Text(
                     text = text,
-                    fontSize = sizeText.sp,
+                    fontSize = sizeText,
                     style = MaterialTheme.typography.button
                 )
 

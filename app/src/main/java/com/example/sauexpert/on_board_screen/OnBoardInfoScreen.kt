@@ -42,7 +42,7 @@ fun OnBoardInfoScreen() {
         modifier = Modifier.fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(dimensions.grid_5))
+        Spacer(modifier = Modifier.height(dimensions.grid_4))
         LogoSection(dimensions = dimensions)
         Spacer(modifier = Modifier.height(9.dp))
         OnBoardingUI(
@@ -134,7 +134,10 @@ fun OnBoardingUI(
         }
 
         Spacer(modifier = Modifier.height(dimensions.grid_6))
-        ButtonForBottomForInfoPage(statePage = pagerState.currentPage)
+        ButtonForBottomForInfoPage(
+            statePage = pagerState.currentPage,
+            dimensions = dimensions
+        )
     }
 }
 
@@ -177,7 +180,8 @@ fun PageUI(
 @ExperimentalAnimationApi
 @Composable
 fun ButtonForBottomForInfoPage(
-    statePage: Int
+    statePage: Int,
+    dimensions: Dimensions,
 ) {
     AnimatedVisibility(
         visible = statePage != 2,
@@ -191,7 +195,9 @@ fun ButtonForBottomForInfoPage(
             onClickForOutlineBtn = { /*TODO*/ },
             onClickForMainBtn = { /*TODO*/ },
             enableStateForOutlineBtn = true,
-            enableStateForMainBtn = true
+            enableStateForMainBtn = true,
+            buttonHeight = dimensions.buttonHeight,
+            sizeText = dimensions.fontSizeBody_1
         )
     }
     AnimatedVisibility(
@@ -201,7 +207,9 @@ fun ButtonForBottomForInfoPage(
     ) {
         MainButton(
             text = stringResource(id = R.string.understand_thanks),
-            onClick = { /*TODO*/ }, enableState = true,
+            onClick = { /*TODO*/ },
+            enableState = true,
+            buttonHeight = dimensions.buttonHeight
         )
     }
 }
