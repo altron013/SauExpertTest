@@ -6,8 +6,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.patient_card_screen.TabViewForPatientCardScreen
 import com.example.sauexpert.ui.theme.Gray30
@@ -19,6 +22,9 @@ fun GeneralReportScreen() {
     var selectedTabIndex by remember {
         mutableStateOf(0)
     }
+
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     Column(
         modifier = Modifier
@@ -49,8 +55,8 @@ fun GeneralReportScreen() {
                 TextOfTabData(
                     text = stringResource(id = com.example.sauexpert.R.string.severely_case)
                 )
-            )
-
+            ),
+            dimensions = dimensions
 
         ) {
             selectedTabIndex = it

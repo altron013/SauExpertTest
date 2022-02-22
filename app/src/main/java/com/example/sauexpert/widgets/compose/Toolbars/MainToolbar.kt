@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -256,6 +257,7 @@ fun MainActionToolBar(
     textBackClick: String? = null,
     titleText: String? = null,
     sizeTextBackClick: TextUnit = 17.sp,
+    sizeIconBackClick: Dp = 24.dp,
     colorBackClick: Color = Color.Black,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -269,9 +271,11 @@ fun MainActionToolBar(
                 imageVector = it,
                 contentDescription = "Back",
                 tint = colorBackClick,
-                modifier = Modifier.clickable {
-                    onBackClick()
-                }
+                modifier = Modifier
+                    .size(sizeIconBackClick)
+                    .clickable {
+                        onBackClick()
+                    }
             )
         }
 
