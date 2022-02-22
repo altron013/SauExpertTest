@@ -1,14 +1,15 @@
 package com.example.sauexpert.my_patients
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DoubleArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,6 +17,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -24,8 +26,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
-import com.example.sauexpert.ui.theme.*
-import com.example.sauexpert.widgets.compose.MainButtonS
+import com.example.sauexpert.ui.theme.GrayF0F
+import com.example.sauexpert.ui.theme.SauExpertTheme
+import com.example.sauexpert.ui.theme.Surface1F7
+import com.example.sauexpert.ui.theme.SurfaceF9
+import com.example.sauexpert.widgets.compose.MainButton
 import kotlinx.coroutines.launch
 
 
@@ -49,93 +54,31 @@ fun MyPatients() {
             )
             Spacer(modifier = Modifier.padding(8.dp))
             val textState = remember { mutableStateOf(TextFieldValue("")) }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                SearchView(textState)
-                Spacer(modifier = Modifier.padding(4.dp))
-                Card(
-                    modifier = Modifier
-                        .height(44.dp)
-                        .width(44.dp),
-                    backgroundColor = Gray15,
-                    shape = RoundedCornerShape(10.dp)
-                ) {
-                    Icon(
-                        Icons.Default.DoubleArrow, contentDescription = "",
-                    )
-                }
-            }
-            Button(onClick = {
-
-            }
+//            Keyboard.Row(
+//                modifier = Modifier.fillMaxWidth(),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.SpaceBetween
+//            ) {
+//                SearchView(textState)
+//                Spacer(modifier = Modifier.padding(4.dp))
+//                Card(
+//                    modifier = Modifier
+//                        .height(44.dp)
+//                        .width(44.dp),
+//                    backgroundColor = Gray15,
+//                    shape = RoundedCornerShape(10.dp)
+//                ) {
+//                    Icon(
+//                        Icons.Default.DoubleArrow, contentDescription = "",
+//                    )
+//                }
+//            }
+            Button(onClick = {}
             ) {
             }
             Spacer(modifier = Modifier.padding(8.dp))
             Column(modifier = Modifier.fillMaxSize()) {
-                //Tabs(tabTitles)
             }
-        }
-    }
-}
-
-@ExperimentalMaterialApi
-@Composable
-fun Tabs(tabTitles: List<String>) {
-    var tabIndex by remember { mutableStateOf(0) }
-    Column(modifier = Modifier.fillMaxSize()) {
-        ScrollableTabRow(
-            selectedTabIndex = tabIndex, backgroundColor = Color.Transparent,
-            contentColor = Color.Black,
-            modifier = Modifier.fillMaxWidth(),
-            edgePadding = 0.dp,
-            indicator = {
-                TabRowDefaults.Indicator(
-                    color = Red435B,
-                    height = 2.dp,
-                    modifier = Modifier.tabIndicatorOffset(it[tabIndex])
-                )
-            }
-        ) {
-            tabTitles.forEachIndexed { index, title ->
-                if (title == "Новая группа") {
-                    LeadingIconTab(
-                        selected = tabIndex == index,
-                        onClick = { tabIndex = index },
-                        text = { Text(text = title, color = Red435B) },
-                        icon = {
-                            Image(
-                                painter = painterResource(R.drawable.ic_plus_circle_conflict),
-                                contentDescription = "tabIcon",
-                                contentScale = ContentScale.Crop,            // crop the image if it's not a square
-                                modifier = Modifier
-                                    .size(13.dp)
-                                    .clip(CircleShape)
-                            )
-                        },
-
-                    )
-                } else {
-                    Tab(
-                        selected = tabIndex == index,
-                        onClick = { tabIndex = index },
-                        text = { Text(text = title) },
-                    )
-                }
-            }
-        }
-        when (tabIndex) {
-            0 -> Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = Color.White)
-            ) {
-                EmptyTabItem()
-            }
-            1 -> NewPatientContent()
-            2 -> AllPatientsContent()
         }
     }
 }
@@ -143,10 +86,9 @@ fun Tabs(tabTitles: List<String>) {
 @Composable
 fun EmptyTabItem() {
     Column(
-
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+
     ) {
         Text(
             text = "Нет пациентов",
@@ -187,7 +129,6 @@ fun SearchView(state: MutableState<TextFieldValue>) {
                         Icons.Default.Close,
                         contentDescription = "",
                         modifier = Modifier
-                            // .padding(15.dp)
                             .size(17.dp)
                     )
                 }
@@ -218,159 +159,183 @@ fun SearchView(state: MutableState<TextFieldValue>) {
     )
 }
 
-
+data class NewPatientList(
+    val image: Painter,
+    val name: String
+)
 
 @Composable
 fun NewPatientContent() {
-    Column() {
-        NewPatientCard()
-        Spacer(modifier = Modifier.padding(5.dp))
-        NewPatientCard()
-        Spacer(modifier = Modifier.padding(5.dp))
-        NewPatientCard()
+    val newPatientList = listOf(
+        NewPatientList(
+            image = painterResource(R.drawable.logo_light_1),
+            name = "Ерасыл Нурахметов"
+        ),
+        NewPatientList(
+            image = painterResource(id = R.drawable.ic_home),
+            name = "Нурхан Шаяметов"
+        ),
+        NewPatientList(
+            image = painterResource(id = R.drawable.ic_home),
+            name = "Ерасыл Нурахметов"
+        )
+    )
+    Column(modifier=Modifier.padding(top=18.dp)) {
+        for (i in newPatientList) {
+            NewPatientCard(i.image, i.name)
+        }
     }
 }
 
 @Composable
-fun NewPatientCard() {
+fun NewPatientCard(painter: Painter, text: String) {
     Card(
         modifier = Modifier
-            .padding(16.dp)
+            .padding( top = 8.dp, bottom = 8.dp)
             .fillMaxWidth(),
-        backgroundColor = SurfaceF9
+        backgroundColor = SurfaceF9,
+        shape = RoundedCornerShape(12.dp)
     ) {
         Row(
             Modifier.padding(16.dp),
-            //horizontalArrangement = Arrangement.spacedBy(5.dp)
         )
         {
-            //Image(painter = painterResource(id = R.drawable.ic_patient),contentDescription = "")
             Image(
-                painter = painterResource(R.drawable.logo_light_1),
+                painter = painter,
                 contentDescription = "avatar",
-                contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
             )
-            Spacer(modifier = Modifier.padding(5.dp))
-            Column() {
-                Text(text = "Ерасыл Нурахметов")
+            Spacer(modifier = Modifier.padding(8.dp))
+            Column {
+                Text(text = text, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.padding(5.dp))
-                MainButtonS(text = "Осмотреть", onClick = { /*TODO*/ }, enableState = true)
+                MainButton(text = "Осмотреть", onClick = { /*TODO*/ }, enableState = true)
             }
         }
     }
 }
 
+data class AllPatientsData(
+    val avatar: Painter,
+    val name: String,
+    val illnessDescription: String
+)
+
 @ExperimentalMaterialApi
 @Composable
 fun AllPatientsContent() {
-    val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+    val allPatientsList = listOf(
+        AllPatientsData(
+            avatar = painterResource(id = R.drawable.ic_patient),
+            name = "Irina Rechkova",
+            illnessDescription = "I11.9 Гипертоническая болезнь"
+        ),
+        AllPatientsData(
+            avatar = painterResource(id = R.drawable.ic_home),
+            name = "Irina Rechkova",
+            illnessDescription = "I11.9 Гипертоническая болезнь"
+        ),
+        AllPatientsData(
+            avatar = painterResource(id = R.drawable.ic_patient),
+            name = "Irina Rechkova",
+            illnessDescription = "I11.9 Гипертоническая болезнь"
+        )
+    )
+    val bottomSheetScaffoldState2 = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
     )
     val coroutineScope = rememberCoroutineScope()
-    Column() {
-        Text(text = "Азия Финанс")
-        AllPatientsCard(onClick = {
-            coroutineScope.launch {
-                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                    bottomSheetScaffoldState.bottomSheetState.expand()
-                } else {
-                    bottomSheetScaffoldState.bottomSheetState.collapse()
-                }
+    BottomSheetScaffold(
+        drawerScrimColor = MaterialTheme.colors.onSurface.copy(alpha = 0.40f),
+        scaffoldState = bottomSheetScaffoldState2,
+        sheetShape = RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp),
+        sheetContent = {
+            // ButtonActionView()
+            ChoosePriority()
+        }
+    ) {
+        Column(modifier = Modifier.padding(top = 24.dp)) {
+            Text(text = "Азия Финанс", fontSize = 15.sp)
+            Spacer(modifier = Modifier.padding(6.dp))
+            for (i in allPatientsList) {
+                AllPatientsCard(
+                    onClick = {
+                        coroutineScope.launch {
+                            if (bottomSheetScaffoldState2.bottomSheetState.isCollapsed) {
+                                bottomSheetScaffoldState2.bottomSheetState.expand()
+                            } else {
+                                bottomSheetScaffoldState2.bottomSheetState.collapse()
+                            }
+                        }
+                    },
+                    image = i.avatar,
+                    name = i.name,
+                    illnessDescription = i.illnessDescription
+                )
             }
-        })
-        Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {
-            coroutineScope.launch {
-                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                    bottomSheetScaffoldState.bottomSheetState.expand()
-                } else {
-                    bottomSheetScaffoldState.bottomSheetState.collapse()
-                }
+            Spacer(modifier = Modifier.padding(6.dp))
+            Text(text = "Азия Финанс", fontSize = 15.sp)
+            Spacer(modifier = Modifier.padding(6.dp))
+            for (i in allPatientsList) {
+                AllPatientsCard(
+                    onClick = {
+                        coroutineScope.launch {
+                            if (bottomSheetScaffoldState2.bottomSheetState.isCollapsed) {
+                                bottomSheetScaffoldState2.bottomSheetState.expand()
+                            } else {
+                                bottomSheetScaffoldState2.bottomSheetState.collapse()
+                            }
+                        }
+                    },
+                    image = i.avatar,
+                    name = i.name,
+                    illnessDescription = i.illnessDescription
+                )
             }
-        })
-        Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {
-            coroutineScope.launch {
-                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                    bottomSheetScaffoldState.bottomSheetState.expand()
-                } else {
-                    bottomSheetScaffoldState.bottomSheetState.collapse()
-                }
-            }
-        })
-        Text(text = "Банк ЦентрКредит")
-        Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {
-            coroutineScope.launch {
-                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                    bottomSheetScaffoldState.bottomSheetState.expand()
-                } else {
-                    bottomSheetScaffoldState.bottomSheetState.collapse()
-                }
-            }
-        })
-        Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {
-            coroutineScope.launch {
-                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                    bottomSheetScaffoldState.bottomSheetState.expand()
-                } else {
-                    bottomSheetScaffoldState.bottomSheetState.collapse()
-                }
-            }
-        })
-        Spacer(modifier = Modifier.padding(5.dp))
-        AllPatientsCard(onClick = {
-            coroutineScope.launch {
-                if (bottomSheetScaffoldState.bottomSheetState.isCollapsed) {
-                    bottomSheetScaffoldState.bottomSheetState.expand()
-                } else {
-                    bottomSheetScaffoldState.bottomSheetState.collapse()
-                }
-            }
-        })
+        }
     }
 }
 
 @Composable
-fun AllPatientsCard(onClick: () -> Unit) {
+fun AllPatientsCard(onClick: () -> Unit, image: Painter, name: String, illnessDescription: String) {
     Card(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(8.dp)
             .fillMaxWidth(),
+        shape = RoundedCornerShape(12.dp),
         backgroundColor = GrayF0F
     ) {
         Row(
             Modifier
                 .padding(16.dp)
-                .fillMaxSize(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         )
         {
-            //Image(painter = painterResource(id = R.drawable.ic_patient),contentDescription = "")
             Image(
-                painter = painterResource(R.drawable.logo_light_1),
+                painter = image,
                 contentDescription = "avatar",
-                contentScale = ContentScale.Crop,            // crop the image if it's not a square
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
+                    .weight(0.5f)
             )
-            //Spacer(modifier = Modifier.padding(5.dp))
-            Column() {
-                Text(text = "Ерасыл Нурахметов", fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.padding(5.dp))
+            Column(Modifier.weight(3f)) {
+                Text(text = name, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.padding(1.dp))
-                Text(text = "Ерасыл Нурахметов")
+                Text(text = illnessDescription, fontSize = 12.sp)
             }
-            // Spacer(modifier = Modifier.padding(10.dp))
             Icon(
                 painter = painterResource(id = R.drawable.ic_more),
                 contentDescription = "",
-                modifier = Modifier.clickable { onClick })
+                modifier = Modifier
+                    .clickable { onClick.invoke() }
+                    .weight(1f))
         }
     }
 }
