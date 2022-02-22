@@ -107,6 +107,8 @@ fun PatientCardScreen() {
                     onClickForMainBtn = { /*TODO*/ },
                     enableStateForOutlineBtn = true,
                     enableStateForMainBtn = true,
+                    buttonHeight = dimensions.buttonHeight_0,
+                    sizeText = dimensions.fontSizeBody_1,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)

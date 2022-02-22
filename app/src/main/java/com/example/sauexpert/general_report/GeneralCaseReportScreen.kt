@@ -29,12 +29,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.ProgressBarForSleep
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.patient_card_screen.BraceletIndicatorCell
 import com.example.sauexpert.patient_card_screen.ProgressBarForSteps
 import com.example.sauexpert.ui.theme.Gray30
 
 @Composable
 fun GeneralCaseReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
 
     Column(
         modifier = Modifier
@@ -44,10 +50,11 @@ fun GeneralCaseReportScreen() {
     ) {
         BraceletIndicatorCell(
             text = stringResource(R.string.risk_factor),
+            dimensions = dimensions,
             backgroundColor = Color.White
         )
         Spacer(modifier = Modifier.height(24.dp))
-        IndicatorInfromationForMonthSection()
+        IndicatorInfromationForMonthSection(dimensions = dimensions)
 
     }
 
@@ -56,6 +63,7 @@ fun GeneralCaseReportScreen() {
 
 @Composable
 fun IndicatorInfromationForMonthSection(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -153,7 +161,11 @@ fun IndicatorInfromationForMonthSection(
         Spacer(modifier = Modifier.height(16.dp))
 
 
-        ProgressBarForSteps(stepPercent = 0.5f, stepValue = 2000, goalStepValue = 4000)
+        ProgressBarForSteps(
+            stepPercent = 0.5f,
+            stepValue = 2000,
+            goalStepValue = 4000,
+            dimensions = dimensions)
 
     }
 }

@@ -26,22 +26,32 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Orange4294
 
 @Composable
 fun IndicatorPatientCardScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(bottom = 70.dp, top = 24.dp, start = 16.dp, end = 16.dp)
     ) {
-        BraceletIndicatorCell()
+        BraceletIndicatorCell(dimensions = dimensions)
+
         Spacer(modifier = Modifier.height(24.dp))
-        IndicatorInfromationSection()
+
+        IndicatorInfromationSection(dimensions = dimensions)
+
         Spacer(modifier = Modifier.height(24.dp))
-        DailyReportInfromation()
+
+        DailyReportInfromation(dimensions = dimensions)
 
 
     }
@@ -53,6 +63,7 @@ fun BraceletIndicatorCell(
     icon: Painter = painterResource(R.drawable.ic_applewatch),
     text: String = stringResource(R.string.bracelet_indicator),
     backgroundColor: Color = Gray30.copy(alpha = 0.19f),
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -65,14 +76,14 @@ fun BraceletIndicatorCell(
                 color = backgroundColor,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(horizontal = 24.dp, vertical = 27.dp)
+            .padding(horizontal = 16.dp, vertical = dimensions.grid_3_5)
 
     ) {
         Icon(
             painter = icon,
             contentDescription = "",
             tint = Color.Black,
-            modifier = modifier.size(20.dp)
+            modifier = modifier.size(dimensions.iconSize_3)
         )
 
         Spacer(modifier = Modifier.width(15.dp))
@@ -80,7 +91,8 @@ fun BraceletIndicatorCell(
 
         Text(
             text = text,
-            style = MaterialTheme.typography.subtitle2
+            style = MaterialTheme.typography.subtitle2,
+            fontSize = dimensions.fontSizeSubtitle_2
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -90,13 +102,14 @@ fun BraceletIndicatorCell(
             imageVector = Icons.Filled.KeyboardArrowRight,
             contentDescription = "",
             tint = Color.Black,
-            modifier = modifier.size(20.dp)
+            modifier = modifier.size(dimensions.iconSize_3)
         )
     }
 }
 
 @Composable
 fun IndicatorInfromationSection(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
 
@@ -109,6 +122,7 @@ fun IndicatorInfromationSection(
         Text(
             text = stringResource(R.string.patient_indicator),
             style = MaterialTheme.typography.subtitle2,
+            fontSize = dimensions.fontSizeSubtitle_2
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -124,9 +138,11 @@ fun IndicatorInfromationSection(
                 textValue = "7.5",
                 textStatus = stringResource(R.string.fine),
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth),
-
-                )
+                modifier = modifier
+                    .width(screenWidth)
+                    .height(dimensions.cardHeight_0),
+                dimensions = dimensions
+            )
 
             CardItemForPatientCard(
                 title = stringResource(R.string.glucose_after_meal),
@@ -134,8 +150,11 @@ fun IndicatorInfromationSection(
                 textValue = "8.0",
                 textStatus = stringResource(R.string.low),
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth),
-                color = Orange4294
+                modifier = modifier
+                    .width(screenWidth)
+                    .height(dimensions.cardHeight_0),
+                color = Orange4294,
+                dimensions = dimensions
             )
         }
 
@@ -152,8 +171,11 @@ fun IndicatorInfromationSection(
                 textValue = "7.5",
                 textStatus = stringResource(R.string.high),
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth),
-                color = Orange4294
+                modifier = modifier
+                    .width(screenWidth)
+                    .height(dimensions.cardHeight_0),
+                color = Orange4294,
+                dimensions = dimensions
             )
 
             CardItemForPatientCard(
@@ -162,8 +184,11 @@ fun IndicatorInfromationSection(
                 textValue = "8.0",
                 textStatus = stringResource(R.string.low),
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth),
-                color = Orange4294
+                modifier = modifier
+                    .width(screenWidth)
+                    .height(dimensions.cardHeight_0),
+                color = Orange4294,
+                dimensions = dimensions
             )
         }
 
@@ -172,7 +197,8 @@ fun IndicatorInfromationSection(
         ProgressBarForSteps(
             stepPercent = 0.5f,
             stepValue = 2000,
-            subtitle = stringResource(R.string.goal_for_today)
+            subtitle = stringResource(R.string.goal_for_today),
+            dimensions = dimensions
         )
 
     }
@@ -185,6 +211,7 @@ fun ProgressBarForSteps(
     stepValue: Int = 0,
     goalStepValue: Int = 10000,
     stepPercent: Float = 0f,
+    dimensions: Dimensions,
     subtitle: String? = null
 ) {
     Card(
@@ -207,7 +234,7 @@ fun ProgressBarForSteps(
             Text(
                 text = stringResource(R.string.steps),
                 style = MaterialTheme.typography.h5,
-                fontSize = 13.sp,
+                fontSize = dimensions.fontSizeCustom_3,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -215,8 +242,8 @@ fun ProgressBarForSteps(
 
             Text(
                 text = "$stepValue из $goalStepValue",
-                style = MaterialTheme.typography.subtitle2,
-                fontSize = 22.sp,
+                style = MaterialTheme.typography.caption,
+                fontSize = dimensions.fontSizeCaption
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -236,7 +263,7 @@ fun ProgressBarForSteps(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.h5,
-                    fontSize = 13.sp,
+                    fontSize = dimensions.fontSizeCustom_3,
                     color = Gray30
                 )
             }
@@ -247,6 +274,7 @@ fun ProgressBarForSteps(
 
 @Composable
 fun DailyReportInfromation(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
 
@@ -259,6 +287,7 @@ fun DailyReportInfromation(
         Text(
             text = stringResource(R.string.daily_reports),
             style = MaterialTheme.typography.subtitle2,
+            fontSize = dimensions.fontSizeSubtitle_2
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -273,7 +302,10 @@ fun DailyReportInfromation(
                 icon = Icons.Filled.ThumbUp,
                 textValue = "Отлично",
                 dateText = "15 Октября 15:00",
-                modifier = modifier.width(screenWidth).height(253.dp)
+                dimensions = dimensions,
+                modifier = modifier
+                    .width(screenWidth)
+                    .height(dimensions.cardHeight_2)
             )
 
 
@@ -284,10 +316,13 @@ fun DailyReportInfromation(
                     title = stringResource(R.string.fulfillment_prescription),
                     subtitle = "",
                     textValue = "70%",
-                    modifier = modifier.width(screenWidth).height(120.dp)
+                    modifier = modifier
+                        .width(screenWidth)
+                        .height(dimensions.cardHeight_1),
+                    dimensions = dimensions
                 )
 
-                Spacer(modifier = Modifier.height(13.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
                 CardItemForPatientCard(
                     title = stringResource(R.string.weight),
@@ -295,8 +330,10 @@ fun DailyReportInfromation(
                     textValue = "75",
                     additionalValue = "+2.3",
                     dateText = "15 Октября 15:00",
-                    modifier = modifier.width(screenWidth).height(120.dp)
-
+                    modifier = modifier
+                        .width(screenWidth)
+                        .height(dimensions.cardHeight_1),
+                    dimensions = dimensions
                 )
             }
         }
@@ -308,7 +345,8 @@ fun DailyReportInfromation(
             hypoglycemiaValue = 5,
             hyperglycemiaValue = 4,
             hypertensionValue = 8,
-            hypotensionValue = 3
+            hypotensionValue = 3,
+            dimensions = dimensions
         )
 
     }
@@ -322,6 +360,7 @@ fun CardItemForPatientCard(
     additionalValue: String? = null,
     textStatus: String? = null,
     dateText: String? = null,
+    dimensions: Dimensions,
     color: Color = Color.Green,
     modifier: Modifier = Modifier
 ) {
@@ -344,7 +383,7 @@ fun CardItemForPatientCard(
                     withStyle(
                         style = SpanStyle(
                             color = Color.Black,
-                            fontSize = 13.sp
+                            fontSize = dimensions.fontSizeCustom_3
                         )
                     ) {
                         append(title)
@@ -353,10 +392,9 @@ fun CardItemForPatientCard(
                     append(" $subtitle")
                 },
                 style = MaterialTheme.typography.button,
-                fontSize = 13.sp,
+                fontSize = dimensions.fontSizeCustom_3,
                 color = Gray30
             )
-
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -364,6 +402,7 @@ fun CardItemForPatientCard(
                 Text(
                     text = textValue,
                     style = MaterialTheme.typography.caption,
+                    fontSize = dimensions.fontSizeCaption
                 )
 
                 additionalValue?.let {
@@ -372,7 +411,7 @@ fun CardItemForPatientCard(
                     Text(
                         text = it,
                         style = MaterialTheme.typography.body2,
-                        fontSize = 13.sp,
+                        fontSize = dimensions.fontSizeCustom_3,
                         color = Gray30
                     )
                 }
@@ -383,7 +422,7 @@ fun CardItemForPatientCard(
                 Text(
                     text = textStatus,
                     style = MaterialTheme.typography.body2,
-                    fontSize = 13.sp,
+                    fontSize = dimensions.fontSizeCustom_3,
                     color = color
                 )
             }
@@ -392,7 +431,7 @@ fun CardItemForPatientCard(
                 Text(
                     text = dateText,
                     style = MaterialTheme.typography.button,
-                    fontSize = 13.sp,
+                    fontSize = dimensions.fontSizeCustom_3,
                     color = Gray30
                 )
             }
@@ -406,6 +445,7 @@ fun CardItemWithIconForPatientCard(
     title: String,
     icon: ImageVector,
     textValue: String,
+    dimensions: Dimensions,
     dateText: String? = null,
     modifier: Modifier = Modifier
 ) {
@@ -427,7 +467,7 @@ fun CardItemWithIconForPatientCard(
             Text(
                 text = title,
                 style = MaterialTheme.typography.button,
-                fontSize = 13.sp,
+                fontSize = dimensions.fontSizeCustom_3,
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -444,6 +484,7 @@ fun CardItemWithIconForPatientCard(
             Text(
                 text = textValue,
                 style = MaterialTheme.typography.caption,
+                fontSize = dimensions.fontSizeCaption
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -452,7 +493,7 @@ fun CardItemWithIconForPatientCard(
                 Text(
                     text = dateText,
                     style = MaterialTheme.typography.button,
-                    fontSize = 13.sp,
+                    fontSize = dimensions.fontSizeCustom_3,
                     color = Gray30
                 )
             }
@@ -468,6 +509,7 @@ fun CriticalCaseCell(
     hyperglycemiaValue: Int,
     hypertensionValue: Int,
     hypotensionValue: Int,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -487,40 +529,44 @@ fun CriticalCaseCell(
             Text(
                 text = stringResource(R.string.critical_case),
                 style = MaterialTheme.typography.subtitle2,
+                fontSize = dimensions.fontSizeSubtitle_2
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hypoglycemia),
-                textValue = hypoglycemiaValue
+                textValue = hypoglycemiaValue,
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(14.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hyperglycemia),
-                textValue = hyperglycemiaValue
+                textValue = hyperglycemiaValue,
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(14.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hypertension),
-                textValue = hypertensionValue
+                textValue = hypertensionValue,
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(14.dp))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hypotension),
-                textValue = hypotensionValue
+                textValue = hypotensionValue,
+                dimensions = dimensions
             )
 
 
             month?.let {
                 Spacer(modifier = Modifier.height(19.dp))
-
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -535,12 +581,14 @@ fun CriticalCaseCell(
                 ) {
                     Text(
                         text = stringResource(R.string.data_for),
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.body1,
+                        fontSize = dimensions.fontSizeBody_1
                     )
 
                     Text(
                         text = it,
                         style = MaterialTheme.typography.body1,
+                        fontSize = dimensions.fontSizeBody_1,
                         color = Gray30
                     )
                 }
@@ -555,6 +603,7 @@ fun CriticalCaseCell(
 fun CriticalCaseStat(
     text: String,
     textValue: Int,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -565,14 +614,14 @@ fun CriticalCaseStat(
         Text(
             text = text,
             style = MaterialTheme.typography.h6,
-            fontSize = 11.sp,
+            fontSize = dimensions.fontSizeCustom_4,
             modifier = Modifier.drawPinkBar((24 * textValue)).padding(start = 11.dp),
         )
 
         Text(
             text = "$textValue",
             style = MaterialTheme.typography.h6,
-            fontSize = 13.sp,
+            fontSize = dimensions.fontSizeCustom_3,
             color = Gray30
         )
     }
