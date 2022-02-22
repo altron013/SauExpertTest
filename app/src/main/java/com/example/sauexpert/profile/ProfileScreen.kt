@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -23,9 +24,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.analysis.BottomSheetHeader
+import com.example.sauexpert.analyzes_diagnostics.AnalysisNameInput
+import com.example.sauexpert.diagnosis.DescriptionTextField
+import com.example.sauexpert.diagnosis.DiagnosisFill
 import com.example.sauexpert.model.CardListItemData
-import com.example.sauexpert.ui.theme.Gray30
-import com.example.sauexpert.ui.theme.SauExpertTheme
+import com.example.sauexpert.ui.theme.*
+import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
 fun ProfileScreen() {
@@ -114,6 +119,155 @@ fun ProfileScreen() {
     }
 }
 
+@Composable
+fun ProfileDoctorScreen() {
+
+    val spaceHeight = 16.dp
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+
+        Text(
+            text = stringResource(id = R.string.profile),
+            style = MaterialTheme.typography.subtitle2,
+            fontSize = 16.sp,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        ProfileSectionDoctor()
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        ProfileDoctorCode(title = "КОД ВРАЧА", text = "243951")
+
+        Spacer(modifier = Modifier.height(spaceHeight))
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
+            ProfileStatSectionGroup(
+                textForGender = stringResource(R.string.female),
+                textForAge = "42"
+            )
+
+            Spacer(modifier = Modifier.height(spaceHeight))
+
+            ProfileStatSection(
+                title = stringResource(id = R.string.city),
+                text = "Тараз"
+            )
+
+            Spacer(modifier = Modifier.height(spaceHeight))
+
+            ProfileStatSection(
+                title = stringResource(id = R.string.phone),
+                text = "+7 (777) 380-99-17",
+                textIsLink = true
+            )
+        }
+        Spacer(modifier = Modifier.height(spaceHeight))
+        ProfileChangePassword()
+        Spacer(modifier = Modifier.height(24.dp))
+        MainButton(
+            onClick = { /*TODO*/ },
+            enableState = true,
+            backgroundColor = Pink20p,
+            text = "Выйти",
+            textColor = Red435B,
+            modifier = Modifier
+        )
+    }
+}
+
+@Composable
+fun ChangePassModal(onClick: () -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        BottomSheetHeader(title = "Сменить пароль", onClick = onClick, closeText = "Отмена")
+        Spacer(modifier = Modifier.height(18.5.dp))
+        Divider(thickness = 1.dp, color = Separator)
+        Spacer(modifier = Modifier.height(23.5.dp))
+        DescriptionTextField(placeHolderText = "Старый пароль")
+        Spacer(modifier = Modifier.height(16.dp))
+        DescriptionTextField(placeHolderText = "Новый пароль")
+        Spacer(modifier = Modifier.height(24.dp))
+        MainButton(onClick = { /*TODO*/ }, enableState = true, text = "Готово", modifier = Modifier.padding(horizontal = 16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
+    }
+}
+
+@Composable
+fun ProfileChangePassword() {
+    Row(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Spacer(modifier = Modifier.width(24.dp))
+            Image(painter = painterResource(id = R.drawable.ic_key), contentDescription = "")
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                text = "Сменить пароль",
+                style = SauExpertTypography.body1,
+                color = BlackAccent,
+                modifier = Modifier.padding(vertical = 27.dp)
+            )
+        }
+        Image(
+            painter = painterResource(id = R.drawable.ic_chevron_right),
+            contentDescription = "",
+            modifier = Modifier.padding(end = 24.dp)
+        )
+    }
+}
+
+@Composable
+fun ProfileDoctorCode(
+    title: String,
+    text: String,
+    textIsLink: Boolean = false,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.body2
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(
+                    color = Color.White,
+                    shape = RoundedCornerShape(10.dp)
+                )
+                .padding(horizontal = 15.dp, vertical = 11.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.body1,
+                color = if (textIsLink) Color.Blue else Color.Black,
+                modifier = Modifier
+            )
+            Image(painter = painterResource(id = R.drawable.ic_share), contentDescription = "")
+        }
+    }
+}
 
 @Composable
 fun TopBarForProfile(
@@ -137,6 +291,29 @@ fun TopBarForProfile(
             style = MaterialTheme.typography.subtitle2,
             fontSize = 16.sp,
             modifier = modifier.align(Alignment.Center)
+        )
+    }
+}
+
+@Composable
+fun ProfileSectionDoctor(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        RoundImage(
+            image = painterResource(id = R.drawable.avatar),
+            modifier = Modifier
+                .size(48.dp)
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+
+        ProfileDescriptionDoctor(
+            displayName = "User",
+            description = stringResource(id = R.string.no_diagnosis)
         )
     }
 }
@@ -177,6 +354,35 @@ fun RoundImage(
             .aspectRatio(1f, matchHeightConstraintsFirst = true)
             .clip(CircleShape)
     )
+}
+
+@Composable
+fun ProfileDescriptionDoctor(
+    displayName: String,
+    description: String,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = displayName,
+            style = MaterialTheme.typography.subtitle2,
+            color = BlackAccent
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = description,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.body2,
+            color = DarkGray
+        )
+
+    }
 }
 
 @Composable
@@ -317,7 +523,7 @@ fun ProfileStatSection(
 @Composable
 fun PreviewProf() {
     SauExpertTheme {
-        ProfileScreen()
+        ChangePassModal(onClick = {})
     }
 }
 

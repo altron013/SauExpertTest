@@ -36,7 +36,8 @@ fun MainButton(
                 backgroundColor = backgroundColor,
                 contentColor = textColor
             ),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp),
+            elevation = null
         ) {
             Row(
                 modifier = Modifier.fillMaxSize(),
