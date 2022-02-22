@@ -12,12 +12,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.OnBoardScreenData
 import com.example.sauexpert.widgets.compose.MainButton
 import com.example.sauexpert.widgets.compose.buttons.MainButtonsInRow
@@ -31,12 +35,15 @@ import com.google.accompanist.pager.rememberPagerState
 @ExperimentalPagerApi
 @Composable
 fun OnBoardInfoScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier.fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(40.dp))
-        LogoSection()
+        Spacer(modifier = Modifier.height(dimensions.grid_5))
+        LogoSection(dimensions = dimensions)
         Spacer(modifier = Modifier.height(9.dp))
         OnBoardingUI(
             onBoardScreenData = listOf(
@@ -55,31 +62,32 @@ fun OnBoardInfoScreen() {
                     stringResource(id = R.string.notification_description),
                     R.drawable.ic_info_page_3
                 )
-            )
+            ),
+            dimensions = dimensions
         )
     }
 }
 
 @Composable
-fun LogoSection(modifier: Modifier = Modifier) {
+fun LogoSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
+            .height(dimensions.imageHeight_0)
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo_light_1),
             contentDescription = null,
-            modifier = modifier
-                .size(width = 67.dp, height = 53.dp)
         )
         Spacer(modifier = modifier.width(16.dp))
         Image(
             painter = painterResource(id = R.drawable.logo_light_2),
             contentDescription = null,
-            modifier = modifier
-                .size(width = 133.dp, height = 53.dp)
         )
     }
 }
@@ -89,6 +97,7 @@ fun LogoSection(modifier: Modifier = Modifier) {
 @Composable
 fun OnBoardingUI(
     onBoardScreenData: List<OnBoardScreenData>,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val pagerState = rememberPagerState(pageCount = 3)
@@ -110,7 +119,8 @@ fun OnBoardingUI(
             ) { page ->
                 PageUI(
                     page = onBoardScreenData[page],
-                    modifier = modifier.align(Alignment.Center)
+                    modifier = modifier.align(Alignment.Center),
+                    dimensions = dimensions
                 )
             }
 
@@ -123,13 +133,17 @@ fun OnBoardingUI(
             )
         }
 
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_6))
         ButtonForBottomForInfoPage(statePage = pagerState.currentPage)
     }
 }
 
 @Composable
-fun PageUI(page: OnBoardScreenData, modifier: Modifier = Modifier) {
+fun PageUI(
+    page: OnBoardScreenData,
+    modifier: Modifier = Modifier,
+    dimensions: Dimensions,
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -140,19 +154,21 @@ fun PageUI(page: OnBoardScreenData, modifier: Modifier = Modifier) {
         Image(
             painter = painterResource(page.image),
             contentDescription = null,
-            modifier = modifier
+            modifier = modifier.height(dimensions.imageHeight_1)
         )
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_6))
         Text(
             text = page.title,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = page.description,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.body1,
+            fontSize = dimensions.fontSizeBody_1,
             modifier = modifier.padding(horizontal = 10.dp)
         )
     }

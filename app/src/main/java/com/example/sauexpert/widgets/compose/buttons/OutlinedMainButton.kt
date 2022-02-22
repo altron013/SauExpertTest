@@ -23,7 +23,7 @@ fun OutlinedMainButton(
     onClick: () -> Unit,
     enableState: Boolean,
     sizeText: Int = 16,
-    height: Dp = 50.dp,
+    buttonHeight: Dp = 50.dp,
     colors: ButtonColors = ButtonDefaults.buttonColors(
         backgroundColor = MaterialTheme.colors.onPrimary,
         contentColor =
@@ -35,7 +35,7 @@ fun OutlinedMainButton(
     OutlinedButton(
         modifier = modifier
             .fillMaxWidth()
-            .height(height = height)
+            .height(height = buttonHeight)
 //            .absolutePadding(
 //                left = 12.dp,
 //                right = 12.dp

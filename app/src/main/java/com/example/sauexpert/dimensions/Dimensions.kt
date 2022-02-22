@@ -1,7 +1,9 @@
 package com.example.sauexpert.dimensions
 
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 class Dimensions(
     val grid_0_25: Dp,
@@ -23,8 +25,16 @@ class Dimensions(
     val plane_3: Dp,
     val plane_4: Dp,
     val plane_5: Dp,
+    val imageWidth_0: Dp,
+    val imageWidth_1: Dp,
+    val imageHeight_0: Dp,
+    val imageHeight_1: Dp,
+    val fontSizeSubtitle_2: TextUnit,
+    val fontSizeBody_1: TextUnit,
+    val fontSizeCaption: TextUnit,
     val minimum_touch_target: Dp = 48.dp,
 )
+
 val smallDimensions = Dimensions(
     grid_0_25 = 1.5f.dp,
     grid_0_5 = 3.dp,
@@ -45,6 +55,13 @@ val smallDimensions = Dimensions(
     plane_3 = 3.dp,
     plane_4 = 6.dp,
     plane_5 = 12.dp,
+    imageWidth_0 = 45.dp,
+    imageWidth_1 = 110.dp,
+    imageHeight_0 = 40.dp,
+    imageHeight_1 = 210.dp,
+    fontSizeSubtitle_2 = 14.sp,
+    fontSizeBody_1 = 14.sp,
+    fontSizeCaption = 19.sp
 )
 
 val sw360Dimensions = Dimensions(
@@ -67,4 +84,11 @@ val sw360Dimensions = Dimensions(
     plane_3 = 4.dp,
     plane_4 = 8.dp,
     plane_5 = 16.dp,
+    imageWidth_0 = 65.dp,
+    imageWidth_1 = 130.dp,
+    imageHeight_0 = 50.dp,
+    imageHeight_1 = 275.dp,
+    fontSizeSubtitle_2 = 17.sp,
+    fontSizeBody_1 = 17.sp,
+    fontSizeCaption = 22.sp
 )

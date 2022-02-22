@@ -21,6 +21,7 @@ fun MainButtonsInRow(
     iconForOutlineBtn: Int? = null,
     textForMainBtn: String? = null,
     iconForMainBtn: Int? = null,
+    buttonHeight: Dp = 50.dp,
     weightOfFirstButton: Float = 0.4f,
     borderColor: Color = Color.Red,
     onClickForOutlineBtn: () -> Unit,
@@ -39,12 +40,13 @@ fun MainButtonsInRow(
             icon = iconForOutlineBtn,
             onClick = onClickForOutlineBtn,
             enableState = enableStateForOutlineBtn,
+            buttonHeight = buttonHeight,
             modifier = Modifier
                 .weight(weightOfFirstButton),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.onPrimary,
-                contentColor = Color.Red,
-            ),
+//            colors = ButtonDefaults.buttonColors(
+//                backgroundColor = MaterialTheme.colors.onPrimary,
+//                contentColor = Color.Red,
+//            ),
             textColor = borderColor
         )
 
@@ -55,6 +57,7 @@ fun MainButtonsInRow(
             icon = iconForMainBtn,
             onClick = onClickForMainBtn,
             enableState = enableStateForMainBtn,
+            buttonHeight = buttonHeight,
             modifier = Modifier
                 .weight(1f - weightOfFirstButton)
         )
