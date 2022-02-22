@@ -1,4 +1,4 @@
-package com.example.sauexpert.widgets.compose.object_model
+package com.example.sauexpert.model.objects
 
 object Emoji {
 

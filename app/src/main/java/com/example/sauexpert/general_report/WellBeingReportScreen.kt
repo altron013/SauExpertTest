@@ -35,7 +35,7 @@ import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green15B83D
 import com.example.sauexpert.ui.theme.Orange4294
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
-import com.example.sauexpert.widgets.compose.object_model.Emoji
+import com.example.sauexpert.model.objects.Emoji
 
 
 @Composable
