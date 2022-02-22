@@ -25,14 +25,19 @@ class Dimensions(
     val plane_3: Dp,
     val plane_4: Dp,
     val plane_5: Dp,
-    val imageWidth_0: Dp,
-    val imageWidth_1: Dp,
     val imageHeight_0: Dp,
     val imageHeight_1: Dp,
-    val buttonHeight: Dp,
+    val imageHeight_2: Dp,
+    val buttonHeight_0: Dp,
+    val buttonHeight_1: Dp,
+    val iconSize_0: Dp,
+    val iconSize_1: Dp,
     val fontSizeSubtitle_2: TextUnit,
     val fontSizeBody_1: TextUnit,
     val fontSizeCaption: TextUnit,
+    val fontSizeCustom_0: TextUnit,
+    val fontSizeCustom_1: TextUnit,
+    val fontSizeCustom_2: TextUnit,
     val minimum_touch_target: Dp = 48.dp,
 )
 
@@ -56,14 +61,19 @@ val smallDimensions = Dimensions(
     plane_3 = 3.dp,
     plane_4 = 6.dp,
     plane_5 = 12.dp,
-    imageWidth_0 = 45.dp,
-    imageWidth_1 = 110.dp,
     imageHeight_0 = 40.dp,
     imageHeight_1 = 210.dp,
-    buttonHeight = 38.dp,
+    imageHeight_2 = 26.dp,
+    buttonHeight_0 = 38.dp,
+    buttonHeight_1 = 54.dp,
+    iconSize_0 = 26.dp,
+    iconSize_1 = 8.dp,
     fontSizeSubtitle_2 = 14.sp,
     fontSizeBody_1 = 14.sp,
-    fontSizeCaption = 19.sp
+    fontSizeCaption = 19.sp,
+    fontSizeCustom_0 = 17.sp,
+    fontSizeCustom_1 = 12.sp,
+    fontSizeCustom_2 = 30.sp
 )
 
 val sw360Dimensions = Dimensions(
@@ -86,12 +96,17 @@ val sw360Dimensions = Dimensions(
     plane_3 = 4.dp,
     plane_4 = 8.dp,
     plane_5 = 16.dp,
-    imageWidth_0 = 65.dp,
-    imageWidth_1 = 130.dp,
     imageHeight_0 = 50.dp,
     imageHeight_1 = 275.dp,
-    buttonHeight = 50.dp,
+    imageHeight_2 = 36.dp,
+    buttonHeight_0 = 50.dp,
+    buttonHeight_1 = 72.dp,
+    iconSize_0 = 38.dp,
+    iconSize_1 = 13.dp,
     fontSizeSubtitle_2 = 17.sp,
     fontSizeBody_1 = 17.sp,
-    fontSizeCaption = 22.sp
+    fontSizeCaption = 22.sp,
+    fontSizeCustom_0 = 20.sp,
+    fontSizeCustom_1 = 15.sp,
+    fontSizeCustom_2 = 36.sp
 )

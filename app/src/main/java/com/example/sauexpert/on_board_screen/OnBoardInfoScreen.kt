@@ -196,7 +196,7 @@ fun ButtonForBottomForInfoPage(
             onClickForMainBtn = { /*TODO*/ },
             enableStateForOutlineBtn = true,
             enableStateForMainBtn = true,
-            buttonHeight = dimensions.buttonHeight,
+            buttonHeight = dimensions.buttonHeight_0,
             sizeText = dimensions.fontSizeBody_1
         )
     }
@@ -209,7 +209,8 @@ fun ButtonForBottomForInfoPage(
             text = stringResource(id = R.string.understand_thanks),
             onClick = { /*TODO*/ },
             enableState = true,
-            buttonHeight = dimensions.buttonHeight
+            buttonHeight = dimensions.buttonHeight_0,
+            sizeText = dimensions.fontSizeBody_1
         )
     }
 }
