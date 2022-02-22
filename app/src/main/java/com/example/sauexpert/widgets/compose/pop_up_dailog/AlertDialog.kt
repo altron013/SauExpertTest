@@ -157,11 +157,9 @@ fun RenameDialog(
                         text = stringResource(id = R.string.cancellation),
                         onClick = { isDialogOpen.value = false },
                         enableState = true,
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Gray15,
-                            contentColor = Blue007AFF,
-                        ),
-                        textColor = Color.Transparent,
+                        backgroundColor = Gray15,
+                        textColor = Blue007AFF,
+                        borderColor = Color.Transparent,
                         modifier = Modifier.weight(0.5f)
                     )
 
@@ -176,11 +174,8 @@ fun RenameDialog(
                         text = stringResource(id = R.string.done),
                         onClick = { /*TODO*/ },
                         enableState = true,
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Gray15,
-                            contentColor = Blue007AFF,
-                        ),
-                        textColor = Color.Transparent,
+                        textColor = Blue007AFF,
+                        borderColor = Color.Transparent,
                         modifier = Modifier.weight(0.5f)
                     )
 

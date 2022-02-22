@@ -24,12 +24,9 @@ fun OutlinedMainButton(
     enableState: Boolean,
     sizeText: Int = 16,
     buttonHeight: Dp = 50.dp,
-    colors: ButtonColors = ButtonDefaults.buttonColors(
-        backgroundColor = MaterialTheme.colors.onPrimary,
-        contentColor =
-        Color.Gray
-    ),
-    textColor: Color = Color.Gray
+    backgroundColor: Color = MaterialTheme.colors.onPrimary,
+    textColor: Color = Color.Gray,
+    borderColor: Color = Color.Gray
 ) {
     val selected = remember { mutableStateOf(false) }
     OutlinedButton(
@@ -46,12 +43,15 @@ fun OutlinedMainButton(
 //        onClick = {
 //            selected.value = !selected.value
 //                  },
-        colors = colors,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = backgroundColor,
+            contentColor = textColor
+        ),
         border = BorderStroke(
             width = 1.dp,
             color =
             // if (selected.value) Color.Red else
-            textColor
+            borderColor
         ),
         shape = RoundedCornerShape(8.dp)
     ) {
