@@ -1,20 +1,20 @@
-package com.example.sauexpert.well_bieng
+package com.example.sauexpert.well_being
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.ui.theme.Green57C3A7
 import com.example.sauexpert.widgets.compose.Toolbars.MainToolbar
 import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton
 
@@ -70,42 +70,65 @@ fun GlucoseLevelScreen() {
     }
 }
 
-
 @Composable
 fun GlucoseIndicatorForm() {
-    Text(text = "САД", fontSize = 15.sp)
-    Spacer(Modifier.padding(6.dp))
-    TextField(value = "", onValueChange = {},
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.Transparent,
-//        disabledTextColor = Color.Transparent,
-//        focusedIndicatorColor = Color.Transparent,
-//        unfocusedIndicatorColor = Color.Transparent,
-//        disabledIndicatorColor = Color.Transparent
-        ), modifier = Modifier.fillMaxWidth(),
-        placeholder = {
-            Text(
-                "Введите текст",
-                style = MaterialTheme.typography.body1
-            )
-        }
-    )
+    var selectedOption by remember {
+        mutableStateOf("")
+    }
+    val onSelectionChange = { text: String ->
+        selectedOption = text
+    }
+    var sad = remember { mutableStateOf(TextFieldValue()) }
+    WellBeingTextField(sad, "Показатель уровня глюкозы в крови")
     Spacer(Modifier.padding(10.dp))
     Text(text = stringResource(id = R.string.when_measurement_was_taken), fontSize = 15.sp)
     Spacer(Modifier.padding(10.dp))
-    Row {
-        OutlinedMainButton(
-            text = stringResource(id = R.string.before_food),
-            onClick = { /*TODO*/ },
-            enableState = true,
-            modifier = Modifier.weight(1f)
+    Row(Modifier.fillMaxWidth()){
+        ColoredOutlineButton(
+            "До еды",
+            onSelectionChange = onSelectionChange,
+            selectedOption = selectedOption,
+            modifier = Modifier
+                .weight(0.5f)
         )
         Spacer(modifier = Modifier.padding(7.dp))
-        OutlinedMainButton(
-            text = stringResource(id = R.string.after_food),
-            onClick = { /*TODO*/ },
-            enableState = true,
-            modifier = Modifier.weight(1f)
+        ColoredOutlineButton(
+            "После еды",
+            onSelectionChange = onSelectionChange,
+            selectedOption = selectedOption,
+            modifier = Modifier.weight(0.5f)
         )
     }
+}
+
+@Composable
+fun ColoredOutlineButton(
+    text: String,
+    onSelectionChange: (String) -> Unit,
+    selectedOption: String,
+    modifier: Modifier
+) {
+    OutlinedMainButton(
+        text = text,
+        onClick = {
+            if (onSelectionChange != null) {
+                onSelectionChange(text)
+            }
+        },
+        modifier = modifier,
+        enableState = true,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = if (text == selectedOption) {
+                Green57C3A7
+            } else {
+                Color.Transparent
+            },
+            contentColor = if (text == selectedOption) {
+                Color.White
+            } else {
+                Color.Gray
+            },
+
+        )
+    )
 }

@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.autofill.AutofillType
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -23,7 +22,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
 import com.example.sauexpert.ui.theme.SauExpertTheme
-import com.example.sauexpert.ui.theme.SuraceF9
+import com.example.sauexpert.ui.theme.SurfaceF9
+import com.example.sauexpert.ui.theme.SurfaceF9
 import com.example.sauexpert.widgets.compose.MainButtonM
 
 
@@ -217,9 +217,16 @@ object Gender {
 fun AuthTextFiled(
     name: MutableState<TextFieldValue>,
     ErrorState: MutableState<Boolean>,
-    placeholder: String
+    placeholder: String,
+    modifier: Modifier=Modifier.fillMaxWidth()
+        .border(
+            BorderStroke(
+                width = 1.dp,
+                color = if (ErrorState.value) Color.Red else Color.Transparent
+            ),
+            shape = RoundedCornerShape(10.dp)
+        )
 ) {
-
     TextField(
         value = name.value,
         onValueChange = {
@@ -228,7 +235,7 @@ fun AuthTextFiled(
             }
             name.value = it
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .border(
                 BorderStroke(
@@ -236,12 +243,10 @@ fun AuthTextFiled(
                     color = if (ErrorState.value) Color.Red else Color.Transparent
                 ),
                 shape = RoundedCornerShape(10.dp)
-
             ),
-        //isError = ErrorState.value,
         label = null,
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = SuraceF9,
+            backgroundColor = SurfaceF9,
             disabledTextColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,

@@ -29,7 +29,7 @@ import com.example.sauexpert.signup_patient.AuthItem
 import com.example.sauexpert.signup_patient.AuthToolbar
 import com.example.sauexpert.ui.theme.Red435B
 import com.example.sauexpert.ui.theme.SauExpertTheme
-import com.example.sauexpert.ui.theme.SuraceF9
+import com.example.sauexpert.ui.theme.SurfaceF9
 import com.example.sauexpert.widgets.compose.MainButtonM
 
 
@@ -99,7 +99,7 @@ fun LoginScreen() {
                    // isError = passwordErrorState.value,
                     label = null,
                     colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = SuraceF9,
+                        backgroundColor = SurfaceF9,
                         disabledTextColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
@@ -170,7 +170,6 @@ fun LoginScreen() {
                         color = Red435B
                     )
                 }
-                Spacer(modifier = Modifier.size(180.dp))
             }
         }
     }

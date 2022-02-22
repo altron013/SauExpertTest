@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
-import com.example.sauexpert.ui.theme.SuraceBlue
+import com.example.sauexpert.ui.theme.SurfaceBlue
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 
@@ -52,11 +52,9 @@ internal fun PagerSampleItem(
                 .fillMaxWidth()
                 .height(242.dp),
             shape = RoundedCornerShape(12.dp),
-            backgroundColor = SuraceBlue
+            backgroundColor = SurfaceBlue
         )
-        {
-
-        }
+        {}
     }
 }
 
@@ -72,10 +70,8 @@ fun HorizontalPagerIndicator1(
     spacing: Dp = indicatorWidth,
     indicatorShape: Shape = CircleShape,
 ) {
-
     val indicatorWidthPx = LocalDensity.current.run { indicatorWidth.roundToPx() }
     val spacingPx = LocalDensity.current.run { spacing.roundToPx() }
-
     Box(
         modifier = modifier,
         contentAlignment = Alignment.CenterStart
@@ -92,7 +88,6 @@ fun HorizontalPagerIndicator1(
                 Box(indicatorModifier)
             }
         }
-
         Box(
             Modifier
                 .offset {

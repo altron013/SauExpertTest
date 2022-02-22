@@ -12,6 +12,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,16 +21,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.sauexpert.auth.LoginScreen
-import com.example.sauexpert.home.HomeScreen
 import com.example.sauexpert.my_patients.MyPatients2
+import com.example.sauexpert.patients_bracelet_indicators.GraphicIndicators
+import com.example.sauexpert.patients_bracelet_indicators.IndicatorCard
+import com.example.sauexpert.profile.ProfileScreen
+import com.example.sauexpert.profile.SupplementData
 import com.example.sauexpert.signup_doctor.RegisterDoctorScreen
-import com.example.sauexpert.signup_patient.GetAccessScreen
-import com.example.sauexpert.signup_patient.RegisterPatientScreen2
+import com.example.sauexpert.statistics.Statistics
 import com.example.sauexpert.ui.theme.GrayF0F
-import com.example.sauexpert.well_bieng.GlucoseLevelScreen
-import com.example.sauexpert.well_bieng.WellBeingDescription
-import com.example.sauexpert.well_bieng.WellBeingScreen
 import com.google.accompanist.pager.ExperimentalPagerApi
+import kotlinx.coroutines.Job
 
 
 data class BottomNavItem(
@@ -45,26 +46,32 @@ data class BottomNavItem(
 @ExperimentalComposeUiApi
 @ExperimentalFoundationApi
 @Composable
-fun Navigation(navController: NavHostController) {
+fun Navigation(
+    navController: NavHostController,
+    scaffoldState: ScaffoldState,
+    openSheet: () -> Job,
+    toNewGroup: () -> Unit,
+    toActionView: () -> Unit
+) {
     NavHost(navController = navController, startDestination = "home") {
         composable("home") {
-           // HomeScreen()
-            LoginScreen()
+            // PhysicalActivityScreen()
+            //SupplementData()
+            Statistics()
         }
         composable("myPatients") {
-            //MyPatients2()
-            RegisterDoctorScreen()
+            // HadsScreen()
+          GraphicIndicators()
         }
         composable("settings") {
-            GetAccessScreen()
+            //GetAccessScreen()
+            RegisterDoctorScreen()
         }
         composable("notification") {
-            WellBeingDescription()
-           // GlucoseLevelScreen()
+            LoginScreen()
         }
         composable("profile") {
-            //LoginScreen()
-            WellBeingScreen()
+            ProfileScreen()
         }
     }
 
@@ -105,17 +112,14 @@ fun BottomNavigationBar(
                                 backgroundColor = Color.Red,
                                 contentColor = Color.White
                             ) {
-
                                 Icon(item.icon, contentDescription = null)
 //                                Text(text=item.name,
 //                                    textAlign = TextAlign.Center,
 //                                    fontSize = 10.sp)
-
                             }
                         } else {
                             Icon(item.icon, contentDescription = null)
                         }
-
                         Text(
                             text = item.name,
                             textAlign = TextAlign.Center,
@@ -124,8 +128,6 @@ fun BottomNavigationBar(
                     }
                 }
             )
-
-
         }
 
     }
