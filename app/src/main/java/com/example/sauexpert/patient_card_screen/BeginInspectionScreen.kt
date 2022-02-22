@@ -50,6 +50,7 @@ fun BeginInspectionScreen(
             contentDescription = null,
             modifier = modifier
                 .height(dimensions.imageHeight_3)
+                .width(dimensions.imageWidth_0)
         )
 
         Text(

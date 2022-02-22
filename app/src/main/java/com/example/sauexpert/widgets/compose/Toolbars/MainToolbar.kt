@@ -168,6 +168,7 @@ fun ActionToolBar(
     textRightClick: String? = null,
     onRightClick: () -> Unit,
     titleText: String,
+    sizeText: TextUnit = 17.sp,
     colorBackClick: Color = Color.Black,
     colorRightClick: Color = Color.Black,
     modifier: Modifier = Modifier
@@ -203,6 +204,7 @@ fun ActionToolBar(
                     text = it,
                     style = MaterialTheme.typography.body1,
                     color = colorBackClick,
+                    fontSize = sizeText,
                     modifier = modifier
                         .clickable {
                             onBackClick()
@@ -214,6 +216,7 @@ fun ActionToolBar(
         Text(
             text = titleText,
             style = MaterialTheme.typography.subtitle2,
+            fontSize = sizeText,
         )
 
         Row(
@@ -227,6 +230,7 @@ fun ActionToolBar(
                     text = it,
                     style = MaterialTheme.typography.body1,
                     color = colorRightClick,
+                    fontSize = sizeText,
                     modifier = modifier
                         .clickable {
                             onRightClick()
