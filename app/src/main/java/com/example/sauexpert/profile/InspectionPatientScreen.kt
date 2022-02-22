@@ -31,7 +31,6 @@ import com.example.sauexpert.ui.theme.Green117259
 import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
-import java.util.*
 
 @Composable
 fun InspectionPatientScreen() {

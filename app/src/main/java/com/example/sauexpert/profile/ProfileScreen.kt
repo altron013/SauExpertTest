@@ -62,11 +62,11 @@ fun ProfileScreen() {
                     text = stringResource(id = R.string.inspections)
                 ),
                 CardListItemData(
-                    image = painterResource(id = R.drawable.ic_folder_icon),
+                    image = painterResource(id = R.drawable.ic_folder),
                     text = stringResource(id = R.string.treatment_history)
                 ),
                 CardListItemData(
-                    image = painterResource(id = R.drawable.ic_clock_icon),
+                    image = painterResource(id = R.drawable.ic_clock),
                     text = stringResource(id = R.string.monthly_report)
                 )
             )
@@ -208,11 +208,13 @@ fun CardItem(
                         )
                         .padding(top = 14.dp, bottom = 12.dp, start = 12.dp, end = 12.dp)
                 ) {
-                    Image(
-                        painter = cardList[it].image,
-                        contentDescription = null,
-                        modifier = modifier.size(16.dp)
-                    )
+                    cardList[it].image?.let { it1 ->
+                        Image(
+                            painter = it1,
+                            contentDescription = null,
+                            modifier = modifier.size(16.dp)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = cardList[it].text,

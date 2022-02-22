@@ -3,8 +3,6 @@ package com.example.sauexpert.signup_patient
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -229,7 +227,7 @@ fun PasscodeScreenDescription(
         modifier = modifier.fillMaxWidth()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_locked_icon),
+            painter = painterResource(id = R.drawable.ic_locked),
             contentDescription = null,
             modifier = modifier
                 .size(36.dp)

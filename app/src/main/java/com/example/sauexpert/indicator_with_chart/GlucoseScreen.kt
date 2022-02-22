@@ -426,7 +426,7 @@ fun BarChartForGlucose(
             color = Color.Green.copy(alpha = 0.05f),
             topLeft = Offset(
                 x = 0f,
-                y = 47.dp.toPx()
+                y = 35.dp.toPx()
             ),
             size = Size(
                 width = glucoseData[listSize].positionOnX + 20.dp.toPx(),
@@ -439,11 +439,11 @@ fun BarChartForGlucose(
                 Gray30.copy(alpha = 0.5f),
                 Offset(
                     x = (width + 6).dp.toPx(),
-                    y = 47.dp.toPx()
+                    y = 35.dp.toPx()
                 ),
                 Offset(
                     x = width.dp.toPx(),
-                    y = 82.dp.toPx()
+                    y = 70.dp.toPx()
                 )
             )
 

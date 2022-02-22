@@ -462,6 +462,7 @@ fun AnalysisField(
     title: String,
     value: String,
     dateData: String? = null,
+    color: Color = Color.Black,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -477,11 +478,13 @@ fun AnalysisField(
             Text(
                 text = title,
                 style = MaterialTheme.typography.body1,
+                color = color
             )
 
             Text(
                 text = value,
                 style = MaterialTheme.typography.body1,
+                color = color
             )
 
         }
@@ -685,6 +688,20 @@ fun identifyHeightForYPoint(
             number > dataList.number -> {
                 return dpToPxValue((index * 30).dp)
             }
+        }
+    }
+    return dpToPxValue(((dataList.size - 1) * 35).dp)
+}
+
+
+@Composable
+fun identifyHeightForYPointForString(
+    dataList: List<ListStringOfYForTableData>,
+    text: String,
+): Float {
+    for ((index, dataList) in dataList.withIndex()) {
+        if (text == dataList.text) {
+            return dpToPxValue((index * 35).dp)
         }
     }
     return dpToPxValue(((dataList.size - 1) * 35).dp)
