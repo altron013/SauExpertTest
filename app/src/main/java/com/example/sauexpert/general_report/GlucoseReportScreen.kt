@@ -11,11 +11,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
@@ -96,11 +98,14 @@ fun GlucoseReportScreen() {
                     titleText = stringResource(R.string.blood_glucose),
                     subtitleText = "Декабрь 2021",
                     iconBackClick = Icons.Default.ArrowBack,
+                    sizeText = dimensions.fontSizeSubtitle_2,
+                    sizeSubtitleText = dimensions.fontSizeBody_2,
+                    sizeIcon = dimensions.iconSize_2,
                     onBackClick = {},
                     onRightClick = {}
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_2))
 
                 GlucoseReportWithBarChart(
                     onClick = {
@@ -168,9 +173,12 @@ fun GlucoseReportWithBarChart(
     ) {
         Text(
             text = stringResource(id = R.string.blood_glucose),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
+
         Spacer(modifier = Modifier.height(12.dp))
+
         BarChartForGlucose(
             glucoseData = listOf(
                 GlucoseData(
@@ -311,51 +319,19 @@ fun ReferenceIndicatorSection(
     modifier: Modifier = Modifier
 ) {
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(10.dp)
-            )
+            ).padding(14.dp)
     ) {
-        Canvas(
-            modifier = Modifier
-                .width(27.dp)
-                .height(20.dp)
-                .padding(16.dp)
-        ) {
-
-            var width = 0
-
-            drawRect(
-                color = Color.Green.copy(alpha = 0.05f),
-                topLeft = Offset(
-                    x = 0.dp.toPx(),
-                    y = 0.dp.toPx()
-                ),
-                size = Size(
-                    width = 27.dp.toPx(),
-                    height = 20.dp.toPx()
-                )
-            )
-
-            for (i in 0 until 4) {
-                drawLine(
-                    Gray30.copy(alpha = 0.5f),
-                    Offset(
-                        x = (width + 6).dp.toPx(),
-                        y = 0.dp.toPx()
-                    ),
-                    Offset(
-                        x = width.dp.toPx(),
-                        y = 20.dp.toPx()
-                    )
-                )
-                width += 6
-            }
-        }
-
-        Spacer(modifier = Modifier.width(8.dp))
+        Icon(
+            painter = painterResource(R.drawable.ic_reference_indicator),
+            tint = Color.Green,
+            contentDescription = "",
+        )
 
         AnalysisField(
             title = stringResource(R.string.references_value),
@@ -379,7 +355,7 @@ fun IndicatorForMonthSection(
         Text(
             text = "Показатели за Декабрь 2021",
             style = MaterialTheme.typography.subtitle1,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
 
@@ -453,11 +429,12 @@ fun DeviationsFromGeneralSection(
         Text(
             text = stringResource(R.string.deviations_from_general),
             style = MaterialTheme.typography.subtitle1,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
 
         Spacer(modifier = Modifier.height(12.dp))
+
         Column(
             modifier = modifier
                 .fillMaxWidth()
