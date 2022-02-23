@@ -190,7 +190,10 @@ fun GraphicIndicators() {
             )
         }
         Column(Modifier.fillMaxSize()) {
-            WorkAroundExample(criticalIndicatorsList)
+            WorkAroundExample(
+                criticalIndicatorsList,
+                dimensions = dimensions
+            )
         }
     }
 }
@@ -281,6 +284,7 @@ fun DiseaseCard(
     firstDatePercentage: Float,
     diseaseName: String,
     date: String,
+    dimensions: Dimensions,
     modifier: Modifier
 ) {
     Card(modifier = modifier.clickable {})
@@ -299,7 +303,8 @@ fun DiseaseCard(
                     percentage = lastDatePercentage,
                     number = 10,
                     showPercentage = true,
-                    radius = 20.dp
+                    radius = 20.dp,
+                    textSize = dimensions.fontSizeBody_2
                 )
                 Spacer(modifier = Modifier.padding(15.dp))
                 Text(
@@ -318,7 +323,8 @@ fun DiseaseCard(
                     percentage = firstDatePercentage,
                     number = 10,
                     showPercentage = true,
-                    radius = 20.dp
+                    radius = 20.dp,
+                    textSize = dimensions.fontSizeBody_2
                 )
                 Spacer(modifier = Modifier.padding(15.dp))
                 Text(
@@ -332,7 +338,10 @@ fun DiseaseCard(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WorkAroundExample(items: List<CriticalCaseIndicators>) {
+fun WorkAroundExample(
+    items: List<CriticalCaseIndicators>,
+    dimensions: Dimensions
+) {
     val itemSize: Dp = LocalConfiguration.current.screenWidthDp.dp / 2
     FlowRow(
         mainAxisSize = SizeMode.Expand,
@@ -346,7 +355,8 @@ fun WorkAroundExample(items: List<CriticalCaseIndicators>) {
                 date = i.lastDate,
                 modifier = Modifier
                     .size(itemSize)
-                    .padding(10.dp)
+                    .padding(10.dp),
+                dimensions = dimensions
             )
         }
     }
@@ -354,7 +364,10 @@ fun WorkAroundExample(items: List<CriticalCaseIndicators>) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WellBeingCards(items: List<CriticalCaseIndicators>) {
+fun WellBeingCards(
+    items: List<CriticalCaseIndicators>,
+    dimensions: Dimensions
+) {
     val itemSize: Dp = LocalConfiguration.current.screenWidthDp.dp / 2
     FlowRow(
         mainAxisSize = SizeMode.Expand,
@@ -368,7 +381,8 @@ fun WellBeingCards(items: List<CriticalCaseIndicators>) {
                 date = i.lastDate,
                 modifier = Modifier
                     .size(itemSize)
-                    .padding(10.dp, bottom = 0.dp)
+                    .padding(10.dp, bottom = 0.dp),
+                dimensions = dimensions
             )
         }
     }

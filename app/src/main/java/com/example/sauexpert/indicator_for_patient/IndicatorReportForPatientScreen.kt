@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,6 +22,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.profile.CircularProgressBar
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
@@ -40,6 +44,9 @@ data class CriticalCaseIndicators(
 
 @Composable
 fun IndicatorReportForPatientScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     val criticalIndicatorsList = listOf(
         CriticalCaseIndicators(
             diseaseName = stringResource(id = R.string.hyperglycemia),
@@ -84,14 +91,18 @@ fun IndicatorReportForPatientScreen() {
             modifier = Modifier.padding(horizontal = 20.dp)
         ) {
 
-            GraphReportSection()
+            GraphReportSection(
+                dimensions = dimensions
+            )
 
             Divider(
                 modifier = Modifier.padding(bottom = 10.dp),
                 color = Color.LightGray
             )
 
-            DailyReportSection()
+            DailyReportSection(
+                dimensions = dimensions
+            )
 
             Divider(
                 modifier = Modifier.padding(
@@ -116,6 +127,7 @@ fun IndicatorReportForPatientScreen() {
 
 @Composable
 fun GraphReportSection(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -135,7 +147,8 @@ fun GraphReportSection(
             title = stringResource(id = R.string.glucose_level),
             date = "22.08.2020 | 14:00",
             percentage = 0.06f,
-            showFullProgress = true
+            showFullProgress = true,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(17.dp))
@@ -146,7 +159,8 @@ fun GraphReportSection(
             date = "22.08.2020 | 14:00",
             percentage = 120f,
             secondPercentage = 80f,
-            showDividedNumber = true
+            showDividedNumber = true,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(17.dp))
@@ -156,7 +170,8 @@ fun GraphReportSection(
             title = stringResource(id = R.string.pulse),
             date = "22.08.2020 | 14:00",
             percentage = 0.86f,
-            showFullProgress = true
+            showFullProgress = true,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(17.dp))
@@ -166,13 +181,15 @@ fun GraphReportSection(
             title = stringResource(id = R.string.steps),
             percentage = 0.68f,
             progressBarPercentage = 0.68f,
-            progressBarValue = 6700
+            progressBarValue = 6700,
+            dimensions = dimensions
         )
     }
 }
 
 @Composable
 fun DailyReportSection(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -194,7 +211,8 @@ fun DailyReportSection(
             painterContent = painterResource(R.drawable.ic_report_samochuvstvie),
             subtitleForDate = stringResource(R.string.last_mark),
             date = "22.08.2020 | 21:00",
-            showArrowForwardIcon = false
+            showArrowForwardIcon = false,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(17.dp))
@@ -206,7 +224,8 @@ fun DailyReportSection(
             painterContent = painterResource(R.drawable.ic_report_list_check),
             subtitleForDate = stringResource(R.string.average_for_week),
             date = "85%",
-            showArrowForwardIcon = false
+            showArrowForwardIcon = false,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(17.dp))
@@ -219,7 +238,8 @@ fun DailyReportSection(
             subtitleForDate = stringResource(R.string.last_measurements),
             date = "22.08.2020 | 14:00",
             showArrowForwardIcon = false,
-            showFullProgress = true
+            showFullProgress = true,
+            dimensions = dimensions
         )
     }
 }
@@ -239,6 +259,7 @@ fun IndicatorCardForReport(
     showArrowForwardIcon: Boolean = true,
     showFullProgress: Boolean = false,
     showDividedNumber: Boolean = false,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
@@ -263,7 +284,8 @@ fun IndicatorCardForReport(
                     showPercentage = true,
                     painter = painterContent,
                     showFullProgress = showFullProgress,
-                    showDividedNumber = showDividedNumber
+                    showDividedNumber = showDividedNumber,
+                    dimensions = dimensions
                 )
 
                 Spacer(modifier = Modifier.height(18.dp))
@@ -339,7 +361,8 @@ fun IndicatorReportWithProgress(
     showFullProgress: Boolean = false,
     modifier: Modifier = Modifier,
     image: Painter,
-    painter: Painter? = null
+    painter: Painter? = null,
+    dimensions: Dimensions
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -366,7 +389,8 @@ fun IndicatorReportWithProgress(
                 percentage = numberPercentage,
                 number = 100,
                 showPercentage = showPercentage,
-                radius = 20.dp
+                radius = 20.dp,
+                textSize = dimensions.fontSizeBody_2
             )
         } else if (numberPercentage != 0f && showFullProgress) {
             CircularProgressBarWithFullProgress(

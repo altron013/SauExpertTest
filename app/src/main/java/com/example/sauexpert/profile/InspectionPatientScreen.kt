@@ -293,7 +293,8 @@ fun ProfileForInspection(
                 percentage = text,
                 number = 100,
                 showPercentage = showPercentage,
-                color = color
+                color = color,
+                textSize = dimensions.fontSizeBody_2
             )
         } else {
             painter?.let {
@@ -318,7 +319,8 @@ fun CircularProgressBar(
     strokeWidth: Dp = 3.dp,
     animDuration: Int = 1000,
     animDelay: Int = 0,
-    showPercentage: Boolean = false
+    showPercentage: Boolean = false,
+    textSize: TextUnit = 12.sp
 ) {
     var animationPlayed by remember {
         mutableStateOf(false)
@@ -361,6 +363,7 @@ fun CircularProgressBar(
             Text(
                 text = (curPercentage.value * number).toInt().toString(),
                 style = MaterialTheme.typography.h5,
+                fontSize = textSize
             )
         }
     }

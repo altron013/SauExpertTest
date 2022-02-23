@@ -34,11 +34,13 @@ fun GeneralInspectionScreen() {
         MainActionToolBar(
             titleText = stringResource(R.string.general_inspection),
             iconBackClick = Icons.Default.ArrowBack,
+            sizeIconBackClick = dimensions.iconSize_2,
+            sizeTitleText = dimensions.fontSizeCustom_5,
             onBackClick = {},
             modifier = Modifier.padding(16.dp)
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_2_5))
 
         ProfileForInspection(
             content = "Zhanna Akhmetova",
@@ -46,7 +48,7 @@ fun GeneralInspectionScreen() {
             dimensions = dimensions
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_4))
 
         Column(
             modifier = Modifier
@@ -65,7 +67,7 @@ fun GeneralInspectionScreen() {
                 dimensions = dimensions
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_3))
 
             MainButton(
                 text = stringResource(id = R.string.new_inspections),
@@ -73,7 +75,9 @@ fun GeneralInspectionScreen() {
                 enableState = true,
                 icon = R.drawable.ic_plus_circle,
                 backgroundColor = Pink42949,
-                textColor = Color.Red
+                textColor = Color.Red,
+                buttonHeight = dimensions.buttonHeight_0,
+                sizeText = dimensions.fontSizeBody_1,
             )
         }
     }
