@@ -87,14 +87,16 @@ fun ProfileScreen() {
         ) {
             ProfileStatSectionGroup(
                 textForGender = stringResource(R.string.female),
-                textForAge = "42"
+                textForAge = "42",
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
                 title = stringResource(id = R.string.city).toUpperCase(Locale.current),
-                text = "Тараз"
+                text = "Тараз",
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
@@ -102,28 +104,32 @@ fun ProfileScreen() {
             ProfileStatSection(
                 title = stringResource(id = R.string.phone).toUpperCase(Locale.current),
                 text = "+7 (777) 380-99-17",
-                textIsLink = true
+                textIsLink = true,
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
                 title = stringResource(id = R.string.organization).toUpperCase(Locale.current),
-                text = "АО “Центргарант”"
+                text = "АО “Центргарант”",
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
                 title = stringResource(id = R.string.last_doctor_who_inspect).toUpperCase(Locale.current),
-                text = "Келимбетов А.С. (вы)"
+                text = "Келимбетов А.С. (вы)",
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
                 title = stringResource(id = R.string.last_day_of_check_up).toUpperCase(Locale.current),
-                text = "29 Ноября 2021"
+                text = "29 Ноября 2021",
+                dimensions = dimensions
             )
         }
     }
@@ -245,6 +251,7 @@ fun CardItem(
 fun ProfileStatSectionGroup(
     textForGender: String,
     textForAge: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -260,13 +267,15 @@ fun ProfileStatSectionGroup(
         ProfileStatSection(
             title = stringResource(id = R.string.gender).toUpperCase(Locale.current),
             text = textForGender,
-            modifier = Modifier.width(screenWidth)
+            modifier = Modifier.width(screenWidth),
+            dimensions = dimensions
         )
 
         ProfileStatSection(
             title = stringResource(id = R.string.age).toUpperCase(Locale.current),
             text = textForAge,
-            modifier = Modifier.width(screenWidth)
+            modifier = Modifier.width(screenWidth),
+            dimensions = dimensions
         )
     }
 }
@@ -277,6 +286,7 @@ fun ProfileStatSection(
     title: String,
     text: String,
     textIsLink: Boolean = false,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -284,12 +294,13 @@ fun ProfileStatSection(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.body2
+            style = MaterialTheme.typography.body2,
+            fontSize = dimensions.fontSizeBody_2
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box(
+        Row(
             modifier = modifier
                 .fillMaxWidth()
                 .background(
@@ -301,9 +312,8 @@ fun ProfileStatSection(
             Text(
                 text = text,
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1,
                 color = if (textIsLink) Color.Blue else Color.Black,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
             )
         }
     }
