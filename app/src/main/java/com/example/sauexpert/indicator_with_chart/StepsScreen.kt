@@ -126,7 +126,8 @@ fun StepswithBarChart(
                     dateName = "22"
                 )
             ),
-            ListNumberData = listNumberData
+            ListNumberData = listNumberData,
+            dimensions = dimensions
         )
     }
 }
@@ -154,7 +155,8 @@ fun StepsTitle(
         ) {
             Text(
                 text = stringResource(id = R.string.steps),
-                style = MaterialTheme.typography.caption
+                style = MaterialTheme.typography.caption,
+                fontSize = dimensions.fontSizeCaption
             )
 
 
@@ -177,7 +179,8 @@ fun StepsTitle(
         TextWithBigValueAndDateForGraph(
             textValue = 3320,
             text = stringResource(R.string.steps_per_day),
-            textDate = date.value
+            textDate = date.value,
+            dimensions = dimensions
         )
     }
 }
@@ -186,7 +189,8 @@ fun StepsTitle(
 @Composable
 fun BarChartForSteps(
     StepsData: List<StepsData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
@@ -237,7 +241,7 @@ fun BarChartForSteps(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 

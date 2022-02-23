@@ -226,6 +226,7 @@ fun TextWithBigValueAndDateForGraph(
     textValue: Int,
     text: String,
     textDate: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -237,7 +238,7 @@ fun TextWithBigValueAndDateForGraph(
                 withStyle(
                     style = SpanStyle(
                         color = Color.Black,
-                        fontSize = 34.sp
+                        fontSize = dimensions.fontSizeH4
                     )
                 ) {
                     append("$textValue ")
@@ -246,6 +247,7 @@ fun TextWithBigValueAndDateForGraph(
                 append(text)
             },
             style = MaterialTheme.typography.subtitle1,
+            fontSize = dimensions.fontSizeSubtitle_1,
             fontWeight = FontWeight.Bold,
             color = Gray30
         )
@@ -253,7 +255,7 @@ fun TextWithBigValueAndDateForGraph(
         Text(
             text = textDate,
             style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
     }

@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.indicator_with_chart.BarChartForSteps
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.StepsData
@@ -30,6 +33,9 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
 fun StepsReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -53,7 +59,7 @@ fun StepsReportScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            StepsReportWithBarChart()
+            StepsReportWithBarChart(dimensions = dimensions)
 
         }
     }
@@ -62,6 +68,7 @@ fun StepsReportScreen() {
 
 @Composable
 fun StepsReportWithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -155,7 +162,8 @@ fun StepsReportWithBarChart(
                     dateName = "22"
                 )
             ),
-            ListNumberData = listNumberData
+            ListNumberData = listNumberData,
+            dimensions = dimensions
         )
     }
 }
