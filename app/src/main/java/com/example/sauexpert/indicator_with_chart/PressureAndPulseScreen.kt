@@ -518,7 +518,8 @@ fun AnalysisPressureAndPulseSection(
                 title = stringResource(R.string.highest_value),
                 value = textDate,
                 dateData = "19 Декабря в 23:13",
-                imageVector = Icons.Filled.FlashOn
+                imageVector = Icons.Filled.FlashOn,
+                dimensions = dimensions
             )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),

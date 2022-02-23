@@ -145,6 +145,7 @@ fun PulsewithBarChart(
                     dateName = "22"
                 ),
             ),
+            dimensions = dimensions,
             ListNumberData = listNumberData
         )
     }
@@ -154,7 +155,8 @@ fun PulsewithBarChart(
 @Composable
 fun LineChartForPulse(
     PulseData: List<PulseData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     val scale by remember { mutableStateOf(1f) }
     val path = Path()
@@ -211,7 +213,7 @@ fun LineChartForPulse(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -322,7 +324,8 @@ fun AnalysisPulseSection(
             title = stringResource(R.string.highest_value),
             value = "18",
             dateData = "19 Декабря в 23:13",
-            imageVector = Icons.Filled.FlashOn
+            imageVector = Icons.Filled.FlashOn,
+            dimensions = dimensions
         )
         Divider(
             color = Gray30.copy(alpha = 0.19f),

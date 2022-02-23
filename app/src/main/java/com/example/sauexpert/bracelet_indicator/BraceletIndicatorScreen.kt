@@ -543,30 +543,9 @@ fun AnalysisFieldWithIconAtEnd(
     value: String,
     dateData: String? = null,
     imageVector: ImageVector,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
-    val myId = "inlineContent"
-    val text = buildAnnotatedString {
-        append(title)
-        appendInlineContent(myId, "[icon]")
-    }
-
-    val inlineContent = mapOf(
-        Pair(
-            myId,
-            InlineTextContent(
-                Placeholder(
-                    width = 20.sp,
-                    height = 20.sp,
-                    placeholderVerticalAlign = PlaceholderVerticalAlign.Center
-                )
-            ) {
-
-                Icon(imageVector, "", tint = Color.Yellow)
-            }
-        )
-    )
-
     Column(
         modifier = modifier.padding(vertical = 11.dp, horizontal = 16.dp)
     ) {
@@ -576,16 +555,27 @@ fun AnalysisFieldWithIconAtEnd(
             modifier = modifier
                 .fillMaxWidth()
         ) {
-
             Text(
-                text = text,
+                text = title,
                 style = MaterialTheme.typography.body1,
-                inlineContent = inlineContent
+                fontSize = dimensions.fontSizeBody_1,
             )
+
+            Spacer(modifier = Modifier.width(2.dp))
+
+            Icon(
+                imageVector = imageVector,
+                contentDescription = null,
+                tint = Color.Yellow,
+                modifier = modifier.size(dimensions.iconSize_3)
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
 
             Text(
                 text = value,
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1
             )
 
         }
@@ -596,6 +586,7 @@ fun AnalysisFieldWithIconAtEnd(
             Text(
                 text = it,
                 style = MaterialTheme.typography.h5,
+                fontSize = dimensions.fontSizeH5,
                 color = Gray30
             )
         }

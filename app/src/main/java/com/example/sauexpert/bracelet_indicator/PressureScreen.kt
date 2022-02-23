@@ -145,6 +145,7 @@ fun PressurewithBarChart(
                     endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 )
             ),
+            dimensions = dimensions,
             ListNumberData = listNumberData
         )
     }
@@ -169,20 +170,20 @@ fun PressureTitle(
     ) {
         Text(
             text = stringResource(id = R.string.pressure),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_2))
 
         Text(
             text = "${date.value}",
             style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
 
-        Spacer(modifier = Modifier.height(14.dp))
-
+        Spacer(modifier = Modifier.height(dimensions.grid_1_75))
 
         CustomTextRadioGroup(
             TextOfTab = listOf(
@@ -211,7 +212,8 @@ fun PressureTitle(
 @Composable
 fun BarChartForPressure(
     PressureData: List<PressureData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val visible = remember { mutableStateOf(false) }
@@ -263,7 +265,7 @@ fun BarChartForPressure(
         var width = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -398,7 +400,8 @@ fun AnalysisPressureSection(
             title = stringResource(R.string.highest_value),
             value = "18",
             dateData = "19 Декабря в 23:13",
-            imageVector = Icons.Filled.FlashOn
+            imageVector = Icons.Filled.FlashOn,
+            dimensions = dimensions
         )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
