@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
 import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.TimeActivityData
@@ -96,6 +97,8 @@ fun DailyRoutineScreen() {
                     MainActionToolBar(
                         titleText = stringResource(R.string.daily_routine),
                         iconBackClick = Icons.Default.ArrowBack,
+                        sizeIconBackClick = dimensions.iconSize_2,
+                        sizeTitleText = dimensions.fontSizeCustom_5,
                         onBackClick = {},
                         modifier = Modifier.padding(16.dp)
                     )
@@ -118,7 +121,8 @@ fun DailyRoutineScreen() {
 
                         },
                         listActivity = listActivity,
-                        index = index
+                        index = index,
+                        dimensions = dimensions
                     )
 
                 }
@@ -134,6 +138,7 @@ fun MainDailyRoutineSection(
     listActivity: MutableList<TimeActivityData>,
     index: MutableState<Int>,
     onClick: () -> Unit,
+    dimensions: Dimensions
 ) {
     Column(
         modifier = Modifier
@@ -144,7 +149,7 @@ fun MainDailyRoutineSection(
         Text(
             text = stringResource(R.string.describe_daily_routine_of_patient),
             style = MaterialTheme.typography.body1,
-            fontSize = 15.sp
+            fontSize = dimensions.fontSizeCustom_1
         )
 
         Spacer(modifier = Modifier.height(27.dp))
@@ -157,6 +162,7 @@ fun MainDailyRoutineSection(
             Text(
                 text = stringResource(R.string.meal_time),
                 style = MaterialTheme.typography.subtitle2,
+                fontSize = dimensions.fontSizeSubtitle_2
             )
 
             Icon(
@@ -164,6 +170,7 @@ fun MainDailyRoutineSection(
                 contentDescription = null,
                 tint = Color.Red,
                 modifier = modifier
+                    .size(dimensions.iconSize_5)
                     .clickable {
                     }
             )
@@ -179,6 +186,7 @@ fun MainDailyRoutineSection(
                     onClick = onClick,
                     index = index,
                     id = listActivity.indexOf(i),
+                    dimensions = dimensions
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }
@@ -189,6 +197,7 @@ fun MainDailyRoutineSection(
         Text(
             text = stringResource(R.string.sleep),
             style = MaterialTheme.typography.subtitle2,
+            fontSize = dimensions.fontSizeSubtitle_2
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -201,12 +210,13 @@ fun MainDailyRoutineSection(
                     onClick = onClick,
                     index = index,
                     id = listActivity.indexOf(i),
+                    dimensions = dimensions
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_2))
 
         MainButton(
             text = stringResource(id = R.string.complete_general_inspection),
@@ -227,6 +237,7 @@ fun CardForMainDailyRoutine(
     index: MutableState<Int>,
     id: Int,
     onClick: () -> Unit,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -242,6 +253,7 @@ fun CardForMainDailyRoutine(
         Text(
             text = title,
             style = MaterialTheme.typography.body1,
+            fontSize = dimensions.fontSizeBody_1
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -258,11 +270,11 @@ fun CardForMainDailyRoutine(
             Text(
                 text = text,
                 style = MaterialTheme.typography.body1,
-                fontSize = 22.sp
+                fontSize = dimensions.fontSizeCustom_6
             )
         }
 
-        Spacer(modifier = Modifier.width(22.dp))
+        Spacer(modifier = Modifier.width(dimensions.grid_2_5))
 
         IconButton(
             onClick = {
