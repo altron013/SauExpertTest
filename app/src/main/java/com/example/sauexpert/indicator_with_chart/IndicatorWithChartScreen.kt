@@ -35,13 +35,18 @@ fun IndicatorWithChartScreen() {
             )
     ) {
         Spacer(modifier = Modifier.height(5.dp))
+
         ActionToolBar(
-            titleText = stringResource(id = R.string.bracelet),
+            titleText = stringResource(id = R.string.indicators),
             iconBackClick = Icons.Default.ArrowBack,
+            sizeText = dimensions.fontSizeSubtitle_2,
+            sizeIcon = dimensions.iconSize_2,
             onBackClick = {},
             onRightClick = {}
         )
-        Spacer(modifier = Modifier.height(28.dp))
+
+        Spacer(modifier = Modifier.height(dimensions.grid_3_5))
+
         TabViewWithRoundBorder(
             TextOfTab = listOf(
                 TextOfTabData(

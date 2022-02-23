@@ -187,7 +187,7 @@ fun PressureAndPulsewithBarChart(
                     positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 10),
                 ),
             ),
-
+            dimensions = dimensions,
             ListNumberData = listNumberData,
             visible = visible
 
@@ -213,6 +213,7 @@ fun BarChartForPressureAndPulse(
     PulseData: List<PulseData>,
     ListNumberData: List<ListNumberOfYForTableData>,
     visible: MutableState<Boolean>,
+    dimensions: Dimensions
 ) {
     val scale by remember { mutableStateOf(1f) }
     val path = Path()
@@ -296,7 +297,7 @@ fun BarChartForPressureAndPulse(
         var width = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -472,16 +473,14 @@ fun AnalysisPressureAndPulseSection(
     var selectedTabIndex by remember {
         mutableStateOf(1)
     }
-
     var textDate = "18"
-
 
     Column {
 
         Text(
             text = "Показатели за 21 декабря 2021",
             style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
 

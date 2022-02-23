@@ -207,7 +207,7 @@ fun PressureAndPulseReportWithBarChart(
                     positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 10),
                 ),
             ),
-
+            dimensions = dimensions,
             ListNumberData = listNumberData,
             visible = visible
 

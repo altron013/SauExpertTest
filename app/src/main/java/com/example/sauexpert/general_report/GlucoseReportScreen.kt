@@ -73,6 +73,7 @@ fun GlucoseReportScreen() {
                 },
                 possibleValues = list,
                 state = state,
+                dimensions = dimensions,
                 onNameChange = { state = it }
             )
         },
@@ -273,14 +274,16 @@ fun GlucoseReportWithBarChart(
             ),
             ListNumberData = listNumberData,
             state = state,
-            visible = visible
+            visible = visible,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         MeasurementChangeForGlucose(
             onClick = onClick,
-            state = state
+            state = state,
+            dimensions
         )
 
         Spacer(modifier = Modifier.height(12.dp))
