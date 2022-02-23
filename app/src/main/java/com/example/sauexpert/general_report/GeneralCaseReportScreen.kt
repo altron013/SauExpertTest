@@ -312,18 +312,15 @@ fun CardItemForGeneralCase(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-
                 icon?.let {
                     Icon(
                         imageVector = it,
                         contentDescription = null,
                         tint = Color.Black,
-                        modifier = modifier.size(dimensions.iconSize_2)
                     )
 
                     Spacer(modifier = Modifier.width(13.dp))
                 }
-
 
                 Text(
                     text = text,
