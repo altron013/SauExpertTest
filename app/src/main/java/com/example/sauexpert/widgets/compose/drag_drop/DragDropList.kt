@@ -86,7 +86,7 @@ fun DragDropList(
             }
 
             if (index < listSize) {
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_1_25))
 
                 Divider(
                     color = Gray30.copy(alpha = 0.29f),
@@ -94,7 +94,7 @@ fun DragDropList(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_1_25))
 
             }
 

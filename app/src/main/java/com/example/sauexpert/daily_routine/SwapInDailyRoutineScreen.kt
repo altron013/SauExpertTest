@@ -62,7 +62,7 @@ fun SwapDailyRoutineScreen() {
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(23.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_3))
 
         MainSectionForSwap(
             dimensions = dimensions
