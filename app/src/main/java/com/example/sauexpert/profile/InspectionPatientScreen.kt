@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -26,6 +27,9 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.*
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
 import com.example.sauexpert.ui.theme.Pink42949
@@ -34,6 +38,9 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 
 @Composable
 fun InspectionPatientScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -44,13 +51,17 @@ fun InspectionPatientScreen() {
         ActionToolBar(
             titleText = "Zhanna Akhmetova",
             iconBackClick = Icons.Default.ArrowBack,
+            sizeText = dimensions.fontSizeSubtitle_2,
+            sizeIcon = dimensions.iconSize_2,
             onBackClick = {},
             onRightClick = {}
         )
 
-        Spacer(modifier = Modifier.height(44.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_5_5))
 
-        PreviousInspectionsSection()
+        PreviousInspectionsSection(
+            dimensions = dimensions
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
         MainButton(
@@ -59,31 +70,41 @@ fun InspectionPatientScreen() {
             enableState = true,
             icon = R.drawable.ic_plus_circle,
             backgroundColor = Pink42949,
-            textColor = Color.Red
+            textColor = Color.Red,
+            buttonHeight = dimensions.buttonHeight_0,
+            sizeText = dimensions.fontSizeBody_1,
         )
     }
 }
 
 @Composable
-fun PreviousInspectionsSection(modifier: Modifier = Modifier) {
+fun PreviousInspectionsSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(R.string.previous_inspections).toUpperCase(Locale.current),
             style = MaterialTheme.typography.body2,
+            fontSize = dimensions.fontSizeBody_2
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         PreviousInspectionsSection(
             doctorName = "Ларионов Игорь Викторович",
-            dateOfInspection = "15 Февраля 2021"
+            dateOfInspection = "15 Февраля 2021",
+            dimensions = dimensions
+
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         PreviousInspectionsSection(
             doctorName = "Келимбетов Аскар Ахметович",
-            dateOfInspection = "22 Мая 2021", yourInspection = true
+            dateOfInspection = "22 Мая 2021",
+            yourInspection = true,
+            dimensions = dimensions
         )
     }
 }
@@ -94,6 +115,7 @@ fun PreviousInspectionsSection(
     yourInspection: Boolean = false,
     doctorName: String,
     dateOfInspection: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -110,7 +132,10 @@ fun PreviousInspectionsSection(
             )
             .padding(24.dp)
     ) {
-        AnalysisInspectionsField(doctorName)
+        AnalysisInspectionsField(
+            doctorName = doctorName,
+            dimensions = dimensions
+        )
 
         Divider(
             color = Gray30.copy(alpha = 0.35f),
@@ -118,7 +143,12 @@ fun PreviousInspectionsSection(
             modifier = modifier
                 .padding(vertical = 16.dp)
         )
-        AnalysisInspectionsDateField(dateOfInspection)
+
+        AnalysisInspectionsDateField(
+            dateOfInspection = dateOfInspection,
+            dimensions = dimensions
+        )
+
         if (yourInspection) {
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -127,9 +157,10 @@ fun PreviousInspectionsSection(
                 onClick = { /*TODO*/ },
                 enableState = true,
                 icon = R.drawable.ic_square_and_pencil,
-                buttonHeight = 35.dp,
                 backgroundColor = Pink42949,
-                textColor = Color.Red
+                textColor = Color.Red,
+                buttonHeight = dimensions.buttonHeight_0,
+                sizeText = dimensions.fontSizeBody_1
             )
         }
     }
@@ -138,6 +169,7 @@ fun PreviousInspectionsSection(
 @Composable
 fun AnalysisInspectionsField(
     doctorName: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -153,6 +185,7 @@ fun AnalysisInspectionsField(
             Text(
                 text = doctorName,
                 style = MaterialTheme.typography.subtitle2,
+                fontSize = dimensions.fontSizeSubtitle_2,
                 modifier = Modifier.weight(0.8f)
             )
 
@@ -167,7 +200,7 @@ fun AnalysisInspectionsField(
                     contentDescription = "",
                     tint = Color.Black,
                     modifier = modifier
-                        .size(20.dp)
+                        .size(dimensions.iconSize_3)
                         .clickable { }
                 )
             }
@@ -188,6 +221,7 @@ fun AnalysisInspectionsField(
 @Composable
 fun AnalysisInspectionsDateField(
     dateOfInspection: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -198,6 +232,7 @@ fun AnalysisInspectionsDateField(
         Text(
             text = stringResource(R.string.date_of_inspections),
             style = MaterialTheme.typography.h5,
+            fontSize = dimensions.fontSizeBody_2,
             color = Gray30
         )
 
@@ -206,6 +241,7 @@ fun AnalysisInspectionsDateField(
         Text(
             text = dateOfInspection,
             style = MaterialTheme.typography.subtitle1,
+            fontSize = dimensions.fontSizeSubtitle_1
         )
 
     }

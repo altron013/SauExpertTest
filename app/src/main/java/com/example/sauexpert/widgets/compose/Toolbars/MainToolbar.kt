@@ -169,6 +169,7 @@ fun ActionToolBar(
     onRightClick: () -> Unit,
     titleText: String,
     sizeText: TextUnit = 17.sp,
+    sizeIcon: Dp = 24.dp,
     colorBackClick: Color = Color.Black,
     colorRightClick: Color = Color.Black,
     modifier: Modifier = Modifier
@@ -190,6 +191,8 @@ fun ActionToolBar(
                         imageVector = it,
                         contentDescription = "Back",
                         tint = colorBackClick,
+                        modifier = Modifier
+                            .size(sizeIcon)
                     )
                 }
             }
@@ -248,6 +251,8 @@ fun ActionToolBar(
                         painter = it,
                         contentDescription = null,
                         tint = colorRightClick,
+                        modifier = Modifier
+                            .size(sizeIcon)
                     )
                 }
             }

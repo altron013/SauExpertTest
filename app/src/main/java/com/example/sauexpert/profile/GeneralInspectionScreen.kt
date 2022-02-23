@@ -10,9 +10,12 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
@@ -20,6 +23,9 @@ import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
 
 @Composable
 fun GeneralInspectionScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,7 +56,9 @@ fun GeneralInspectionScreen() {
         ) {
             PreviousInspectionsSection(
                 doctorName = "Келимбетов Аскар Ахметович",
-                dateOfInspection = "22 Мая 2021", yourInspection = true
+                dateOfInspection = "22 Мая 2021",
+                yourInspection = true,
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(24.dp))
