@@ -266,6 +266,7 @@ fun MainActionToolBar(
     textBackClick: String? = null,
     titleText: String? = null,
     sizeTextBackClick: TextUnit = 17.sp,
+    sizeTitleText: TextUnit = 28.sp,
     sizeIconBackClick: Dp = 24.dp,
     colorBackClick: Color = Color.Black,
     onBackClick: () -> Unit,
@@ -309,7 +310,7 @@ fun MainActionToolBar(
             Text(
                 text = it,
                 style = MaterialTheme.typography.h4,
-                fontSize = 28.sp
+                fontSize = sizeTitleText
             )
         }
     }

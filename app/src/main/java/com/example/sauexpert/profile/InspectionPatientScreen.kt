@@ -252,10 +252,11 @@ fun ProfileForInspection(
     content: String,
     text: Float,
     showPercentage: Boolean = false,
-    modifier: Modifier = Modifier,
     image: Painter = painterResource(id = R.drawable.avatar),
     painter: Painter? = null,
-    color: Color = Color.Green
+    color: Color = Color.Green,
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -276,13 +277,14 @@ fun ProfileForInspection(
         RoundImage(
             image = image,
             modifier = Modifier
-                .size(32.dp)
+                .size(dimensions.imageHeight_2)
                 .weight(1f)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = content,
             style = MaterialTheme.typography.subtitle2,
+            fontSize = dimensions.fontSizeSubtitle_2,
             modifier = Modifier.weight(3f)
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -461,7 +463,7 @@ fun OutlinedTextWithIconFieldWithBackground(
 @Composable
 fun dropDownMenuWithFieldBackGround(
     dataList: List<String>,
-    enableStatus: Boolean = true
+    enableStatus: Boolean = true,
 ) {
     Box {
         Box(
@@ -474,14 +476,17 @@ fun dropDownMenuWithFieldBackGround(
                 )
         )
 
-        OutlineTextFildWithDropdownMenu(suggestions = dataList, enableStatus = enableStatus)
+        OutlineTextFildWithDropdownMenu(
+            suggestions = dataList,
+            enableStatus = enableStatus,
+        )
     }
 }
 
 @Composable
 fun OutlineTextFildWithDropdownMenu(
     suggestions: List<String>,
-    enableStatus: Boolean = true
+    enableStatus: Boolean = true,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf("") }

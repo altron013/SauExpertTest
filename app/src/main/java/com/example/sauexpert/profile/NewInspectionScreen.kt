@@ -13,10 +13,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
 import com.example.sauexpert.ui.theme.Pink42949
@@ -25,6 +28,9 @@ import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
 
 @Composable
 fun NewInspectionScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,7 +43,12 @@ fun NewInspectionScreen() {
             modifier = Modifier.padding(16.dp)
         )
         Spacer(modifier = Modifier.height(20.dp))
-        ProfileForInspection(content = "user", text = 0.4f, showPercentage = true)
+        ProfileForInspection(
+            content = "user",
+            text = 0.4f,
+            showPercentage = true,
+            dimensions = dimensions
+        )
         Spacer(modifier = Modifier.height(32.dp))
         FillInfoStatFiled()
     }
@@ -48,9 +59,9 @@ fun NewInspectionScreen() {
 fun FillInfoStatFiled(
     modifier: Modifier = Modifier
 ) {
-    var textLifeField by rememberSaveable  { mutableStateOf("") }
-    var textComplaintsField by rememberSaveable  { mutableStateOf("") }
-    var textIllnessField by rememberSaveable  { mutableStateOf("") }
+    var textLifeField by rememberSaveable { mutableStateOf("") }
+    var textComplaintsField by rememberSaveable { mutableStateOf("") }
+    var textIllnessField by rememberSaveable { mutableStateOf("") }
     val stateBoolean = textLifeField != "" && textComplaintsField != "" && textIllnessField != ""
     val textColorOfButton: Color = if (stateBoolean) Color.Red else Color.White
 

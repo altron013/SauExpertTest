@@ -16,11 +16,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.profile.OutlinedTextFieldWithBackground
 import com.example.sauexpert.profile.ProfileForInspection
@@ -38,6 +41,8 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun DailyRoutineScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     val listActivity = mutableListOf(
         TimeActivityData(activity = "Завтрак", time = "09:00"),
@@ -94,9 +99,17 @@ fun DailyRoutineScreen() {
                         onBackClick = {},
                         modifier = Modifier.padding(16.dp)
                     )
+
                     Spacer(modifier = Modifier.height(4.dp))
-                    ProfileForInspection(content = "user", text = 0.4f)
+
+                    ProfileForInspection(
+                        content = "user",
+                        text = 0.4f,
+                        dimensions = dimensions
+                    )
+
                     Spacer(modifier = Modifier.height(32.dp))
+
                     MainDailyRoutineSection(
                         onClick = {
                             coroutineScope.launch {

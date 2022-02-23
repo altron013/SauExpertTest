@@ -32,6 +32,7 @@ class Dimensions(
     val imageWidth_0: Dp,
     val imageSize_0: Dp,
     val buttonHeight_0: Dp,
+    val buttonHeight_0_5: Dp,
     val buttonHeight_1: Dp,
     val cardHeight_0: Dp,
     val cardHeight_1: Dp,
@@ -51,6 +52,7 @@ class Dimensions(
     val fontSizeCustom_2: TextUnit,
     val fontSizeCustom_3: TextUnit,
     val fontSizeCustom_4: TextUnit,
+    val fontSizeCustom_5: TextUnit,
     val minimum_touch_target: Dp = 48.dp,
 )
 
@@ -81,6 +83,7 @@ val smallDimensions = Dimensions(
     imageWidth_0 = 80.dp,
     imageSize_0 = 36.dp,
     buttonHeight_0 = 38.dp,
+    buttonHeight_0_5 = 43.dp,
     buttonHeight_1 = 54.dp,
     cardHeight_0 = 130.dp,
     cardHeight_1 = 90.dp,
@@ -99,7 +102,8 @@ val smallDimensions = Dimensions(
     fontSizeCustom_1 = 12.sp,
     fontSizeCustom_2 = 28.sp,
     fontSizeCustom_3 = 10.sp,
-    fontSizeCustom_4 = 9.sp
+    fontSizeCustom_4 = 9.sp,
+    fontSizeCustom_5 = 22.sp
 )
 
 val sw360Dimensions = Dimensions(
@@ -129,6 +133,7 @@ val sw360Dimensions = Dimensions(
     imageWidth_0 = 145.dp,
     imageSize_0 = 48.dp,
     buttonHeight_0 = 50.dp,
+    buttonHeight_0_5 = 55.dp,
     buttonHeight_1 = 72.dp,
     cardHeight_0 = 170.dp,
     cardHeight_1 = 120.dp,
@@ -147,5 +152,6 @@ val sw360Dimensions = Dimensions(
     fontSizeCustom_1 = 15.sp,
     fontSizeCustom_2 = 36.sp,
     fontSizeCustom_3 = 13.sp,
-    fontSizeCustom_4 = 11.sp
+    fontSizeCustom_4 = 11.sp,
+    fontSizeCustom_5 = 28.sp
 )

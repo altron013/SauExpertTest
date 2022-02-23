@@ -40,7 +40,11 @@ fun GeneralInspectionScreen() {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        ProfileForInspection(content = "Zhanna Akhmetova", text = 0f)
+        ProfileForInspection(
+            content = "Zhanna Akhmetova",
+            text = 0f,
+            dimensions = dimensions
+        )
 
         Spacer(modifier = Modifier.height(32.dp))
 
