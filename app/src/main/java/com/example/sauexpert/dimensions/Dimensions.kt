@@ -53,6 +53,7 @@ class Dimensions(
     val fontSizeCustom_3: TextUnit,
     val fontSizeCustom_4: TextUnit,
     val fontSizeCustom_5: TextUnit,
+    val fontSizeCustom_6: TextUnit,
     val minimum_touch_target: Dp = 48.dp,
 )
 
@@ -103,7 +104,8 @@ val smallDimensions = Dimensions(
     fontSizeCustom_2 = 28.sp,
     fontSizeCustom_3 = 10.sp,
     fontSizeCustom_4 = 9.sp,
-    fontSizeCustom_5 = 22.sp
+    fontSizeCustom_5 = 22.sp,
+    fontSizeCustom_6 = 16.sp
 )
 
 val sw360Dimensions = Dimensions(
@@ -153,5 +155,6 @@ val sw360Dimensions = Dimensions(
     fontSizeCustom_2 = 36.sp,
     fontSizeCustom_3 = 13.sp,
     fontSizeCustom_4 = 11.sp,
-    fontSizeCustom_5 = 28.sp
+    fontSizeCustom_5 = 28.sp,
+    fontSizeCustom_6 = 22.sp
 )
