@@ -23,6 +23,9 @@ import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.indicator_with_chart.BarChartForPressureAndPulse
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
@@ -34,6 +37,9 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
 fun PressureAndPulseReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -57,19 +63,22 @@ fun PressureAndPulseReportScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            PressureAndPulseReportWithBarChart()
+            PressureAndPulseReportWithBarChart(dimensions = dimensions)
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ReferenceIndicatorSection(textValue = "120/80")
+            ReferenceIndicatorSection(
+                textValue = "120/80",
+                dimensions = dimensions
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            IndicatorForMonthSection()
+            IndicatorForMonthSection(dimensions = dimensions)
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            DeviationsFromGeneralSection()
+            DeviationsFromGeneralSection(dimensions = dimensions)
         }
     }
 }
@@ -77,6 +86,7 @@ fun PressureAndPulseReportScreen() {
 
 @Composable
 fun PressureAndPulseReportWithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val visible = remember { mutableStateOf(false) }
@@ -205,13 +215,14 @@ fun PressureAndPulseReportWithBarChart(
         )
         Spacer(modifier = Modifier.height(20.dp))
         TextWithIconForGraph(
-            color =
-            if (visible.value) Color.Red else Gray50,
-            text = stringResource(id = R.string.pressure).toUpperCase(Locale.current)
+            color = if (visible.value) Color.Red else Gray50,
+            text = stringResource(id = R.string.pressure).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
         TextWithIconForGraph(
             color = Blue4285,
-            text = stringResource(id = R.string.pulse).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.pulse).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }

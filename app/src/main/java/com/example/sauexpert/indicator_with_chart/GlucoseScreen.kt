@@ -263,14 +263,16 @@ fun GlucosewithBarChart(
 
         TextWithIconForGraph(
             color = Pink4294,
-            text = stringResource(id = R.string.level_of_glucose_before_food).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.level_of_glucose_before_food).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextWithIconForGraph(
             color = Blue4289,
-            text = stringResource(id = R.string.level_of_glucose_after_food).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.level_of_glucose_after_food).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }

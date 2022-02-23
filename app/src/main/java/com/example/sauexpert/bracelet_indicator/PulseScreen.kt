@@ -52,9 +52,9 @@ fun PulseScreen() {
     ) {
         PulsewithBarChart(dimensions = dimensions)
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPulseSection()
+        AnalysisPulseSection(dimensions = dimensions)
         Spacer(modifier = Modifier.height(16.dp))
-        RangeCustomizeSection()
+        RangeCustomizeSection(dimensions = dimensions)
     }
 }
 
@@ -306,7 +306,10 @@ fun InfoDialogForBarChartOfPulse(
 
 
 @Composable
-fun AnalysisPulseSection(modifier: Modifier = Modifier) {
+fun AnalysisPulseSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -331,8 +334,8 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.lowest_value),
             value = "18",
             dateData = "19 Декабря в 23:13",
-
-            )
+            dimensions = dimensions
+        )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
             thickness = 1.dp,
@@ -349,6 +352,7 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.last_value),
             value = "18",
             dateData = "20 Декабря в 23:13",
+            dimensions = dimensions
         )
     }
 }

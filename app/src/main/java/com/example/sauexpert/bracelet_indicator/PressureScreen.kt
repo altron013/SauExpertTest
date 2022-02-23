@@ -57,9 +57,9 @@ fun PressureScreen() {
             dimensions = dimensions
         )
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPressureSection()
+        AnalysisPressureSection(dimensions = dimensions)
         Spacer(modifier = Modifier.height(16.dp))
-        RangeCustomizeSection()
+        RangeCustomizeSection(dimensions = dimensions)
     }
 }
 
@@ -382,7 +382,10 @@ fun InfoDialogForBarChartOfPressure(
 
 
 @Composable
-fun AnalysisPressureSection(modifier: Modifier = Modifier) {
+fun AnalysisPressureSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -407,8 +410,8 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.lowest_value),
             value = "18",
             dateData = "19 Декабря в 23:13",
-
-            )
+            dimensions = dimensions
+        )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
             thickness = 1.dp,
@@ -425,6 +428,7 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.last_value),
             value = "18",
             dateData = "20 Декабря в 23:13",
+            dimensions = dimensions
         )
     }
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
@@ -60,11 +61,15 @@ fun SleepScreen() {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        SleepStatisticsSection(wakeUpStatistics = 3, visible = visible)
+        SleepStatisticsSection(
+            wakeUpStatistics = 3,
+            visible = visible,
+            dimensions = dimensions
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        RangeCustomizeSection()
+        RangeCustomizeSection(dimensions = dimensions)
 
     }
 
@@ -112,7 +117,6 @@ fun SleepwithBarChart(
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSleep(
             ListNumberData = listNumberData,
-
             SleepData = listOf(
                 SleepData(
                     positionOnX = (screenWidth * 0),
@@ -150,7 +154,7 @@ fun SleepwithBarChart(
                     dateName = "22"
                 )
             ),
-
+            dimensions = dimensions,
             visible = visible
 
         )
@@ -162,6 +166,7 @@ fun SleepwithBarChart(
 fun BarChartForSleep(
     SleepData: List<SleepData>,
     visible: MutableState<Boolean>,
+    dimensions: Dimensions,
     ListNumberData: List<ListNumberOfYForTableData>
 ) {
     var start by remember { mutableStateOf(false) }
@@ -219,7 +224,7 @@ fun BarChartForSleep(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -300,16 +305,16 @@ private fun setRedColorInsideDataClassForSleep(
 fun SleepStatisticsSection(
     wakeUpStatistics: Int,
     visible: MutableState<Boolean>,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
 
     if (visible.value) {
         Column {
-
             Text(
                 text = "Показатели за 21 декабря 2021",
                 style = MaterialTheme.typography.h6,
-                fontSize = 15.sp,
+                fontSize = dimensions.fontSizeCustom_1,
                 color = Gray30
             )
 
@@ -324,10 +329,10 @@ fun SleepStatisticsSection(
                         shape = RoundedCornerShape(10.dp)
                     )
             ) {
-
                 AnalysisField(
                     title = stringResource(R.string.woke_up_in_middle),
                     value = "$wakeUpStatistics раза",
+                    dimensions = dimensions
                 )
                 Divider(
                     color = Gray30.copy(alpha = 0.19f),
@@ -339,6 +344,7 @@ fun SleepStatisticsSection(
                     deepSleepPercent = 40,
                     lightSleepPercent = 35,
                     remSleepPercent = 25,
+                    textSize = dimensions.fontSizeCustom_1
                 )
 
             }
@@ -352,6 +358,7 @@ fun ProgressBarForSleep(
     deepSleepPercent: Int = 0,
     lightSleepPercent: Int = 0,
     remSleepPercent: Int = 0,
+    textSize: TextUnit = 15.sp
 ) {
 
     val configuration = LocalConfiguration.current
@@ -380,14 +387,14 @@ fun ProgressBarForSleep(
             Text(
                 text = stringResource(R.string.deep_sleep),
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
                 color = Color.Blue
             )
 
             Text(
                 text = "$deepSleepPercent%",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
             )
 
         }
@@ -408,14 +415,14 @@ fun ProgressBarForSleep(
             Text(
                 text = stringResource(R.string.light_sleep),
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
                 color = Color.Cyan
             )
 
             Text(
                 text = "$lightSleepPercent%",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
             )
 
         }
@@ -436,14 +443,14 @@ fun ProgressBarForSleep(
             Text(
                 text = stringResource(R.string.rem_sleep),
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
                 color = Color.Gray
             )
 
             Text(
                 text = "$remSleepPercent%",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
             )
         }
     }

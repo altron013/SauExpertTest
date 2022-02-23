@@ -50,7 +50,7 @@ fun StepsScreen() {
     ) {
         StepswithBarChart(dimensions = dimensions)
         Spacer(modifier = Modifier.height(16.dp))
-        RangeCustomizeSection()
+        RangeCustomizeSection(dimensions = dimensions)
     }
 }
 

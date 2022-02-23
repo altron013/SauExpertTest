@@ -26,6 +26,9 @@ import com.example.sauexpert.bracelet_indicator.AnalysisField
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.indicator_with_chart.BarChartForGlucose
 import com.example.sauexpert.indicator_with_chart.BottomSheetContentForGlucose
 import com.example.sauexpert.indicator_with_chart.MeasurementChangeForGlucose
@@ -40,6 +43,8 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun GlucoseReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -104,23 +109,28 @@ fun GlucoseReportScreen() {
                         visible.value = false
                     },
                     state = state,
-                    visible = visible
+                    visible = visible,
+                    dimensions = dimensions
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                ReferenceIndicatorSection(textValue = "3,5 — 4,1")
+                ReferenceIndicatorSection(
+                    textValue = "3,5 — 4,1",
+                    dimensions = dimensions
+                )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 IndicatorForMonthSection(
                     glucoseValueAfterFood = 18,
                     glucoseValueBeforeFood = 18,
+                    dimensions = dimensions
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                DeviationsFromGeneralSection()
+                DeviationsFromGeneralSection(dimensions = dimensions)
             }
         }
     }
@@ -132,6 +142,7 @@ fun GlucoseReportWithBarChart(
     onClick: (Int) -> Unit,
     visible: MutableState<Boolean>,
     state: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -276,14 +287,16 @@ fun GlucoseReportWithBarChart(
 
         TextWithIconForGraph(
             color = Pink4294,
-            text = stringResource(id = R.string.level_of_glucose_before_food).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.level_of_glucose_before_food).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextWithIconForGraph(
             color = Blue4289,
-            text = stringResource(id = R.string.level_of_glucose_after_food).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.level_of_glucose_after_food).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }
@@ -291,6 +304,7 @@ fun GlucoseReportWithBarChart(
 @Composable
 fun ReferenceIndicatorSection(
     textValue: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -340,7 +354,11 @@ fun ReferenceIndicatorSection(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        AnalysisField(title = stringResource(R.string.references_value), value = textValue)
+        AnalysisField(
+            title = stringResource(R.string.references_value),
+            value = textValue,
+            dimensions = dimensions
+        )
     }
 }
 
@@ -349,7 +367,7 @@ fun ReferenceIndicatorSection(
 fun IndicatorForMonthSection(
     glucoseValueAfterFood: Int? = null,
     glucoseValueBeforeFood: Int? = null,
-
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -371,7 +389,11 @@ fun IndicatorForMonthSection(
                     shape = RoundedCornerShape(10.dp)
                 )
         ) {
-            AnalysisField(title = stringResource(R.string.total_measurements), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.total_measurements),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
@@ -381,7 +403,8 @@ fun IndicatorForMonthSection(
             glucoseValueAfterFood?.let {
                 AnalysisField(
                     title = stringResource(R.string.case_before_food),
-                    value = it.toString()
+                    value = it.toString(),
+                    dimensions = dimensions
                 )
                 Divider(
                     color = Gray30.copy(alpha = 0.19f),
@@ -394,7 +417,8 @@ fun IndicatorForMonthSection(
             glucoseValueBeforeFood?.let {
                 AnalysisField(
                     title = stringResource(R.string.case_after_food),
-                    value = it.toString()
+                    value = it.toString(),
+                    dimensions = dimensions
                 )
                 Divider(
                     color = Gray30.copy(alpha = 0.19f),
@@ -407,7 +431,8 @@ fun IndicatorForMonthSection(
             AnalysisField(
                 title = stringResource(R.string.missed_measurements),
                 value = "18",
-                color = Color.Red
+                color = Color.Red,
+                dimensions = dimensions
             )
 
         }
@@ -417,7 +442,10 @@ fun IndicatorForMonthSection(
 
 
 @Composable
-fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
+fun DeviationsFromGeneralSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(R.string.deviations_from_general),
@@ -435,7 +463,11 @@ fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(10.dp)
                 )
         ) {
-            AnalysisField(title = stringResource(R.string.total_case), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.total_case),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
@@ -444,7 +476,8 @@ fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
             )
             AnalysisField(
                 title = stringResource(R.string.significantly_above_general),
-                value = "18"
+                value = "18",
+                dimensions = dimensions
             )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
@@ -452,14 +485,22 @@ fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.above_general), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.above_general),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.below_general), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.below_general),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
@@ -468,7 +509,8 @@ fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
             )
             AnalysisField(
                 title = stringResource(R.string.significantly_below_general),
-                value = "18"
+                value = "18",
+                dimensions = dimensions
             )
 
         }

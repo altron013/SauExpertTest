@@ -195,13 +195,14 @@ fun PressureAndPulsewithBarChart(
         )
         Spacer(modifier = Modifier.height(20.dp))
         TextWithIconForGraph(
-            color =
-            if (visible.value) Color.Red else Gray50,
-            text = stringResource(id = R.string.pressure).toUpperCase(Locale.current)
+            color = if (visible.value) Color.Red else Gray50,
+            text = stringResource(id = R.string.pressure).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
         TextWithIconForGraph(
             color = Blue4285,
-            text = stringResource(id = R.string.pulse).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.pulse).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }
@@ -529,8 +530,8 @@ fun AnalysisPressureAndPulseSection(
                 title = stringResource(R.string.lowest_value),
                 value = textDate,
                 dateData = "19 Декабря в 23:13",
-
-                )
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
@@ -547,6 +548,7 @@ fun AnalysisPressureAndPulseSection(
                 title = stringResource(R.string.last_value),
                 value = "18",
                 dateData = "20 Декабря в 23:13",
+                dimensions = dimensions
             )
         }
     }

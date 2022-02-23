@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
@@ -192,6 +191,7 @@ fun TabViewWithRoundBorder(
 fun TextWithIconForGraph(
     color: Color,
     text: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -203,7 +203,7 @@ fun TextWithIconForGraph(
             imageVector = Icons.Filled.Circle,
             contentDescription = "",
             tint = color,
-            modifier = modifier.size(9.dp)
+            modifier = modifier.size(dimensions.iconSize_7)
         )
 
         Spacer(modifier = Modifier.width(2.dp))
@@ -211,7 +211,7 @@ fun TextWithIconForGraph(
         Text(
             text = text,
             style = MaterialTheme.typography.h6,
-            fontSize = 13.sp,
+            fontSize = dimensions.fontSizeCustom_3,
             color = Gray30,
         )
 
@@ -313,7 +313,7 @@ fun CustomTextRadioGroup(
                         painter = it,
                         contentDescription = null,
                         tint = Gray30,
-                        modifier = Modifier.size(14.dp)
+                        modifier = Modifier.size(dimensions.iconSize_6)
                     )
 
                     Spacer(modifier = Modifier.width(6.dp))
@@ -399,7 +399,6 @@ fun TitleForGraph(
                 )
             }
 
-
             Row(
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically,
@@ -427,7 +426,7 @@ fun TitleForGraph(
         Text(
             text = date.value,
             style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
     }
@@ -440,6 +439,7 @@ fun AnalysisField(
     value: String,
     dateData: String? = null,
     color: Color = Color.Black,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -455,13 +455,15 @@ fun AnalysisField(
             Text(
                 text = title,
                 style = MaterialTheme.typography.body1,
-                color = color
+                color = color,
+                fontSize = dimensions.fontSizeBody_1
             )
 
             Text(
                 text = value,
                 style = MaterialTheme.typography.body1,
-                color = color
+                color = color,
+                fontSize = dimensions.fontSizeBody_1
             )
 
         }
@@ -472,6 +474,7 @@ fun AnalysisField(
             Text(
                 text = it,
                 style = MaterialTheme.typography.h5,
+                fontSize = dimensions.fontSizeH5,
                 color = Gray30
             )
         }
@@ -484,6 +487,7 @@ fun AnalysisFieldWithIconAtBeg(
     value: String,
     dateData: String? = null,
     imageVector: ImageVector,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -500,7 +504,7 @@ fun AnalysisFieldWithIconAtBeg(
                 imageVector = imageVector,
                 contentDescription = "",
                 tint = Color.Red,
-                modifier = modifier.size(12.dp)
+                modifier = modifier.size(dimensions.iconSize_1)
             )
 
             Spacer(modifier = Modifier.width(3.dp))
@@ -508,6 +512,7 @@ fun AnalysisFieldWithIconAtBeg(
             Text(
                 text = title,
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -515,6 +520,7 @@ fun AnalysisFieldWithIconAtBeg(
             Text(
                 text = value,
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1
             )
 
         }
@@ -524,6 +530,7 @@ fun AnalysisFieldWithIconAtBeg(
             Text(
                 text = it,
                 style = MaterialTheme.typography.h5,
+                fontSize = dimensions.fontSizeH5,
                 color = Gray30
             )
         }
@@ -598,7 +605,10 @@ fun AnalysisFieldWithIconAtEnd(
 
 
 @Composable
-fun RangeCustomizeSection(modifier: Modifier = Modifier) {
+fun RangeCustomizeSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -623,7 +633,7 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
                 painter = painterResource(R.drawable.ic_gear),
                 contentDescription = "",
                 tint = Color.Black,
-                modifier = modifier.size(20.dp)
+                modifier = modifier.size(dimensions.iconSize_3)
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -631,6 +641,7 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.range_customize),
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -639,7 +650,7 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
                 imageVector = Icons.Filled.KeyboardArrowRight,
                 contentDescription = "",
                 tint = Color.Black,
-                modifier = modifier.size(20.dp)
+                modifier = modifier.size(dimensions.iconSize_3)
             )
 
         }

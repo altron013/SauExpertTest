@@ -26,6 +26,9 @@ import com.example.sauexpert.bracelet_indicator.LineChartForSp02
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.ui.theme.Gray30
@@ -33,6 +36,9 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
 fun Sp02ReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -56,7 +62,7 @@ fun Sp02ReportScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            SP02ReportWithLineGraph()
+            SP02ReportWithLineGraph(dimensions = dimensions)
 
         }
     }
@@ -65,6 +71,7 @@ fun Sp02ReportScreen() {
 
 @Composable
 fun SP02ReportWithLineGraph(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -154,21 +161,24 @@ fun SP02ReportWithLineGraph(
                     dateName = "22"
                 ),
             ),
+            dimensions = dimensions,
             ListNumberData = listNumberData
-
         )
+
         Spacer(modifier = Modifier.height(20.dp))
 
         TextWithIconForGraph(
             color = Color.Green.copy(alpha = 0.25f),
-            text = stringResource(id = R.string.oxygen_level).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.oxygen_level).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextWithIconForGraph(
             color = Color.Red,
-            text = stringResource(id = R.string.sleep_apnea).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.sleep_apnea).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }
