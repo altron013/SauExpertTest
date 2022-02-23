@@ -310,7 +310,7 @@ fun MainActionToolBar(
             Text(
                 text = it,
                 style = MaterialTheme.typography.h4,
-                fontSize = sizeTitleText
+                fontSize = sizeTitleText,
             )
         }
     }
@@ -327,6 +327,9 @@ fun ActionToolBarWithSubtitle(
     onRightClick: () -> Unit,
     titleText: String,
     subtitleText: String,
+    sizeText: TextUnit = 17.sp,
+    sizeSubtitleText: TextUnit = 12.sp,
+    sizeIcon: Dp = 24.dp,
     colorBackClick: Color = Color.Black,
     colorRightClick: Color = Color.Black,
     modifier: Modifier = Modifier
@@ -348,6 +351,8 @@ fun ActionToolBarWithSubtitle(
                         imageVector = it,
                         contentDescription = "Back",
                         tint = colorBackClick,
+                        modifier = Modifier
+                            .size(sizeIcon)
                     )
                 }
             }
@@ -361,6 +366,7 @@ fun ActionToolBarWithSubtitle(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.body1,
+                    fontSize = sizeText,
                     color = colorBackClick,
                     modifier = modifier
                         .clickable {
@@ -376,12 +382,14 @@ fun ActionToolBarWithSubtitle(
             Text(
                 text = titleText,
                 style = MaterialTheme.typography.subtitle2,
+                fontSize = sizeText
             )
 
             Text(
                 text = subtitleText,
                 style = MaterialTheme.typography.body2,
-                color = Gray30
+                color = Gray30,
+                fontSize = sizeSubtitleText
             )
 
         }
@@ -399,6 +407,7 @@ fun ActionToolBarWithSubtitle(
                     text = it,
                     style = MaterialTheme.typography.body1,
                     color = colorRightClick,
+                    fontSize = sizeText,
                     modifier = modifier
                         .clickable {
                             onRightClick()
@@ -416,6 +425,8 @@ fun ActionToolBarWithSubtitle(
                         painter = it,
                         contentDescription = null,
                         tint = colorRightClick,
+                        modifier = Modifier
+                            .size(sizeIcon)
                     )
                 }
             }

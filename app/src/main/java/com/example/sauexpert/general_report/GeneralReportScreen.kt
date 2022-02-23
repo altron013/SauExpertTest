@@ -32,17 +32,20 @@ fun GeneralReportScreen() {
             .background(color = Gray30.copy(alpha = 0.19f))
     ) {
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_2))
 
         ActionToolBarWithSubtitle(
             titleText = "Zhanna Akhmetova",
             subtitleText = "Общая оценка: 90 из 100",
             iconBackClick = Icons.Default.ArrowBack,
+            sizeText = dimensions.fontSizeSubtitle_2,
+            sizeSubtitleText = dimensions.fontSizeBody_2,
+            sizeIcon = dimensions.iconSize_2,
             onBackClick = {},
             onRightClick = {}
         )
 
-        Spacer(modifier = Modifier.height(28.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_3))
 
         TabViewForPatientCardScreen(
             TextOfTab = listOf(
