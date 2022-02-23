@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,6 +31,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.*
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray4292
@@ -47,6 +51,9 @@ fun BraceletIndicatorScreen() {
         mutableStateOf(0)
     }
 
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier.fillMaxSize()
             .background(
@@ -60,6 +67,8 @@ fun BraceletIndicatorScreen() {
             iconBackClick = Icons.Default.ArrowBack,
             iconRightClick = painterResource(R.drawable.ic_calendar),
             colorRightClick = Color.Red,
+            sizeText = dimensions.fontSizeSubtitle_2,
+            sizeIcon = dimensions.iconSize_2,
             onBackClick = {},
             onRightClick = {}
         )
@@ -82,9 +91,8 @@ fun BraceletIndicatorScreen() {
                 TextOfTabData(
                     text = stringResource(id = R.string.pulse)
                 )
-            )
-
-
+            ),
+            dimensions = dimensions
         ) {
             selectedTabIndex = it
         }
@@ -124,17 +132,16 @@ fun BraceletIndicatorScreen() {
 fun TabViewWithRoundBorder(
     modifier: Modifier = Modifier,
     TextOfTab: List<TextOfTabData>,
-    onTabSelected: (selectedIndex: Int) -> Unit
-) {
+    dimensions: Dimensions,
+    onTabSelected: (selectedIndex: Int) -> Unit,
+
+    ) {
     var selectedTabIndex by remember {
         mutableStateOf(0)
     }
 
     val shape = RoundedCornerShape(10.dp)
     val backgroundColor = Gray4292
-    val textStyleh5 = MaterialTheme.typography.h5
-    var scaledTextStyle by remember { mutableStateOf(textStyleh5) }
-    var readyToDraw by remember { mutableStateOf(false) }
 
     TabRow(
         selectedTabIndex = selectedTabIndex,
@@ -163,33 +170,15 @@ fun TabViewWithRoundBorder(
                         if (selectedTabIndex == index) Color.White else backgroundColor,
                         shape = shape
                     )
-                    .clip(
-                        shape = shape,
-                    )
+                    .clip(shape = shape)
             ) {
-
                 Text(
                     text = item.text,
-                    style = scaledTextStyle,
+                    style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.Bold,
+                    fontSize = dimensions.fontSizeH5,
                     modifier = Modifier
                         .padding(5.dp)
-                        .drawWithContent {
-                            if (readyToDraw) {
-                                drawContent()
-                            }
-                        },
-                    softWrap = false,
-                    onTextLayout = { textLayoutResult ->
-                        if (textLayoutResult.didOverflowWidth) {
-                            scaledTextStyle =
-                                scaledTextStyle.copy(fontSize = scaledTextStyle.fontSize * 0.9)
-                        } else {
-                            readyToDraw = true
-                        }
-                    }
-
-
                 )
             }
 
@@ -277,6 +266,7 @@ fun CustomTextRadioGroup(
     textColor: Color = Color.Black,
     activity: AppCompatActivity? = null,
     dateText: MutableState<String>? = null,
+    dimensions: Dimensions,
     onTabSelected: (selectedIndex: Int) -> Unit,
 ) {
 
@@ -284,9 +274,6 @@ fun CustomTextRadioGroup(
         mutableStateOf(0)
     }
 
-    val textStyle5 = MaterialTheme.typography.h5
-    var scaledTextStyle by remember { mutableStateOf(textStyle5) }
-    var readyToDraw by remember { mutableStateOf(false) }
 
     val listSize = TextOfTab.size - 1
 
@@ -334,24 +321,11 @@ fun CustomTextRadioGroup(
 
                 Text(
                     text = item.text,
-                    style = scaledTextStyle,
+                    style = MaterialTheme.typography.h5,
+                    fontSize = dimensions.fontSizeH5,
                     color = if (selectedTabIndex == index) textColor else Color.Black,
-                    modifier = Modifier
-                        .drawWithContent {
-                            if (readyToDraw) {
-                                drawContent()
-                            }
-                        },
-                    softWrap = false,
-                    onTextLayout = { textLayoutResult ->
-                        if (textLayoutResult.didOverflowWidth) {
-                            scaledTextStyle =
-                                scaledTextStyle.copy(fontSize = scaledTextStyle.fontSize * 0.98)
-                        } else {
-                            readyToDraw = true
-                        }
-                    }
-                )
+
+                    )
             }
 
             if (index < listSize) {
@@ -394,6 +368,7 @@ fun TitleForGraph(
     textTitle: String,
     TextOfTab: List<TextOfTabData>,
     weight: Float = 0.5f,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     var selectedTabIndex by remember {
@@ -420,6 +395,7 @@ fun TitleForGraph(
                 Text(
                     text = textTitle,
                     style = MaterialTheme.typography.caption,
+                    fontSize = dimensions.fontSizeCaption
                 )
             }
 
@@ -433,6 +409,7 @@ fun TitleForGraph(
 
                 CustomTextRadioGroup(
                     TextOfTab = TextOfTab,
+                    dimensions = dimensions
                 ) {
                     selectedTabIndex = it
                 }

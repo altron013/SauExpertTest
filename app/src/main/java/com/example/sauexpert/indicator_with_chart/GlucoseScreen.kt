@@ -37,6 +37,9 @@ import com.example.sauexpert.bracelet_indicator.CustomTextRadioGroup
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.GlucoseData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
@@ -48,6 +51,8 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun GlucoseScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -103,7 +108,8 @@ fun GlucoseScreen() {
                         visible.value = false
                     },
                     state = state,
-                    visible = visible
+                    visible = visible,
+                    dimensions = dimensions
                 )
             }
         }
@@ -115,6 +121,7 @@ fun GlucosewithBarChart(
     onClick: (Int) -> Unit,
     visible: MutableState<Boolean>,
     state: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -137,7 +144,7 @@ fun GlucosewithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        GlucoseTitle()
+        GlucoseTitle(dimensions = dimensions)
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForGlucose(
             glucoseData = listOf(
@@ -270,6 +277,7 @@ fun GlucosewithBarChart(
 
 @Composable
 fun GlucoseTitle(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     var selectedTabIndex by remember {
@@ -300,7 +308,8 @@ fun GlucoseTitle(
                 )
             ),
             activity = activity,
-            dateText = date
+            dateText = date,
+            dimensions = dimensions
         ) {
             selectedTabIndex = it
         }

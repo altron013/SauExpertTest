@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
 import com.example.sauexpert.model.TextOfTabData
@@ -41,13 +44,18 @@ import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun PressureScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        PressurewithBarChart()
+        PressurewithBarChart(
+            dimensions = dimensions
+        )
         Spacer(modifier = Modifier.height(24.dp))
         AnalysisPressureSection()
         Spacer(modifier = Modifier.height(16.dp))
@@ -58,6 +66,7 @@ fun PressureScreen() {
 
 @Composable
 fun PressurewithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -80,7 +89,9 @@ fun PressurewithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        PressureTitle()
+        PressureTitle(
+            dimensions = dimensions
+        )
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForPressure(
             PressureData = listOf(
@@ -141,6 +152,7 @@ fun PressurewithBarChart(
 
 @Composable
 fun PressureTitle(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     var selectedTabIndex by remember {
@@ -182,7 +194,8 @@ fun PressureTitle(
                 )
             ),
             activity = activity,
-            dateText = date
+            dateText = date,
+            dimensions = dimensions
         ) {
             selectedTabIndex = it
         }

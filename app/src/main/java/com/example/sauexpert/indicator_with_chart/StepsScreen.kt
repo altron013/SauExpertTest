@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.*
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.StepsData
 import com.example.sauexpert.model.TextOfTabData
@@ -36,13 +39,16 @@ import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun StepsScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        StepswithBarChart()
+        StepswithBarChart(dimensions = dimensions)
         Spacer(modifier = Modifier.height(16.dp))
         RangeCustomizeSection()
     }
@@ -50,6 +56,7 @@ fun StepsScreen() {
 
 @Composable
 fun StepswithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -72,7 +79,7 @@ fun StepswithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        StepsTitle()
+        StepsTitle(dimensions = dimensions)
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSteps(
             StepsData = listOf(
@@ -126,6 +133,7 @@ fun StepswithBarChart(
 
 @Composable
 fun StepsTitle(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     var selectedTabIndex by remember {
@@ -154,7 +162,8 @@ fun StepsTitle(
                 TextOfTab = listOf(
                     TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
                     TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
-                )
+                ),
+                dimensions = dimensions
             ) {
                 selectedTabIndex = it
             }

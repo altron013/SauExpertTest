@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.*
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
 import com.example.sauexpert.model.PulseData
@@ -43,20 +46,24 @@ import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun PressureAndPulseScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        PressureAndPulsewithBarChart()
+        PressureAndPulsewithBarChart(dimensions = dimensions)
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPressureAndPulseSection()
+        AnalysisPressureAndPulseSection(dimensions = dimensions)
     }
 }
 
 @Composable
 fun PressureAndPulsewithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val visible = remember { mutableStateOf(false) }
@@ -86,7 +93,8 @@ fun PressureAndPulsewithBarChart(
             TextOfTab = listOf(
                 TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
                 TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
-            )
+            ),
+            dimensions = dimensions
         )
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForPressureAndPulse(
@@ -456,7 +464,10 @@ fun InfoDialogForBarChartOfPressureAndPulse(
 
 
 @Composable
-fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
+fun AnalysisPressureAndPulseSection(
+    modifier: Modifier = Modifier,
+    dimensions: Dimensions
+) {
     var selectedTabIndex by remember {
         mutableStateOf(1)
     }
@@ -481,7 +492,8 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
                 TextOfTabData(stringResource(R.string.pulse).toUpperCase(Locale.current)),
             ),
             backgroundColor = Color.Black,
-            textColor = Color.White
+            textColor = Color.White,
+            dimensions = dimensions
         ) {
             selectedTabIndex = it
         }

@@ -29,6 +29,9 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.SleepData
 import com.example.sauexpert.model.TextOfTabData
@@ -39,6 +42,9 @@ import com.example.sauexpert.ui.theme.Gray50
 @Composable
 fun SleepScreen() {
     val visible = remember { mutableStateOf(false) }
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
 
     Column(
         modifier = Modifier
@@ -48,7 +54,8 @@ fun SleepScreen() {
     ) {
 
         SleepwithBarChart(
-            visible = visible
+            visible = visible,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -68,6 +75,7 @@ fun SleepScreen() {
 @Composable
 fun SleepwithBarChart(
     visible: MutableState<Boolean>,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -98,7 +106,8 @@ fun SleepwithBarChart(
                 TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
                 TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
             ),
-            weight = 0.3f
+            weight = 0.3f,
+            dimensions = dimensions
         )
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSleep(

@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.HRVData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
@@ -37,19 +40,25 @@ import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun HRVScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        HRVwithBarChart()
+        HRVwithBarChart(
+            dimensions = dimensions
+        )
     }
 }
 
 
 @Composable
 fun HRVwithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -82,7 +91,8 @@ fun HRVwithBarChart(
                     painter = painterResource(R.drawable.ic_calendar)
                 )
             ),
-            weight = 0.3f
+            weight = 0.3f,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(12.dp))

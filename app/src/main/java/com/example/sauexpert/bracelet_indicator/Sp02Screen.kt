@@ -26,6 +26,9 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.model.TextOfTabData
@@ -37,6 +40,8 @@ import kotlinx.coroutines.launch
 @ExperimentalComposeUiApi
 @Composable
 fun Sp02Screen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -73,7 +78,7 @@ fun Sp02Screen() {
                     .verticalScroll(rememberScrollState())
                     .padding(top = 24.dp, bottom = 10.dp)
             ) {
-                SP02withLineGraph()
+                SP02withLineGraph(dimensions = dimensions)
                 Spacer(modifier = Modifier.height(24.dp))
 
 
@@ -98,6 +103,7 @@ fun Sp02Screen() {
 
 @Composable
 fun SP02withLineGraph(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -130,7 +136,8 @@ fun SP02withLineGraph(
                     painter = painterResource(R.drawable.ic_calendar)
                 )
             ),
-            weight = 0.3f
+            weight = 0.3f,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(40.dp))
