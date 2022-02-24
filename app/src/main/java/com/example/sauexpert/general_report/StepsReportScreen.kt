@@ -18,7 +18,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
@@ -53,11 +52,14 @@ fun StepsReportScreen() {
                 titleText = stringResource(R.string.steps),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
+                sizeText = dimensions.fontSizeSubtitle_2,
+                sizeSubtitleText = dimensions.fontSizeBody_2,
+                sizeIcon = dimensions.iconSize_2,
                 onBackClick = {},
                 onRightClick = {}
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
             StepsReportWithBarChart(dimensions = dimensions)
 
@@ -94,17 +96,18 @@ fun StepsReportWithBarChart(
 
         Text(
             text = stringResource(id = R.string.steps),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         Text(
             text = buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
                         color = Color.Black,
-                        fontSize = 34.sp
+                        fontSize = dimensions.fontSizeH4
                     )
                 ) {
                     append("3 500 ")
@@ -113,10 +116,12 @@ fun StepsReportWithBarChart(
                 append(stringResource(R.string.steps_per_day))
             },
             style = MaterialTheme.typography.body1,
+            fontSize = dimensions.fontSizeBody_1,
             color = Gray30
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
+
         BarChartForSteps(
             StepsData = listOf(
                 StepsData(

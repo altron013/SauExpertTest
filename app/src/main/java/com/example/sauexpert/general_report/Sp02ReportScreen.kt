@@ -20,7 +20,6 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.LineChartForSp02
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
@@ -56,13 +55,16 @@ fun Sp02ReportScreen() {
                 titleText = stringResource(R.string.sp02),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
+                sizeText = dimensions.fontSizeSubtitle_2,
+                sizeSubtitleText = dimensions.fontSizeBody_2,
+                sizeIcon = dimensions.iconSize_2,
                 onBackClick = {},
                 onRightClick = {}
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            SP02ReportWithLineGraph(dimensions = dimensions)
+            Sp02ReportWithLineGraph(dimensions = dimensions)
 
         }
     }
@@ -70,7 +72,7 @@ fun Sp02ReportScreen() {
 
 
 @Composable
-fun SP02ReportWithLineGraph(
+fun Sp02ReportWithLineGraph(
     dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
@@ -97,17 +99,18 @@ fun SP02ReportWithLineGraph(
 
         Text(
             text = stringResource(id = R.string.sp02),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         Text(
             text = buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
                         color = Color.Black,
-                        fontSize = 17.sp
+                        fontSize = dimensions.fontSizeBody_1
                     )
                 ) {
                     append("80 ")
@@ -116,11 +119,12 @@ fun SP02ReportWithLineGraph(
                 append(stringResource(R.string.oxygen))
             },
             style = MaterialTheme.typography.body1,
+            fontSize = dimensions.fontSizeBody_1,
             color = Gray30
         )
 
+        Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-        Spacer(modifier = Modifier.height(40.dp))
         LineChartForSp02(
             Sp02Data = listOf(
                 Sp02Data(
@@ -165,7 +169,7 @@ fun SP02ReportWithLineGraph(
             ListNumberData = listNumberData
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_2_5))
 
         TextWithIconForGraph(
             color = Color.Green.copy(alpha = 0.25f),
@@ -173,7 +177,7 @@ fun SP02ReportWithLineGraph(
             dimensions = dimensions
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1))
 
         TextWithIconForGraph(
             color = Color.Red,
