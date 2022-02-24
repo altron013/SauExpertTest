@@ -57,26 +57,29 @@ fun PressureAndPulseReportScreen() {
                 titleText = stringResource(R.string.pressure_pulse),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
+                sizeText = dimensions.fontSizeSubtitle_2,
+                sizeSubtitleText = dimensions.fontSizeBody_2,
+                sizeIcon = dimensions.iconSize_2,
                 onBackClick = {},
                 onRightClick = {}
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
             PressureAndPulseReportWithBarChart(dimensions = dimensions)
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            ReferenceIndicatorSection(
-                textValue = "120/80",
-                dimensions = dimensions
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
+//            ReferenceIndicatorSection(
+//                textValue = "120/80",
+//                dimensions = dimensions
+//            )
+//
+//            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
             IndicatorForMonthSection(dimensions = dimensions)
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
             DeviationsFromGeneralSection(dimensions = dimensions)
         }
@@ -113,7 +116,8 @@ fun PressureAndPulseReportWithBarChart(
     ) {
         Text(
             text = stringResource(id = R.string.pressure_pulse),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
         Spacer(modifier = Modifier.height(12.dp))

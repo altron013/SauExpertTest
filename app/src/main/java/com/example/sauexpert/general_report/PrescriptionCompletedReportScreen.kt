@@ -25,11 +25,15 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PrescriptionData
 import com.example.sauexpert.ui.theme.Gray30
@@ -39,6 +43,9 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
 fun PrescriptionCompletedReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -56,17 +63,20 @@ fun PrescriptionCompletedReportScreen() {
                 titleText = stringResource(R.string.fulfillment_prescription),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
+                sizeText = dimensions.fontSizeSubtitle_2,
+                sizeSubtitleText = dimensions.fontSizeBody_2,
+                sizeIcon = dimensions.iconSize_2,
                 onBackClick = {},
                 onRightClick = {}
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            PrescriptionReportWithBarChart()
+            PrescriptionReportWithBarChart(dimensions = dimensions)
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            PrescriptionStatisticsReportSection()
+            PrescriptionStatisticsReportSection(dimensions = dimensions)
 
         }
     }
@@ -74,6 +84,7 @@ fun PrescriptionCompletedReportScreen() {
 
 @Composable
 fun PrescriptionReportWithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -97,7 +108,8 @@ fun PrescriptionReportWithBarChart(
     ) {
         Text(
             text = stringResource(id = R.string.prescription_completed),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -105,10 +117,11 @@ fun PrescriptionReportWithBarChart(
         Text(
             text = "75%",
             style = MaterialTheme.typography.h4,
-            color = Green15B83D
+            color = Green15B83D,
+            fontSize = dimensions.fontSizeH4
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         BarChartForPrescription(
             PrescriptionData = listOf(
@@ -155,7 +168,8 @@ fun PrescriptionReportWithBarChart(
                     dateName = "22"
                 )
             ),
-            ListNumberData = listNumberData
+            ListNumberData = listNumberData,
+            dimensions = dimensions
         )
     }
 }
@@ -164,7 +178,8 @@ fun PrescriptionReportWithBarChart(
 @Composable
 fun BarChartForPrescription(
     PrescriptionData: List<PrescriptionData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
@@ -184,7 +199,7 @@ fun BarChartForPrescription(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -238,6 +253,7 @@ fun BarChartForPrescription(
 
 @Composable
 fun PrescriptionStatisticsReportSection(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -254,7 +270,8 @@ fun PrescriptionStatisticsReportSection(
             redSector = 25,
             greenSectorDay = 12,
             orangeSectorDay = 10,
-            redSectorDay = 8
+            redSectorDay = 8,
+            textSize = dimensions.fontSizeCustom_1
         )
 
         Divider(
@@ -274,13 +291,15 @@ fun PrescriptionStatisticsReportSection(
             Text(
                 text = stringResource(R.string.missed_measurements),
                 style = MaterialTheme.typography.body1,
-                color = Color.Red
+                color = Color.Red,
+                fontSize = dimensions.fontSizeBody_1
             )
 
             Text(
                 text = "4 ${stringResource(R.string.day)}",
                 style = MaterialTheme.typography.body1,
-                color = Color.Red
+                color = Color.Red,
+                fontSize = dimensions.fontSizeBody_1
             )
 
         }
@@ -298,8 +317,8 @@ fun ProgressBarForPrescription(
     greenSectorDay: Int,
     orangeSectorDay: Int,
     redSectorDay: Int,
-
-    ) {
+    textSize: TextUnit = 15.sp
+) {
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
@@ -327,13 +346,13 @@ fun ProgressBarForPrescription(
             Text(
                 text = "$greenSectorDay ${stringResource(R.string.days)}",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
             )
 
             Text(
                 text = "75-100%",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
                 color = Green15B83D
             )
 
@@ -355,13 +374,13 @@ fun ProgressBarForPrescription(
             Text(
                 text = "$orangeSectorDay ${stringResource(R.string.days)}",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
             )
 
             Text(
                 text = "50-75%",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
                 color = Orange4294
             )
 
@@ -383,13 +402,13 @@ fun ProgressBarForPrescription(
             Text(
                 text = "$redSectorDay ${stringResource(R.string.days)}",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
             )
 
             Text(
                 text = "0-50%",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = textSize,
                 color = Color.Red
             )
         }
