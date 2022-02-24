@@ -26,6 +26,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.*
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
@@ -33,6 +36,9 @@ import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Green117259
 import com.example.sauexpert.ui.theme.Pink42949
+import com.example.sauexpert.voyager_navigator.ModifyInspectionInfoActivity
+import com.example.sauexpert.voyager_navigator.NewInspectionActivity
+import com.example.sauexpert.voyager_navigator.ViewInspectionInfoActivity
 import com.example.sauexpert.widgets.compose.MainButton
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 
@@ -40,6 +46,7 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 fun InspectionPatientScreen() {
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
     Column(
         modifier = Modifier
@@ -59,52 +66,43 @@ fun InspectionPatientScreen() {
 
         Spacer(modifier = Modifier.height(dimensions.grid_5_5))
 
-        PreviousInspectionsSection(
-            dimensions = dimensions
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-        MainButton(
-            text = stringResource(id = R.string.new_inspections),
-            onClick = { /*TODO*/ },
-            enableState = true,
-            icon = R.drawable.ic_plus_circle,
-            backgroundColor = Pink42949,
-            textColor = Color.Red,
-            buttonHeight = dimensions.buttonHeight_0,
-            sizeText = dimensions.fontSizeBody_1,
-        )
-    }
-}
-
-@Composable
-fun PreviousInspectionsSection(
-    dimensions: Dimensions,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(R.string.previous_inspections).toUpperCase(Locale.current),
             style = MaterialTheme.typography.body2,
             fontSize = dimensions.fontSizeBody_2
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         PreviousInspectionsSection(
             doctorName = "Ларионов Игорь Викторович",
             dateOfInspection = "15 Февраля 2021",
-            dimensions = dimensions
+            dimensions = dimensions,
+            onClick = { navigator.push(ViewInspectionInfoActivity) }
 
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         PreviousInspectionsSection(
             doctorName = "Келимбетов Аскар Ахметович",
             dateOfInspection = "22 Мая 2021",
             yourInspection = true,
-            dimensions = dimensions
+            dimensions = dimensions,
+            onClick = { navigator.push(ModifyInspectionInfoActivity) }
+        )
+
+        Spacer(modifier = Modifier.height(dimensions.grid_3))
+
+        MainButton(
+            text = stringResource(id = R.string.new_inspections),
+            onClick = { navigator.push(NewInspectionActivity) },
+            enableState = true,
+            icon = R.drawable.ic_plus_circle,
+            backgroundColor = Pink42949,
+            textColor = Color.Red,
+            buttonHeight = dimensions.buttonHeight_0,
+            sizeText = dimensions.fontSizeBody_1,
         )
     }
 }
@@ -116,6 +114,7 @@ fun PreviousInspectionsSection(
     doctorName: String,
     dateOfInspection: String,
     dimensions: Dimensions,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -134,7 +133,8 @@ fun PreviousInspectionsSection(
     ) {
         AnalysisInspectionsField(
             doctorName = doctorName,
-            dimensions = dimensions
+            dimensions = dimensions,
+            onClick = onClick
         )
 
         Divider(
@@ -154,7 +154,7 @@ fun PreviousInspectionsSection(
 
             MainButton(
                 text = stringResource(id = R.string.supply_detail),
-                onClick = { /*TODO*/ },
+                onClick = onClick,
                 enableState = true,
                 icon = R.drawable.ic_square_and_pencil,
                 backgroundColor = Pink42949,
@@ -170,6 +170,7 @@ fun PreviousInspectionsSection(
 fun AnalysisInspectionsField(
     doctorName: String,
     dimensions: Dimensions,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -201,7 +202,7 @@ fun AnalysisInspectionsField(
                     tint = Color.Black,
                     modifier = modifier
                         .size(dimensions.iconSize_3)
-                        .clickable { }
+                        .clickable { onClick() }
                 )
             }
 

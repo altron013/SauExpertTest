@@ -64,7 +64,8 @@ fun GeneralInspectionScreen() {
                 doctorName = "Келимбетов Аскар Ахметович",
                 dateOfInspection = "22 Мая 2021",
                 yourInspection = true,
-                dimensions = dimensions
+                dimensions = dimensions,
+                onClick = {}
             )
 
             Spacer(modifier = Modifier.height(dimensions.grid_3))

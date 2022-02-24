@@ -18,6 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.dimensions.smallDimensions
 import com.example.sauexpert.dimensions.sw360Dimensions
@@ -29,6 +31,7 @@ import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
 fun ViewInspectionInfoScreen() {
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
     Column(
         modifier = Modifier
@@ -38,7 +41,7 @@ fun ViewInspectionInfoScreen() {
         MainActionToolBar(
             titleText = stringResource(R.string.general_inspection),
             iconBackClick = Icons.Default.ArrowBack,
-            onBackClick = {},
+            onBackClick = { navigator.pop() },
             modifier = Modifier.padding(16.dp)
         )
         Spacer(modifier = Modifier.height(20.dp))
