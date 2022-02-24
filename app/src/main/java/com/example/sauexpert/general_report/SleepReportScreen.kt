@@ -25,10 +25,13 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.*
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.SleepData
 import com.example.sauexpert.ui.theme.*
@@ -40,6 +43,8 @@ fun SleepReportScreen() {
     val itemID = remember { mutableStateOf(0) }
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
 
     val listNumberData = listOf(
         ListNumberOfYForTableData(10),
@@ -126,25 +131,30 @@ fun SleepReportScreen() {
                 titleText = stringResource(R.string.sleep),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
+                sizeText = dimensions.fontSizeSubtitle_2,
+                sizeSubtitleText = dimensions.fontSizeBody_2,
+                sizeIcon = dimensions.iconSize_2,
                 onBackClick = {},
                 onRightClick = {}
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
             SleepReportWithBarChart(
                 visible = visible,
                 itemID = itemID,
                 listNumberData = listNumberData,
-                SleepData = SleepData
+                SleepData = SleepData,
+                dimensions = dimensions
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
             SleepStatisticsReportSection(
                 visible = visible,
                 itemID = itemID,
-                SleepData = SleepData
+                SleepData = SleepData,
+                dimensions = dimensions
             )
 
         }
@@ -158,6 +168,7 @@ fun SleepReportWithBarChart(
     listNumberData: List<ListNumberOfYForTableData>,
     visible: MutableState<Boolean>,
     itemID: MutableState<Int>,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -172,16 +183,18 @@ fun SleepReportWithBarChart(
 
         Text(
             text = stringResource(id = R.string.sleep),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
+
         BarChartForSleepReport(
             ListNumberData = listNumberData,
             SleepData = SleepData,
             itemID = itemID,
-            visible = visible
-
+            visible = visible,
+            dimensions = dimensions
         )
     }
 }
@@ -192,7 +205,8 @@ fun BarChartForSleepReport(
     SleepData: List<SleepData>,
     visible: MutableState<Boolean>,
     itemID: MutableState<Int>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val listSize = SleepData.size - 1
@@ -248,7 +262,7 @@ fun BarChartForSleepReport(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -332,6 +346,7 @@ fun SleepStatisticsReportSection(
     visible: MutableState<Boolean>,
     itemID: MutableState<Int>,
     SleepData: List<SleepData>,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
 
@@ -348,6 +363,7 @@ fun SleepStatisticsReportSection(
                 deepSleepPercent = SleepData[itemID.value].hourOfDeepSleep,
                 lightSleepPercent = SleepData[itemID.value].hourOfLightSleep,
                 remSleepPercent = SleepData[itemID.value].hourOfRemSleep,
+                sizeText = dimensions.fontSizeCustom_1
             )
 
         }
@@ -360,6 +376,7 @@ fun ProgressBarForSleepReport(
     deepSleepPercent: Int = 0,
     lightSleepPercent: Int = 0,
     remSleepPercent: Int = 0,
+    sizeText: TextUnit
 ) {
 
     val configuration = LocalConfiguration.current
@@ -391,7 +408,7 @@ fun ProgressBarForSleepReport(
             Text(
                 text = stringResource(R.string.deep_sleep),
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = sizeText,
                 color = Color.Blue,
                 maxLines = 1
             )
@@ -399,7 +416,7 @@ fun ProgressBarForSleepReport(
             Text(
                 text = "$deepSleepPercent часа",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = sizeText,
             )
 
         }
@@ -424,7 +441,7 @@ fun ProgressBarForSleepReport(
             Text(
                 text = stringResource(R.string.light_sleep),
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = sizeText,
                 color = Blue007AFF,
                 maxLines = 1
             )
@@ -432,7 +449,7 @@ fun ProgressBarForSleepReport(
             Text(
                 text = "$lightSleepPercent часа",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = sizeText,
             )
 
         }
@@ -457,7 +474,7 @@ fun ProgressBarForSleepReport(
             Text(
                 text = stringResource(R.string.rem_sleep),
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = sizeText,
                 color = Blue4289,
                 maxLines = 1
             )
@@ -465,7 +482,7 @@ fun ProgressBarForSleepReport(
             Text(
                 text = "$remSleepPercent часа",
                 style = MaterialTheme.typography.button,
-                fontSize = 15.sp,
+                fontSize = sizeText,
             )
         }
     }

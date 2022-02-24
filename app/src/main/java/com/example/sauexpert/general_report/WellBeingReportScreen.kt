@@ -220,7 +220,7 @@ fun BarChartForWellBeing(
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
                 i.text,
-                WellBeingData[listSize].positionOnX + 85.dp.toPx(),
+                WellBeingData[listSize].positionOnX + dimensions.grid_12_5.toPx(),
                 (height + 4).dp.toPx(),
                 paint2
             )
