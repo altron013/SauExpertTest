@@ -29,7 +29,6 @@ import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
 import com.example.sauexpert.dimensions.sw360Dimensions
-import com.example.sauexpert.features.GlucoseReportActivity
 import com.example.sauexpert.indicator_with_chart.BarChartForGlucose
 import com.example.sauexpert.indicator_with_chart.BottomSheetContentForGlucose
 import com.example.sauexpert.indicator_with_chart.MeasurementChangeForGlucose

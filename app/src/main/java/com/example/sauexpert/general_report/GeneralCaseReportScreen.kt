@@ -33,7 +33,7 @@ import com.example.sauexpert.bracelet_indicator.ProgressBarForSleep
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
 import com.example.sauexpert.dimensions.sw360Dimensions
-import com.example.sauexpert.features.*
+import com.example.sauexpert.voyager_navigator.*
 import com.example.sauexpert.patient_card_screen.BraceletIndicatorCell
 import com.example.sauexpert.patient_card_screen.ProgressBarForSteps
 import com.example.sauexpert.ui.theme.Gray30

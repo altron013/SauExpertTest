@@ -1,4 +1,4 @@
-package com.example.sauexpert.features
+package com.example.sauexpert.voyager_navigator
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
