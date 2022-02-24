@@ -14,7 +14,9 @@ class Dimensions(
     val grid_1_75: Dp,
     val grid_2: Dp,
     val grid_2_5: Dp,
+    val grid_2_75: Dp,
     val grid_3: Dp,
+    val grid_3_25: Dp,
     val grid_3_5: Dp,
     val grid_4: Dp,
     val grid_4_25: Dp,
@@ -65,6 +67,7 @@ class Dimensions(
     val fontSizeCustom_4: TextUnit,
     val fontSizeCustom_5: TextUnit,
     val fontSizeCustom_6: TextUnit,
+    val fontSizeCustom_7: TextUnit,
     val minimum_touch_target: Dp = 48.dp,
 )
 
@@ -77,7 +80,9 @@ val smallDimensions = Dimensions(
     grid_1_75 = 11.dp,
     grid_2 = 12.dp,
     grid_2_5 = 15.dp,
+    grid_2_75 = 16.dp,
     grid_3 = 18.dp,
+    grid_3_25 = 20.dp,
     grid_3_5 = 21.dp,
     grid_4 = 24.dp,
     grid_4_25 = 28.dp,
@@ -127,7 +132,8 @@ val smallDimensions = Dimensions(
     fontSizeCustom_3 = 10.sp,
     fontSizeCustom_4 = 9.sp,
     fontSizeCustom_5 = 22.sp,
-    fontSizeCustom_6 = 16.sp
+    fontSizeCustom_6 = 16.sp,
+    fontSizeCustom_7 = 18.sp
 )
 
 val sw360Dimensions = Dimensions(
@@ -139,7 +145,9 @@ val sw360Dimensions = Dimensions(
     grid_1_75 = 14.dp,
     grid_2 = 16.dp,
     grid_2_5 = 20.dp,
+    grid_2_75 = 22.dp,
     grid_3 = 24.dp,
+    grid_3_25 = 26.dp,
     grid_3_5 = 28.dp,
     grid_4 = 32.dp,
     grid_4_25 = 34.dp,
@@ -189,5 +197,6 @@ val sw360Dimensions = Dimensions(
     fontSizeCustom_3 = 13.sp,
     fontSizeCustom_4 = 11.sp,
     fontSizeCustom_5 = 28.sp,
-    fontSizeCustom_6 = 22.sp
+    fontSizeCustom_6 = 22.sp,
+    fontSizeCustom_7 = 24.sp
 )

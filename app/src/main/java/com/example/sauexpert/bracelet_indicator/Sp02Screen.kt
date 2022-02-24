@@ -36,6 +36,7 @@ import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.bottomsheet.BottomSheetContentForSoas
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -415,49 +416,6 @@ fun AnalysisSOASSection(
     }
 }
 
-
-@ExperimentalMaterialApi
-@Composable
-fun BottomSheetContentForSoas(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    dimensions: Dimensions
-) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 17.dp, vertical = 32.dp)
-    ) {
-        Column(
-            modifier = Modifier
-        ) {
-            Text(
-                text = stringResource(R.string.soas_analysis),
-                style = MaterialTheme.typography.caption,
-                fontSize = dimensions.fontSizeCaption
-            )
-
-
-            Spacer(modifier = Modifier.height(dimensions.grid_2))
-
-            Text(
-                text = stringResource(R.string.soas_description),
-                style = MaterialTheme.typography.body1,
-                fontSize = dimensions.fontSizeBody_1
-            )
-
-            Spacer(modifier = Modifier.height(dimensions.grid_3))
-
-            MainButton(
-                text = stringResource(id = R.string.understand),
-                onClick = onClick,
-                enableState = true,
-                buttonHeight = dimensions.buttonHeight_0,
-                sizeText = dimensions.fontSizeBody_1
-            )
-        }
-    }
-}
 
 @Composable
 fun AnalysisSp02Section(

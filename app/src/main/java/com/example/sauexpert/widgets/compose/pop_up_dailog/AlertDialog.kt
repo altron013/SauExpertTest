@@ -15,12 +15,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.profile.OutlinedTextFieldWithBackground
 import com.example.sauexpert.ui.theme.Blue007AFF
 import com.example.sauexpert.ui.theme.Gray15
@@ -36,6 +40,7 @@ fun CustomeAlertDialog(
     onCancelText: String = stringResource(R.string.cancel),
     onProceedClick: () -> Unit,
     isDialogOpen: MutableState<Boolean>,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 
 ) {
@@ -56,18 +61,19 @@ fun CustomeAlertDialog(
                 Text(
                     text = titleText,
                     style = MaterialTheme.typography.subtitle2,
-                    fontSize = 24.sp
+                    fontSize = dimensions.fontSizeCustom_7
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_1))
 
                 Text(
                     text = descriptionText,
                     style = MaterialTheme.typography.body1,
+                    fontSize = dimensions.fontSizeBody_1,
                     color = Gray30
                 )
 
-                Spacer(modifier = Modifier.height(26.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_3_25))
 
                 Column(
                     horizontalAlignment = Alignment.End,
@@ -79,13 +85,14 @@ fun CustomeAlertDialog(
                         Text(
                             text = it,
                             style = MaterialTheme.typography.body1,
+                            fontSize = dimensions.fontSizeBody_1,
                             color = Color.Red,
                             modifier = Modifier.clickable {
                                 onProceedClick()
                             }
                         )
 
-                        Spacer(modifier = Modifier.height(22.dp))
+                        Spacer(modifier = Modifier.height(dimensions.grid_2_75))
                     }
 
 
@@ -93,6 +100,7 @@ fun CustomeAlertDialog(
                     Text(
                         text = onCancelText,
                         style = MaterialTheme.typography.body1,
+                        fontSize = dimensions.fontSizeBody_1,
                         color = Color.Red,
                         modifier = Modifier.clickable {
                             isDialogOpen.value = false
@@ -190,6 +198,8 @@ fun RenameDialog(
 @Composable
 fun AlertDialogPrev() {
     val visible: MutableState<Boolean> = remember { mutableStateOf(true) }
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     SauExpertTheme() {
         CustomeAlertDialog(
@@ -197,7 +207,8 @@ fun AlertDialogPrev() {
             descriptionText = stringResource(R.string.download_analysis),
             isDialogOpen = visible,
             onCancelText = stringResource(R.string.close),
-            onProceedClick = {}
+            onProceedClick = {},
+            dimensions = dimensions
         )
 
         CustomeAlertDialog(
@@ -205,7 +216,8 @@ fun AlertDialogPrev() {
             descriptionText = stringResource(R.string.card_patient_save_des),
             isDialogOpen = visible,
             onProceedText = stringResource(R.string.yes_exit),
-            onProceedClick = {}
+            onProceedClick = {},
+            dimensions = dimensions
         )
 
     }
