@@ -23,11 +23,15 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPointForString
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.CardListItemData
 import com.example.sauexpert.model.ListStringOfYForTableData
 import com.example.sauexpert.model.WellBeingData
@@ -40,6 +44,9 @@ import com.example.sauexpert.model.objects.Emoji
 
 @Composable
 fun WellBeingReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -57,17 +64,20 @@ fun WellBeingReportScreen() {
                 titleText = stringResource(R.string.well_being),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
+                sizeText = dimensions.fontSizeSubtitle_2,
+                sizeSubtitleText = dimensions.fontSizeBody_2,
+                sizeIcon = dimensions.iconSize_2,
                 onBackClick = {},
                 onRightClick = {}
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            WellBeingReportWithBarChart()
+            WellBeingReportWithBarChart(dimensions = dimensions)
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            WellBeingStatisticsReportSection()
+            WellBeingStatisticsReportSection(dimensions = dimensions)
 
         }
     }
@@ -76,6 +86,7 @@ fun WellBeingReportScreen() {
 
 @Composable
 fun WellBeingReportWithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -99,7 +110,8 @@ fun WellBeingReportWithBarChart(
     ) {
         Text(
             text = "${stringResource(id = R.string.well_being)} ${Emoji.grinningFace}",
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
 
@@ -164,7 +176,8 @@ fun WellBeingReportWithBarChart(
                     dateName = "21"
                 )
             ),
-            ListNumberData = listNumberData
+            ListNumberData = listNumberData,
+            dimensions = dimensions
         )
     }
 }
@@ -173,7 +186,8 @@ fun WellBeingReportWithBarChart(
 @Composable
 fun BarChartForWellBeing(
     WellBeingData: List<WellBeingData>,
-    ListNumberData: List<ListStringOfYForTableData>
+    ListNumberData: List<ListStringOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
@@ -193,20 +207,20 @@ fun BarChartForWellBeing(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
         val paint2 = Paint().apply {
             textAlign = Paint.Align.RIGHT
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
         for (i in ListNumberData) {
             drawContext.canvas.nativeCanvas.drawText(
                 i.text,
-                WellBeingData[listSize].positionOnX + 100.dp.toPx(),
+                WellBeingData[listSize].positionOnX + 85.dp.toPx(),
                 (height + 4).dp.toPx(),
                 paint2
             )
@@ -241,6 +255,7 @@ fun BarChartForWellBeing(
 
 @Composable
 fun WellBeingStatisticsReportSection(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -291,7 +306,8 @@ fun WellBeingStatisticsReportSection(
                     dayNumber = "3 дня",
                     colorBackground = Color.Red.copy(alpha = 0.1f)
                 )
-            )
+            ),
+            sizeText = dimensions.fontSizeCustom_3
         )
 
 //        }
@@ -315,12 +331,14 @@ fun WellBeingStatisticsReportSection(
             Text(
                 text = stringResource(R.string.missed_measurements),
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1,
                 color = Color.Red
             )
 
             Text(
                 text = "4 ${stringResource(R.string.day)}",
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1,
                 color = Color.Red
             )
 
@@ -413,6 +431,7 @@ fun ProgressBarForWellBeing(
 @Composable
 fun CardItemForWellBeingReportScreen(
     cardList: List<CardListItemData>,
+    sizeText: TextUnit = 13.sp,
     modifier: Modifier = Modifier
 ) {
     LazyRow(modifier = modifier.fillMaxWidth()) {
@@ -431,7 +450,7 @@ fun CardItemForWellBeingReportScreen(
                         Text(
                             text = it1,
                             style = MaterialTheme.typography.h5,
-                            fontSize = 13.sp,
+                            fontSize = sizeText,
                             color = cardList[it].colorText
                         )
                     }
@@ -441,7 +460,7 @@ fun CardItemForWellBeingReportScreen(
                     Text(
                         text = cardList[it].text,
                         style = MaterialTheme.typography.h5,
-                        fontSize = 13.sp,
+                        fontSize = sizeText,
                     )
                 }
             }

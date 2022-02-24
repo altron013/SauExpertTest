@@ -30,6 +30,9 @@ import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.WeightData
 import com.example.sauexpert.ui.theme.Gray30
@@ -37,6 +40,9 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
 fun WeightReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -54,13 +60,16 @@ fun WeightReportScreen() {
                 titleText = stringResource(R.string.weight),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
+                sizeText = dimensions.fontSizeSubtitle_2,
+                sizeSubtitleText = dimensions.fontSizeBody_2,
+                sizeIcon = dimensions.iconSize_2,
                 onBackClick = {},
                 onRightClick = {}
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            WeightReportWithBarChart()
+            WeightReportWithBarChart(dimensions = dimensions)
 
         }
     }
@@ -69,6 +78,7 @@ fun WeightReportScreen() {
 
 @Composable
 fun WeightReportWithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -95,7 +105,7 @@ fun WeightReportWithBarChart(
                 withStyle(
                     style = SpanStyle(
                         color = Color.Black,
-                        fontSize = 22.sp
+                        fontSize = dimensions.fontSizeCaption
                     )
                 ) {
                     append(stringResource(R.string.weight))
@@ -104,6 +114,7 @@ fun WeightReportWithBarChart(
                 append(", ${stringResource(R.string.kg)}")
             },
             style = MaterialTheme.typography.overline,
+            fontSize = dimensions.fontSizeOverline,
             color = Gray30
         )
 
@@ -155,6 +166,7 @@ fun WeightReportWithBarChart(
                     dateName = "22"
                 )
             ),
+            dimensions = dimensions,
             ListNumberData = listNumberData
         )
     }
@@ -164,7 +176,8 @@ fun WeightReportWithBarChart(
 @Composable
 fun BarChartForWeight(
     WeightData: List<WeightData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
@@ -184,7 +197,7 @@ fun BarChartForWeight(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
