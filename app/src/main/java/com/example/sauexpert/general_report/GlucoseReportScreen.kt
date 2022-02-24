@@ -1,6 +1,5 @@
 package com.example.sauexpert.general_report
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -13,8 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -22,7 +19,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.AnalysisField
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
@@ -119,14 +115,14 @@ fun GlucoseReportScreen() {
                     dimensions = dimensions
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-                ReferenceIndicatorSection(
-                    textValue = "3,5 — 4,1",
-                    dimensions = dimensions
-                )
+//                ReferenceIndicatorSection(
+//                    textValue = "3,5 — 4,1",
+//                    dimensions = dimensions
+//                )
 
-                Spacer(modifier = Modifier.height(16.dp))
+//                Spacer(modifier = Modifier.height(16.dp))
 
                 IndicatorForMonthSection(
                     glucoseValueAfterFood = 18,
@@ -134,7 +130,7 @@ fun GlucoseReportScreen() {
                     dimensions = dimensions
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_2))
 
                 DeviationsFromGeneralSection(dimensions = dimensions)
             }
@@ -325,7 +321,7 @@ fun ReferenceIndicatorSection(
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(10.dp)
-            ).padding(14.dp)
+            ).padding(16.dp)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_reference_indicator),

@@ -343,7 +343,7 @@ fun ActionToolBarWithSubtitle(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .weight(0.5f),
+                .weight(1f),
         ) {
             iconBackClick?.let {
                 IconButton(onClick = { onBackClick() }) {
@@ -400,7 +400,7 @@ fun ActionToolBarWithSubtitle(
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .weight(0.5f),
+                .weight(1f),
         ) {
             textRightClick?.let {
                 Text(
