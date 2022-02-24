@@ -19,6 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.AnalysisField
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
@@ -27,6 +29,7 @@ import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
 import com.example.sauexpert.dimensions.sw360Dimensions
+import com.example.sauexpert.features.GlucoseReportActivity
 import com.example.sauexpert.indicator_with_chart.BarChartForGlucose
 import com.example.sauexpert.indicator_with_chart.BottomSheetContentForGlucose
 import com.example.sauexpert.indicator_with_chart.MeasurementChangeForGlucose
@@ -55,6 +58,8 @@ fun GlucoseReportScreen() {
         stringResource(R.string.before_food),
         stringResource(R.string.after_food),
     )
+
+    val navigator = LocalNavigator.currentOrThrow
 
     var state by rememberSaveable { mutableStateOf(list[0]) }
 
@@ -97,7 +102,7 @@ fun GlucoseReportScreen() {
                     sizeText = dimensions.fontSizeSubtitle_2,
                     sizeSubtitleText = dimensions.fontSizeBody_2,
                     sizeIcon = dimensions.iconSize_2,
-                    onBackClick = {},
+                    onBackClick = {navigator.pop()},
                     onRightClick = {}
                 )
 

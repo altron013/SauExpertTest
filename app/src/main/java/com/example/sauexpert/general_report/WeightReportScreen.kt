@@ -27,6 +27,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
@@ -42,6 +44,7 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 fun WeightReportScreen() {
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
     Box(
         modifier = Modifier
@@ -63,7 +66,7 @@ fun WeightReportScreen() {
                 sizeText = dimensions.fontSizeSubtitle_2,
                 sizeSubtitleText = dimensions.fontSizeBody_2,
                 sizeIcon = dimensions.iconSize_2,
-                onBackClick = {},
+                onBackClick = {navigator.pop()},
                 onRightClick = {}
             )
 

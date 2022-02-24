@@ -26,12 +26,14 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.ProgressBarForSleep
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
 import com.example.sauexpert.dimensions.sw360Dimensions
+import com.example.sauexpert.features.*
 import com.example.sauexpert.patient_card_screen.BraceletIndicatorCell
 import com.example.sauexpert.patient_card_screen.ProgressBarForSteps
 import com.example.sauexpert.ui.theme.Gray30
@@ -70,6 +72,7 @@ fun IndicatorInfromationForMonthSection(
     val configuration = LocalConfiguration.current
     val screenWidth = (configuration.screenWidthDp.dp / 2) - 25.dp
     val spaceHeight = dimensions.grid_1_5
+    val navigator = LocalNavigator.currentOrThrow
 
 
     Column(
@@ -88,7 +91,8 @@ fun IndicatorInfromationForMonthSection(
             title = stringResource(R.string.blood_glucose),
             measurementValue = 33,
             caseValue = 15,
-            dimensions = dimensions
+            dimensions = dimensions,
+            onClick = { navigator.push(GlucoseReportActivity) }
         )
 
         Spacer(modifier = Modifier.height(spaceHeight))
@@ -97,7 +101,8 @@ fun IndicatorInfromationForMonthSection(
             title = stringResource(R.string.blood_pressure_pulse),
             measurementValue = 40,
             caseValue = 12,
-            dimensions = dimensions
+            dimensions = dimensions,
+            onClick = { navigator.push(PressureAndPulseReportActivity) }
         )
 
         Spacer(modifier = Modifier.height(spaceHeight))
@@ -112,6 +117,7 @@ fun IndicatorInfromationForMonthSection(
                 text = "70%",
                 dimensions = dimensions,
                 modifier = modifier.width(screenWidth),
+                onClick = { navigator.push(PrescriptionCompletedReportActivity) }
             )
 
             CardItemForGeneralCase(
@@ -120,6 +126,7 @@ fun IndicatorInfromationForMonthSection(
                 text = "Отлично",
                 dimensions = dimensions,
                 modifier = modifier.width(screenWidth),
+                onClick = { navigator.push(WellBeingReportActivity) }
             )
         }
 
@@ -130,7 +137,8 @@ fun IndicatorInfromationForMonthSection(
             subtitle = stringResource(R.string.kg),
             text = "75",
             textValue = "+2.3",
-            dimensions = dimensions
+            dimensions = dimensions,
+            onClick = { navigator.push(WeightReportActivity) }
         )
 
         Spacer(modifier = Modifier.height(spaceHeight))
@@ -139,7 +147,8 @@ fun IndicatorInfromationForMonthSection(
             deepSleepPercent = 45,
             lightSleepPercent = 30,
             remSleepPercent = 25,
-            dimensions = dimensions
+            dimensions = dimensions,
+            onClick = { navigator.push(SleepReportActivity) }
         )
 
 
@@ -156,6 +165,7 @@ fun IndicatorInfromationForMonthSection(
                 text = "80",
                 dimensions = dimensions,
                 modifier = modifier.width(screenWidth),
+                onClick = { navigator.push(HRVReportActivity) }
             )
 
             CardItemForGeneralCase(
@@ -164,6 +174,7 @@ fun IndicatorInfromationForMonthSection(
                 text = "96",
                 dimensions = dimensions,
                 modifier = modifier.width(screenWidth),
+                onClick = { navigator.push(Sp02ReportActivity) }
             )
         }
 
@@ -174,7 +185,8 @@ fun IndicatorInfromationForMonthSection(
             stepPercent = 0.5f,
             stepValue = 2000,
             goalStepValue = 4000,
-            dimensions = dimensions
+            dimensions = dimensions,
+            onClick = { navigator.push(StepsReportActivity) }
         )
 
     }
@@ -187,6 +199,7 @@ fun CardItemForGeneralCase(
     measurementValue: Int,
     caseValue: Int,
     dimensions: Dimensions,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -194,7 +207,7 @@ fun CardItemForGeneralCase(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable {
-
+                onClick()
             }
     ) {
         Column(
@@ -265,6 +278,7 @@ fun CardItemForGeneralCase(
     subtitle: String? = null,
     icon: ImageVector? = null,
     text: String,
+    onClick: () -> Unit,
     dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
@@ -273,7 +287,7 @@ fun CardItemForGeneralCase(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable {
-
+                onClick()
             }
     ) {
         Column(
@@ -341,6 +355,7 @@ fun CardItemWithValueForGeneralCase(
     text: String,
     textValue: String,
     dimensions: Dimensions,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -348,7 +363,7 @@ fun CardItemWithValueForGeneralCase(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable {
-
+                onClick()
             }
     ) {
         Column(
@@ -413,6 +428,7 @@ fun CardProgressBarForSleep(
     deepSleepPercent: Int,
     lightSleepPercent: Int,
     remSleepPercent: Int,
+    onClick: () -> Unit,
     dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
@@ -421,7 +437,7 @@ fun CardProgressBarForSleep(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable {
-
+                onClick()
             }
     ) {
         Column(

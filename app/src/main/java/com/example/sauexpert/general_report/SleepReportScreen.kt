@@ -27,6 +27,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.*
 import com.example.sauexpert.dimensions.Dimensions
@@ -44,6 +46,7 @@ fun SleepReportScreen() {
     val configuration = LocalConfiguration.current
     val screenWidth = dpToPxValue((configuration.screenWidthDp.dp - 70.dp) / 7)
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
 
     val listNumberData = listOf(
@@ -134,7 +137,7 @@ fun SleepReportScreen() {
                 sizeText = dimensions.fontSizeSubtitle_2,
                 sizeSubtitleText = dimensions.fontSizeBody_2,
                 sizeIcon = dimensions.iconSize_2,
-                onBackClick = {},
+                onBackClick = { navigator.pop() },
                 onRightClick = {}
             )
 

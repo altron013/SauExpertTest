@@ -90,6 +90,7 @@ dependencies {
     implementation("cafe.adriel.voyager:voyager-tab-navigator:1.0.0-beta15")
     implementation("cafe.adriel.voyager:voyager-core:1.0.0-beta15")
     implementation ("cafe.adriel.voyager:voyager-bottom-sheet-navigator:1.0.0-beta15")
+    implementation "cafe.adriel.voyager:voyager-navigator:1.0.0-beta15"
 
     implementation "com.chargemap.compose:numberpicker:0.0.11"
 

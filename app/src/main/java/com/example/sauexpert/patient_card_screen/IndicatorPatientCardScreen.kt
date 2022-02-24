@@ -198,7 +198,8 @@ fun IndicatorInfromationSection(
             stepPercent = 0.5f,
             stepValue = 2000,
             subtitle = stringResource(R.string.goal_for_today),
-            dimensions = dimensions
+            dimensions = dimensions,
+            onClick = {}
         )
 
     }
@@ -211,6 +212,7 @@ fun ProgressBarForSteps(
     stepValue: Int = 0,
     goalStepValue: Int = 10000,
     stepPercent: Float = 0f,
+    onClick: () -> Unit,
     dimensions: Dimensions,
     subtitle: String? = null
 ) {
@@ -219,7 +221,7 @@ fun ProgressBarForSteps(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable {
-
+                onClick()
             }
     ) {
         Column(
