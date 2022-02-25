@@ -132,7 +132,7 @@ val smallDimensions = Dimensions(
     fontSizeCustom_3 = 10.sp,
     fontSizeCustom_4 = 9.sp,
     fontSizeCustom_5 = 22.sp,
-    fontSizeCustom_6 = 16.sp,
+    fontSizeCustom_6 = 15.sp,
     fontSizeCustom_7 = 18.sp
 )
 

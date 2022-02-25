@@ -18,6 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
@@ -32,6 +34,7 @@ import com.example.sauexpert.widgets.compose.drag_drop.move
 fun SwapDailyRoutineScreen() {
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
     Column(
         modifier = Modifier
@@ -51,7 +54,7 @@ fun SwapDailyRoutineScreen() {
                 sizeText = dimensions.fontSizeSubtitle_2,
                 colorBackClick = Color.Red,
                 colorRightClick = Color.Red,
-                onBackClick = {},
+                onBackClick = { navigator.pop() },
                 onRightClick = {}
             )
         }

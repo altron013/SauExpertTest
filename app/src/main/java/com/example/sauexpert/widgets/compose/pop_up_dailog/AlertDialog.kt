@@ -119,7 +119,6 @@ fun RenameDialog(
     stateForRename: String,
     onNameChange: (String) -> Unit,
     isDialogOpen: MutableState<Boolean>
-
 ) {
     if (isDialogOpen.value) {
         Dialog(onDismissRequest = { isDialogOpen.value = false }) {
@@ -144,7 +143,7 @@ fun RenameDialog(
                     textState = stateForRename,
                     onTextChange = onNameChange,
                     colorBackground = Color.White,
-//                    textSize = 12.sp,
+                    textSize = 12.sp,
                     modifier = modifier
                         .padding(horizontal = 16.dp)
                 )
@@ -182,6 +181,7 @@ fun RenameDialog(
                         text = stringResource(id = R.string.done),
                         onClick = { /*TODO*/ },
                         enableState = true,
+                        backgroundColor = Gray15,
                         textColor = Blue007AFF,
                         borderColor = Color.Transparent,
                         modifier = Modifier.weight(0.5f)

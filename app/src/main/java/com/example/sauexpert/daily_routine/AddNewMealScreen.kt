@@ -20,6 +20,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
@@ -34,6 +36,7 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 fun AddNewMealScreen() {
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
     Column(
         modifier = Modifier
@@ -51,7 +54,7 @@ fun AddNewMealScreen() {
                 textBackClick = stringResource(id = R.string.close),
                 colorBackClick = Color.Red,
                 sizeText = dimensions.fontSizeSubtitle_2,
-                onBackClick = {},
+                onBackClick = { navigator.pop() },
                 onRightClick = {}
             )
         }

@@ -21,6 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
@@ -32,6 +35,8 @@ import com.example.sauexpert.ui.theme.Blue007AFF
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
+import com.example.sauexpert.voyager_navigator.AddNewMealActivity
+import com.example.sauexpert.voyager_navigator.SwapDailyRoutineActivity
 import com.example.sauexpert.widgets.compose.MainButton
 import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
 import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton
@@ -44,6 +49,7 @@ import kotlinx.coroutines.launch
 fun DailyRoutineScreen() {
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
     val listActivity = mutableListOf(
         TimeActivityData(activity = "Завтрак", time = "09:00"),
@@ -75,6 +81,7 @@ fun DailyRoutineScreen() {
                             bottomSheetScaffoldState.bottomSheetState.collapse()
                         }
                     },
+                    onSwapItemClick = { navigator.push(SwapDailyRoutineActivity) },
                     listActivity = listActivity,
                     indexFromList = index
 
@@ -122,6 +129,7 @@ fun DailyRoutineScreen() {
                         },
                         listActivity = listActivity,
                         index = index,
+                        navigator = navigator,
                         dimensions = dimensions
                     )
 
@@ -138,6 +146,7 @@ fun MainDailyRoutineSection(
     listActivity: MutableList<TimeActivityData>,
     index: MutableState<Int>,
     onClick: () -> Unit,
+    navigator: Navigator,
     dimensions: Dimensions
 ) {
     Column(
@@ -172,6 +181,7 @@ fun MainDailyRoutineSection(
                 modifier = modifier
                     .size(dimensions.iconSize_5)
                     .clickable {
+                        navigator.push(AddNewMealActivity)
                     }
             )
         }
@@ -248,7 +258,7 @@ fun CardForMainDailyRoutine(
                 color = Gray30.copy(alpha = 0.19f),
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(vertical = 21.dp, horizontal = 15.dp)
+            .padding(vertical = 14.dp, horizontal = 15.dp)
     ) {
         Text(
             text = title,
@@ -300,6 +310,7 @@ fun BottomSheetContentForDailyRoutine(
     listActivity: MutableList<TimeActivityData>,
     indexFromList: MutableState<Int>,
     onClick: () -> Unit,
+    onSwapItemClick: () -> Unit
 ) {
 
     var stateForRename by rememberSaveable { mutableStateOf("") }
@@ -341,6 +352,7 @@ fun BottomSheetContentForDailyRoutine(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
+                        onSwapItemClick()
                     }
             )
 
