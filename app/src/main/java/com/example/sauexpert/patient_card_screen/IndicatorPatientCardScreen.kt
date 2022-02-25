@@ -25,17 +25,21 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
 import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Orange4294
+import com.example.sauexpert.voyager_navigator.BraceletIndicatorActivity
 
 @Composable
 fun IndicatorPatientCardScreen() {
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
     Column(
         modifier = Modifier
@@ -43,13 +47,16 @@ fun IndicatorPatientCardScreen() {
             .verticalScroll(rememberScrollState())
             .padding(bottom = 70.dp, top = 24.dp, start = 16.dp, end = 16.dp)
     ) {
-        BraceletIndicatorCell(dimensions = dimensions)
+        BraceletIndicatorCell(
+            dimensions = dimensions,
+            onClick = { navigator.push(BraceletIndicatorActivity) }
+        )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_3))
 
         IndicatorInfromationSection(dimensions = dimensions)
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_3))
 
         DailyReportInfromation(dimensions = dimensions)
 
@@ -64,6 +71,7 @@ fun BraceletIndicatorCell(
     text: String = stringResource(R.string.bracelet_indicator),
     backgroundColor: Color = Gray30.copy(alpha = 0.19f),
     dimensions: Dimensions,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -71,7 +79,7 @@ fun BraceletIndicatorCell(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
-            .clickable { }
+            .clickable { onClick() }
             .background(
                 color = backgroundColor,
                 shape = RoundedCornerShape(10.dp)
@@ -125,7 +133,7 @@ fun IndicatorInfromationSection(
             fontSize = dimensions.fontSizeSubtitle_2
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -158,7 +166,7 @@ fun IndicatorInfromationSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -192,7 +200,7 @@ fun IndicatorInfromationSection(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_2))
 
         ProgressBarForSteps(
             stepPercent = 0.5f,
@@ -239,7 +247,7 @@ fun ProgressBarForSteps(
                 fontSize = dimensions.fontSizeCustom_3,
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_1))
 
 
             Text(
@@ -248,7 +256,7 @@ fun ProgressBarForSteps(
                 fontSize = dimensions.fontSizeCaption
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_1))
 
 
             LinearProgressIndicator(
@@ -260,7 +268,7 @@ fun ProgressBarForSteps(
             )
 
             subtitle?.let {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_1))
 
                 Text(
                     text = it,
@@ -292,7 +300,7 @@ fun DailyReportInfromation(
             fontSize = dimensions.fontSizeSubtitle_2
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -340,7 +348,7 @@ fun DailyReportInfromation(
             }
         }
 
-        Spacer(modifier = Modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         CriticalCaseCell(
             month = "сентябрь",
@@ -534,7 +542,7 @@ fun CriticalCaseCell(
                 fontSize = dimensions.fontSizeSubtitle_2
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
             CriticalCaseStat(
                 text = stringResource(R.string.hypoglycemia),

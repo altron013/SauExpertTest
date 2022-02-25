@@ -52,7 +52,8 @@ fun GeneralCaseReportScreen() {
         BraceletIndicatorCell(
             text = stringResource(R.string.risk_factor),
             dimensions = dimensions,
-            backgroundColor = Color.White
+            backgroundColor = Color.White,
+            onClick = {}
         )
 
         Spacer(modifier = Modifier.height(dimensions.grid_3))

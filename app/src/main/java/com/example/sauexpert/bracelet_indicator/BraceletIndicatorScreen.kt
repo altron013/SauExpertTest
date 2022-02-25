@@ -29,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.dimensions.smallDimensions
@@ -52,6 +54,7 @@ fun BraceletIndicatorScreen() {
 
     val configuration = LocalConfiguration.current
     val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -69,7 +72,7 @@ fun BraceletIndicatorScreen() {
             colorRightClick = Color.Red,
             sizeText = dimensions.fontSizeSubtitle_2,
             sizeIcon = dimensions.iconSize_2,
-            onBackClick = {},
+            onBackClick = { navigator.pop() },
             onRightClick = {}
         )
 
