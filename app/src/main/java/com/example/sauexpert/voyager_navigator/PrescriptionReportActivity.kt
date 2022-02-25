@@ -6,18 +6,17 @@ import androidx.compose.ui.res.stringResource
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.example.sauexpert.R
-import com.example.sauexpert.general_report.GeneralCaseReportScreen
+import com.example.sauexpert.general_report.PrescriptionReportScreen
 
-object GeneralCaseReportActivity : Tab {
-
+object PrescriptionReportActivity : Tab {
     override val options: TabOptions
         @Composable
         get() {
-            val title = stringResource(R.string.general_inspection)
+            val title = stringResource(R.string.appointments)
 
             return remember {
                 TabOptions(
-                    index = 0u,
+                    index = 1u,
                     title = title,
                 )
             }
@@ -25,6 +24,6 @@ object GeneralCaseReportActivity : Tab {
 
     @Composable
     override fun Content() {
-        GeneralCaseReportScreen()
+        PrescriptionReportScreen()
     }
 }
