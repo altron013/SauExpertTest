@@ -26,6 +26,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.dimensions.Dimensions
@@ -34,6 +35,7 @@ import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Orange4294
 import com.example.sauexpert.voyager_navigator.BraceletIndicatorActivity
+import com.example.sauexpert.voyager_navigator.IndicatorWithChartActivity
 
 @Composable
 fun IndicatorPatientCardScreen() {
@@ -54,7 +56,7 @@ fun IndicatorPatientCardScreen() {
 
         Spacer(modifier = Modifier.height(dimensions.grid_3))
 
-        IndicatorInfromationSection(dimensions = dimensions)
+        IndicatorInfromationSection(dimensions = dimensions, navigator = navigator)
 
         Spacer(modifier = Modifier.height(dimensions.grid_3))
 
@@ -118,6 +120,7 @@ fun BraceletIndicatorCell(
 @Composable
 fun IndicatorInfromationSection(
     dimensions: Dimensions,
+    navigator: Navigator,
     modifier: Modifier = Modifier
 ) {
 
@@ -149,7 +152,8 @@ fun IndicatorInfromationSection(
                 modifier = modifier
                     .width(screenWidth)
                     .height(dimensions.cardHeight_0),
-                dimensions = dimensions
+                dimensions = dimensions,
+                onClick = { navigator.push(IndicatorWithChartActivity) }
             )
 
             CardItemForPatientCard(
@@ -162,7 +166,8 @@ fun IndicatorInfromationSection(
                     .width(screenWidth)
                     .height(dimensions.cardHeight_0),
                 color = Orange4294,
-                dimensions = dimensions
+                dimensions = dimensions,
+                onClick = { navigator.push(IndicatorWithChartActivity) }
             )
         }
 
@@ -183,7 +188,8 @@ fun IndicatorInfromationSection(
                     .width(screenWidth)
                     .height(dimensions.cardHeight_0),
                 color = Orange4294,
-                dimensions = dimensions
+                dimensions = dimensions,
+                onClick = { navigator.push(IndicatorWithChartActivity) }
             )
 
             CardItemForPatientCard(
@@ -196,7 +202,8 @@ fun IndicatorInfromationSection(
                     .width(screenWidth)
                     .height(dimensions.cardHeight_0),
                 color = Orange4294,
-                dimensions = dimensions
+                dimensions = dimensions,
+                onClick = { navigator.push(IndicatorWithChartActivity) }
             )
         }
 
@@ -207,7 +214,7 @@ fun IndicatorInfromationSection(
             stepValue = 2000,
             subtitle = stringResource(R.string.goal_for_today),
             dimensions = dimensions,
-            onClick = {}
+            onClick = { navigator.push(IndicatorWithChartActivity) }
         )
 
     }
@@ -329,7 +336,8 @@ fun DailyReportInfromation(
                     modifier = modifier
                         .width(screenWidth)
                         .height(dimensions.cardHeight_1),
-                    dimensions = dimensions
+                    dimensions = dimensions,
+                    onClick = {}
                 )
 
                 Spacer(modifier = Modifier.height(dimensions.grid_1_5))
@@ -343,7 +351,8 @@ fun DailyReportInfromation(
                     modifier = modifier
                         .width(screenWidth)
                         .height(dimensions.cardHeight_1),
-                    dimensions = dimensions
+                    dimensions = dimensions,
+                    onClick = {}
                 )
             }
         }
@@ -372,10 +381,16 @@ fun CardItemForPatientCard(
     dateText: String? = null,
     dimensions: Dimensions,
     color: Color = Color.Green,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         shape = RoundedCornerShape(10.dp),
+        modifier = modifier
+            .clip(RoundedCornerShape(10.dp))
+            .clickable {
+                onClick()
+            }
     ) {
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
