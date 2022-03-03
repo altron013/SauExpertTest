@@ -7,10 +7,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.TabViewWithRoundBorder
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
@@ -22,6 +27,10 @@ fun IndicatorWithChartScreen() {
         mutableStateOf(0)
     }
 
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
+
     Column(
         modifier = Modifier.fillMaxSize()
             .background(
@@ -29,13 +38,18 @@ fun IndicatorWithChartScreen() {
             )
     ) {
         Spacer(modifier = Modifier.height(5.dp))
+
         ActionToolBar(
-            titleText = stringResource(id = R.string.bracelet),
+            titleText = stringResource(id = R.string.indicators),
             iconBackClick = Icons.Default.ArrowBack,
-            onBackClick = {},
+            sizeText = dimensions.fontSizeSubtitle_2,
+            sizeIcon = dimensions.iconSize_2,
+            onBackClick = { navigator.pop() },
             onRightClick = {}
         )
-        Spacer(modifier = Modifier.height(28.dp))
+
+        Spacer(modifier = Modifier.height(dimensions.grid_3_5))
+
         TabViewWithRoundBorder(
             TextOfTab = listOf(
                 TextOfTabData(
@@ -47,7 +61,8 @@ fun IndicatorWithChartScreen() {
                 TextOfTabData(
                     text = stringResource(id = R.string.steps)
                 )
-            )
+            ),
+            dimensions = dimensions
 
 
         ) {

@@ -17,6 +17,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
@@ -166,6 +168,8 @@ fun ActionToolBar(
     textRightClick: String? = null,
     onRightClick: () -> Unit,
     titleText: String,
+    sizeText: TextUnit = 17.sp,
+    sizeIcon: Dp = 24.dp,
     colorBackClick: Color = Color.Black,
     colorRightClick: Color = Color.Black,
     modifier: Modifier = Modifier
@@ -187,6 +191,8 @@ fun ActionToolBar(
                         imageVector = it,
                         contentDescription = "Back",
                         tint = colorBackClick,
+                        modifier = Modifier
+                            .size(sizeIcon)
                     )
                 }
             }
@@ -201,6 +207,7 @@ fun ActionToolBar(
                     text = it,
                     style = MaterialTheme.typography.body1,
                     color = colorBackClick,
+                    fontSize = sizeText,
                     modifier = modifier
                         .clickable {
                             onBackClick()
@@ -212,6 +219,7 @@ fun ActionToolBar(
         Text(
             text = titleText,
             style = MaterialTheme.typography.subtitle2,
+            fontSize = sizeText,
         )
 
         Row(
@@ -225,6 +233,7 @@ fun ActionToolBar(
                     text = it,
                     style = MaterialTheme.typography.body1,
                     color = colorRightClick,
+                    fontSize = sizeText,
                     modifier = modifier
                         .clickable {
                             onRightClick()
@@ -242,6 +251,8 @@ fun ActionToolBar(
                         painter = it,
                         contentDescription = null,
                         tint = colorRightClick,
+                        modifier = Modifier
+                            .size(sizeIcon)
                     )
                 }
             }
@@ -254,6 +265,9 @@ fun MainActionToolBar(
     iconBackClick: ImageVector? = null,
     textBackClick: String? = null,
     titleText: String? = null,
+    sizeTextBackClick: TextUnit = 17.sp,
+    sizeTitleText: TextUnit = 28.sp,
+    sizeIconBackClick: Dp = 24.dp,
     colorBackClick: Color = Color.Black,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -267,9 +281,11 @@ fun MainActionToolBar(
                 imageVector = it,
                 contentDescription = "Back",
                 tint = colorBackClick,
-                modifier = Modifier.clickable {
-                    onBackClick()
-                }
+                modifier = Modifier
+                    .size(sizeIconBackClick)
+                    .clickable {
+                        onBackClick()
+                    }
             )
         }
 
@@ -278,6 +294,7 @@ fun MainActionToolBar(
                 text = it,
                 style = MaterialTheme.typography.body1,
                 color = colorBackClick,
+                fontSize = sizeTextBackClick,
                 modifier = Modifier
                     .clickable {
                         onBackClick()
@@ -293,7 +310,7 @@ fun MainActionToolBar(
             Text(
                 text = it,
                 style = MaterialTheme.typography.h4,
-                fontSize = 28.sp
+                fontSize = sizeTitleText,
             )
         }
     }
@@ -310,6 +327,9 @@ fun ActionToolBarWithSubtitle(
     onRightClick: () -> Unit,
     titleText: String,
     subtitleText: String,
+    sizeText: TextUnit = 17.sp,
+    sizeSubtitleText: TextUnit = 12.sp,
+    sizeIcon: Dp = 24.dp,
     colorBackClick: Color = Color.Black,
     colorRightClick: Color = Color.Black,
     modifier: Modifier = Modifier
@@ -323,7 +343,7 @@ fun ActionToolBarWithSubtitle(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .weight(0.5f),
+                .weight(1f),
         ) {
             iconBackClick?.let {
                 IconButton(onClick = { onBackClick() }) {
@@ -331,6 +351,8 @@ fun ActionToolBarWithSubtitle(
                         imageVector = it,
                         contentDescription = "Back",
                         tint = colorBackClick,
+                        modifier = Modifier
+                            .size(sizeIcon)
                     )
                 }
             }
@@ -344,6 +366,7 @@ fun ActionToolBarWithSubtitle(
                 Text(
                     text = it,
                     style = MaterialTheme.typography.body1,
+                    fontSize = sizeText,
                     color = colorBackClick,
                     modifier = modifier
                         .clickable {
@@ -359,12 +382,14 @@ fun ActionToolBarWithSubtitle(
             Text(
                 text = titleText,
                 style = MaterialTheme.typography.subtitle2,
+                fontSize = sizeText
             )
 
             Text(
                 text = subtitleText,
                 style = MaterialTheme.typography.body2,
-                color = Gray30
+                color = Gray30,
+                fontSize = sizeSubtitleText
             )
 
         }
@@ -375,13 +400,14 @@ fun ActionToolBarWithSubtitle(
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .weight(0.5f),
+                .weight(1f),
         ) {
             textRightClick?.let {
                 Text(
                     text = it,
                     style = MaterialTheme.typography.body1,
                     color = colorRightClick,
+                    fontSize = sizeText,
                     modifier = modifier
                         .clickable {
                             onRightClick()
@@ -399,6 +425,8 @@ fun ActionToolBarWithSubtitle(
                         painter = it,
                         contentDescription = null,
                         tint = colorRightClick,
+                        modifier = Modifier
+                            .size(sizeIcon)
                     )
                 }
             }

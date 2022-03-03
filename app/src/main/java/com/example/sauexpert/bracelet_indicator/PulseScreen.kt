@@ -30,6 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PulseData
 import com.example.sauexpert.model.TextOfTabData
@@ -38,23 +41,27 @@ import com.example.sauexpert.ui.theme.Gray30
 
 @Composable
 fun PulseScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        PulsewithBarChart()
+        PulsewithBarChart(dimensions = dimensions)
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPulseSection()
+        AnalysisPulseSection(dimensions = dimensions)
         Spacer(modifier = Modifier.height(16.dp))
-        RangeCustomizeSection()
+        RangeCustomizeSection(dimensions = dimensions)
     }
 }
 
 
 @Composable
 fun PulsewithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -89,7 +96,8 @@ fun PulsewithBarChart(
                     painter = painterResource(R.drawable.ic_calendar)
                 )
             ),
-            weight = 0.3f
+            weight = 0.3f,
+            dimensions = dimensions
         )
         Spacer(modifier = Modifier.height(12.dp))
         LineChartForPulse(
@@ -137,6 +145,7 @@ fun PulsewithBarChart(
                     dateName = "22"
                 ),
             ),
+            dimensions = dimensions,
             ListNumberData = listNumberData
         )
     }
@@ -146,7 +155,8 @@ fun PulsewithBarChart(
 @Composable
 fun LineChartForPulse(
     PulseData: List<PulseData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     val scale by remember { mutableStateOf(1f) }
     val path = Path()
@@ -203,7 +213,7 @@ fun LineChartForPulse(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -298,7 +308,10 @@ fun InfoDialogForBarChartOfPulse(
 
 
 @Composable
-fun AnalysisPulseSection(modifier: Modifier = Modifier) {
+fun AnalysisPulseSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -311,7 +324,8 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.highest_value),
             value = "18",
             dateData = "19 Декабря в 23:13",
-            imageVector = Icons.Filled.FlashOn
+            imageVector = Icons.Filled.FlashOn,
+            dimensions = dimensions
         )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
@@ -323,8 +337,8 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.lowest_value),
             value = "18",
             dateData = "19 Декабря в 23:13",
-
-            )
+            dimensions = dimensions
+        )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
             thickness = 1.dp,
@@ -341,6 +355,7 @@ fun AnalysisPulseSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.last_value),
             value = "18",
             dateData = "20 Декабря в 23:13",
+            dimensions = dimensions
         )
     }
 }

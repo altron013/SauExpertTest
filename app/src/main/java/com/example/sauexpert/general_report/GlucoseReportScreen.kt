@@ -1,6 +1,5 @@
 package com.example.sauexpert.general_report
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -11,21 +10,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.AnalysisField
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.indicator_with_chart.BarChartForGlucose
 import com.example.sauexpert.indicator_with_chart.BottomSheetContentForGlucose
 import com.example.sauexpert.indicator_with_chart.MeasurementChangeForGlucose
@@ -40,6 +43,8 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun GlucoseReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -52,6 +57,8 @@ fun GlucoseReportScreen() {
         stringResource(R.string.before_food),
         stringResource(R.string.after_food),
     )
+
+    val navigator = LocalNavigator.currentOrThrow
 
     var state by rememberSaveable { mutableStateOf(list[0]) }
 
@@ -68,6 +75,7 @@ fun GlucoseReportScreen() {
                 },
                 possibleValues = list,
                 state = state,
+                dimensions = dimensions,
                 onNameChange = { state = it }
             )
         },
@@ -90,11 +98,14 @@ fun GlucoseReportScreen() {
                     titleText = stringResource(R.string.blood_glucose),
                     subtitleText = "Декабрь 2021",
                     iconBackClick = Icons.Default.ArrowBack,
-                    onBackClick = {},
+                    sizeText = dimensions.fontSizeSubtitle_2,
+                    sizeSubtitleText = dimensions.fontSizeBody_2,
+                    sizeIcon = dimensions.iconSize_2,
+                    onBackClick = {navigator.pop()},
                     onRightClick = {}
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_2))
 
                 GlucoseReportWithBarChart(
                     onClick = {
@@ -104,23 +115,28 @@ fun GlucoseReportScreen() {
                         visible.value = false
                     },
                     state = state,
-                    visible = visible
+                    visible = visible,
+                    dimensions = dimensions
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-                ReferenceIndicatorSection(textValue = "3,5 — 4,1")
+//                ReferenceIndicatorSection(
+//                    textValue = "3,5 — 4,1",
+//                    dimensions = dimensions
+//                )
 
-                Spacer(modifier = Modifier.height(16.dp))
+//                Spacer(modifier = Modifier.height(16.dp))
 
                 IndicatorForMonthSection(
                     glucoseValueAfterFood = 18,
                     glucoseValueBeforeFood = 18,
+                    dimensions = dimensions
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-                DeviationsFromGeneralSection()
+                DeviationsFromGeneralSection(dimensions = dimensions)
             }
         }
     }
@@ -132,6 +148,7 @@ fun GlucoseReportWithBarChart(
     onClick: (Int) -> Unit,
     visible: MutableState<Boolean>,
     state: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -156,9 +173,12 @@ fun GlucoseReportWithBarChart(
     ) {
         Text(
             text = stringResource(id = R.string.blood_glucose),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
+
         Spacer(modifier = Modifier.height(12.dp))
+
         BarChartForGlucose(
             glucoseData = listOf(
                 GlucoseData(
@@ -262,28 +282,32 @@ fun GlucoseReportWithBarChart(
             ),
             ListNumberData = listNumberData,
             state = state,
-            visible = visible
+            visible = visible,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         MeasurementChangeForGlucose(
             onClick = onClick,
-            state = state
+            state = state,
+            dimensions
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         TextWithIconForGraph(
             color = Pink4294,
-            text = stringResource(id = R.string.level_of_glucose_before_food).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.level_of_glucose_before_food).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextWithIconForGraph(
             color = Blue4289,
-            text = stringResource(id = R.string.level_of_glucose_after_food).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.level_of_glucose_after_food).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }
@@ -291,56 +315,29 @@ fun GlucoseReportWithBarChart(
 @Composable
 fun ReferenceIndicatorSection(
     textValue: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .fillMaxWidth()
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(10.dp)
-            )
+            ).padding(16.dp)
     ) {
-        Canvas(
-            modifier = Modifier
-                .width(27.dp)
-                .height(20.dp)
-                .padding(16.dp)
-        ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_reference_indicator),
+            tint = Color.Green,
+            contentDescription = "",
+        )
 
-            var width = 0
-
-            drawRect(
-                color = Color.Green.copy(alpha = 0.05f),
-                topLeft = Offset(
-                    x = 0.dp.toPx(),
-                    y = 0.dp.toPx()
-                ),
-                size = Size(
-                    width = 27.dp.toPx(),
-                    height = 20.dp.toPx()
-                )
-            )
-
-            for (i in 0 until 4) {
-                drawLine(
-                    Gray30.copy(alpha = 0.5f),
-                    Offset(
-                        x = (width + 6).dp.toPx(),
-                        y = 0.dp.toPx()
-                    ),
-                    Offset(
-                        x = width.dp.toPx(),
-                        y = 20.dp.toPx()
-                    )
-                )
-                width += 6
-            }
-        }
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        AnalysisField(title = stringResource(R.string.references_value), value = textValue)
+        AnalysisField(
+            title = stringResource(R.string.references_value),
+            value = textValue,
+            dimensions = dimensions
+        )
     }
 }
 
@@ -349,7 +346,7 @@ fun ReferenceIndicatorSection(
 fun IndicatorForMonthSection(
     glucoseValueAfterFood: Int? = null,
     glucoseValueBeforeFood: Int? = null,
-
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -358,7 +355,7 @@ fun IndicatorForMonthSection(
         Text(
             text = "Показатели за Декабрь 2021",
             style = MaterialTheme.typography.subtitle1,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
 
@@ -371,7 +368,11 @@ fun IndicatorForMonthSection(
                     shape = RoundedCornerShape(10.dp)
                 )
         ) {
-            AnalysisField(title = stringResource(R.string.total_measurements), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.total_measurements),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
@@ -381,7 +382,8 @@ fun IndicatorForMonthSection(
             glucoseValueAfterFood?.let {
                 AnalysisField(
                     title = stringResource(R.string.case_before_food),
-                    value = it.toString()
+                    value = it.toString(),
+                    dimensions = dimensions
                 )
                 Divider(
                     color = Gray30.copy(alpha = 0.19f),
@@ -394,7 +396,8 @@ fun IndicatorForMonthSection(
             glucoseValueBeforeFood?.let {
                 AnalysisField(
                     title = stringResource(R.string.case_after_food),
-                    value = it.toString()
+                    value = it.toString(),
+                    dimensions = dimensions
                 )
                 Divider(
                     color = Gray30.copy(alpha = 0.19f),
@@ -407,7 +410,8 @@ fun IndicatorForMonthSection(
             AnalysisField(
                 title = stringResource(R.string.missed_measurements),
                 value = "18",
-                color = Color.Red
+                color = Color.Red,
+                dimensions = dimensions
             )
 
         }
@@ -417,16 +421,20 @@ fun IndicatorForMonthSection(
 
 
 @Composable
-fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
+fun DeviationsFromGeneralSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(R.string.deviations_from_general),
             style = MaterialTheme.typography.subtitle1,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
 
         Spacer(modifier = Modifier.height(12.dp))
+
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -435,7 +443,11 @@ fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(10.dp)
                 )
         ) {
-            AnalysisField(title = stringResource(R.string.total_case), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.total_case),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
@@ -444,7 +456,8 @@ fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
             )
             AnalysisField(
                 title = stringResource(R.string.significantly_above_general),
-                value = "18"
+                value = "18",
+                dimensions = dimensions
             )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
@@ -452,14 +465,22 @@ fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.above_general), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.above_general),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.below_general), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.below_general),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
@@ -468,7 +489,8 @@ fun DeviationsFromGeneralSection(modifier: Modifier = Modifier) {
             )
             AnalysisField(
                 title = stringResource(R.string.significantly_below_general),
-                value = "18"
+                value = "18",
+                dimensions = dimensions
             )
 
         }

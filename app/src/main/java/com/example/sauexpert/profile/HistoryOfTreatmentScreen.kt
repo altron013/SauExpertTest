@@ -22,11 +22,15 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.HistoryOfTreatmentData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Pink4294
@@ -36,6 +40,8 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 @Composable
 fun HistoryOfTreatmentScreen() {
     var historyState by rememberSaveable { mutableStateOf("") }
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     Column(
         modifier = Modifier
@@ -50,6 +56,8 @@ fun HistoryOfTreatmentScreen() {
         ActionToolBar(
             titleText = stringResource(id = R.string.treatment_history),
             iconBackClick = Icons.Default.ArrowBack,
+            sizeText = dimensions.fontSizeSubtitle_2,
+            sizeIcon = dimensions.iconSize_2,
             onBackClick = {},
             onRightClick = {}
         )
@@ -63,7 +71,7 @@ fun HistoryOfTreatmentScreen() {
             onTextChange = { historyState = it }
         )
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_4))
 
         HistoryTreatmentSection(
             HistoryOfTreatment = listOf(

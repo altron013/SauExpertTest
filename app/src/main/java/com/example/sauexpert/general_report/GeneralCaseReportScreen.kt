@@ -26,15 +26,22 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.ProgressBarForSleep
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
+import com.example.sauexpert.voyager_navigator.*
 import com.example.sauexpert.patient_card_screen.BraceletIndicatorCell
 import com.example.sauexpert.patient_card_screen.ProgressBarForSteps
 import com.example.sauexpert.ui.theme.Gray30
 
 @Composable
 fun GeneralCaseReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     Column(
         modifier = Modifier
@@ -44,10 +51,14 @@ fun GeneralCaseReportScreen() {
     ) {
         BraceletIndicatorCell(
             text = stringResource(R.string.risk_factor),
-            backgroundColor = Color.White
+            dimensions = dimensions,
+            backgroundColor = Color.White,
+            onClick = {}
         )
-        Spacer(modifier = Modifier.height(24.dp))
-        IndicatorInfromationForMonthSection()
+
+        Spacer(modifier = Modifier.height(dimensions.grid_3))
+
+        IndicatorInfromationForMonthSection(dimensions = dimensions)
 
     }
 
@@ -56,10 +67,13 @@ fun GeneralCaseReportScreen() {
 
 @Composable
 fun IndicatorInfromationForMonthSection(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
     val screenWidth = (configuration.screenWidthDp.dp / 2) - 25.dp
+    val spaceHeight = dimensions.grid_1_5
+    val navigator = LocalNavigator.currentOrThrow
 
 
     Column(
@@ -69,27 +83,30 @@ fun IndicatorInfromationForMonthSection(
         Text(
             text = stringResource(R.string.patient_indicator_for_month),
             style = MaterialTheme.typography.subtitle2,
+            fontSize = dimensions.fontSizeSubtitle_2
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(spaceHeight))
 
         CardItemForGeneralCase(
             title = stringResource(R.string.blood_glucose),
             measurementValue = 33,
-            caseValue = 15
-
+            caseValue = 15,
+            dimensions = dimensions,
+            onClick = { navigator.push(GlucoseReportActivity) }
         )
 
-        Spacer(modifier = Modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(spaceHeight))
 
         CardItemForGeneralCase(
             title = stringResource(R.string.blood_pressure_pulse),
             measurementValue = 40,
-            caseValue = 12
-
+            caseValue = 12,
+            dimensions = dimensions,
+            onClick = { navigator.push(PressureAndPulseReportActivity) }
         )
 
-        Spacer(modifier = Modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(spaceHeight))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -99,36 +116,44 @@ fun IndicatorInfromationForMonthSection(
             CardItemForGeneralCase(
                 title = stringResource(R.string.fulfillment_prescription),
                 text = "70%",
+                dimensions = dimensions,
                 modifier = modifier.width(screenWidth),
+                onClick = { navigator.push(PrescriptionCompletedReportActivity) }
             )
 
             CardItemForGeneralCase(
                 title = stringResource(R.string.well_being),
                 icon = Icons.Filled.ThumbUp,
                 text = "Отлично",
+                dimensions = dimensions,
                 modifier = modifier.width(screenWidth),
+                onClick = { navigator.push(WellBeingReportActivity) }
             )
         }
 
-        Spacer(modifier = Modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(spaceHeight))
 
         CardItemWithValueForGeneralCase(
             title = stringResource(R.string.weight),
             subtitle = stringResource(R.string.kg),
             text = "75",
             textValue = "+2.3",
+            dimensions = dimensions,
+            onClick = { navigator.push(WeightReportActivity) }
         )
 
-        Spacer(modifier = Modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(spaceHeight))
 
         CardProgressBarForSleep(
             deepSleepPercent = 45,
             lightSleepPercent = 30,
-            remSleepPercent = 25
+            remSleepPercent = 25,
+            dimensions = dimensions,
+            onClick = { navigator.push(SleepReportActivity) }
         )
 
 
-        Spacer(modifier = Modifier.height(13.dp))
+        Spacer(modifier = Modifier.height(spaceHeight))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -139,21 +164,31 @@ fun IndicatorInfromationForMonthSection(
                 title = stringResource(R.string.hrv),
                 subtitle = stringResource(R.string.milliseconds),
                 text = "80",
+                dimensions = dimensions,
                 modifier = modifier.width(screenWidth),
+                onClick = { navigator.push(HRVReportActivity) }
             )
 
             CardItemForGeneralCase(
                 title = stringResource(R.string.sp02),
                 subtitle = stringResource(R.string.oxygen),
                 text = "96",
+                dimensions = dimensions,
                 modifier = modifier.width(screenWidth),
+                onClick = { navigator.push(Sp02ReportActivity) }
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(spaceHeight))
 
 
-        ProgressBarForSteps(stepPercent = 0.5f, stepValue = 2000, goalStepValue = 4000)
+        ProgressBarForSteps(
+            stepPercent = 0.5f,
+            stepValue = 2000,
+            goalStepValue = 4000,
+            dimensions = dimensions,
+            onClick = { navigator.push(StepsReportActivity) }
+        )
 
     }
 }
@@ -164,6 +199,8 @@ fun CardItemForGeneralCase(
     title: String,
     measurementValue: Int,
     caseValue: Int,
+    dimensions: Dimensions,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -171,7 +208,7 @@ fun CardItemForGeneralCase(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable {
-
+                onClick()
             }
     ) {
         Column(
@@ -188,7 +225,7 @@ fun CardItemForGeneralCase(
             Text(
                 text = title,
                 style = MaterialTheme.typography.button,
-                fontSize = 13.sp
+                fontSize = dimensions.fontSizeCustom_3
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -198,7 +235,7 @@ fun CardItemForGeneralCase(
                     withStyle(
                         style = SpanStyle(
                             color = Color.Black,
-                            fontSize = 13.sp
+                            fontSize = dimensions.fontSizeCustom_3
                         )
                     ) {
                         append("$measurementValue ")
@@ -207,7 +244,7 @@ fun CardItemForGeneralCase(
                     append(stringResource(R.string.measurement).toLowerCase(Locale.current))
                 },
                 style = MaterialTheme.typography.button,
-                fontSize = 13.sp,
+                fontSize = dimensions.fontSizeCustom_3,
                 color = Gray30
             )
 
@@ -218,7 +255,7 @@ fun CardItemForGeneralCase(
                     withStyle(
                         style = SpanStyle(
                             color = Color.Black,
-                            fontSize = 13.sp
+                            fontSize = dimensions.fontSizeCustom_3
                         )
                     ) {
                         append("$caseValue ${stringResource(R.string.cases).toLowerCase(Locale.current)} ")
@@ -227,7 +264,7 @@ fun CardItemForGeneralCase(
                     append(stringResource(R.string.deviations_from_general).toLowerCase(Locale.current))
                 },
                 style = MaterialTheme.typography.button,
-                fontSize = 13.sp,
+                fontSize = dimensions.fontSizeCustom_3,
                 color = Gray30
             )
 
@@ -242,6 +279,8 @@ fun CardItemForGeneralCase(
     subtitle: String? = null,
     icon: ImageVector? = null,
     text: String,
+    onClick: () -> Unit,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -249,7 +288,7 @@ fun CardItemForGeneralCase(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable {
-
+                onClick()
             }
     ) {
         Column(
@@ -260,7 +299,7 @@ fun CardItemForGeneralCase(
                     color = Gray30.copy(alpha = 0.35f),
                     shape = RoundedCornerShape(10.dp)
                 )
-                .height(120.dp)
+                .height(dimensions.cardHeight_1)
                 .padding(16.dp)
         ) {
 
@@ -268,7 +307,7 @@ fun CardItemForGeneralCase(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.button,
-                    fontSize = 13.sp
+                    fontSize = dimensions.fontSizeCustom_3
                 )
 
                 subtitle?.let {
@@ -277,7 +316,7 @@ fun CardItemForGeneralCase(
                     Text(
                         text = it,
                         style = MaterialTheme.typography.button,
-                        fontSize = 13.sp,
+                        fontSize = dimensions.fontSizeCustom_3,
                         color = Gray30
                     )
                 }
@@ -288,7 +327,6 @@ fun CardItemForGeneralCase(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-
                 icon?.let {
                     Icon(
                         imageVector = it,
@@ -299,11 +337,10 @@ fun CardItemForGeneralCase(
                     Spacer(modifier = Modifier.width(13.dp))
                 }
 
-
                 Text(
                     text = text,
                     style = MaterialTheme.typography.caption,
-                    fontSize = if (icon == null) 22.sp else 13.sp
+                    fontSize = if (icon == null) dimensions.fontSizeCustom_6 else dimensions.fontSizeCustom_3
                 )
 
             }
@@ -318,6 +355,8 @@ fun CardItemWithValueForGeneralCase(
     subtitle: String,
     text: String,
     textValue: String,
+    dimensions: Dimensions,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -325,7 +364,7 @@ fun CardItemWithValueForGeneralCase(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable {
-
+                onClick()
             }
     ) {
         Column(
@@ -344,7 +383,7 @@ fun CardItemWithValueForGeneralCase(
                     withStyle(
                         style = SpanStyle(
                             color = Color.Black,
-                            fontSize = 13.sp
+                            fontSize = dimensions.fontSizeCustom_3
                         )
                     ) {
                         append("$title ")
@@ -353,7 +392,7 @@ fun CardItemWithValueForGeneralCase(
                     append(subtitle)
                 },
                 style = MaterialTheme.typography.button,
-                fontSize = 13.sp,
+                fontSize = dimensions.fontSizeCustom_3,
                 color = Gray30
             )
 
@@ -368,13 +407,13 @@ fun CardItemWithValueForGeneralCase(
                 Text(
                     text = text,
                     style = MaterialTheme.typography.caption,
-                    fontSize = 22.sp
+                    fontSize = dimensions.fontSizeCustom_6
                 )
 
                 Text(
                     text = textValue,
                     style = MaterialTheme.typography.button,
-                    fontSize = 13.sp,
+                    fontSize = dimensions.fontSizeCustom_3,
                     color = Gray30
                 )
 
@@ -390,6 +429,8 @@ fun CardProgressBarForSleep(
     deepSleepPercent: Int,
     lightSleepPercent: Int,
     remSleepPercent: Int,
+    onClick: () -> Unit,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -397,7 +438,7 @@ fun CardProgressBarForSleep(
         modifier = modifier
             .clip(shape = RoundedCornerShape(10.dp))
             .clickable {
-
+                onClick()
             }
     ) {
         Column(
@@ -413,7 +454,7 @@ fun CardProgressBarForSleep(
             Text(
                 text = stringResource(R.string.sleep),
                 style = MaterialTheme.typography.button,
-                fontSize = 13.sp,
+                fontSize = dimensions.fontSizeCustom_3,
                 modifier = modifier.padding(16.dp)
             )
 
@@ -421,6 +462,7 @@ fun CardProgressBarForSleep(
                 deepSleepPercent = deepSleepPercent,
                 lightSleepPercent = lightSleepPercent,
                 remSleepPercent = remSleepPercent,
+                textSize = dimensions.fontSizeCustom_1
             )
 
         }

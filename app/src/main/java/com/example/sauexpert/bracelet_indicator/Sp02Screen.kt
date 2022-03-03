@@ -1,14 +1,16 @@
 package com.example.sauexpert.bracelet_indicator
 
 import android.graphics.Paint
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -26,17 +28,23 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.MainButton
+import com.example.sauexpert.widgets.compose.bottomsheet.BottomSheetContentForSoas
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @ExperimentalComposeUiApi
 @Composable
 fun Sp02Screen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -47,13 +55,13 @@ fun Sp02Screen() {
         sheetShape = RoundedCornerShape(30.dp, 30.dp, 0.dp, 0.dp),
         scaffoldState = bottomSheetScaffoldState,
         sheetContent = {
-
             BottomSheetContentForSoas(
                 onClick = {
                     coroutineScope.launch {
                         bottomSheetScaffoldState.bottomSheetState.collapse()
                     }
-                }
+                },
+                dimensions = dimensions
             )
         },
         sheetPeekHeight = 0.dp
@@ -73,20 +81,22 @@ fun Sp02Screen() {
                     .verticalScroll(rememberScrollState())
                     .padding(top = 24.dp, bottom = 10.dp)
             ) {
-                SP02withLineGraph()
+                SP02withLineGraph(dimensions = dimensions)
                 Spacer(modifier = Modifier.height(24.dp))
 
-
-                AnalysisSp02Section()
+                AnalysisSp02Section(dimensions = dimensions)
                 Spacer(modifier = Modifier.height(24.dp))
 
-                AnalysisSOASSection(onClick = {
-                    coroutineScope.launch {
-                        bottomSheetScaffoldState.bottomSheetState.expand()
-                    }
-                })
+                AnalysisSOASSection(
+                    onClick = {
+                        coroutineScope.launch {
+                            bottomSheetScaffoldState.bottomSheetState.expand()
+                        }
+                    },
+                    dimensions = dimensions
+                )
                 Spacer(modifier = Modifier.height(16.dp))
-                RangeCustomizeSection()
+                RangeCustomizeSection(dimensions = dimensions)
             }
 
         }
@@ -98,6 +108,7 @@ fun Sp02Screen() {
 
 @Composable
 fun SP02withLineGraph(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -130,7 +141,8 @@ fun SP02withLineGraph(
                     painter = painterResource(R.drawable.ic_calendar)
                 )
             ),
-            weight = 0.3f
+            weight = 0.3f,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -174,21 +186,25 @@ fun SP02withLineGraph(
                     dateName = "22"
                 ),
             ),
+            dimensions = dimensions,
             ListNumberData = listNumberData
 
         )
+
         Spacer(modifier = Modifier.height(20.dp))
 
         TextWithIconForGraph(
             color = Color.Green.copy(alpha = 0.25f),
-            text = stringResource(id = R.string.oxygen_level).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.oxygen_level).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextWithIconForGraph(
             color = Color.Red,
-            text = stringResource(id = R.string.sleep_apnea).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.sleep_apnea).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }
@@ -196,14 +212,14 @@ fun SP02withLineGraph(
 @Composable
 fun LineChartForSp02(
     Sp02Data: List<Sp02Data>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     val scale by remember { mutableStateOf(1f) }
     val listSize = Sp02Data.size - 1
     val heightForGraph = (ListNumberData.size * 35).dp
 
     val path = Path()
-
 
     for ((index, item) in Sp02Data.withIndex()) {
         when (index) {
@@ -230,7 +246,7 @@ fun LineChartForSp02(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -306,6 +322,7 @@ fun LineChartForSp02(
 fun AnalysisSOASSection(
     onClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
+    dimensions: Dimensions
 ) {
 //    val visible: MutableState<Boolean> = remember { mutableStateOf(false) }
 //
@@ -340,12 +357,16 @@ fun AnalysisSOASSection(
             Text(
                 text = stringResource(R.string.soas_analysis),
                 style = MaterialTheme.typography.subtitle2,
+                fontSize = dimensions.fontSizeSubtitle_2
             )
 
             ClickableText(
                 text = AnnotatedString(stringResource(R.string.more_detail)),
-                style = MaterialTheme.typography.body2.copy(Color.Red),
-                onClick = onClick,
+                style = MaterialTheme.typography.body2.copy(
+                    Color.Red,
+                    fontSize = dimensions.fontSizeBody_2
+                ),
+                onClick = onClick
             )
         }
 
@@ -364,7 +385,8 @@ fun AnalysisSOASSection(
             AnalysisFieldWithIconAtBeg(
                 title = stringResource(R.string.severe_degree),
                 value = "18",
-                imageVector = Icons.Filled.Circle
+                imageVector = Icons.Filled.Circle,
+                dimensions = dimensions
             )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
@@ -372,14 +394,22 @@ fun AnalysisSOASSection(
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.sleep_apnea_case), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.sleep_apnea_case),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.hypopnea_case), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.hypopnea_case),
+                value = "18",
+                dimensions = dimensions
+            )
 
         }
 
@@ -387,66 +417,16 @@ fun AnalysisSOASSection(
 }
 
 
-@ExperimentalMaterialApi
 @Composable
-fun BottomSheetContentForSoas(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
+fun AnalysisSp02Section(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 17.dp, vertical = 32.dp)
-    ) {
-        Column(
-            modifier = Modifier
-        ) {
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = stringResource(R.string.soas_analysis),
-                    style = MaterialTheme.typography.caption
-                )
-
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = null,
-                    tint = Color.Black,
-                    modifier = modifier
-                        .size(24.dp)
-                        .clickable { onClick() }
-                )
-            }
-
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = stringResource(R.string.soas_description),
-                style = MaterialTheme.typography.body1
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            MainButton(
-                text = stringResource(id = R.string.understand),
-                onClick = onClick,
-                enableState = true
-            )
-        }
-    }
-}
-
-@Composable
-fun AnalysisSp02Section(modifier: Modifier = Modifier) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(R.string.sp02),
             style = MaterialTheme.typography.subtitle2,
+            fontSize = dimensions.fontSizeSubtitle_2
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -458,28 +438,44 @@ fun AnalysisSp02Section(modifier: Modifier = Modifier) {
                     shape = RoundedCornerShape(10.dp)
                 )
         ) {
-            AnalysisField(title = stringResource(R.string.sp02_average), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.sp02_average),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.breathing_rate), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.breathing_rate),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.hypoxia_case), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.hypoxia_case),
+                value = "18",
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
                 modifier = modifier
                     .padding(horizontal = 16.dp)
             )
-            AnalysisField(title = stringResource(R.string.cardiac_pressure), value = "18")
+            AnalysisField(
+                title = stringResource(R.string.cardiac_pressure),
+                value = "18",
+                dimensions = dimensions
+            )
 
         }
 

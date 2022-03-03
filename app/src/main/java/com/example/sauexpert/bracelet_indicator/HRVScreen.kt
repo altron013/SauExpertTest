@@ -24,10 +24,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.HRVData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
@@ -37,19 +41,25 @@ import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun HRVScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        HRVwithBarChart()
+        HRVwithBarChart(
+            dimensions = dimensions
+        )
     }
 }
 
 
 @Composable
 fun HRVwithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -82,10 +92,12 @@ fun HRVwithBarChart(
                     painter = painterResource(R.drawable.ic_calendar)
                 )
             ),
-            weight = 0.3f
+            weight = 0.3f,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(12.dp))
+
         BarChartForHRV(
             HRVData = listOf(
                 HRVData(
@@ -131,6 +143,7 @@ fun HRVwithBarChart(
                     dateName = "22"
                 )
             ),
+            dimensions = dimensions,
             ListNumberData = listNumberData
         )
     }
@@ -140,7 +153,8 @@ fun HRVwithBarChart(
 @Composable
 fun BarChartForHRV(
     HRVData: List<HRVData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
@@ -160,7 +174,8 @@ fun BarChartForHRV(
         itemID = itemID,
         xPosition = positionOfX,
         yPosition = positionOfY,
-        HRVData = HRVData
+        HRVData = HRVData,
+        textSize = dimensions.fontSizeH5
     )
 
     Canvas(
@@ -190,7 +205,7 @@ fun BarChartForHRV(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -244,6 +259,7 @@ fun InfoDialogForBarChartOfHRV(
     xPosition: MutableState<Int>,
     yPosition: MutableState<Int>,
     HRVData: List<HRVData>,
+    textSize: TextUnit = 12.sp,
     modifier: Modifier = Modifier
 ) {
     if (visible.value) {
@@ -264,6 +280,7 @@ fun InfoDialogForBarChartOfHRV(
                             text = "${itemID.value} | ${HRVData[itemID.value].hourOfHRV} | " +
                                     "${HRVData[itemID.value].dateName}",
                             style = MaterialTheme.typography.h5,
+                            fontSize = textSize,
                             modifier = modifier
                                 .align(alignment = Alignment.Center)
                                 .clickable {

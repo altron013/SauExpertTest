@@ -37,6 +37,9 @@ import com.example.sauexpert.bracelet_indicator.CustomTextRadioGroup
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.GlucoseData
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.TextOfTabData
@@ -48,6 +51,8 @@ import kotlinx.coroutines.launch
 @ExperimentalMaterialApi
 @Composable
 fun GlucoseScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
@@ -76,7 +81,8 @@ fun GlucoseScreen() {
                 },
                 possibleValues = list,
                 state = state,
-                onNameChange = { state = it }
+                onNameChange = { state = it },
+                dimensions = dimensions
             )
         },
         sheetPeekHeight = 0.dp
@@ -103,7 +109,8 @@ fun GlucoseScreen() {
                         visible.value = false
                     },
                     state = state,
-                    visible = visible
+                    visible = visible,
+                    dimensions = dimensions
                 )
             }
         }
@@ -115,6 +122,7 @@ fun GlucosewithBarChart(
     onClick: (Int) -> Unit,
     visible: MutableState<Boolean>,
     state: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -137,7 +145,7 @@ fun GlucosewithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        GlucoseTitle()
+        GlucoseTitle(dimensions = dimensions)
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForGlucose(
             glucoseData = listOf(
@@ -242,6 +250,7 @@ fun GlucosewithBarChart(
             ),
             ListNumberData = listNumberData,
             state = state,
+            dimensions = dimensions,
             visible = visible
         )
 
@@ -249,27 +258,31 @@ fun GlucosewithBarChart(
 
         MeasurementChangeForGlucose(
             onClick = onClick,
-            state = state
+            state = state,
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         TextWithIconForGraph(
             color = Pink4294,
-            text = stringResource(id = R.string.level_of_glucose_before_food).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.level_of_glucose_before_food).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         TextWithIconForGraph(
             color = Blue4289,
-            text = stringResource(id = R.string.level_of_glucose_after_food).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.level_of_glucose_after_food).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }
 
 @Composable
 fun GlucoseTitle(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     var selectedTabIndex by remember {
@@ -285,7 +298,8 @@ fun GlucoseTitle(
     ) {
         Text(
             text = stringResource(id = R.string.blood_glucose),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -300,7 +314,8 @@ fun GlucoseTitle(
                 )
             ),
             activity = activity,
-            dateText = date
+            dateText = date,
+            dimensions = dimensions
         ) {
             selectedTabIndex = it
         }
@@ -310,12 +325,12 @@ fun GlucoseTitle(
 
         }
 
-        Spacer(modifier = Modifier.height(2.dp))
+        Spacer(modifier = Modifier.height(3.dp))
 
         Text(
             text = date.value,
             style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
 
@@ -329,7 +344,8 @@ fun BarChartForGlucose(
     glucoseData: List<GlucoseData>,
     state: String,
     visible: MutableState<Boolean>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
@@ -407,7 +423,7 @@ fun BarChartForGlucose(
         var width = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -580,6 +596,7 @@ fun InfoDialogForBarChartOfGlucose(
 fun MeasurementChangeForGlucose(
     onClick: (Int) -> Unit,
     state: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -596,12 +613,15 @@ fun MeasurementChangeForGlucose(
         Text(
             text = stringResource(R.string.measurements),
             style = MaterialTheme.typography.button,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
         )
 
         ClickableText(
             text = AnnotatedString(state),
-            style = MaterialTheme.typography.subtitle2.copy(color = Color.Black, fontSize = 15.sp),
+            style = MaterialTheme.typography.subtitle2.copy(
+                color = Color.Black,
+                fontSize = dimensions.fontSizeCustom_1
+            ),
             onClick = onClick
         )
     }
@@ -615,6 +635,7 @@ fun BottomSheetContentForGlucose(
     state: String,
     onNameChange: (String) -> Unit,
     onClick: (Int) -> Unit,
+    dimensions: Dimensions
 ) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -636,7 +657,10 @@ fun BottomSheetContentForGlucose(
         ) {
             ClickableText(
                 text = AnnotatedString(stringResource(R.string.done)),
-                style = MaterialTheme.typography.body2.copy(Color.Red),
+                style = MaterialTheme.typography.body2.copy(
+                    Color.Red,
+                    fontSize = dimensions.fontSizeBody_2
+                ),
                 onClick = onClick,
                 modifier = modifier
                     .align(alignment = Alignment.TopEnd)

@@ -25,6 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.CardListItemData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
@@ -34,6 +37,8 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
 fun ProfileScreen() {
 
     val spaceHeight = 16.dp
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -45,15 +50,16 @@ fun ProfileScreen() {
             titleText = stringResource(id = R.string.profile),
             textBackClick = stringResource(id = R.string.close),
             colorBackClick = Color.Red,
+            sizeText = dimensions.fontSizeSubtitle_2,
             onBackClick = {},
             onRightClick = {}
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_5))
 
-        ProfileSection()
+        ProfileSection(dimensions = dimensions)
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_3))
 
         CardItem(
             cardList = listOf(
@@ -69,7 +75,8 @@ fun ProfileScreen() {
                     image = painterResource(id = R.drawable.ic_clock),
                     text = stringResource(id = R.string.monthly_report)
                 )
-            )
+            ),
+            dimensions = dimensions
         )
 
         Spacer(modifier = Modifier.height(spaceHeight))
@@ -80,14 +87,16 @@ fun ProfileScreen() {
         ) {
             ProfileStatSectionGroup(
                 textForGender = stringResource(R.string.female),
-                textForAge = "42"
+                textForAge = "42",
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
                 title = stringResource(id = R.string.city).toUpperCase(Locale.current),
-                text = "Тараз"
+                text = "Тараз",
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
@@ -95,28 +104,32 @@ fun ProfileScreen() {
             ProfileStatSection(
                 title = stringResource(id = R.string.phone).toUpperCase(Locale.current),
                 text = "+7 (777) 380-99-17",
-                textIsLink = true
+                textIsLink = true,
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
                 title = stringResource(id = R.string.organization).toUpperCase(Locale.current),
-                text = "АО “Центргарант”"
+                text = "АО “Центргарант”",
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
                 title = stringResource(id = R.string.last_doctor_who_inspect).toUpperCase(Locale.current),
-                text = "Келимбетов А.С. (вы)"
+                text = "Келимбетов А.С. (вы)",
+                dimensions = dimensions
             )
 
             Spacer(modifier = Modifier.height(spaceHeight))
 
             ProfileStatSection(
                 title = stringResource(id = R.string.last_day_of_check_up).toUpperCase(Locale.current),
-                text = "29 Ноября 2021"
+                text = "29 Ноября 2021",
+                dimensions = dimensions
             )
         }
     }
@@ -124,6 +137,7 @@ fun ProfileScreen() {
 
 @Composable
 fun ProfileSection(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -134,13 +148,14 @@ fun ProfileSection(
         RoundImage(
             image = painterResource(id = R.drawable.avatar),
             modifier = Modifier
-                .size(48.dp)
+                .size(dimensions.imageSize_0)
         )
         Spacer(modifier = Modifier.height(12.dp))
 
         ProfileDescription(
             displayName = "User",
-            description = stringResource(id = R.string.no_diagnosis)
+            description = stringResource(id = R.string.no_diagnosis),
+            dimensions = dimensions
         )
     }
 }
@@ -164,6 +179,7 @@ fun RoundImage(
 fun ProfileDescription(
     displayName: String,
     description: String,
+    dimensions: Dimensions
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -173,7 +189,8 @@ fun ProfileDescription(
     ) {
         Text(
             text = displayName,
-            style = MaterialTheme.typography.subtitle2
+            style = MaterialTheme.typography.subtitle2,
+            fontSize = dimensions.fontSizeSubtitle_2
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -181,7 +198,8 @@ fun ProfileDescription(
         Text(
             text = description,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.body2
+            style = MaterialTheme.typography.body2,
+            fontSize = dimensions.fontSizeBody_2
         )
 
     }
@@ -190,6 +208,7 @@ fun ProfileDescription(
 @Composable
 fun CardItem(
     cardList: List<CardListItemData>,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     LazyRow(modifier = modifier.fillMaxWidth()) {
@@ -212,14 +231,14 @@ fun CardItem(
                         Image(
                             painter = it1,
                             contentDescription = null,
-                            modifier = modifier.size(16.dp)
+                            modifier = modifier.size(dimensions.iconSize_4)
                         )
                     }
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = cardList[it].text,
                         style = MaterialTheme.typography.h5,
-                        fontSize = 13.sp,
+                        fontSize = dimensions.fontSizeCustom_3
                     )
                 }
             }
@@ -232,6 +251,7 @@ fun CardItem(
 fun ProfileStatSectionGroup(
     textForGender: String,
     textForAge: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -247,13 +267,15 @@ fun ProfileStatSectionGroup(
         ProfileStatSection(
             title = stringResource(id = R.string.gender).toUpperCase(Locale.current),
             text = textForGender,
-            modifier = Modifier.width(screenWidth)
+            modifier = Modifier.width(screenWidth),
+            dimensions = dimensions
         )
 
         ProfileStatSection(
             title = stringResource(id = R.string.age).toUpperCase(Locale.current),
             text = textForAge,
-            modifier = Modifier.width(screenWidth)
+            modifier = Modifier.width(screenWidth),
+            dimensions = dimensions
         )
     }
 }
@@ -264,6 +286,7 @@ fun ProfileStatSection(
     title: String,
     text: String,
     textIsLink: Boolean = false,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -271,12 +294,13 @@ fun ProfileStatSection(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.body2
+            style = MaterialTheme.typography.body2,
+            fontSize = dimensions.fontSizeBody_2
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box(
+        Row(
             modifier = modifier
                 .fillMaxWidth()
                 .background(
@@ -288,9 +312,8 @@ fun ProfileStatSection(
             Text(
                 text = text,
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1,
                 color = if (textIsLink) Color.Blue else Color.Black,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
             )
         }
     }

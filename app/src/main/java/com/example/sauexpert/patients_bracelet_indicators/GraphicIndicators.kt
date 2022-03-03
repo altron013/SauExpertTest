@@ -19,6 +19,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.profile.CircularProgressBar
 import com.example.sauexpert.profile.ProfileForInspection
 import com.example.sauexpert.ui.theme.Gray30
@@ -36,6 +39,7 @@ data class IndicatorCardFields(
     val progressBarValue: Int? = null,
     val image2: Painter? = null
 )
+
 data class CriticalCaseIndicators(
     val diseaseName: String,
     val lastDate: String,
@@ -45,6 +49,9 @@ data class CriticalCaseIndicators(
 
 @Composable
 fun GraphicIndicators() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     val criticalIndicatorsList = listOf(
         CriticalCaseIndicators(
             diseaseName = stringResource(id = R.string.hyperglycemia),
@@ -142,7 +149,8 @@ fun GraphicIndicators() {
                         title = it.title,
                         percentage = it.percentage ?: 0f,
                         progressBarValue = it.progressBarValue,
-                        progressBarPercentage = it.progressBarPercentage
+                        progressBarPercentage = it.progressBarPercentage,
+                        dimensions = dimensions
                     )
                 Spacer(modifier = Modifier.padding(6.dp))
             }
@@ -162,7 +170,8 @@ fun GraphicIndicators() {
                         date = it.date ?: "",
                         title = it.title,
                         painterContent = it.image2,
-                        percentage = it.percentage
+                        percentage = it.percentage,
+                        dimensions = dimensions
                     )
                     Spacer(modifier = Modifier.padding(9.dp))
                 }
@@ -181,7 +190,10 @@ fun GraphicIndicators() {
             )
         }
         Column(Modifier.fillMaxSize()) {
-            WorkAroundExample(criticalIndicatorsList)
+            WorkAroundExample(
+                criticalIndicatorsList,
+                dimensions = dimensions
+            )
         }
     }
 }
@@ -195,7 +207,8 @@ fun IndicatorCard(
     percentage: Float? = null,
     progressBarPercentage: Float? = null,
     progressBarValue: Int? = null,
-    painterContent: Painter? = null
+    painterContent: Painter? = null,
+    dimensions: Dimensions
 ) {
     Card(modifier = Modifier.fillMaxWidth()) {
         Row(
@@ -210,13 +223,16 @@ fun IndicatorCard(
                     .weight(9f)
                     .padding(8.dp)
             ) {
+
                 ProfileForInspection(
                     text = percentage ?: 0f,
                     content = title,
                     image = image,
                     showPercentage = true,
-                    painter = painterContent
+                    painter = painterContent,
+                    dimensions = dimensions
                 )
+
                 if (progressBarPercentage != null && progressBarValue != null) {
                     Column(
                         modifier = Modifier
@@ -268,6 +284,7 @@ fun DiseaseCard(
     firstDatePercentage: Float,
     diseaseName: String,
     date: String,
+    dimensions: Dimensions,
     modifier: Modifier
 ) {
     Card(modifier = modifier.clickable {})
@@ -286,7 +303,8 @@ fun DiseaseCard(
                     percentage = lastDatePercentage,
                     number = 10,
                     showPercentage = true,
-                    radius = 20.dp
+                    radius = 20.dp,
+                    textSize = dimensions.fontSizeBody_2
                 )
                 Spacer(modifier = Modifier.padding(15.dp))
                 Text(
@@ -305,7 +323,8 @@ fun DiseaseCard(
                     percentage = firstDatePercentage,
                     number = 10,
                     showPercentage = true,
-                    radius = 20.dp
+                    radius = 20.dp,
+                    textSize = dimensions.fontSizeBody_2
                 )
                 Spacer(modifier = Modifier.padding(15.dp))
                 Text(
@@ -319,7 +338,10 @@ fun DiseaseCard(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WorkAroundExample(items: List<CriticalCaseIndicators>) {
+fun WorkAroundExample(
+    items: List<CriticalCaseIndicators>,
+    dimensions: Dimensions
+) {
     val itemSize: Dp = LocalConfiguration.current.screenWidthDp.dp / 2
     FlowRow(
         mainAxisSize = SizeMode.Expand,
@@ -333,7 +355,8 @@ fun WorkAroundExample(items: List<CriticalCaseIndicators>) {
                 date = i.lastDate,
                 modifier = Modifier
                     .size(itemSize)
-                    .padding(10.dp)
+                    .padding(10.dp),
+                dimensions = dimensions
             )
         }
     }
@@ -341,7 +364,10 @@ fun WorkAroundExample(items: List<CriticalCaseIndicators>) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WellBeingCards(items: List<CriticalCaseIndicators>) {
+fun WellBeingCards(
+    items: List<CriticalCaseIndicators>,
+    dimensions: Dimensions
+) {
     val itemSize: Dp = LocalConfiguration.current.screenWidthDp.dp / 2
     FlowRow(
         mainAxisSize = SizeMode.Expand,
@@ -355,7 +381,8 @@ fun WellBeingCards(items: List<CriticalCaseIndicators>) {
                 date = i.lastDate,
                 modifier = Modifier
                     .size(itemSize)
-                    .padding(10.dp,bottom=0.dp)
+                    .padding(10.dp, bottom = 0.dp),
+                dimensions = dimensions
             )
         }
     }

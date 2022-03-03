@@ -19,10 +19,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.indicator_with_chart.BarChartForPressureAndPulse
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
@@ -34,6 +39,10 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
 fun PressureAndPulseReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -51,25 +60,31 @@ fun PressureAndPulseReportScreen() {
                 titleText = stringResource(R.string.pressure_pulse),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
-                onBackClick = {},
+                sizeText = dimensions.fontSizeSubtitle_2,
+                sizeSubtitleText = dimensions.fontSizeBody_2,
+                sizeIcon = dimensions.iconSize_2,
+                onBackClick = {navigator.pop()},
                 onRightClick = {}
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            PressureAndPulseReportWithBarChart()
+            PressureAndPulseReportWithBarChart(dimensions = dimensions)
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            ReferenceIndicatorSection(textValue = "120/80")
+//            ReferenceIndicatorSection(
+//                textValue = "120/80",
+//                dimensions = dimensions
+//            )
+//
+//            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            Spacer(modifier = Modifier.height(16.dp))
+            IndicatorForMonthSection(dimensions = dimensions)
 
-            IndicatorForMonthSection()
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            DeviationsFromGeneralSection()
+            DeviationsFromGeneralSection(dimensions = dimensions)
         }
     }
 }
@@ -77,6 +92,7 @@ fun PressureAndPulseReportScreen() {
 
 @Composable
 fun PressureAndPulseReportWithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val visible = remember { mutableStateOf(false) }
@@ -103,7 +119,8 @@ fun PressureAndPulseReportWithBarChart(
     ) {
         Text(
             text = stringResource(id = R.string.pressure_pulse),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -197,7 +214,7 @@ fun PressureAndPulseReportWithBarChart(
                     positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 10),
                 ),
             ),
-
+            dimensions = dimensions,
             ListNumberData = listNumberData,
             visible = visible
 
@@ -205,13 +222,14 @@ fun PressureAndPulseReportWithBarChart(
         )
         Spacer(modifier = Modifier.height(20.dp))
         TextWithIconForGraph(
-            color =
-            if (visible.value) Color.Red else Gray50,
-            text = stringResource(id = R.string.pressure).toUpperCase(Locale.current)
+            color = if (visible.value) Color.Red else Gray50,
+            text = stringResource(id = R.string.pressure).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
         TextWithIconForGraph(
             color = Blue4285,
-            text = stringResource(id = R.string.pulse).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.pulse).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }

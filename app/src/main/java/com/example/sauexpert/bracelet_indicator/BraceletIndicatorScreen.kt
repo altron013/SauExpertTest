@@ -18,9 +18,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,7 +29,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.*
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Gray4292
@@ -47,6 +52,10 @@ fun BraceletIndicatorScreen() {
         mutableStateOf(0)
     }
 
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
+
     Column(
         modifier = Modifier.fillMaxSize()
             .background(
@@ -55,16 +64,20 @@ fun BraceletIndicatorScreen() {
 //            .padding(16.dp)
     ) {
         Spacer(modifier = Modifier.height(5.dp))
+
         ActionToolBar(
             titleText = stringResource(id = R.string.bracelet),
             iconBackClick = Icons.Default.ArrowBack,
             iconRightClick = painterResource(R.drawable.ic_calendar),
             colorRightClick = Color.Red,
-            onBackClick = {},
+            sizeText = dimensions.fontSizeSubtitle_2,
+            sizeIcon = dimensions.iconSize_2,
+            onBackClick = { navigator.pop() },
             onRightClick = {}
         )
 
-        Spacer(modifier = Modifier.height(28.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_3_5))
+
         TabViewWithRoundBorder(
             TextOfTab = listOf(
                 TextOfTabData(
@@ -82,9 +95,8 @@ fun BraceletIndicatorScreen() {
                 TextOfTabData(
                     text = stringResource(id = R.string.pulse)
                 )
-            )
-
-
+            ),
+            dimensions = dimensions
         ) {
             selectedTabIndex = it
         }
@@ -124,17 +136,16 @@ fun BraceletIndicatorScreen() {
 fun TabViewWithRoundBorder(
     modifier: Modifier = Modifier,
     TextOfTab: List<TextOfTabData>,
-    onTabSelected: (selectedIndex: Int) -> Unit
-) {
+    dimensions: Dimensions,
+    onTabSelected: (selectedIndex: Int) -> Unit,
+
+    ) {
     var selectedTabIndex by remember {
         mutableStateOf(0)
     }
 
     val shape = RoundedCornerShape(10.dp)
     val backgroundColor = Gray4292
-    val textStyleh5 = MaterialTheme.typography.h5
-    var scaledTextStyle by remember { mutableStateOf(textStyleh5) }
-    var readyToDraw by remember { mutableStateOf(false) }
 
     TabRow(
         selectedTabIndex = selectedTabIndex,
@@ -163,33 +174,15 @@ fun TabViewWithRoundBorder(
                         if (selectedTabIndex == index) Color.White else backgroundColor,
                         shape = shape
                     )
-                    .clip(
-                        shape = shape,
-                    )
+                    .clip(shape = shape)
             ) {
-
                 Text(
                     text = item.text,
-                    style = scaledTextStyle,
+                    style = MaterialTheme.typography.h5,
                     fontWeight = FontWeight.Bold,
+                    fontSize = dimensions.fontSizeH5,
                     modifier = Modifier
                         .padding(5.dp)
-                        .drawWithContent {
-                            if (readyToDraw) {
-                                drawContent()
-                            }
-                        },
-                    softWrap = false,
-                    onTextLayout = { textLayoutResult ->
-                        if (textLayoutResult.didOverflowWidth) {
-                            scaledTextStyle =
-                                scaledTextStyle.copy(fontSize = scaledTextStyle.fontSize * 0.9)
-                        } else {
-                            readyToDraw = true
-                        }
-                    }
-
-
                 )
             }
 
@@ -203,6 +196,7 @@ fun TabViewWithRoundBorder(
 fun TextWithIconForGraph(
     color: Color,
     text: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -214,7 +208,7 @@ fun TextWithIconForGraph(
             imageVector = Icons.Filled.Circle,
             contentDescription = "",
             tint = color,
-            modifier = modifier.size(9.dp)
+            modifier = modifier.size(dimensions.iconSize_7)
         )
 
         Spacer(modifier = Modifier.width(2.dp))
@@ -222,7 +216,7 @@ fun TextWithIconForGraph(
         Text(
             text = text,
             style = MaterialTheme.typography.h6,
-            fontSize = 13.sp,
+            fontSize = dimensions.fontSizeCustom_3,
             color = Gray30,
         )
 
@@ -235,6 +229,7 @@ fun TextWithBigValueAndDateForGraph(
     textValue: Int,
     text: String,
     textDate: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -246,7 +241,7 @@ fun TextWithBigValueAndDateForGraph(
                 withStyle(
                     style = SpanStyle(
                         color = Color.Black,
-                        fontSize = 34.sp
+                        fontSize = dimensions.fontSizeH4
                     )
                 ) {
                     append("$textValue ")
@@ -255,6 +250,7 @@ fun TextWithBigValueAndDateForGraph(
                 append(text)
             },
             style = MaterialTheme.typography.subtitle1,
+            fontSize = dimensions.fontSizeSubtitle_1,
             fontWeight = FontWeight.Bold,
             color = Gray30
         )
@@ -262,7 +258,7 @@ fun TextWithBigValueAndDateForGraph(
         Text(
             text = textDate,
             style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
     }
@@ -277,6 +273,7 @@ fun CustomTextRadioGroup(
     textColor: Color = Color.Black,
     activity: AppCompatActivity? = null,
     dateText: MutableState<String>? = null,
+    dimensions: Dimensions,
     onTabSelected: (selectedIndex: Int) -> Unit,
 ) {
 
@@ -284,9 +281,6 @@ fun CustomTextRadioGroup(
         mutableStateOf(0)
     }
 
-    val textStyle5 = MaterialTheme.typography.h5
-    var scaledTextStyle by remember { mutableStateOf(textStyle5) }
-    var readyToDraw by remember { mutableStateOf(false) }
 
     val listSize = TextOfTab.size - 1
 
@@ -326,7 +320,7 @@ fun CustomTextRadioGroup(
                         painter = it,
                         contentDescription = null,
                         tint = Gray30,
-                        modifier = Modifier.size(14.dp)
+                        modifier = Modifier.size(dimensions.iconSize_6)
                     )
 
                     Spacer(modifier = Modifier.width(6.dp))
@@ -334,24 +328,11 @@ fun CustomTextRadioGroup(
 
                 Text(
                     text = item.text,
-                    style = scaledTextStyle,
+                    style = MaterialTheme.typography.h5,
+                    fontSize = dimensions.fontSizeH5,
                     color = if (selectedTabIndex == index) textColor else Color.Black,
-                    modifier = Modifier
-                        .drawWithContent {
-                            if (readyToDraw) {
-                                drawContent()
-                            }
-                        },
-                    softWrap = false,
-                    onTextLayout = { textLayoutResult ->
-                        if (textLayoutResult.didOverflowWidth) {
-                            scaledTextStyle =
-                                scaledTextStyle.copy(fontSize = scaledTextStyle.fontSize * 0.98)
-                        } else {
-                            readyToDraw = true
-                        }
-                    }
-                )
+
+                    )
             }
 
             if (index < listSize) {
@@ -394,6 +375,7 @@ fun TitleForGraph(
     textTitle: String,
     TextOfTab: List<TextOfTabData>,
     weight: Float = 0.5f,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     var selectedTabIndex by remember {
@@ -420,9 +402,9 @@ fun TitleForGraph(
                 Text(
                     text = textTitle,
                     style = MaterialTheme.typography.caption,
+                    fontSize = dimensions.fontSizeCaption
                 )
             }
-
 
             Row(
                 horizontalArrangement = Arrangement.End,
@@ -433,6 +415,7 @@ fun TitleForGraph(
 
                 CustomTextRadioGroup(
                     TextOfTab = TextOfTab,
+                    dimensions = dimensions
                 ) {
                     selectedTabIndex = it
                 }
@@ -450,7 +433,7 @@ fun TitleForGraph(
         Text(
             text = date.value,
             style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
     }
@@ -463,6 +446,7 @@ fun AnalysisField(
     value: String,
     dateData: String? = null,
     color: Color = Color.Black,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -478,13 +462,15 @@ fun AnalysisField(
             Text(
                 text = title,
                 style = MaterialTheme.typography.body1,
-                color = color
+                color = color,
+                fontSize = dimensions.fontSizeBody_1
             )
 
             Text(
                 text = value,
                 style = MaterialTheme.typography.body1,
-                color = color
+                color = color,
+                fontSize = dimensions.fontSizeBody_1
             )
 
         }
@@ -495,6 +481,7 @@ fun AnalysisField(
             Text(
                 text = it,
                 style = MaterialTheme.typography.h5,
+                fontSize = dimensions.fontSizeH5,
                 color = Gray30
             )
         }
@@ -507,6 +494,7 @@ fun AnalysisFieldWithIconAtBeg(
     value: String,
     dateData: String? = null,
     imageVector: ImageVector,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -523,7 +511,7 @@ fun AnalysisFieldWithIconAtBeg(
                 imageVector = imageVector,
                 contentDescription = "",
                 tint = Color.Red,
-                modifier = modifier.size(12.dp)
+                modifier = modifier.size(dimensions.iconSize_1)
             )
 
             Spacer(modifier = Modifier.width(3.dp))
@@ -531,6 +519,7 @@ fun AnalysisFieldWithIconAtBeg(
             Text(
                 text = title,
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -538,6 +527,7 @@ fun AnalysisFieldWithIconAtBeg(
             Text(
                 text = value,
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1
             )
 
         }
@@ -547,6 +537,7 @@ fun AnalysisFieldWithIconAtBeg(
             Text(
                 text = it,
                 style = MaterialTheme.typography.h5,
+                fontSize = dimensions.fontSizeH5,
                 color = Gray30
             )
         }
@@ -559,30 +550,9 @@ fun AnalysisFieldWithIconAtEnd(
     value: String,
     dateData: String? = null,
     imageVector: ImageVector,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
-    val myId = "inlineContent"
-    val text = buildAnnotatedString {
-        append(title)
-        appendInlineContent(myId, "[icon]")
-    }
-
-    val inlineContent = mapOf(
-        Pair(
-            myId,
-            InlineTextContent(
-                Placeholder(
-                    width = 20.sp,
-                    height = 20.sp,
-                    placeholderVerticalAlign = PlaceholderVerticalAlign.Center
-                )
-            ) {
-
-                Icon(imageVector, "", tint = Color.Yellow)
-            }
-        )
-    )
-
     Column(
         modifier = modifier.padding(vertical = 11.dp, horizontal = 16.dp)
     ) {
@@ -592,16 +562,27 @@ fun AnalysisFieldWithIconAtEnd(
             modifier = modifier
                 .fillMaxWidth()
         ) {
-
             Text(
-                text = text,
+                text = title,
                 style = MaterialTheme.typography.body1,
-                inlineContent = inlineContent
+                fontSize = dimensions.fontSizeBody_1,
             )
+
+            Spacer(modifier = Modifier.width(2.dp))
+
+            Icon(
+                imageVector = imageVector,
+                contentDescription = null,
+                tint = Color.Yellow,
+                modifier = modifier.size(dimensions.iconSize_3)
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
 
             Text(
                 text = value,
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1
             )
 
         }
@@ -612,6 +593,7 @@ fun AnalysisFieldWithIconAtEnd(
             Text(
                 text = it,
                 style = MaterialTheme.typography.h5,
+                fontSize = dimensions.fontSizeH5,
                 color = Gray30
             )
         }
@@ -621,7 +603,10 @@ fun AnalysisFieldWithIconAtEnd(
 
 
 @Composable
-fun RangeCustomizeSection(modifier: Modifier = Modifier) {
+fun RangeCustomizeSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -646,7 +631,7 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
                 painter = painterResource(R.drawable.ic_gear),
                 contentDescription = "",
                 tint = Color.Black,
-                modifier = modifier.size(20.dp)
+                modifier = modifier.size(dimensions.iconSize_3)
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -654,6 +639,7 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.range_customize),
                 style = MaterialTheme.typography.body1,
+                fontSize = dimensions.fontSizeBody_1
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -662,7 +648,7 @@ fun RangeCustomizeSection(modifier: Modifier = Modifier) {
                 imageVector = Icons.Filled.KeyboardArrowRight,
                 contentDescription = "",
                 tint = Color.Black,
-                modifier = modifier.size(20.dp)
+                modifier = modifier.size(dimensions.iconSize_3)
             )
 
         }

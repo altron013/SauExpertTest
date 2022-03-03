@@ -28,6 +28,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.*
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.StepsData
 import com.example.sauexpert.model.TextOfTabData
@@ -36,20 +39,24 @@ import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun StepsScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        StepswithBarChart()
+        StepswithBarChart(dimensions = dimensions)
         Spacer(modifier = Modifier.height(16.dp))
-        RangeCustomizeSection()
+        RangeCustomizeSection(dimensions = dimensions)
     }
 }
 
 @Composable
 fun StepswithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -72,7 +79,7 @@ fun StepswithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        StepsTitle()
+        StepsTitle(dimensions = dimensions)
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForSteps(
             StepsData = listOf(
@@ -119,13 +126,15 @@ fun StepswithBarChart(
                     dateName = "22"
                 )
             ),
-            ListNumberData = listNumberData
+            ListNumberData = listNumberData,
+            dimensions = dimensions
         )
     }
 }
 
 @Composable
 fun StepsTitle(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     var selectedTabIndex by remember {
@@ -146,7 +155,8 @@ fun StepsTitle(
         ) {
             Text(
                 text = stringResource(id = R.string.steps),
-                style = MaterialTheme.typography.caption
+                style = MaterialTheme.typography.caption,
+                fontSize = dimensions.fontSizeCaption
             )
 
 
@@ -154,7 +164,8 @@ fun StepsTitle(
                 TextOfTab = listOf(
                     TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
                     TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
-                )
+                ),
+                dimensions = dimensions
             ) {
                 selectedTabIndex = it
             }
@@ -168,7 +179,8 @@ fun StepsTitle(
         TextWithBigValueAndDateForGraph(
             textValue = 3320,
             text = stringResource(R.string.steps_per_day),
-            textDate = date.value
+            textDate = date.value,
+            dimensions = dimensions
         )
     }
 }
@@ -177,7 +189,8 @@ fun StepsTitle(
 @Composable
 fun BarChartForSteps(
     StepsData: List<StepsData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val heightPre by animateFloatAsState(
@@ -228,7 +241,7 @@ fun BarChartForSteps(
         var height = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 

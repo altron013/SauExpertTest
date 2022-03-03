@@ -20,12 +20,16 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.LineChartForSp02
 import com.example.sauexpert.bracelet_indicator.TextWithIconForGraph
 import com.example.sauexpert.bracelet_indicator.dpToPxValue
 import com.example.sauexpert.bracelet_indicator.identifyHeightForYPoint
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.Sp02Data
 import com.example.sauexpert.ui.theme.Gray30
@@ -33,6 +37,10 @@ import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBarWithSubtitle
 
 @Composable
 fun Sp02ReportScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -50,13 +58,16 @@ fun Sp02ReportScreen() {
                 titleText = stringResource(R.string.sp02),
                 subtitleText = "Декабрь 2021",
                 iconBackClick = Icons.Default.ArrowBack,
-                onBackClick = {},
+                sizeText = dimensions.fontSizeSubtitle_2,
+                sizeSubtitleText = dimensions.fontSizeBody_2,
+                sizeIcon = dimensions.iconSize_2,
+                onBackClick = { navigator.pop() },
                 onRightClick = {}
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-            SP02ReportWithLineGraph()
+            Sp02ReportWithLineGraph(dimensions = dimensions)
 
         }
     }
@@ -64,7 +75,8 @@ fun Sp02ReportScreen() {
 
 
 @Composable
-fun SP02ReportWithLineGraph(
+fun Sp02ReportWithLineGraph(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -90,17 +102,18 @@ fun SP02ReportWithLineGraph(
 
         Text(
             text = stringResource(id = R.string.sp02),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1_5))
 
         Text(
             text = buildAnnotatedString {
                 withStyle(
                     style = SpanStyle(
                         color = Color.Black,
-                        fontSize = 17.sp
+                        fontSize = dimensions.fontSizeBody_1
                     )
                 ) {
                     append("80 ")
@@ -109,11 +122,12 @@ fun SP02ReportWithLineGraph(
                 append(stringResource(R.string.oxygen))
             },
             style = MaterialTheme.typography.body1,
+            fontSize = dimensions.fontSizeBody_1,
             color = Gray30
         )
 
+        Spacer(modifier = Modifier.height(dimensions.grid_2))
 
-        Spacer(modifier = Modifier.height(40.dp))
         LineChartForSp02(
             Sp02Data = listOf(
                 Sp02Data(
@@ -154,21 +168,24 @@ fun SP02ReportWithLineGraph(
                     dateName = "22"
                 ),
             ),
+            dimensions = dimensions,
             ListNumberData = listNumberData
-
         )
-        Spacer(modifier = Modifier.height(20.dp))
+
+        Spacer(modifier = Modifier.height(dimensions.grid_2_5))
 
         TextWithIconForGraph(
             color = Color.Green.copy(alpha = 0.25f),
-            text = stringResource(id = R.string.oxygen_level).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.oxygen_level).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_1))
 
         TextWithIconForGraph(
             color = Color.Red,
-            text = stringResource(id = R.string.sleep_apnea).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.sleep_apnea).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }

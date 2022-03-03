@@ -10,9 +10,12 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.Pink42949
 import com.example.sauexpert.widgets.compose.MainButton
@@ -20,6 +23,9 @@ import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
 
 @Composable
 fun GeneralInspectionScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -28,15 +34,21 @@ fun GeneralInspectionScreen() {
         MainActionToolBar(
             titleText = stringResource(R.string.general_inspection),
             iconBackClick = Icons.Default.ArrowBack,
+            sizeIconBackClick = dimensions.iconSize_2,
+            sizeTitleText = dimensions.fontSizeCustom_5,
             onBackClick = {},
             modifier = Modifier.padding(16.dp)
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_2_5))
 
-        ProfileForInspection(content = "Zhanna Akhmetova", text = 0f)
+        ProfileForInspection(
+            content = "Zhanna Akhmetova",
+            text = 0f,
+            dimensions = dimensions
+        )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_4))
 
         Column(
             modifier = Modifier
@@ -50,10 +62,13 @@ fun GeneralInspectionScreen() {
         ) {
             PreviousInspectionsSection(
                 doctorName = "Келимбетов Аскар Ахметович",
-                dateOfInspection = "22 Мая 2021", yourInspection = true
+                dateOfInspection = "22 Мая 2021",
+                yourInspection = true,
+                dimensions = dimensions,
+                onClick = {}
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(dimensions.grid_3))
 
             MainButton(
                 text = stringResource(id = R.string.new_inspections),
@@ -61,7 +76,9 @@ fun GeneralInspectionScreen() {
                 enableState = true,
                 icon = R.drawable.ic_plus_circle,
                 backgroundColor = Pink42949,
-                textColor = Color.Red
+                textColor = Color.Red,
+                buttonHeight = dimensions.buttonHeight_0,
+                sizeText = dimensions.fontSizeBody_1,
             )
         }
     }
