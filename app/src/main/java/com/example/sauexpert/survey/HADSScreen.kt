@@ -14,17 +14,24 @@ import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.profile.ProfileForInspection
 import com.example.sauexpert.ui.theme.Gray50
 import com.example.sauexpert.widgets.compose.MainButton
 
 @Composable
 fun HadsScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     val hadsSurveyList = listOf(
         Question(
             "1. Я испытываю напряжение, мне не по себе  ",
@@ -168,8 +175,13 @@ fun HadsScreen() {
             .background(Color(0xFFF2F2F7))
             .verticalScroll(rememberScrollState())
     ) {
-        SurveyHeader(stringResource(id = R.string.hads_scale))
+        SurveyHeader(
+            stringResource(id = R.string.hads_scale),
+            dimensions = dimensions
+        )
+
         Spacer(modifier = Modifier.padding(10.dp))
+
         Column(
             Modifier
                 .background(Color.White)
@@ -202,7 +214,10 @@ fun HadsScreen() {
 }
 
 @Composable
-fun SurveyHeader(text:String){
+fun SurveyHeader(
+    text: String,
+    dimensions: Dimensions
+) {
     Icon(
         imageVector = Icons.Rounded.ArrowBack,
         contentDescription = null,
@@ -214,5 +229,9 @@ fun SurveyHeader(text:String){
         fontWeight = FontWeight.Bold,
         modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 26.dp)
     )
-    ProfileForInspection(content = "Zhanna Ahmetova", text = 0.3f)
+    ProfileForInspection(
+        content = "Zhanna Ahmetova",
+        text = 0.3f,
+        dimensions = dimensions
+    )
 }

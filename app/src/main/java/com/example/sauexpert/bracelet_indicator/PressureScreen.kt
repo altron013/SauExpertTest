@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
 import com.example.sauexpert.model.TextOfTabData
@@ -41,23 +44,29 @@ import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun PressureScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        PressurewithBarChart()
+        PressurewithBarChart(
+            dimensions = dimensions
+        )
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPressureSection()
+        AnalysisPressureSection(dimensions = dimensions)
         Spacer(modifier = Modifier.height(16.dp))
-        RangeCustomizeSection()
+        RangeCustomizeSection(dimensions = dimensions)
     }
 }
 
 
 @Composable
 fun PressurewithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val configuration = LocalConfiguration.current
@@ -80,7 +89,9 @@ fun PressurewithBarChart(
                 shape = RoundedCornerShape(10.dp)
             ).padding(16.dp)
     ) {
-        PressureTitle()
+        PressureTitle(
+            dimensions = dimensions
+        )
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForPressure(
             PressureData = listOf(
@@ -134,6 +145,7 @@ fun PressurewithBarChart(
                     endPoint = identifyHeightForYPoint(dataList = listNumberData, number = 80),
                 )
             ),
+            dimensions = dimensions,
             ListNumberData = listNumberData
         )
     }
@@ -141,6 +153,7 @@ fun PressurewithBarChart(
 
 @Composable
 fun PressureTitle(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     var selectedTabIndex by remember {
@@ -157,20 +170,20 @@ fun PressureTitle(
     ) {
         Text(
             text = stringResource(id = R.string.pressure),
-            style = MaterialTheme.typography.caption
+            style = MaterialTheme.typography.caption,
+            fontSize = dimensions.fontSizeCaption
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_2))
 
         Text(
             text = "${date.value}",
             style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
 
-        Spacer(modifier = Modifier.height(14.dp))
-
+        Spacer(modifier = Modifier.height(dimensions.grid_1_75))
 
         CustomTextRadioGroup(
             TextOfTab = listOf(
@@ -182,7 +195,8 @@ fun PressureTitle(
                 )
             ),
             activity = activity,
-            dateText = date
+            dateText = date,
+            dimensions = dimensions
         ) {
             selectedTabIndex = it
         }
@@ -198,7 +212,8 @@ fun PressureTitle(
 @Composable
 fun BarChartForPressure(
     PressureData: List<PressureData>,
-    ListNumberData: List<ListNumberOfYForTableData>
+    ListNumberData: List<ListNumberOfYForTableData>,
+    dimensions: Dimensions
 ) {
     var start by remember { mutableStateOf(false) }
     val visible = remember { mutableStateOf(false) }
@@ -250,7 +265,7 @@ fun BarChartForPressure(
         var width = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -369,7 +384,10 @@ fun InfoDialogForBarChartOfPressure(
 
 
 @Composable
-fun AnalysisPressureSection(modifier: Modifier = Modifier) {
+fun AnalysisPressureSection(
+    dimensions: Dimensions,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -382,7 +400,8 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.highest_value),
             value = "18",
             dateData = "19 Декабря в 23:13",
-            imageVector = Icons.Filled.FlashOn
+            imageVector = Icons.Filled.FlashOn,
+            dimensions = dimensions
         )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
@@ -394,8 +413,8 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.lowest_value),
             value = "18",
             dateData = "19 Декабря в 23:13",
-
-            )
+            dimensions = dimensions
+        )
         Divider(
             color = Gray30.copy(alpha = 0.19f),
             thickness = 1.dp,
@@ -412,6 +431,7 @@ fun AnalysisPressureSection(modifier: Modifier = Modifier) {
             title = stringResource(R.string.last_value),
             value = "18",
             dateData = "20 Декабря в 23:13",
+            dimensions = dimensions
         )
     }
 }

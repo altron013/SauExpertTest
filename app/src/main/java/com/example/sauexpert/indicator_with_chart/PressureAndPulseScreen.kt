@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.example.sauexpert.R
 import com.example.sauexpert.bracelet_indicator.*
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.ListNumberOfYForTableData
 import com.example.sauexpert.model.PressureData
 import com.example.sauexpert.model.PulseData
@@ -43,20 +46,24 @@ import com.example.sauexpert.ui.theme.Gray50
 
 @Composable
 fun PressureAndPulseScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
             .padding(top = 24.dp, bottom = 10.dp)
     ) {
-        PressureAndPulsewithBarChart()
+        PressureAndPulsewithBarChart(dimensions = dimensions)
         Spacer(modifier = Modifier.height(24.dp))
-        AnalysisPressureAndPulseSection()
+        AnalysisPressureAndPulseSection(dimensions = dimensions)
     }
 }
 
 @Composable
 fun PressureAndPulsewithBarChart(
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val visible = remember { mutableStateOf(false) }
@@ -86,7 +93,8 @@ fun PressureAndPulsewithBarChart(
             TextOfTab = listOf(
                 TextOfTabData(stringResource(R.string.week_short).toUpperCase(Locale.current)),
                 TextOfTabData(stringResource(R.string.month_short).toUpperCase(Locale.current)),
-            )
+            ),
+            dimensions = dimensions
         )
         Spacer(modifier = Modifier.height(12.dp))
         BarChartForPressureAndPulse(
@@ -179,7 +187,7 @@ fun PressureAndPulsewithBarChart(
                     positionOnY = identifyHeightForYPoint(dataList = listNumberData, number = 10),
                 ),
             ),
-
+            dimensions = dimensions,
             ListNumberData = listNumberData,
             visible = visible
 
@@ -187,13 +195,14 @@ fun PressureAndPulsewithBarChart(
         )
         Spacer(modifier = Modifier.height(20.dp))
         TextWithIconForGraph(
-            color =
-            if (visible.value) Color.Red else Gray50,
-            text = stringResource(id = R.string.pressure).toUpperCase(Locale.current)
+            color = if (visible.value) Color.Red else Gray50,
+            text = stringResource(id = R.string.pressure).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
         TextWithIconForGraph(
             color = Blue4285,
-            text = stringResource(id = R.string.pulse).toUpperCase(Locale.current)
+            text = stringResource(id = R.string.pulse).toUpperCase(Locale.current),
+            dimensions = dimensions
         )
     }
 }
@@ -204,6 +213,7 @@ fun BarChartForPressureAndPulse(
     PulseData: List<PulseData>,
     ListNumberData: List<ListNumberOfYForTableData>,
     visible: MutableState<Boolean>,
+    dimensions: Dimensions
 ) {
     val scale by remember { mutableStateOf(1f) }
     val path = Path()
@@ -287,7 +297,7 @@ fun BarChartForPressureAndPulse(
         var width = 0
         val paint = Paint().apply {
             textAlign = Paint.Align.CENTER
-            textSize = 13.sp.toPx()
+            textSize = dimensions.fontSizeCustom_3.toPx()
             color = Gray30.toArgb()
         }
 
@@ -456,20 +466,21 @@ fun InfoDialogForBarChartOfPressureAndPulse(
 
 
 @Composable
-fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
+fun AnalysisPressureAndPulseSection(
+    modifier: Modifier = Modifier,
+    dimensions: Dimensions
+) {
     var selectedTabIndex by remember {
         mutableStateOf(1)
     }
-
     var textDate = "18"
-
 
     Column {
 
         Text(
             text = "Показатели за 21 декабря 2021",
             style = MaterialTheme.typography.h6,
-            fontSize = 15.sp,
+            fontSize = dimensions.fontSizeCustom_1,
             color = Gray30
         )
 
@@ -481,7 +492,8 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
                 TextOfTabData(stringResource(R.string.pulse).toUpperCase(Locale.current)),
             ),
             backgroundColor = Color.Black,
-            textColor = Color.White
+            textColor = Color.White,
+            dimensions = dimensions
         ) {
             selectedTabIndex = it
         }
@@ -505,7 +517,8 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
                 title = stringResource(R.string.highest_value),
                 value = textDate,
                 dateData = "19 Декабря в 23:13",
-                imageVector = Icons.Filled.FlashOn
+                imageVector = Icons.Filled.FlashOn,
+                dimensions = dimensions
             )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
@@ -517,8 +530,8 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
                 title = stringResource(R.string.lowest_value),
                 value = textDate,
                 dateData = "19 Декабря в 23:13",
-
-                )
+                dimensions = dimensions
+            )
             Divider(
                 color = Gray30.copy(alpha = 0.19f),
                 thickness = 1.dp,
@@ -535,6 +548,7 @@ fun AnalysisPressureAndPulseSection(modifier: Modifier = Modifier) {
                 title = stringResource(R.string.last_value),
                 value = "18",
                 dateData = "20 Декабря в 23:13",
+                dimensions = dimensions
             )
         }
     }

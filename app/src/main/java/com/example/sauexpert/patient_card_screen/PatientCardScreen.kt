@@ -11,6 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -18,6 +20,9 @@ import androidx.compose.ui.unit.sp
 import com.example.sauexpert.R
 import com.example.sauexpert.analysis.AnalysisContent
 import com.example.sauexpert.diagnosis.DiagnosisContent
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.TextOfTabData
 import com.example.sauexpert.profile.RoundImage
 import com.example.sauexpert.ui.theme.Gray30
@@ -31,6 +36,9 @@ fun PatientCardScreen() {
         mutableStateOf(0)
     }
 
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,17 +46,27 @@ fun PatientCardScreen() {
     ) {
         MainActionToolBar(
             iconBackClick = Icons.Default.ArrowBack,
+            sizeIconBackClick = dimensions.iconSize_2,
             onBackClick = {},
             modifier = Modifier.padding(16.dp)
         )
-        Spacer(modifier = Modifier.height(24.dp))
+
+        Spacer(modifier = Modifier.height(dimensions.grid_1))
+
         ProfileForPatientCard(
             userName = "Жанна Ахметова",
-            diagnosisString = "E11.9 Сахарный диабет"
+            diagnosisString = "E11.9 Сахарный диабет",
+            dimensions = dimensions
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        AnamnesisCell(lastAnamnesisDiagnos = "Перенесла операцию на сердце в 2017")
-        Spacer(modifier = Modifier.height(28.dp))
+
+        Spacer(modifier = Modifier.height(dimensions.grid_2))
+
+        AnamnesisCell(
+            lastAnamnesisDiagnos = "Перенесла операцию на сердце в 2017",
+            dimensions = dimensions
+        )
+
+        Spacer(modifier = Modifier.height(dimensions.grid_3_5))
 
         TabViewForPatientCardScreen(
             TextOfTab = listOf(
@@ -64,9 +82,8 @@ fun PatientCardScreen() {
                 TextOfTabData(
                     text = stringResource(id = R.string.appointments)
                 )
-            )
-
-
+            ),
+            dimensions = dimensions
         ) {
             selectedTabIndex = it
         }
@@ -90,6 +107,8 @@ fun PatientCardScreen() {
                     onClickForMainBtn = { /*TODO*/ },
                     enableStateForOutlineBtn = true,
                     enableStateForMainBtn = true,
+                    buttonHeight = dimensions.buttonHeight_0,
+                    sizeText = dimensions.fontSizeBody_1,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
@@ -129,7 +148,9 @@ fun PatientCardScreen() {
 @Composable
 fun ProfileForPatientCard(
     userName: String,
+    profileImage: Painter = painterResource(id = R.drawable.avatar),
     diagnosisString: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -140,9 +161,9 @@ fun ProfileForPatientCard(
             .padding(horizontal = 16.dp)
     ) {
         RoundImage(
-            image = painterResource(id = R.drawable.avatar),
+            image = profileImage,
             modifier = Modifier
-                .size(48.dp)
+                .size(dimensions.imageSize_0)
         )
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -151,6 +172,7 @@ fun ProfileForPatientCard(
             Text(
                 text = userName,
                 style = MaterialTheme.typography.subtitle2,
+                fontSize = dimensions.fontSizeSubtitle_2
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -158,6 +180,7 @@ fun ProfileForPatientCard(
             Text(
                 text = diagnosisString,
                 style = MaterialTheme.typography.body2,
+                fontSize = dimensions.fontSizeBody_2
             )
 
         }
@@ -168,7 +191,7 @@ fun ProfileForPatientCard(
             imageVector = Icons.Filled.KeyboardArrowRight,
             contentDescription = "",
             tint = Color.Black,
-            modifier = modifier.size(20.dp)
+            modifier = modifier.size(dimensions.iconSize_2)
         )
 
 
@@ -179,40 +202,36 @@ fun ProfileForPatientCard(
 @Composable
 fun AnamnesisCell(
     lastAnamnesisDiagnos: String,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
-    Row(
+    Column(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .background(
-                color = Gray30.copy(alpha = 0.35f),
+                color = Gray30.copy(alpha = 0.25f),
                 shape = RoundedCornerShape(10.dp)
             )
+            .padding(
+                horizontal = 16.dp,
+                vertical = 11.dp
+            )
     ) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 11.dp
-                )
-        ) {
+        Text(
+            text = stringResource(R.string.anamnesis),
+            style = MaterialTheme.typography.body2,
+            fontSize = dimensions.fontSizeBody_2
+        )
 
-            Text(
-                text = stringResource(R.string.anamnesis),
-                style = MaterialTheme.typography.body2,
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
 
-            Text(
-                text = lastAnamnesisDiagnos,
-                style = MaterialTheme.typography.button,
-                fontSize = 15.sp
-            )
-        }
+        Text(
+            text = lastAnamnesisDiagnos,
+            style = MaterialTheme.typography.button,
+            fontSize = dimensions.fontSizeCustom_1
+        )
     }
 }
 
@@ -221,6 +240,7 @@ fun AnamnesisCell(
 fun TabViewForPatientCardScreen(
     modifier: Modifier = Modifier,
     TextOfTab: List<TextOfTabData>,
+    dimensions: Dimensions,
     onTabSelected: (selectedIndex: Int) -> Unit
 ) {
     var selectedTabIndex by remember {
@@ -246,7 +266,7 @@ fun TabViewForPatientCardScreen(
                 Text(
                     text = item.text,
                     style = MaterialTheme.typography.subtitle2,
-                    fontSize = 15.sp,
+                    fontSize = dimensions.fontSizeCustom_1,
                     modifier = Modifier
                         .padding(5.dp)
                 )

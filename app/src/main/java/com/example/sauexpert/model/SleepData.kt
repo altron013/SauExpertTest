@@ -6,6 +6,15 @@ import com.example.sauexpert.ui.theme.Gray50
 data class SleepData(
     val positionOnX: Float = 0f,
     val hourOfSleep: Float = 0f,
+    val deepSleep: Float = 0f,
+    val lightSleep: Float = 0f,
+    val remSleep: Float = 0f,
+    val hourOfDeepSleep: Int = 0,
+    val hourOfLightSleep: Int = 0,
+    val hourOfRemSleep: Int = 0,
     val dateName: String = "",
-    var colorFocus: Color = Gray50
+    var colorFocus: Color = Gray50,
+    var deepSleepColor: Color = Gray50,
+    var lightSleepColor: Color = Gray50,
+    var remSleepColor: Color = Gray50
 )

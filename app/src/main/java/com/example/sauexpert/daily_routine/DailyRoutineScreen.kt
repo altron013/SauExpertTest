@@ -16,11 +16,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.profile.OutlinedTextFieldWithBackground
 import com.example.sauexpert.profile.ProfileForInspection
@@ -28,15 +35,21 @@ import com.example.sauexpert.ui.theme.Blue007AFF
 import com.example.sauexpert.ui.theme.Gray15
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.ui.theme.SauExpertTheme
+import com.example.sauexpert.voyager_navigator.AddNewMealActivity
+import com.example.sauexpert.voyager_navigator.SwapDailyRoutineActivity
 import com.example.sauexpert.widgets.compose.MainButton
 import com.example.sauexpert.widgets.compose.Toolbars.MainActionToolBar
 import com.example.sauexpert.widgets.compose.buttons.OutlinedMainButton
+import com.example.sauexpert.widgets.compose.pop_up_dailog.RenameDialog
 import kotlinx.coroutines.launch
 
 
 @ExperimentalMaterialApi
 @Composable
 fun DailyRoutineScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
 
     val listActivity = mutableListOf(
         TimeActivityData(activity = "Завтрак", time = "09:00"),
@@ -68,6 +81,7 @@ fun DailyRoutineScreen() {
                             bottomSheetScaffoldState.bottomSheetState.collapse()
                         }
                     },
+                    onSwapItemClick = { navigator.push(SwapDailyRoutineActivity) },
                     listActivity = listActivity,
                     indexFromList = index
 
@@ -90,12 +104,22 @@ fun DailyRoutineScreen() {
                     MainActionToolBar(
                         titleText = stringResource(R.string.daily_routine),
                         iconBackClick = Icons.Default.ArrowBack,
+                        sizeIconBackClick = dimensions.iconSize_2,
+                        sizeTitleText = dimensions.fontSizeCustom_5,
                         onBackClick = {},
                         modifier = Modifier.padding(16.dp)
                     )
+
                     Spacer(modifier = Modifier.height(4.dp))
-                    ProfileForInspection(content = "user", text = 0.4f)
+
+                    ProfileForInspection(
+                        content = "user",
+                        text = 0.4f,
+                        dimensions = dimensions
+                    )
+
                     Spacer(modifier = Modifier.height(32.dp))
+
                     MainDailyRoutineSection(
                         onClick = {
                             coroutineScope.launch {
@@ -104,7 +128,9 @@ fun DailyRoutineScreen() {
 
                         },
                         listActivity = listActivity,
-                        index = index
+                        index = index,
+                        navigator = navigator,
+                        dimensions = dimensions
                     )
 
                 }
@@ -120,6 +146,8 @@ fun MainDailyRoutineSection(
     listActivity: MutableList<TimeActivityData>,
     index: MutableState<Int>,
     onClick: () -> Unit,
+    navigator: Navigator,
+    dimensions: Dimensions
 ) {
     Column(
         modifier = Modifier
@@ -130,7 +158,7 @@ fun MainDailyRoutineSection(
         Text(
             text = stringResource(R.string.describe_daily_routine_of_patient),
             style = MaterialTheme.typography.body1,
-            fontSize = 15.sp
+            fontSize = dimensions.fontSizeCustom_1
         )
 
         Spacer(modifier = Modifier.height(27.dp))
@@ -143,6 +171,7 @@ fun MainDailyRoutineSection(
             Text(
                 text = stringResource(R.string.meal_time),
                 style = MaterialTheme.typography.subtitle2,
+                fontSize = dimensions.fontSizeSubtitle_2
             )
 
             Icon(
@@ -150,7 +179,9 @@ fun MainDailyRoutineSection(
                 contentDescription = null,
                 tint = Color.Red,
                 modifier = modifier
+                    .size(dimensions.iconSize_5)
                     .clickable {
+                        navigator.push(AddNewMealActivity)
                     }
             )
         }
@@ -165,6 +196,7 @@ fun MainDailyRoutineSection(
                     onClick = onClick,
                     index = index,
                     id = listActivity.indexOf(i),
+                    dimensions = dimensions
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }
@@ -175,6 +207,7 @@ fun MainDailyRoutineSection(
         Text(
             text = stringResource(R.string.sleep),
             style = MaterialTheme.typography.subtitle2,
+            fontSize = dimensions.fontSizeSubtitle_2
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -187,12 +220,13 @@ fun MainDailyRoutineSection(
                     onClick = onClick,
                     index = index,
                     id = listActivity.indexOf(i),
+                    dimensions = dimensions
                 )
                 Spacer(modifier = Modifier.height(12.dp))
             }
         }
 
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_2))
 
         MainButton(
             text = stringResource(id = R.string.complete_general_inspection),
@@ -213,6 +247,7 @@ fun CardForMainDailyRoutine(
     index: MutableState<Int>,
     id: Int,
     onClick: () -> Unit,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -223,11 +258,12 @@ fun CardForMainDailyRoutine(
                 color = Gray30.copy(alpha = 0.19f),
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(vertical = 21.dp, horizontal = 15.dp)
+            .padding(vertical = 14.dp, horizontal = 15.dp)
     ) {
         Text(
             text = title,
             style = MaterialTheme.typography.body1,
+            fontSize = dimensions.fontSizeBody_1
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -244,11 +280,11 @@ fun CardForMainDailyRoutine(
             Text(
                 text = text,
                 style = MaterialTheme.typography.body1,
-                fontSize = 22.sp
+                fontSize = dimensions.fontSizeCustom_6
             )
         }
 
-        Spacer(modifier = Modifier.width(22.dp))
+        Spacer(modifier = Modifier.width(dimensions.grid_2_5))
 
         IconButton(
             onClick = {
@@ -274,6 +310,7 @@ fun BottomSheetContentForDailyRoutine(
     listActivity: MutableList<TimeActivityData>,
     indexFromList: MutableState<Int>,
     onClick: () -> Unit,
+    onSwapItemClick: () -> Unit
 ) {
 
     var stateForRename by rememberSaveable { mutableStateOf("") }
@@ -315,6 +352,7 @@ fun BottomSheetContentForDailyRoutine(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
+                        onSwapItemClick()
                     }
             )
 
@@ -367,89 +405,4 @@ fun BottomSheetContentForDailyRoutine(
     }
 }
 
-
-@Composable
-fun RenameDialog(
-    modifier: Modifier = Modifier,
-    stateForRename: String,
-    onNameChange: (String) -> Unit,
-    isDialogOpen: MutableState<Boolean>
-
-) {
-    if (isDialogOpen.value) {
-        Dialog(onDismissRequest = { isDialogOpen.value = false }) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .background(
-                        color = Gray15,
-                        shape = RoundedCornerShape(14.dp)
-                    )
-                    .padding(top = 18.dp),
-            ) {
-                Text(
-                    text = stringResource(R.string.meal_time),
-                    style = MaterialTheme.typography.subtitle2,
-                )
-
-                Spacer(modifier = Modifier.height(15.dp))
-
-                OutlinedTextFieldWithBackground(
-                    textState = stateForRename,
-                    onTextChange = onNameChange,
-                    colorBackground = Color.White,
-//                    textSize = 12.sp,
-                    modifier = modifier
-                        .padding(horizontal = 16.dp)
-                )
-
-
-                Spacer(modifier = Modifier.height(15.dp))
-
-                Divider(
-                    color = Gray30.copy(alpha = 0.19f),
-                    thickness = 1.dp,
-                    modifier = modifier.fillMaxWidth()
-                )
-
-                Row(
-                    modifier = Modifier.height(IntrinsicSize.Min)
-                ) {
-                    OutlinedMainButton(
-                        text = stringResource(id = R.string.cancellation),
-                        onClick = { isDialogOpen.value = false },
-                        enableState = true,
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Gray15,
-                            contentColor = Blue007AFF,
-                        ),
-                        textColor = Color.Transparent,
-                        modifier = Modifier.weight(0.5f)
-                    )
-
-                    Divider(
-                        color = Gray30.copy(alpha = 0.19f),
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(1.dp)
-                    )
-
-                    OutlinedMainButton(
-                        text = stringResource(id = R.string.done),
-                        onClick = { /*TODO*/ },
-                        enableState = true,
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Gray15,
-                            contentColor = Blue007AFF,
-                        ),
-                        textColor = Color.Transparent,
-                        modifier = Modifier.weight(0.5f)
-                    )
-
-                }
-            }
-        }
-    }
-}
 

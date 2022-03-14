@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -22,20 +23,17 @@ fun OutlinedMainButton(
     icon: Int? = null,
     onClick: () -> Unit,
     enableState: Boolean,
-    sizeText: Int = 16,
-    height: Dp = 50.dp,
-    colors: ButtonColors = ButtonDefaults.buttonColors(
-        backgroundColor = MaterialTheme.colors.onPrimary,
-        contentColor =
-        Color.Gray
-    ),
-    textColor: Color = Color.Gray
+    sizeText: TextUnit = 16.sp,
+    buttonHeight: Dp = 50.dp,
+    backgroundColor: Color = MaterialTheme.colors.onPrimary,
+    textColor: Color = Color.Gray,
+    borderColor: Color = Color.Gray
 ) {
     val selected = remember { mutableStateOf(false) }
     OutlinedButton(
         modifier = modifier
             .fillMaxWidth()
-            .height(height = height)
+            .height(height = buttonHeight)
 //            .absolutePadding(
 //                left = 12.dp,
 //                right = 12.dp
@@ -46,12 +44,15 @@ fun OutlinedMainButton(
 //        onClick = {
 //            selected.value = !selected.value
 //                  },
-        colors = colors,
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = backgroundColor,
+            contentColor = textColor
+        ),
         border = BorderStroke(
             width = 1.dp,
             color =
             // if (selected.value) Color.Red else
-            textColor
+            borderColor
         ),
         shape = RoundedCornerShape(8.dp)
     ) {
@@ -72,7 +73,7 @@ fun OutlinedMainButton(
             text?.let {
                 Text(
                     text = text,
-                    fontSize = sizeText.sp,
+                    fontSize = sizeText,
                     style = MaterialTheme.typography.button
                 )
 

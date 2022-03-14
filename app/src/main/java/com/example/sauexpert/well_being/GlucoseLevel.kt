@@ -117,18 +117,8 @@ fun ColoredOutlineButton(
         },
         modifier = modifier,
         enableState = true,
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (text == selectedOption) {
-                Green57C3A7
-            } else {
-                Color.Transparent
-            },
-            contentColor = if (text == selectedOption) {
-                Color.White
-            } else {
-                Color.Gray
-            },
+        backgroundColor = if (text == selectedOption) Green57C3A7 else Color.Transparent,
+        textColor = if (text == selectedOption) Color.White else Color.Gray,
 
-        )
     )
 }

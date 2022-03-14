@@ -17,6 +17,7 @@ import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import com.example.sauexpert.daily_routine.ItemForSwapInDailyRoutine
+import com.example.sauexpert.dimensions.Dimensions
 import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.ui.theme.Gray30
 import kotlinx.coroutines.Job
@@ -26,6 +27,7 @@ import kotlinx.coroutines.launch
 fun DragDropList(
     items: List<TimeActivityData>,
     onMove: (Int, Int) -> Unit,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
@@ -78,12 +80,13 @@ fun DragDropList(
             ) {
                 ItemForSwapInDailyRoutine(
                     items = items,
-                    index = index
+                    index = index,
+                    dimensions = dimensions
                 )
             }
 
             if (index < listSize) {
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_1_25))
 
                 Divider(
                     color = Gray30.copy(alpha = 0.29f),
@@ -91,7 +94,7 @@ fun DragDropList(
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
                 )
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(dimensions.grid_1_25))
 
             }
 

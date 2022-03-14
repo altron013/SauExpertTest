@@ -15,9 +15,15 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.sauexpert.R
+import com.example.sauexpert.dimensions.Dimensions
+import com.example.sauexpert.dimensions.smallDimensions
+import com.example.sauexpert.dimensions.sw360Dimensions
 import com.example.sauexpert.model.TimeActivityData
 import com.example.sauexpert.ui.theme.Gray30
 import com.example.sauexpert.widgets.compose.Toolbars.ActionToolBar
@@ -26,6 +32,10 @@ import com.example.sauexpert.widgets.compose.drag_drop.move
 
 @Composable
 fun SwapDailyRoutineScreen() {
+    val configuration = LocalConfiguration.current
+    val dimensions = if (configuration.screenWidthDp <= 360) smallDimensions else sw360Dimensions
+    val navigator = LocalNavigator.currentOrThrow
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,9 +51,10 @@ fun SwapDailyRoutineScreen() {
                 titleText = stringResource(id = R.string.meal_time),
                 textBackClick = stringResource(id = R.string.cancellation),
                 textRightClick = stringResource(id = R.string.done),
+                sizeText = dimensions.fontSizeSubtitle_2,
                 colorBackClick = Color.Red,
                 colorRightClick = Color.Red,
-                onBackClick = {},
+                onBackClick = { navigator.pop() },
                 onRightClick = {}
             )
         }
@@ -54,17 +65,20 @@ fun SwapDailyRoutineScreen() {
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(23.dp))
+        Spacer(modifier = Modifier.height(dimensions.grid_3))
 
-        MainSectionForSwap()
+        MainSectionForSwap(
+            dimensions = dimensions
+        )
 
     }
 }
 
 
 @Composable
-fun MainSectionForSwap() {
-
+fun MainSectionForSwap(
+    dimensions: Dimensions
+) {
     val listActivity = listOf(
         TimeActivityData(activity = "Завтрак", time = "09:00"),
         TimeActivityData(activity = "Обед", time = "09:00"),
@@ -77,23 +91,11 @@ fun MainSectionForSwap() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
-//            .background(
-//                color = Color.White,
-//                shape = RoundedCornerShape(10.dp)
-//            )
     ) {
-//        for (i in listActivity) {
-//            ItemForList(
-//                title = i.activity,
-//                time = i.time
-//            )
-//            Spacer(modifier = Modifier.height(5.dp))
-//
-//        }
-
         DragDropList(
             items = listActivity,
-            onMove = { fromIndex, toIndex -> listActivity.move(fromIndex, toIndex) }
+            onMove = { fromIndex, toIndex -> listActivity.move(fromIndex, toIndex) },
+            dimensions = dimensions
         )
     }
 }
@@ -103,6 +105,7 @@ fun MainSectionForSwap() {
 fun ItemForSwapInDailyRoutine(
     items: List<TimeActivityData>,
     index: Int,
+    dimensions: Dimensions,
     modifier: Modifier = Modifier
 ) {
 
@@ -117,7 +120,9 @@ fun ItemForSwapInDailyRoutine(
             imageVector = Icons.Default.RemoveCircle,
             contentDescription = null,
             tint = Color.Red,
-            modifier = modifier.size(18.dp).clickable { }
+            modifier = modifier
+                .size(dimensions.iconSize_5)
+                .clickable { }
         )
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -125,6 +130,7 @@ fun ItemForSwapInDailyRoutine(
         Text(
             text = items[index].activity,
             style = MaterialTheme.typography.body1,
+            fontSize = dimensions.fontSizeBody_1
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -132,6 +138,7 @@ fun ItemForSwapInDailyRoutine(
         Text(
             text = items[index].time,
             style = MaterialTheme.typography.body1,
+            fontSize = dimensions.fontSizeBody_1
         )
 
         Spacer(modifier = Modifier.width(24.dp))
@@ -140,7 +147,8 @@ fun ItemForSwapInDailyRoutine(
             imageVector = Icons.Default.Reorder,
             contentDescription = null,
             tint = Color.Black,
-            modifier = modifier.size(18.dp)
+            modifier = modifier
+                .size(dimensions.iconSize_5)
         )
     }
 }

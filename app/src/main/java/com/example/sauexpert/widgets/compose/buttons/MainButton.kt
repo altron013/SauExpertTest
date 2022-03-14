@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sauexpert.ui.theme.SauExpertTheme
@@ -22,7 +23,7 @@ fun MainButton(
     icon: Int? = null,
     onClick: () -> Unit,
     enableState: Boolean,
-    sizeText: Int = 16,
+    sizeText: TextUnit = 16.sp,
     buttonHeight: Dp = 50.dp,
     backgroundColor: Color = MaterialTheme.colors.secondary,
     textColor: Color = Color.White
@@ -63,6 +64,7 @@ fun MainButton(
                         fontWeight = FontWeight.W600,
                         style = SauExpertTypography.body1,
                         letterSpacing = 0.sp,
+                        fontSize = sizeText,
                         color = textColor
                     )
 

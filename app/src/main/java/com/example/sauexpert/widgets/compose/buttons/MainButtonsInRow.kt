@@ -10,7 +10,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.sauexpert.ui.theme.Green57C3A7
 import com.example.sauexpert.widgets.compose.MainButton
 
@@ -21,7 +23,10 @@ fun MainButtonsInRow(
     iconForOutlineBtn: Int? = null,
     textForMainBtn: String? = null,
     iconForMainBtn: Int? = null,
+    buttonHeight: Dp = 50.dp,
+    sizeText: TextUnit = 16.sp,
     weightOfFirstButton: Float = 0.4f,
+    contentColor: Color = Color.Red,
     borderColor: Color = Color.Red,
     onClickForOutlineBtn: () -> Unit,
     onClickForMainBtn: () -> Unit,
@@ -39,13 +44,13 @@ fun MainButtonsInRow(
             icon = iconForOutlineBtn,
             onClick = onClickForOutlineBtn,
             enableState = enableStateForOutlineBtn,
+            buttonHeight = buttonHeight,
+            textColor = contentColor,
+            borderColor = borderColor,
+            sizeText = sizeText,
             modifier = Modifier
-                .weight(weightOfFirstButton),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.onPrimary,
-                contentColor = Color.Red,
-            ),
-            textColor = borderColor
+                .weight(weightOfFirstButton)
+
         )
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -55,6 +60,8 @@ fun MainButtonsInRow(
             icon = iconForMainBtn,
             onClick = onClickForMainBtn,
             enableState = enableStateForMainBtn,
+            buttonHeight = buttonHeight,
+            sizeText = sizeText,
             modifier = Modifier
                 .weight(1f - weightOfFirstButton)
         )
